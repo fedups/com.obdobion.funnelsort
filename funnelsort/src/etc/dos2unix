@@ -1,0 +1,1 @@
+--replace -c original --eol CR,LF --eolOut LF

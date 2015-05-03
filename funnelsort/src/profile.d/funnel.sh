@@ -1,0 +1,1 @@
+alias space='du -xb * | funnel -k[i -o0 desc] | head'

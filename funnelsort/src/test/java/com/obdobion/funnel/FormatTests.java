@@ -1,0 +1,441 @@
+package com.obdobion.funnel;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import com.obdobion.Helper;
+import com.obdobion.funnel.Funnel;
+import com.obdobion.funnel.orderby.DateKey;
+import com.obdobion.funnel.orderby.DisplayFloatKey;
+import com.obdobion.funnel.orderby.DisplayIntKey;
+import com.obdobion.funnel.orderby.KeyContext;
+import com.obdobion.funnel.orderby.KeyDirection;
+import com.obdobion.funnel.orderby.KeyPart;
+import com.obdobion.funnel.orderby.KeyType;
+import com.obdobion.funnel.parameters.FunnelContext;
+
+/**
+ * @author Chris DeGreef
+ * 
+ */
+public class FormatTests
+{
+    static private void verifyFormatted (final byte[] bb, final KeyContext kx)
+    {
+        for (int b = 0; b < bb.length; b++)
+            Assert.assertEquals("formatted key " + b, bb[b], kx.key[b]);
+    }
+
+    @Test
+    public void dateFormatInvalid () throws Throwable
+    {
+        Helper.initializeFor("TEST dateFormatInvalid");
+
+        final KeyPart key = KeyType.create(KeyType.Date.name());
+        key.offset = 0;
+        key.length = 20;
+        key.direction = KeyDirection.ASC;
+        key.parseFormat = "yyyy-MM-dd";
+        final KeyContext kx = Helper.dummyKeyContext(" 1960-04-a");
+        key.format(kx);
+        verifyFormatted(new byte[]
+        {
+                -128, 0, 0, 0, 0, 0, 0, 0
+        }, kx);
+    }
+
+    @Test
+    public void dateFormatTrimLeft () throws Throwable
+    {
+        Helper.initializeFor("TEST dateFormatTrimLeft");
+
+        final DateKey key = new DateKey();
+        key.offset = 0;
+        key.length = 20;
+        key.direction = KeyDirection.ASC;
+        key.parseFormat = "yyyy-MM-dd";
+        final KeyContext kx = Helper.dummyKeyContext(" 1960-04-09");
+        key.format(kx);
+        verifyFormatted(new byte[]
+        {
+                127, -1, -1, -72, -126, -64, 95, 0
+        }, kx);
+    }
+
+    @Test
+    public void floatFormatTrimRight () throws Throwable
+    {
+        Helper.initializeFor("TEST floatFormatTrimRight");
+
+        final DisplayFloatKey key = new DisplayFloatKey();
+        key.offset = 0;
+        key.length = 8;
+        key.direction = KeyDirection.ASC;
+        key.parseFormat = "####.###";
+        final KeyContext kx = Helper.dummyKeyContext("5.1  ");
+        key.format(kx);
+        verifyFormatted(new byte[]
+        {
+                -64, 20, 102, 102, 102, 102, 102, 102
+        }, kx);
+    }
+
+    @Test
+    public void floatNegDollarFormat () throws Throwable
+    {
+        Helper.initializeFor("TEST floatNegDollarFormat");
+
+        final DisplayFloatKey key = new DisplayFloatKey();
+        key.offset = 0;
+        key.length = 12;
+        key.direction = KeyDirection.ASC;
+        key.parseFormat = "####.##";
+        final KeyContext kx = Helper.dummyKeyContext("$5,000.10-");
+        key.format(kx);
+        verifyFormatted(new byte[]
+        {
+                63, 76, 119, -26, 102, 102, 102, 101
+        }, kx);
+    }
+
+    @Test
+    public void floatPosDollarFormat () throws Throwable
+    {
+        Helper.initializeFor("TEST floatPosDollarFormat");
+
+        final DisplayFloatKey key = new DisplayFloatKey();
+        key.offset = 0;
+        key.length = 8;
+        key.direction = KeyDirection.ASC;
+        key.parseFormat = "####.##";
+        final KeyContext kx = Helper.dummyKeyContext("$5,000.10");
+        key.format(kx);
+        verifyFormatted(new byte[]
+        {
+                -64, -77, -120, 25, -103, -103, -103, -102
+        }, kx);
+    }
+
+    @Test
+    public void integerFormatTrimLeft () throws Throwable
+    {
+        Helper.initializeFor("TEST integerFormatTrimLeft");
+
+        final DisplayIntKey key = new DisplayIntKey();
+        key.offset = 0;
+        key.length = 4;
+        key.direction = KeyDirection.ASC;
+        key.parseFormat = "####";
+        final KeyContext kx = Helper.dummyKeyContext(" 5");
+        key.format(kx);
+        verifyFormatted(new byte[]
+        {
+                -128, 0, 0, 0, 0, 0, 0, 5
+        }, kx);
+    }
+
+    @Test
+    public void integerFormatTrimRight () throws Throwable
+    {
+        Helper.initializeFor("TEST integerFormatTrimRight");
+
+        final DisplayIntKey key = new DisplayIntKey();
+        key.offset = 0;
+        key.length = 4;
+        key.direction = KeyDirection.ASC;
+        key.parseFormat = "####";
+        final KeyContext kx = Helper.dummyKeyContext("5   ");
+        key.format(kx);
+        verifyFormatted(new byte[]
+        {
+                -128, 0, 0, 0, 0, 0, 0, 5
+        }, kx);
+    }
+
+    @Test
+    public void integerNegDollarFormat () throws Throwable
+    {
+        Helper.initializeFor("TEST integerNegDollarFormat");
+
+        final DisplayIntKey key = new DisplayIntKey();
+        key.offset = 0;
+        key.length = 5;
+        key.direction = KeyDirection.ASC;
+        key.parseFormat = "####";
+        final KeyContext kx = Helper.dummyKeyContext("$-5,0");
+        key.format(kx);
+        verifyFormatted(new byte[]
+        {
+                127, -1, -1, -1, -1, -1, -1, -50
+        }, kx);
+    }
+
+    @Test
+    public void integerNegFormatAASC () throws Throwable
+    {
+        Helper.initializeFor("TEST integerNegFormatAASC");
+
+        final DisplayIntKey key = new DisplayIntKey();
+        key.offset = 0;
+        key.length = 4;
+        key.direction = KeyDirection.AASC;
+        key.parseFormat = "####";
+        final KeyContext kx = Helper.dummyKeyContext("-5");
+        key.format(kx);
+        verifyFormatted(new byte[]
+        {
+                -128, 0, 0, 0, 0, 0, 0, 5
+        }, kx);
+    }
+
+    @Test
+    public void integerNegFormatADESC () throws Throwable
+    {
+        Helper.initializeFor("TEST integerNegFormatADESC");
+
+        final DisplayIntKey key = new DisplayIntKey();
+        key.offset = 0;
+        key.length = 4;
+        key.direction = KeyDirection.ADESC;
+        key.parseFormat = "####";
+        final KeyContext kx = Helper.dummyKeyContext("-5");
+        key.format(kx);
+        verifyFormatted(new byte[]
+        {
+                127, -1, -1, -1, -1, -1, -1, -5
+        }, kx);
+    }
+
+    @Test
+    public void integerNegFormatASC () throws Throwable
+    {
+        Helper.initializeFor("TEST integerNegFormatASC");
+
+        final DisplayIntKey key = new DisplayIntKey();
+        key.offset = 0;
+        key.length = 4;
+        key.direction = KeyDirection.ASC;
+        key.parseFormat = "####";
+        final KeyContext kx = Helper.dummyKeyContext("-5");
+        key.format(kx);
+        verifyFormatted(new byte[]
+        {
+                127, -1, -1, -1, -1, -1, -1, -5
+        }, kx);
+    }
+
+    @Test
+    public void integerNegFormatDESC () throws Throwable
+    {
+        Helper.initializeFor("TEST integerNegFormatDESC");
+
+        final DisplayIntKey key = new DisplayIntKey();
+        key.offset = 0;
+        key.length = 4;
+        key.direction = KeyDirection.DESC;
+        key.parseFormat = "####";
+        final KeyContext kx = Helper.dummyKeyContext("-5");
+        key.format(kx);
+        verifyFormatted(new byte[]
+        {
+                -128, 0, 0, 0, 0, 0, 0, 5
+        }, kx);
+    }
+
+    @Test
+    public void integerNegLeftFormat () throws Throwable
+    {
+        Helper.initializeFor("TEST integerNegLeftFormat");
+
+        final DisplayIntKey key = new DisplayIntKey();
+        key.offset = 0;
+        key.length = 4;
+        key.direction = KeyDirection.ASC;
+        key.parseFormat = "####";
+        final KeyContext kx = Helper.dummyKeyContext(" -5");
+        key.format(kx);
+        verifyFormatted(new byte[]
+        {
+                127, -1, -1, -1, -1, -1, -1, -5
+        }, kx);
+    }
+
+    @Test
+    public void integerNegRightFormat () throws Throwable
+    {
+        Helper.initializeFor("TEST integerNegLeftFormat");
+
+        final DisplayIntKey key = new DisplayIntKey();
+        key.offset = 0;
+        key.length = 4;
+        key.direction = KeyDirection.ASC;
+        key.parseFormat = "####";
+        final KeyContext kx = Helper.dummyKeyContext(" 5-");
+        key.format(kx);
+        verifyFormatted(new byte[]
+        {
+                127, -1, -1, -1, -1, -1, -1, -5
+        }, kx);
+    }
+
+    @Test
+    public void integerPosDollarFormat () throws Throwable
+    {
+        Helper.initializeFor("TEST integerPosDollarFormat");
+
+        final DisplayIntKey key = new DisplayIntKey();
+        key.offset = 0;
+        key.length = 4;
+        key.direction = KeyDirection.ASC;
+        key.parseFormat = "####";
+        final KeyContext kx = Helper.dummyKeyContext("$5,0");
+        key.format(kx);
+        verifyFormatted(new byte[]
+        {
+                -128, 0, 0, 0, 0, 0, 0, 50
+        }, kx);
+    }
+
+    @Test
+    public void integerPosFormatAASC () throws Throwable
+    {
+        Helper.initializeFor("TEST integerPosFormatAASC");
+
+        final DisplayIntKey key = new DisplayIntKey();
+        key.offset = 0;
+        key.length = 4;
+        key.direction = KeyDirection.AASC;
+        key.parseFormat = "####";
+        final KeyContext kx = Helper.dummyKeyContext("5");
+        key.format(kx);
+        verifyFormatted(new byte[]
+        {
+                -128, 0, 0, 0, 0, 0, 0, 5
+        }, kx);
+    }
+
+    @Test
+    public void integerPosFormatADESC () throws Throwable
+    {
+        Helper.initializeFor("TEST integerPosFormatADESC");
+
+        final DisplayIntKey key = new DisplayIntKey();
+        key.offset = 0;
+        key.length = 4;
+        key.direction = KeyDirection.ADESC;
+        key.parseFormat = "####";
+        final KeyContext kx = Helper.dummyKeyContext("5");
+        key.format(kx);
+        verifyFormatted(new byte[]
+        {
+                127, -1, -1, -1, -1, -1, -1, -5
+        }, kx);
+    }
+
+    @Test
+    public void integerPosFormatASC () throws Throwable
+    {
+        Helper.initializeFor("TEST integerPosFormatASC");
+
+        final DisplayIntKey key = new DisplayIntKey();
+        key.offset = 0;
+        key.length = 4;
+        key.direction = KeyDirection.ASC;
+        key.parseFormat = "####";
+        final KeyContext kx = Helper.dummyKeyContext("5");
+        key.format(kx);
+        verifyFormatted(new byte[]
+        {
+                -128, 0, 0, 0, 0, 0, 0, 5
+        }, kx);
+    }
+
+    @Test
+    public void integerPosFormatDESC () throws Throwable
+    {
+        Helper.initializeFor("TEST integerPosFormatDESC");
+
+        final DisplayIntKey key = new DisplayIntKey();
+        key.offset = 0;
+        key.length = 4;
+        key.direction = KeyDirection.DESC;
+        key.parseFormat = "####";
+        final KeyContext kx = Helper.dummyKeyContext("5");
+        key.format(kx);
+        verifyFormatted(new byte[]
+        {
+                127, -1, -1, -1, -1, -1, -1, -5
+        }, kx);
+    }
+
+    @Test
+    public void lengthMaxString () throws Throwable
+    {
+        Helper.initializeFor("TEST lengthMaxString");
+
+        final List<String> in = new ArrayList<>();
+        in.add("row 1000");
+        final File file = Helper.createUnsortedFile(in);
+
+        final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+                + " --max 130 -f10 --key(string -o0)" + Helper.DEFAULT_OPTIONS);
+        Assert.assertEquals("key length", 255, context.keys.get(0).length);
+        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+    }
+
+    @Test
+    public void lengthOverride () throws Throwable
+    {
+        Helper.initializeFor("TEST lengthOverride");
+
+        final List<String> in = new ArrayList<>();
+        in.add("row 1000");
+        final File file = Helper.createUnsortedFile(in);
+
+        final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+                + " --max 130 -f10 --key(integer -o4 -l4 --format '###')" + Helper.DEFAULT_OPTIONS);
+        Assert.assertEquals("key length", 4, context.keys.get(0).length);
+        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+    }
+
+    @Test
+    public void lengthUnspecified () throws Throwable
+    {
+        Helper.initializeFor("TEST lengthUnspecified");
+
+        final List<String> in = new ArrayList<>();
+        in.add("row 1000");
+        final File file = Helper.createUnsortedFile(in);
+
+        final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+                + " --max 130 -f10 --key(integer -o4 --format '###')" + Helper.DEFAULT_OPTIONS);
+        Assert.assertEquals("key length", 3, context.keys.get(0).length);
+        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+    }
+
+    @Test
+    public void offsetDefault () throws Throwable
+    {
+        Helper.initializeFor("TEST offsetDefault");
+
+        final List<String> in = new ArrayList<>();
+        for (int r = 0; r < 130; r++)
+        {
+            in.add("row " + (r + 1000));
+        }
+
+        final File file = Helper.createUnsortedFile(in);
+        FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+                + " --max 130 -f10 --key(string)" + Helper.DEFAULT_OPTIONS);
+        Assert.assertEquals("key length", 0, context.keys.get(0).offset);
+
+        context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+                + " --max 130 -f10 --key(string -o1)" + Helper.DEFAULT_OPTIONS);
+        Assert.assertEquals("key length", 1, context.keys.get(0).offset);
+        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+    }
+}
