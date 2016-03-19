@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project basedir="." default="upload" name="build">
+
+	<property name="product.name" value="funnel" />
+	<property name="product.version" value="1.4.19" />
+
+    <property name="RPM_SOURCEDIR" value="rpmbuild/SOURCES" />
+    <property name="RPM_SPECDIR" value="rpmbuild/SPECS" />
+
+    <property name="build.host1" value="dev1.localhost.localdomain" /> 
+    <property name="build.user1" value="chris" />
+    <property name="build.password1" value="chris" />
+
+	<target name="upload">
+
+        <delete file="/tmp/${product.name}.spec" failonerror="false"/>
+		<copy file="./funnel.spec" tofile="/tmp/${product.name}.spec">
+			<filterset>
+				<filter token="ANT.version" value="${product.version}" />
+				<filter token="ANT.username" value="${build.user1}" />
+			</filterset>
+		</copy>
+		<fixcrlf srcdir="/tmp" destdir="/tmp" includes="*.spec" eol="lf" eof="remove" />
+
+		<scp todir="${build.user1}@${build.host1}:${RPM_SOURCEDIR}" password="${build.password1}" trust="yes">
+			<fileset dir="target" includes="*.tar.*" />
+		</scp>
+
+		<scp todir="${build.user1}@${build.host1}:${RPM_SPECDIR}" password="${build.password1}" trust="yes">
+			<fileset dir="/tmp" includes="funnel.spec" />
+		</scp>
+
+        <sshexec host="${build.host1}" trust="yes" username="${build.user1}" password="${build.password1}" 
+        	command="rpmbuild -bb --target i386 ${RPM_SPECDIR}/${product.name}.spec" />
+
+		<sshexec host="${build.host1}" trust="yes" username="${build.user1}" password="${build.password1}" 
+			command="rpmbuild -bb --target x86_64 ${RPM_SPECDIR}/${product.name}.spec" />
+
+	</target>
+
+</project>
