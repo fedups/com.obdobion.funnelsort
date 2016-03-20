@@ -74,6 +74,7 @@ Section "FunnelSort"
     File /x *source* ..\..\target\funnel-${PROJECT_VERSION}.jar
     File ..\..\..\argument\target\argument-${ARGUMENT_VERSION}.jar
     File ..\..\..\algebrain\target\algebrain-${ALGEBRAIN_VERSION}.jar
+    File ..\..\..\calendar\target\calendar-${CALENDAR_VERSION}.jar
     
     FileOpen $9 funnel.bat w
     FileWrite $9 "java -Dlog4j.configuration=$\"$INSTDIR\log4j.xml$\" -jar $\"$INSTDIR\funnel-${PROJECT_VERSION}.jar$\" %*$\r$\n"
