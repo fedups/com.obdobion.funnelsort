@@ -1,23 +1,18 @@
 package com.obdobion.funnel.publisher;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public interface RandomAccessInputSource
 {
-    public void close ()
-        throws IOException;
+    public void close () throws IOException, ParseException;
 
-    public void open ()
-        throws IOException;
+    public void open () throws IOException, ParseException;
 
-    public int read (
-        int originalInputFileIndex,
-        byte[] originalBytes,
-        long originalLocation,
-        int originalSize)
+    public int read (int originalInputFileIndex, byte[] originalBytes, long originalLocation, int originalSize)
         throws IOException;
 }

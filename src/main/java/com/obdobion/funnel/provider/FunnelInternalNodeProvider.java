@@ -1,6 +1,7 @@
 package com.obdobion.funnel.provider;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.FunnelDataProvider;
@@ -8,7 +9,7 @@ import com.obdobion.funnel.FunnelItem;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class FunnelInternalNodeProvider implements FunnelDataProvider
 {
@@ -46,7 +47,7 @@ public class FunnelInternalNodeProvider implements FunnelDataProvider
         return Long.MAX_VALUE;
     }
 
-    public boolean next (final FunnelItem item, final long phase) throws IOException
+    public boolean next (final FunnelItem item, final long phase) throws IOException, ParseException
     {
         if (!left.isEndOfData() && left.getData() == null)
             left.next(phase);

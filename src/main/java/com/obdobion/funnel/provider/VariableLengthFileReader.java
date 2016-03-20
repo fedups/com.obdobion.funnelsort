@@ -3,6 +3,7 @@ package com.obdobion.funnel.provider;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.text.ParseException;
 
 import org.apache.log4j.Logger;
 
@@ -16,6 +17,7 @@ public class VariableLengthFileReader implements InputReader
 {
     static final Logger logger                = Logger.getLogger(VariableLengthFileReader.class);
 
+    static int          defaultCharBufferSize = 32768;
     final FunnelContext context;
     File                inFile;
     RandomAccessFile    raf;
@@ -23,21 +25,15 @@ public class VariableLengthFileReader implements InputReader
     final byte          bb[];
     int                 bbInUse;
     final byte[]        separator;
-    static int          defaultCharBufferSize = 32768;
     int                 bbNextPointer;
     boolean             eof;
 
-    public VariableLengthFileReader(
-            final FunnelContext _context)
-            throws IOException
+    public VariableLengthFileReader(final FunnelContext _context) throws IOException, ParseException
     {
-        this(
-            _context, defaultCharBufferSize);
+        this(_context, defaultCharBufferSize);
     }
 
-    public VariableLengthFileReader(
-            final FunnelContext _context, final int sz)
-            throws IOException
+    public VariableLengthFileReader(final FunnelContext _context, final int sz) throws IOException, ParseException
     {
         assert sz > 0 : "Buffer size <= 0";
         this.context = _context;
@@ -47,8 +43,7 @@ public class VariableLengthFileReader implements InputReader
         open(_context.getInputFile(context.inputFileIndex()));
     }
 
-    public void close ()
-        throws IOException
+    public void close () throws IOException, ParseException
     {
         raf.close();
         logger.debug("loaded " + context.getInputFile(context.inputFileIndex()).getAbsolutePath());
@@ -71,8 +66,7 @@ public class VariableLengthFileReader implements InputReader
         return raf.length();
     }
 
-    public void open (final File inputFile)
-        throws IOException
+    public void open (final File inputFile) throws IOException, ParseException
     {
         bbNextPointer = 0;
         this.inFile = context.getInputFile(context.inputFileIndex());

@@ -1,12 +1,13 @@
 package com.obdobion.funnel;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public interface FunnelDataPublisher
 {
@@ -20,5 +21,5 @@ public interface FunnelDataPublisher
 
     public boolean publish (SourceProxyRecord item, long phase) throws Exception;
 
-    public void reset () throws IOException;
+    public void reset () throws IOException, ParseException;
 }

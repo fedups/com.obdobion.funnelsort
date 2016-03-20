@@ -1,12 +1,13 @@
 package com.obdobion.funnel;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class FunnelItem
 {
@@ -36,7 +37,7 @@ public class FunnelItem
         return endOfData;
     }
 
-    public boolean next (final long _phase) throws IOException
+    public boolean next (final long _phase) throws IOException, ParseException
     {
         if (!provider.next(this, _phase))
         {

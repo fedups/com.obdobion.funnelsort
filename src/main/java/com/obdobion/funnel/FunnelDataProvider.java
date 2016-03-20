@@ -1,10 +1,11 @@
 package com.obdobion.funnel;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public interface FunnelDataProvider
 {
@@ -12,11 +13,11 @@ public interface FunnelDataProvider
 
     public void attachTo (FunnelItem item);
 
-    public void close () throws IOException;
+    public void close () throws IOException, ParseException;
 
     public long maximumNumberOfRows ();
 
-    public boolean next (FunnelItem item, long phase) throws IOException;
+    public boolean next (FunnelItem item, long phase) throws IOException, ParseException;
 
-    public void reset () throws IOException;
+    public void reset () throws IOException, ParseException;
 }

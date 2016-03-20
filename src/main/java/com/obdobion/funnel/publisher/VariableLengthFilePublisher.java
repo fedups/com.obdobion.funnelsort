@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.text.ParseException;
 
 import org.apache.log4j.Logger;
 
@@ -11,7 +12,7 @@ import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class VariableLengthFilePublisher extends VariableLengthPublisher
 {
@@ -19,7 +20,7 @@ public class VariableLengthFilePublisher extends VariableLengthPublisher
 
     File                        sortedTempFile;
 
-    public VariableLengthFilePublisher(final FunnelContext _context)
+    public VariableLengthFilePublisher(final FunnelContext _context) throws ParseException, IOException
     {
         super(_context);
     }
@@ -36,7 +37,7 @@ public class VariableLengthFilePublisher extends VariableLengthPublisher
 
         if (!sortedTempFile.renameTo(context.outputFile))
             throw new IOException("failed to rename " + sortedTempFile.getAbsolutePath() + " to "
-                    + context.outputFile.getAbsolutePath());
+                + context.outputFile.getAbsolutePath());
 
         logger.debug("renamed " + sortedTempFile.getAbsolutePath() + " to " + context.outputFile.getAbsolutePath());
 

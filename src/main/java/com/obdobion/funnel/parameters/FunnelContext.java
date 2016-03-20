@@ -15,6 +15,7 @@ import org.apache.log4j.PropertyConfigurator;
 import com.obdobion.algebrain.Equ;
 import com.obdobion.argument.ByteCLA;
 import com.obdobion.argument.CmdLine;
+import com.obdobion.argument.WildFiles;
 import com.obdobion.argument.input.CommandLineParser;
 import com.obdobion.argument.input.IParserInput;
 import com.obdobion.funnel.FunnelDataProvider;
@@ -43,23 +44,23 @@ public class FunnelContext
     static final private Logger logger            = Logger.getLogger(FunnelContext.class);
 
     static private void defineCacheInput (
-            final List<String> def)
+        final List<String> def)
     {
         def.add("-tBoolean -k cacheInput --var cacheInput --def false -h 'Read the input file into memory.  This saves reading it again on multipass sorts.  The amount of memory required to hold the input file in core is equal to the size of the file.'");
     }
 
     static private void defineCacheWork (
-            final List<String> def)
+        final List<String> def)
     {
         def.add("-tBoolean -k cacheWork --var cacheWork --def false -h 'Work files are saved in memory.  Otherwise they are stored on disk.  The amount of memory required to hold work areas in memory is about (2 * (keySize + 24)).'");
     }
 
     static private void defineColumnsInSubParser (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tBegin -k columnsIn -m1 --var inputColumnDefs --factoryMethod "
-                + KeyType.class.getName()
-                + ".create --factoryA '--type' -h 'Column definitions defining the input file layout.'");
+            + KeyType.class.getName()
+            + ".create --factoryA '--type' -h 'Column definitions defining the input file layout.'");
         defineKeyName(def);
         defineKeyType(def);
         defineKeyCSVField(def);
@@ -70,22 +71,22 @@ public class FunnelContext
     }
 
     static private void defineCopyOrder (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tEnum -k c copy --var copyOrder --def "
-                + CopyOrder.ByKey.name()
-                + " -h 'Defines the process that will take place on the input.' --case --enumlist "
-                + CopyOrder.class.getName());
+            + CopyOrder.ByKey.name()
+            + " -h 'Defines the process that will take place on the input.' --case --enumlist "
+            + CopyOrder.class.getName());
     }
 
     static private void defineCsvHeader (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tBoolean -k h header --var header -h'Skip over the first line for sorting and just write it to the beginning of the output file.'");
     }
 
     static private void defineCSVInSubParser (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tBegin -k csv --var csv -h 'The definition of the CSV file being read as input.  Using this indicates that the input is in fact a CSV file and the keys paramater should use the --field arguments.'");
         defineCsvHeader(def);
@@ -95,28 +96,28 @@ public class FunnelContext
     }
 
     static private void defineCsvQuoteByte (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tByte -k q quoteByte --var quoteByte -h'This is the single character that you would like to use for a quote.' --def '\"'");
     }
 
     static private void defineCsvSeparatorByte (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tByte -k s separatorByte --var separatorByte -h'This is the single character that you would like to use for the field separator.' --def ','");
     }
 
     static private void defineDuplicateHandling (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tEnum -k d duplicate --var duplicateDisposition --def "
-                + DuplicateDisposition.Original.name()
-                + " -h 'Special handling of duplicate keyed rows.' --case --enumlist "
-                + DuplicateDisposition.class.getName());
+            + DuplicateDisposition.Original.name()
+            + " -h 'Special handling of duplicate keyed rows.' --case --enumlist "
+            + DuplicateDisposition.class.getName());
     }
 
     static private void defineEol (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         final StringBuilder bytes = new StringBuilder();
         for (int b = 0; b < System.getProperty("line.separator").getBytes().length; b++)
@@ -126,69 +127,69 @@ public class FunnelContext
         }
 
         def.add("-tByte -keol --var endOfRecordDelimiter -m1 -h 'The byte(s) that end each line in a variable length record file.' --def "
-                + bytes.toString());
+            + bytes.toString());
     }
 
     static private void defineEolOut (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tByte -keolOut --var endOfRecordOutDelimiter -m1 -h 'The byte(s) that end each line in a variable length record file.  This will be used to write the output file.  If this is not specified then the --eol value will be used.'");
     }
 
     static private void defineFixedLength (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tInteger -k f fixed --var fixedRecordLength -h 'The record length in a fixed record length file.' --ran 1 4096");
     }
 
     static private void defineInPlaceSort (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tBoolean -k r replace --var inPlaceSort -h 'Overwrite the input file with the results.  --outputFile is not required with this parameter.  --outputFile is assumed.'");
     }
 
     static private void defineInputFile (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
-        def.add("-tWildFile -k inputfilename --var inputFiles -m1 -ph 'The input file or files to be processed.  Wild cards are allowing in the filename only, not the path.  Sysin is assumed if this parameter is not provided.' --case");
+        def.add("-tWildFile -k inputfilename --var inputFiles -m1 -ph 'The input file or files to be processed.  Wild cards are allowed in the filename only and the path (** indicates multiple path segments).  Sysin is assumed if this parameter is not provided.' --case");
     }
 
     static private void defineKeyCSVField (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tInteger -k f field --var csvFieldNumber -h'If this is a CSV file then use this instead of offset and length.' --range 0");
     }
 
     static private void defineKeyDirection (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tEnum -k d direction --var direction -p --def "
-                + KeyDirection.ASC.name()
-                + " -h'The direction of the sort for this key. AASC and ADESC are absolute values of the key - the case of letters would not matter and the sign of numbers would not matter.' "
-                + " --case --enumList "
-                + KeyDirection.class.getName());
+            + KeyDirection.ASC.name()
+            + " -h'The direction of the sort for this key. AASC and ADESC are absolute values of the key - the case of letters would not matter and the sign of numbers would not matter.' "
+            + " --case --enumList "
+            + KeyDirection.class.getName());
     }
 
     static private void defineKeyFormat (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
-        def.add("-tString -k f format --var parseFormat --case -h'The parsing format for converting the contents of the key in the file to an internal representation. Use Java SimpleDateFormat rules for making the format.'");
+        def.add("-tString -k d format --var parseFormat --case -h'The parsing format for converting the contents of the key in the file to an internal representation. Use Java SimpleDateFormat rules for making the format.'");
     }
 
     static private void defineKeyLength (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tInteger -k l length --var length --def "
-                + KeyHelper.MAX_KEY_SIZE
-                + " -h'The length of the key in bytes.' --range 1 "
-                + KeyHelper.MAX_KEY_SIZE);
+            + KeyHelper.MAX_KEY_SIZE
+            + " -h'The length of the key in bytes.' --range 1 "
+            + KeyHelper.MAX_KEY_SIZE);
     }
 
     /*
      * The name will always be lower case.
      */
     static private void defineKeyName (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tString -k n name --var columnName -h'A name for this column / key so that it can be referenced.'");
     }
@@ -197,23 +198,23 @@ public class FunnelContext
      * The name will always be lower case.
      */
     static private void defineKeyNamePositional (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tString -k n name --var columnName --pos --req -h'A column name to be sorted.'");
     }
 
     static private void defineKeyOffset (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tInteger -k o offset --var offset --def 0 -h'The zero relative offset from the beginning of a row.' --range 0");
     }
 
     static private void defineKeySubParser (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tBegin -k k keys -m1 --var keys --factoryMethod "
-                + KeyType.class.getName()
-                + ".create --factoryA '--type' -h 'The sort keys.'");
+            + KeyType.class.getName()
+            + ".create --factoryA '--type' -h 'The sort keys.'");
         defineKeyName(def);
         defineKeyType(def);
         defineKeyCSVField(def);
@@ -224,6 +225,21 @@ public class FunnelContext
         def.add("-tEnd -k k");
     }
 
+    static private void defineKeyType (
+        final ArrayList<String> def)
+    {
+        def.add("-tEnum -k t type -p --var typeName --req --case -h'The data type of the key in the file.' --case --enumList "
+            + KeyType.class.getName());
+    }
+
+    static private void defineMaxRows (
+        final ArrayList<String> def)
+    {
+        def.add("-tLong -kmaxrows --var maximumNumberOfRows --range 2 --def "
+            + Long.MAX_VALUE
+            + " -h 'Used for variable length input, estimate the number of rows.  Too low could cause problems.'");
+    }
+
     /**
      * This is an alternative to --keys. This only allows references to
      * previously defined column names.
@@ -231,7 +247,7 @@ public class FunnelContext
      * @param def
      */
     static private void defineOrderBySubParser (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tBegin -k orderby -m1 --var orderBys -h 'The sort keys defined from columns.'");
         defineKeyNamePositional(def);
@@ -239,53 +255,38 @@ public class FunnelContext
         def.add("-tEnd -k orderby");
     }
 
-    static private void defineKeyType (
-            final ArrayList<String> def)
-    {
-        def.add("-tEnum -k t type -p --var typeName --req --case -h'The data type of the key in the file.' --case --enumList "
-                + KeyType.class.getName());
-    }
-
-    static private void defineMaxRows (
-            final ArrayList<String> def)
-    {
-        def.add("-tLong -kmaxrows --var maximumNumberOfRows --range 2 --def "
-                + Long.MAX_VALUE
-                + " -h 'Used for variable length input, estimate the number of rows.  Too low could cause problems.'");
-    }
-
     static private void defineOutputFile (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tFile -ko outputfilename --var outputFile --case -h 'The output file to be written.  Sysout is assumed if this parameter is not provided.  The same name as the input file is allowed.'");
     }
 
     static private void definePower (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tInteger -kpower --var depth --def 16 --range 2 16 -h 'The depth of the funnel.  The bigger this number is, the more memory will be used.  This is computed when --max or -f is specified.'");
     }
 
     static private void defineVariableOutput (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tBoolean -k variableoutput --var variableLengthOutput -h 'Use this to cause a fixed input to be written as variable.'");
     }
 
     static private void defineVersion (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tBoolean -kversion --var version -h 'Display the version of Funnel'");
     }
 
     static private void defineWhere (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tString -k w where --var whereClause -h 'Rows that evaluate to TRUE are selected for Output.  See \"Algebrain\" for details.  Columns are used as variables in this Algebrain equation.'");
     }
 
     static private void defineWorkDirectory (
-            final ArrayList<String> def)
+        final ArrayList<String> def)
     {
         def.add("-tFile -k workDirectory --var workDirectory --case --def /tmp -h 'The directory where temp files will be handled.'");
     }
@@ -321,7 +322,7 @@ public class FunnelContext
                 continue;
             }
             if ("user.home".equals(name)
-                    || "user.dir".equals(name))
+                || "user.dir".equals(name))
             {
                 logger.debug(name + "=" + System.getProperties().getProperty(name));
                 continue;
@@ -340,7 +341,7 @@ public class FunnelContext
 
     public String               whereClause;
     private int                 inputFileIndex;
-    public File[]               inputFiles;
+    public WildFiles             inputFiles;
     public File                 outputFile;
     public int                  fixedRecordLength;
     public long                 maximumNumberOfRows;
@@ -366,10 +367,7 @@ public class FunnelContext
     public byte[]               endOfRecordOutDelimiter;
     public CSVDef               csv;
 
-    public FunnelContext(
-            final String... _args)
-            throws IOException,
-            ParseException
+    public FunnelContext(final String... _args) throws IOException, ParseException
     {
         this.debug = System.getProperty(SYSPARM_DEBUG, "NO").equalsIgnoreCase("on");
 
@@ -380,16 +378,16 @@ public class FunnelContext
          * immediately.
          */
         startLogging(logDirectory = new File(System.getProperty(ENVVAR_USERHOME, "/tmp"),
-                "funnel/var/log"));
+            "funnel/var/log"));
         logger.info("================ BEGIN ===================");
         logger.debug("Funnel " + installedVersionNumber);
 
         parser = new CmdLine(null,
-                "Funnel is a sort / copy / merge utility.\n\nVersion "
-                        + installedVersionNumber
-                        + ".  The log file is located in "
-                        + logDirectory.getAbsolutePath()
-                        + ".");
+            "Funnel is a sort / copy / merge utility.\n\nVersion "
+                + installedVersionNumber
+                + ".  The log file is located in "
+                + logDirectory.getAbsolutePath()
+                + ".");
         /*
          * The specification directory is passed to the parser to control where
          * the default include (import) files are located. This is passed in to
@@ -462,17 +460,21 @@ public class FunnelContext
         }
     }
 
-    public File getInputFile (
-            final int fileNumber)
+    public File getInputFile (final int fileNumber) throws ParseException, IOException
     {
-        return inputFiles[fileNumber];
+        return inputFiles.files().get(fileNumber);
     }
 
-    public int inputFileCount ()
+    public String getVersion ()
+    {
+        return installedVersionNumber;
+    }
+
+    public int inputFileCount () throws ParseException, IOException
     {
         if (inputFiles == null)
             return 0;
-        return inputFiles.length;
+        return inputFiles.files().size();
     }
 
     public int inputFileIndex ()
@@ -495,25 +497,24 @@ public class FunnelContext
         return inPlaceSort;
     }
 
-    public boolean isMultisourceInput ()
+    public boolean isMultisourceInput () throws ParseException, IOException
     {
-        return inputFiles != null && inputFiles.length > 1;
+        return inputFiles != null && inputFiles.files().size() > 1;
     }
 
-    public boolean isSysin ()
+    public boolean isSysin () throws ParseException, IOException
     {
-        return inputFiles == null || inputFiles.length == 0;
+        return inputFiles == null || inputFiles.files().size() == 0;
     }
 
-    public boolean isSysout ()
+    public boolean isSysout () throws ParseException, IOException
     {
         if (isMultisourceInput() && isInPlaceSort())
             return false;
         return outputFile == null;
     }
 
-    private void postParseAnalysis ()
-            throws ParseException
+    private void postParseAnalysis () throws ParseException, IOException
     {
         /*
          * OrderBys and keys are mutually exclusive.
@@ -568,7 +569,7 @@ public class FunnelContext
                 if (kdef.isCsv())
                 {
                     throw new ParseException("unexpected CSV key (--field) on a non-CSV file",
-                            0);
+                        0);
                 }
             }
         /*
@@ -580,7 +581,7 @@ public class FunnelContext
                 if (!kdef.isCsv())
                 {
                     throw new ParseException("only CSV keys (--field) allowed on a CSV file",
-                            0);
+                        0);
                 }
             }
         /*
@@ -594,9 +595,9 @@ public class FunnelContext
                     if (k1 != k2 && k1.csvFieldNumber == k2.csvFieldNumber)
                     {
                         throw new ParseException("sorting on the same field (--field "
-                                + k2.csvFieldNumber
-                                + ") is not allowed",
-                                0);
+                            + k2.csvFieldNumber
+                            + ") is not allowed",
+                            0);
                     }
                 }
             }
@@ -628,7 +629,7 @@ public class FunnelContext
             for (final KeyPart keyDefPosingAsAColumnDefToo : keys)
             {
                 if (keyDefPosingAsAColumnDefToo.columnName != null
-                        && (keyDefPosingAsAColumnDefToo.isCsv() || keyDefPosingAsAColumnDefToo.length > 0))
+                    && (keyDefPosingAsAColumnDefToo.isCsv() || keyDefPosingAsAColumnDefToo.length > 0))
                 {
                     try
                     {
@@ -649,21 +650,21 @@ public class FunnelContext
                 } catch (final Exception e)
                 {
                     throw new ParseException(e.getMessage(),
-                            0);
+                        0);
                 }
             }
 
         if (isInPlaceSort() && outputFile != null)
             throw new ParseException("--replace and --outputFile are mutually exclusive parameters",
-                    0);
+                0);
 
         if (isInPlaceSort() && isSysin())
             throw new ParseException("--replace requires --inputFile, redirection or piped input is not allowed",
-                    0);
+                0);
 
         if (outputFile == null
-                && (inputFiles != null
-                && (inputFiles.length == 1 || isInPlaceSort())))
+            && (inputFiles != null
+            && (inputFiles.files().size() == 1 || isInPlaceSort())))
             outputFile = getInputFile(0);
 
         if (endOfRecordOutDelimiter == null)
@@ -680,8 +681,7 @@ public class FunnelContext
             }
     }
 
-    public void reset ()
-            throws IOException
+    public void reset () throws IOException, ParseException
     {
         if (provider != null)
             provider.reset();
@@ -692,14 +692,13 @@ public class FunnelContext
     /**
      *
      */
-    void showParameters ()
+    void showParameters () throws IOException, ParseException
     {
-
         if (isSysin())
             logger.info("input is SYSIN");
         else
-            for (final File inputFile : inputFiles)
-                logger.info("inputFilename = " + inputFile.getAbsolutePath());
+            for (final File file : inputFiles.files())
+                logger.info("inputFilename = " + file.getAbsolutePath());
 
         if (isCacheInput())
             if (logger.isDebugEnabled())
@@ -774,26 +773,26 @@ public class FunnelContext
             final KeyPart col = columnHelper.get(colName);
             if (csv == null)
                 logger.debug("col \""
-                        + col.columnName
-                        + "\" "
-                        + col.typeName
-                        + " offset "
-                        + col.offset
-                        + " length "
-                        + col.length
-                        + (col.parseFormat == null
-                                ? ""
-                                : " format " + col.parseFormat));
+                    + col.columnName
+                    + "\" "
+                    + col.typeName
+                    + " offset "
+                    + col.offset
+                    + " length "
+                    + col.length
+                    + (col.parseFormat == null
+                            ? ""
+                            : " format " + col.parseFormat));
             else
                 logger.debug("col "
-                        + col.columnName
-                        + " "
-                        + col.typeName
-                        + " csvField "
-                        + col.csvFieldNumber
-                        + (col.parseFormat == null
-                                ? ""
-                                : " format " + col.parseFormat));
+                    + col.columnName
+                    + " "
+                    + col.typeName
+                    + " csvField "
+                    + col.csvFieldNumber
+                    + (col.parseFormat == null
+                            ? ""
+                            : " format " + col.parseFormat));
         }
 
         if (whereClause != null)
@@ -816,30 +815,30 @@ public class FunnelContext
             {
                 if (csv == null)
                     logger.debug("key "
-                            + (kno++)
-                            + " "
-                            + def.typeName
-                            + " offset "
-                            + def.offset
-                            + " length "
-                            + def.length
-                            + " "
-                            + def.direction.name()
-                            + (def.parseFormat == null
-                                    ? ""
-                                    : " format " + def.parseFormat));
+                        + (kno++)
+                        + " "
+                        + def.typeName
+                        + " offset "
+                        + def.offset
+                        + " length "
+                        + def.length
+                        + " "
+                        + def.direction.name()
+                        + (def.parseFormat == null
+                                ? ""
+                                : " format " + def.parseFormat));
                 else
                     logger.debug("key "
-                            + (kno++)
-                            + ") "
-                            + def.typeName
-                            + " csvField "
-                            + def.csvFieldNumber
-                            + " "
-                            + def.direction.name()
-                            + (def.parseFormat == null
-                                    ? ""
-                                    : " format " + def.parseFormat));
+                        + (kno++)
+                        + ") "
+                        + def.typeName
+                        + " csvField "
+                        + def.csvFieldNumber
+                        + " "
+                        + def.direction.name()
+                        + (def.parseFormat == null
+                                ? ""
+                                : " format " + def.parseFormat));
             }
     }
 
@@ -847,7 +846,7 @@ public class FunnelContext
      * @param _logDirectory
      */
     private void startLogging (
-            final File _logDirectory)
+        final File _logDirectory)
     {
         /*
          * Loggers will be defined only if funnel is being included in another
@@ -871,21 +870,21 @@ public class FunnelContext
 
         log4j.setProperty("log4j.appender." + MASTER_LOG_NAME, "org.apache.log4j.RollingFileAppender");
         log4j.setProperty("log4j.appender." + MASTER_LOG_NAME + ".File", _logDirectory.getAbsolutePath()
-                + "/funnel.log");
+            + "/funnel.log");
         log4j.setProperty("log4j.appender." + MASTER_LOG_NAME + ".maxBackupIndex", "3");
         log4j.setProperty("log4j.appender." + MASTER_LOG_NAME + ".maxFileSize", "10MB");
 
         log4j.setProperty("log4j.appender." + MASTER_LOG_NAME + ".layout", "org.apache.log4j.PatternLayout");
         if (debug)
             log4j.setProperty("log4j.appender." + MASTER_LOG_NAME + ".layout.ConversionPattern",
-                    "%d%6r%5L-%-36c{1}%-6p%m%n");
+                "%d%6r%5L-%-36c{1}%-6p%m%n");
         else
             log4j.setProperty("log4j.appender." + MASTER_LOG_NAME + ".layout.ConversionPattern", "%d %m%n");
 
         PropertyConfigurator.configure(log4j);
     }
 
-    public boolean startNextInput ()
+    public boolean startNextInput () throws ParseException, IOException
     {
         /*
          * Has the last input file been read? Then return false.

@@ -1,13 +1,14 @@
 package com.obdobion.funnel.segment;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import com.obdobion.funnel.FunnelDataProvider;
 import com.obdobion.funnel.FunnelItem;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 class Segment implements FunnelDataProvider
 {
@@ -51,7 +52,7 @@ class Segment implements FunnelDataProvider
         return rowsInSegment;
     }
 
-    public boolean next (final FunnelItem item, final long phase) throws IOException
+    public boolean next (final FunnelItem item, final long phase) throws IOException, ParseException
     {
         if (nextRow >= rowsInSegment)
         {
@@ -81,6 +82,11 @@ class Segment implements FunnelDataProvider
         return true;
     }
 
+    public void reset ()
+    {
+        // intentionally empty
+    }
+
     public void setSegmentProvider (final SegmentedPublisherAndProvider _segmentProvider)
     {
         this.segmentProvider = _segmentProvider;
@@ -90,10 +96,5 @@ class Segment implements FunnelDataProvider
     {
         workfile.write(item);
         rowsInSegment++;
-    }
-
-    public void reset ()
-    {
-        // intentionally empty
     }
 }

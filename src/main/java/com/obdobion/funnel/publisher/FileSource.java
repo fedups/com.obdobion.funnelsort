@@ -2,6 +2,7 @@ package com.obdobion.funnel.publisher;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.text.ParseException;
 
 import org.apache.log4j.Logger;
 
@@ -9,7 +10,7 @@ import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class FileSource implements RandomAccessInputSource
 {
@@ -18,15 +19,13 @@ public class FileSource implements RandomAccessInputSource
     final FunnelContext         context;
     RandomAccessFile[]          raf;
 
-    public FileSource(
-            final FunnelContext _context)
+    public FileSource(final FunnelContext _context) throws ParseException, IOException
     {
         this.context = _context;
         raf = new RandomAccessFile[context.inputFileCount()];
     }
 
-    public void close ()
-        throws IOException
+    public void close () throws IOException, ParseException
     {
         for (int i = 0; i < context.inputFileCount(); i++)
         {
@@ -35,8 +34,7 @@ public class FileSource implements RandomAccessInputSource
         }
     }
 
-    public void open ()
-        throws IOException
+    public void open () throws IOException, ParseException
     {
         for (int i = 0; i < context.inputFileCount(); i++)
         {

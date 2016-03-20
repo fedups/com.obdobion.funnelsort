@@ -12,11 +12,11 @@ import com.obdobion.funnel.orderby.KeyPart;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class ColumnHelper
 {
-    final private static Logger logger       = Logger.getLogger(ColumnHelper.class);
+    final private static Logger logger          = Logger.getLogger(ColumnHelper.class);
 
     public static final int     MAX_COLUMN_SIZE = 255;
     final KeyContext            context;
@@ -49,20 +49,18 @@ public class ColumnHelper
     {
         for (final KeyPart col : columns)
         {
+            if (name == null)
+            {
+                if (col.columnName == null)
+                    return true;
+                continue;
+            } else if (col.columnName == null)
+                continue;
+
             if (col.columnName.equalsIgnoreCase(name))
                 return true;
         }
         return false;
-    }
-
-    public KeyPart get (final String name)
-    {
-        for (final KeyPart col : columns)
-        {
-            if (col.columnName.equalsIgnoreCase(name))
-                return col;
-        }
-        return null;
     }
 
     /**
@@ -70,7 +68,7 @@ public class ColumnHelper
      * can't just store these bytes for later use.
      */
     public KeyContext extract (final byte[] data, final long recordNumber, final int dataLength)
-            throws Exception
+        throws Exception
     {
         /*
          * The extra byte is for a 0x00 character to be placed at the end of
@@ -97,7 +95,7 @@ public class ColumnHelper
     /**
      * Call this method for csv files that break each row up into fields (byte
      * arrays). [][].
-     * 
+     *
      * @param data
      * @param recordNumber
      * @return
@@ -136,14 +134,22 @@ public class ColumnHelper
         return context;
     }
 
-    public boolean whereIsTrue () throws Exception
+    public KeyPart get (final String name)
     {
-        final Object result = Equ.getInstance().evaluate();
-        if (result == null)
-            return true;
-        if (!(result instanceof Boolean))
-            throw new Exception("--where clause must evaluate to true or false");
-        return ((Boolean) result).booleanValue();
+        for (final KeyPart col : columns)
+        {
+            if (name == null)
+            {
+                if (col.columnName == null)
+                    return col;
+                continue;
+            } else if (col.columnName == null)
+                continue;
+
+            if (col.columnName.equalsIgnoreCase(name))
+                return col;
+        }
+        return null;
     }
 
     public List<String> getNames ()
@@ -154,5 +160,15 @@ public class ColumnHelper
             allNames.add(col.columnName);
         }
         return allNames;
+    }
+
+    public boolean whereIsTrue () throws Exception
+    {
+        final Object result = Equ.getInstance().evaluate();
+        if (result == null)
+            return true;
+        if (!(result instanceof Boolean))
+            throw new Exception("--where clause must evaluate to true or false");
+        return ((Boolean) result).booleanValue();
     }
 }

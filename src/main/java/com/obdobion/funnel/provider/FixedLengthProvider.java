@@ -1,6 +1,7 @@
 package com.obdobion.funnel.provider;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import org.apache.log4j.Logger;
 
@@ -15,9 +16,9 @@ import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
  * Read a file of byte arrays one row at a time
- * 
+ *
  * @author Chris DeGreef
- * 
+ *
  */
 public class FixedLengthProvider implements FunnelDataProvider
 {
@@ -31,15 +32,32 @@ public class FixedLengthProvider implements FunnelDataProvider
     byte[]              recordContents;
     private long        unselectedCount;
 
-    public FixedLengthProvider(
-            final FunnelContext _context)
-            throws IOException
+    public FixedLengthProvider(final FunnelContext _context) throws IOException, ParseException
     {
         this.context = _context;
         initialize();
     }
 
-    private void initialize () throws IOException
+    public long actualNumberOfRows ()
+    {
+        return maximumNumberOfRows();
+    }
+
+    public void attachTo (
+        final FunnelItem item)
+    {
+        item.setProvider(this);
+    }
+
+    public void close () throws IOException, ParseException
+    {
+        if (reader == null)
+            return;
+        reader.close();
+        reader = null;
+    }
+
+    private void initialize () throws IOException, ParseException
     {
         initializeReader();
         try
@@ -67,28 +85,7 @@ public class FixedLengthProvider implements FunnelDataProvider
         }
     }
 
-    public long actualNumberOfRows ()
-    {
-        return maximumNumberOfRows();
-    }
-
-    public void attachTo (
-        final FunnelItem item)
-    {
-        item.setProvider(this);
-    }
-
-    public void close ()
-        throws IOException
-    {
-        if (reader == null)
-            return;
-        reader.close();
-        reader = null;
-    }
-
-    protected void initializeReader ()
-        throws IOException
+    protected void initializeReader () throws IOException, ParseException
     {
         if (context.isSysin())
             this.reader = new FixedLengthSysinReader(context);
@@ -100,15 +97,31 @@ public class FixedLengthProvider implements FunnelDataProvider
                         context.endOfRecordDelimiter);
     }
 
+    private void logStatistics (final int fileIndex) throws ParseException, IOException
+    {
+        final StringBuilder sb = new StringBuilder();
+
+        sb.append(Funnel.ByteFormatter.format(recordNumber));
+        sb.append(" rows obtained from ");
+        if (context.isSysin())
+            sb.append("SYSIN");
+        else
+            sb.append(context.getInputFile(fileIndex).getName());
+        if (unselectedCount > 0)
+        {
+            sb.append(", ");
+            sb.append(Funnel.ByteFormatter.format(unselectedCount));
+            sb.append(" filtered out by where clause");
+        }
+        logger.info(sb.toString());
+    }
+
     public long maximumNumberOfRows ()
     {
         return size;
     }
 
-    public boolean next (
-        final FunnelItem item,
-        final long phase)
-        throws IOException
+    public boolean next (final FunnelItem item, final long phase) throws IOException, ParseException
     {
         /*
          * Only return 1 row per phase per item.
@@ -183,7 +196,6 @@ public class FixedLengthProvider implements FunnelDataProvider
             throw new IOException(e);
         }
 
-
         final SourceProxyRecord wrapped = SourceProxyRecord.getInstance();
         wrapped.originalInputFileIndex = context.inputFileIndex();
 
@@ -204,33 +216,14 @@ public class FixedLengthProvider implements FunnelDataProvider
         return true;
     }
 
-    private void logStatistics (int fileIndex)
+    public void reset () throws IOException, ParseException
     {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append(Funnel.ByteFormatter.format(recordNumber));
-        sb.append(" rows obtained from ");
-        if (context.isSysin())
-            sb.append("SYSIN");
-        else
-            sb.append(context.getInputFile(fileIndex).getName());
-        if (unselectedCount > 0)
-        {
-            sb.append(", ");
-            sb.append(Funnel.ByteFormatter.format(unselectedCount));
-            sb.append(" filtered out by where clause");
-        }
-        logger.info(sb.toString());
+        initialize();
     }
 
     public void setMaximumNumberOfRows (
         final long max)
     {
         size = max;
-    }
-
-    public void reset () throws IOException
-    {
-        initialize();
     }
 }

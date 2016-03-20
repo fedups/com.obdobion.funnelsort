@@ -3,6 +3,7 @@ package com.obdobion.funnel.provider;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.ParseException;
 
 import org.apache.log4j.Logger;
 
@@ -18,9 +19,7 @@ public class VariableLengthCacheReader implements InputReader
 
     final FunnelContext context;
 
-    public VariableLengthCacheReader(
-            final FunnelContext _context)
-            throws IOException
+    public VariableLengthCacheReader(final FunnelContext _context) throws IOException, ParseException
     {
         this.context = _context;
         loadDataToCache();
@@ -38,8 +37,7 @@ public class VariableLengthCacheReader implements InputReader
         return context.inputCache.length();
     }
 
-    void loadDataToCache ()
-        throws IOException
+    void loadDataToCache () throws IOException, ParseException
     {
         final FileInputStream inputStream = new FileInputStream(context.getInputFile(context.inputFileIndex()));
         context.inputCache = new InputCache(context, inputStream);

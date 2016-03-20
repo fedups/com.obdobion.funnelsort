@@ -4,6 +4,7 @@ import java.io.DataOutput;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.text.ParseException;
 
 import org.apache.log4j.Logger;
 
@@ -16,7 +17,7 @@ import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 abstract public class VariableLengthPublisher implements FunnelDataPublisher
 {
@@ -33,8 +34,7 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher
     private long                writeCount;
     private long                duplicateCount;
 
-    public VariableLengthPublisher(
-            final FunnelContext _context)
+    public VariableLengthPublisher(final FunnelContext _context) throws ParseException, IOException
     {
         this.context = _context;
         this.originalBytes = new byte[1024];
@@ -47,25 +47,7 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher
         logger.debug("write buffer size is " + WriteBufferSize + " bytes");
     }
 
-    private void initialize ()
-    {
-        if (context.isCacheInput() || context.isSysin())
-            originalFile = context.inputCache;
-        else
-            originalFile = new FileSource(context);
-
-        try
-        {
-            openOutput(context);
-        } catch (final IOException e)
-        {
-            App.abort(-1, e);
-        }
-        writeCount = duplicateCount = 0;
-    }
-
-    public void close ()
-        throws Exception
+    public void close () throws Exception
     {
         if (bb.position() != 0)
             flushWritesToDisk();
@@ -93,7 +75,24 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher
         return writeCount;
     }
 
-    public void openInput ()
+    private void initialize () throws ParseException, IOException
+    {
+        if (context.isCacheInput() || context.isSysin())
+            originalFile = context.inputCache;
+        else
+            originalFile = new FileSource(context);
+
+        try
+        {
+            openOutput(context);
+        } catch (final IOException e)
+        {
+            App.abort(-1, e);
+        }
+        writeCount = duplicateCount = 0;
+    }
+
+    public void openInput () throws ParseException
     {
         try
         {
@@ -107,7 +106,7 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher
     abstract void openOutput (
         final FunnelContext _context)
         throws IOException,
-            FileNotFoundException;
+        FileNotFoundException;
 
     public boolean publish (
         final SourceProxyRecord item,
@@ -178,6 +177,17 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher
         return true;
     }
 
+    @Override
+    public void reset () throws IOException, ParseException
+    {
+        initialize();
+        if (previousData != null)
+        {
+            previousData.release();
+            previousData = null;
+        }
+    }
+
     void write (
         final byte[] sourceBytes,
         final int off,
@@ -192,16 +202,5 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher
         }
 
         bb.put(sourceBytes, off, len);
-    }
-
-    @Override
-    public void reset () throws IOException
-    {
-        initialize();
-        if (previousData != null)
-        {
-            previousData.release();
-            previousData = null;
-        }
     }
 }

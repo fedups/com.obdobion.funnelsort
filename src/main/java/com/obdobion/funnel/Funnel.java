@@ -1,13 +1,14 @@
 package com.obdobion.funnel;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.Comparator;
 
 import org.apache.log4j.Logger;
 
 import com.obdobion.algebrain.Equ;
+import com.obdobion.argument.WildFiles;
 import com.obdobion.funnel.orderby.KeyHelper;
 import com.obdobion.funnel.parameters.FunnelContext;
 import com.obdobion.funnel.provider.FunnelInternalNodeProvider;
@@ -66,7 +67,6 @@ public class Funnel
 {
     static Logger                     logger        = Logger.getLogger(Funnel.class.getName());
     static final public DecimalFormat ByteFormatter = new DecimalFormat("###,###,###,###");
-    final FunnelContext               context;
     /**
      * The maximum depth is the highest (number of levels) the funnel can be.
      * This is somewhat arbitrary and can be increased if there is sufficient
@@ -121,11 +121,10 @@ public class Funnel
                  * The replace option with multiple input files causes each file
                  * to be sorted on its own.
                  */
-                final File[] inputFiles = context.inputFiles;
-                context.inputFiles = new File[1];
-                for (int fIdx = 0; fIdx < inputFiles.length; fIdx++)
+                final WildFiles inputFiles = context.inputFiles;
+                for (int fIdx = 0; fIdx < inputFiles.files().size(); fIdx++)
                 {
-                    context.inputFiles[0] = inputFiles[fIdx];
+                    context.inputFiles = new WildFiles(inputFiles.files().get(fIdx));
                     if (fIdx != 0)
                         /*
                          * All subsequent processing after the first must issue
@@ -169,20 +168,7 @@ public class Funnel
         return context;
     }
 
-    private void reset () throws IOException
-    {
-        for (final FunnelItem item : getItems())
-        {
-            item.reset();
-        }
-        /*
-         * If reset is being called it is because of multiple input files with
-         * the --replace option. As of this time that is the only reason so
-         * there is no checking done here.
-         */
-        context.outputFile = context.getInputFile(context.inputFileIndex());
-        context.reset();
-    }
+    final FunnelContext        context;
 
     /**
      * The entry row (where data enters the funnel) is the top row. The indexing
@@ -191,6 +177,7 @@ public class Funnel
      * the top row.
      */
     final int                  entryRowStart;
+
     /**
      * The entry row (where data enters the funnel) is the top row. The indexing
      * of the funnel is in a 1 dimensional array where the 0th element is the
@@ -361,10 +348,10 @@ public class Funnel
      * be completely sorted before any more data is allowed in the funnel. At
      * which time the top row will be primed again. This keeps a predictable
      * size to each segment as it is created.
+     *
+     * @throws ParseException
      */
-    void primeTopRow (
-        final long phase)
-        throws IOException
+    void primeTopRow (final long phase) throws IOException, ParseException
     {
         for (int tr = entryRowStart(); tr >= entryRowEnd(); tr--)
         {
@@ -479,6 +466,21 @@ public class Funnel
         }
     }
 
+    private void reset () throws IOException, ParseException
+    {
+        for (final FunnelItem item : getItems())
+        {
+            item.reset();
+        }
+        /*
+         * If reset is being called it is because of multiple input files with
+         * the --replace option. As of this time that is the only reason so
+         * there is no checking done here.
+         */
+        context.outputFile = context.getInputFile(context.inputFileIndex());
+        context.reset();
+    }
+
     /**
      * Shake the funnel so another data row drops down into the exit point of
      * the funnel. Obviously, {@link FunnelItem#next()} is a recursive call. It
@@ -487,10 +489,9 @@ public class Funnel
      *
      * @return the FunnelItem at the exit point of the funnel. Or null if the
      * funnel is currently empty.
+     * @throws ParseException
      */
-    FunnelItem shake (
-        final long phase)
-        throws IOException
+    FunnelItem shake (final long phase) throws IOException, ParseException
     {
         if (!getItems()[0].next(phase))
             return null;

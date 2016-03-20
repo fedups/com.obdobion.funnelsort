@@ -1,6 +1,7 @@
 package com.obdobion.funnel.provider;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import org.apache.log4j.Logger;
 
@@ -31,9 +32,7 @@ public class VariableLengthProvider implements FunnelDataProvider
     final byte               row[];
     int                      unselectedCount;
 
-    public VariableLengthProvider(
-            final FunnelContext _context)
-            throws IOException
+    public VariableLengthProvider(final FunnelContext _context) throws IOException, ParseException
     {
         this.context = _context;
         /*
@@ -69,19 +68,6 @@ public class VariableLengthProvider implements FunnelDataProvider
 
     }
 
-    private void initialize ()
-        throws IOException
-    {
-        recordNumber = unselectedCount = 0;
-
-        if (context.isSysin())
-            this.reader = new VariableLengthSysinReader(context);
-        else if (context.isCacheInput())
-            this.reader = new VariableLengthCacheReader(context);
-        else
-            this.reader = new VariableLengthFileReader(context);
-    }
-
     public long actualNumberOfRows ()
     {
         return recordNumber;
@@ -93,13 +79,24 @@ public class VariableLengthProvider implements FunnelDataProvider
         item.setProvider(this);
     }
 
-    public void close ()
-        throws IOException
+    public void close () throws IOException, ParseException
     {
         if (reader == null)
             return;
         reader.close();
         reader = null;
+    }
+
+    private void initialize () throws IOException, ParseException
+    {
+        recordNumber = unselectedCount = 0;
+
+        if (context.isSysin())
+            this.reader = new VariableLengthSysinReader(context);
+        else if (context.isCacheInput())
+            this.reader = new VariableLengthCacheReader(context);
+        else
+            this.reader = new VariableLengthFileReader(context);
     }
 
     /**
@@ -112,15 +109,31 @@ public class VariableLengthProvider implements FunnelDataProvider
         return true;
     }
 
+    private void logStatistics (final int fileIndex) throws ParseException, IOException
+    {
+        final StringBuilder sb = new StringBuilder();
+
+        sb.append(Funnel.ByteFormatter.format(recordNumber));
+        sb.append(" rows obtained from ");
+        if (context.isSysin())
+            sb.append("SYSIN");
+        else
+            sb.append(context.getInputFile(fileIndex).getName());
+        if (unselectedCount > 0)
+        {
+            sb.append(", ");
+            sb.append(Funnel.ByteFormatter.format(unselectedCount));
+            sb.append(" filtered out by where clause");
+        }
+        logger.info(sb.toString());
+    }
+
     public long maximumNumberOfRows ()
     {
         return context.maximumNumberOfRows;
     }
 
-    public boolean next (
-        final FunnelItem item,
-        final long phase)
-        throws IOException
+    public boolean next (final FunnelItem item, final long phase) throws IOException, ParseException
     {
         /*
          * Only return 1 row per phase per item.
@@ -217,25 +230,6 @@ public class VariableLengthProvider implements FunnelDataProvider
         return true;
     }
 
-    private void logStatistics (final int fileIndex)
-    {
-        final StringBuilder sb = new StringBuilder();
-
-        sb.append(Funnel.ByteFormatter.format(recordNumber));
-        sb.append(" rows obtained from ");
-        if (context.isSysin())
-            sb.append("SYSIN");
-        else
-            sb.append(context.getInputFile(fileIndex).getName());
-        if (unselectedCount > 0)
-        {
-            sb.append(", ");
-            sb.append(Funnel.ByteFormatter.format(unselectedCount));
-            sb.append(" filtered out by where clause");
-        }
-        logger.info(sb.toString());
-    }
-
     /**
      * @param byteCount
      * @return
@@ -256,8 +250,7 @@ public class VariableLengthProvider implements FunnelDataProvider
         return kContext;
     }
 
-    public void reset ()
-        throws IOException
+    public void reset () throws IOException, ParseException
     {
         initialize();
     }

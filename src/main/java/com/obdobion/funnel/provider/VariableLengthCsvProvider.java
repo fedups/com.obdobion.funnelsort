@@ -1,6 +1,7 @@
 package com.obdobion.funnel.provider;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import org.apache.log4j.Logger;
 
@@ -31,7 +32,7 @@ public class VariableLengthCsvProvider extends VariableLengthProvider
         this.includeColumn = _includeColumn;
     }
 
-    public VariableLengthCsvProvider(final FunnelContext _context) throws IOException
+    public VariableLengthCsvProvider(final FunnelContext _context) throws IOException, ParseException
     {
         super(_context);
         if (_context == null || _context.keys == null)
@@ -49,6 +50,15 @@ public class VariableLengthCsvProvider extends VariableLengthProvider
         includeColumn = new boolean[highestKeyedColumnNumber + 1];
         for (final KeyPart kdef : _context.keys)
             includeColumn[kdef.csvFieldNumber] = true;
+    }
+
+    @Override
+    public long actualNumberOfRows ()
+    {
+        return super.actualNumberOfRows()
+            - (context.csv.header
+                    ? 1
+                    : 0);
     }
 
     public byte[][] decodeCsv (final byte[] input, final int inputLength, final byte quoteByte, final byte separatorByte)
@@ -125,14 +135,6 @@ public class VariableLengthCsvProvider extends VariableLengthProvider
             return false;
         }
         return true;
-    }
-
-    @Override
-    public long actualNumberOfRows ()
-    {
-        return super.actualNumberOfRows()
-            - (context.csv.header
-                ? 1 : 0);
     }
 
     @Override
