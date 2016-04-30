@@ -23,35 +23,24 @@ import com.obdobion.funnel.provider.InputCache;
 public class InputCacheTests
 {
     static private FunnelContext createDummyContext (
-        final InputStream in,
-        final PrintStream out)
-        throws Exception
+            final InputStream in,
+            final PrintStream out)
+            throws Exception
     {
-        if (in == null)
-        {
-            final InputStream inputStream = new StringBufferInputStream("");
-            System.setIn(inputStream);
-        } else
-            System.setIn(in);
-        if (out == null)
-        {
-            final File file = Helper.outFileWhenInIsSysin();
-            final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
-            System.setOut(outputStream);
-        } else
-            System.setOut(out);
+        System.setIn(in);
+        System.setOut(out);
         return new FunnelContext("");
     }
 
     @Test
     public void bufferPositioningLargeNumbers ()
-        throws Throwable
+            throws Throwable
     {
         Helper.initializeFor("TEST bufferPositioningPow2");
 
         final long[] bufStarts =
         {
-            0, 32768
+                0, 32768
         };
 
         Assert.assertEquals(0, InputCache.findBufferIndexForPosition(32767, bufStarts));
@@ -61,13 +50,13 @@ public class InputCacheTests
 
     @Test
     public void bufferPositioningNotPow2 ()
-        throws Throwable
+            throws Throwable
     {
         Helper.initializeFor("TEST bufferPositioningNotPow2");
 
         final long[] bufStarts =
         {
-            0, 10, 20, 30
+                0, 10, 20, 30
         };
 
         Assert.assertEquals(0, InputCache.findBufferIndexForPosition(0, bufStarts));
@@ -81,13 +70,13 @@ public class InputCacheTests
 
     @Test
     public void bufferPositioningPow2 ()
-        throws Throwable
+            throws Throwable
     {
         Helper.initializeFor("TEST bufferPositioningPow2");
 
         final long[] bufStarts =
         {
-            0, 10
+                0, 10
         };
 
         Assert.assertEquals(0, InputCache.findBufferIndexForPosition(0, bufStarts));
@@ -101,7 +90,7 @@ public class InputCacheTests
 
     @Test
     public void inputStreamWith2BuffersByArray ()
-        throws Throwable
+            throws Throwable
     {
         Helper.initializeFor("TEST inputStreamWith2BuffersByArray");
         final int minRow = 100000;
@@ -113,7 +102,9 @@ public class InputCacheTests
             sb.append(num).append(System.getProperty("line.separator"));
         }
         final InputStream testStream = new StringBufferInputStream(sb.toString());
-        final FunnelContext context = createDummyContext(testStream, null);
+        final File file = Helper.outFileWhenInIsSysin();
+        final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
+        final FunnelContext context = createDummyContext(testStream, outputStream);
 
         final byte[] testBytes = new byte[8];
         for (long num = minRow; num < maxRows; num++)
@@ -121,11 +112,13 @@ public class InputCacheTests
             context.inputCache.read(context.inputFileIndex(), testBytes, (num - minRow) * 8, 8);
             Assert.assertEquals("" + num, new String(testBytes).trim());
         }
+        outputStream.close();
+        Assert.assertTrue(file.delete());
     }
 
     @Test
     public void inputStreamWith2BuffersByByte ()
-        throws Throwable
+            throws Throwable
     {
         Helper.initializeFor("TEST inputStreamWith2BuffersByByte");
         final int minRow = 100000;
@@ -137,7 +130,9 @@ public class InputCacheTests
             sb.append(num).append(System.getProperty("line.separator"));
         }
         final InputStream testStream = new StringBufferInputStream(sb.toString());
-        final FunnelContext context = createDummyContext(testStream, null);
+        final File file = Helper.outFileWhenInIsSysin();
+        final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
+        final FunnelContext context = createDummyContext(testStream, outputStream);
 
         final byte[] testBytes = new byte[8];
         for (long num = minRow; num < maxRows; num++)
@@ -146,11 +141,13 @@ public class InputCacheTests
                 testBytes[b] = context.inputCache.readNextByte();
             Assert.assertEquals("" + num, new String(testBytes).trim());
         }
+        outputStream.close();
+        Assert.assertTrue(file.delete());
     }
 
     @Test
     public void sortWith2Buffers ()
-        throws Throwable
+            throws Throwable
     {
         Helper.initializeFor("TEST sortWith2Buffers");
         final int minRow = 100000;
@@ -170,7 +167,6 @@ public class InputCacheTests
 
         outputStream.flush();
         outputStream.close();
-
         final BufferedReader br = new BufferedReader(new FileReader(file));
 
         String line;
@@ -180,5 +176,8 @@ public class InputCacheTests
             Assert.assertEquals("" + num, line);
         }
         br.close();
+
+        Assert.assertTrue(file.delete());
+
     }
 }

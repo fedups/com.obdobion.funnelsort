@@ -53,13 +53,22 @@ public class Helper
     static public File createUnsortedFile (final List<String> lines)
         throws IOException
     {
-        return createUnsortedFile(lines, true);
+        return createUnsortedFile("funnel", lines, true);
     }
 
-    static public File createUnsortedFile (final List<String> lines, final boolean includeTrailingLineTerminator)
+    static public File createUnsortedFile (String prefix, final List<String> lines)
+            throws IOException
+    {
+        return createUnsortedFile(prefix, lines, true);
+    }
+
+    static public File createUnsortedFile (
+            String prefix,
+            final List<String> lines,
+            final boolean includeTrailingLineTerminator)
         throws IOException
     {
-        final File file = File.createTempFile("funnel.", ".in", workDir);
+        final File file = File.createTempFile(prefix + ".", ".in", workDir);
         final BufferedWriter out = new BufferedWriter(new FileWriter(file));
         for (int idx = 0; idx < lines.size(); idx++)
         {

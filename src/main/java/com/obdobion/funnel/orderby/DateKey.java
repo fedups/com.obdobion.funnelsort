@@ -27,13 +27,13 @@ public class DateKey extends KeyPart
     }
 
     @Override
-    public void format (final KeyContext context) throws Exception
+    public void pack (final KeyContext context) throws Exception
     {
         Long _longValue = (Long) parseObjectFromRawData(context);
         formatObjectIntoKey(context, _longValue);
 
         if (nextPart != null)
-            nextPart.format(context);
+            nextPart.pack(context);
     }
 
     private void formatObjectIntoKey (final KeyContext context, Long _longValue)

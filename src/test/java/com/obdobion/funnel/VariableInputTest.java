@@ -8,7 +8,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.obdobion.Helper;
-import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 public class VariableInputTest
@@ -24,7 +23,7 @@ public class VariableInputTest
         out.add("line 2");
         out.add("unterminated");
 
-        final File file = Helper.createUnsortedFile(out, false);
+        final File file = Helper.createUnsortedFile("variableInputTest", out, false);
 
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + "--max 2 -c original --eol cr,lf -r "
             + Helper.DEFAULT_OPTIONS);

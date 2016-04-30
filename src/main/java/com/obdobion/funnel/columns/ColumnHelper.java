@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import com.obdobion.algebrain.Equ;
 import com.obdobion.funnel.orderby.KeyContext;
 import com.obdobion.funnel.orderby.KeyPart;
+import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
  * @author Chris DeGreef
@@ -67,8 +68,12 @@ public class ColumnHelper
      * It is likely that the provided data is a reusable buffer of bytes. So we
      * can't just store these bytes for later use.
      */
-    public KeyContext extract (final byte[] data, final long recordNumber, final int dataLength)
-        throws Exception
+    public KeyContext extract (
+            FunnelContext funnelContext,
+            final byte[] data,
+            final long recordNumber,
+            final int dataLength)
+            throws Exception
     {
         /*
          * The extra byte is for a 0x00 character to be placed at the end of
@@ -81,15 +86,32 @@ public class ColumnHelper
         context.rawRecordBytes = new byte[1][];
         context.rawRecordBytes[0] = data;
         context.recordNumber = recordNumber;
-        for (final KeyPart col : columns)
-        {
-            Equ.getInstance().getSupport().assignVariable(col.columnName, col.parseObjectFromRawData(context));
-        }
-        Equ.getInstance().getSupport().assignVariable("recordnumber", new Long(recordNumber + 1));
-        Equ.getInstance().getSupport().assignVariable("recordsize", new Integer(dataLength));
+
+        extractColumnContentsFromRawData(funnelContext.getWhereEqu(), recordNumber, dataLength);
 
         context.rawRecordBytes = null;
         return context;
+    }
+
+    private void extractColumnContentsFromRawData (Equ equ, final long recordNumber, final int dataLength)
+            throws Exception
+    {
+        if (equ == null)
+            return;
+        for (final KeyPart col : columns)
+        {
+            try
+            {
+                equ.getSupport().assignVariable(col.columnName, col.parseObjectFromRawData(context));
+
+            } catch (Exception e)
+            {
+                logger.warn(e.getClass().getSimpleName() + " " + e.getMessage() + " on record number "
+                        + (recordNumber + 1));
+            }
+        }
+        equ.getSupport().assignVariable("recordnumber", new Long(recordNumber + 1));
+        equ.getSupport().assignVariable("recordsize", new Integer(dataLength));
     }
 
     /**
@@ -101,7 +123,11 @@ public class ColumnHelper
      * @return
      * @throws Exception
      */
-    public KeyContext extract (final byte[][] data, final long recordNumber) throws Exception
+    public KeyContext extract (
+            FunnelContext funnelContext,
+            final byte[][] data,
+            final long recordNumber,
+            final int dataLength) throws Exception
     {
         /*
          * The extra byte is for a 0x00 character to be placed at the end of
@@ -109,28 +135,14 @@ public class ColumnHelper
          * specified the maximum length for a String key. Or took the default
          * sort, which is the maximum key.
          */
-        // context.key = new byte[maxKeyBytes + 1];
-        // context.keyLength = 0;
-        // context.rawRecordBytes = data;
-        // context.recordNumber = recordNumber;
-        //
-        // formatter.format(context);
-        //
-        // context.rawRecordBytes = null;
-        return context;
-    }
+        context.key = new byte[maxKeyBytes + 1];
+        context.keyLength = 0;
+        context.rawRecordBytes = data;
+        context.recordNumber = recordNumber;
 
-    public KeyContext extract (final String data, final long recordNumber) throws Exception
-    {
-        // context.key = new byte[maxKeyBytes];
-        // context.keyLength = 0;
-        // context.rawRecordBytes = new byte[1][];
-        // context.rawRecordBytes[0] = data.getBytes();
-        // context.recordNumber = recordNumber;
-        //
-        // formatter.format(context);
-        //
-        // context.rawRecordBytes = null;
+        extractColumnContentsFromRawData(funnelContext.getWhereEqu(), recordNumber, dataLength);
+
+        context.rawRecordBytes = null;
         return context;
     }
 
@@ -160,15 +172,5 @@ public class ColumnHelper
             allNames.add(col.columnName);
         }
         return allNames;
-    }
-
-    public boolean whereIsTrue () throws Exception
-    {
-        final Object result = Equ.getInstance().evaluate();
-        if (result == null)
-            return true;
-        if (!(result instanceof Boolean))
-            throw new Exception("--where clause must evaluate to true or false");
-        return ((Boolean) result).booleanValue();
     }
 }

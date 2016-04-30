@@ -7,7 +7,7 @@
 		<param name="Threshold" value="TRACE" />
 		<param name="File" value="/opt/funnel/var/log/funnel.log"/>
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d %-5p (%x) %m [%C{1}:%L]%n" />
+			<param name="ConversionPattern" value="%d %-5p (%x) %m%n" />
 		</layout>
 	</appender>
 	<appender name="ERRFILE" class="org.apache.log4j.FileAppender">

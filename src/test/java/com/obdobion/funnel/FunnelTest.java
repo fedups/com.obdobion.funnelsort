@@ -11,7 +11,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.obdobion.Helper;
-import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
@@ -36,7 +35,7 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("copyOriginalFixed130", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
                 + " --max 130 -c original -f10" + Helper.DEFAULT_OPTIONS);
 
@@ -61,7 +60,7 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("copyOriginalFixed50", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
                 + "  --max 50 -c original -f10" + Helper.DEFAULT_OPTIONS);
 
@@ -86,7 +85,7 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("copyOriginalVar1000", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
                 + " --max 1000 -c original" + Helper.DEFAULT_OPTIONS);
 
@@ -111,7 +110,7 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("copyOriginalVar130", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
                 + " --max 130 -c original" + Helper.DEFAULT_OPTIONS);
 
@@ -136,7 +135,7 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("copyOriginalVar50", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
                 + " --max 50 -c original" + Helper.DEFAULT_OPTIONS);
 
@@ -161,7 +160,7 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("copyReverseFixed", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
                 + " --max 50 -c reverse -f10" + Helper.DEFAULT_OPTIONS);
 
@@ -186,7 +185,7 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("copyReverseVar", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
                 + " --max 50 -c reverse" + Helper.DEFAULT_OPTIONS);
 
@@ -215,9 +214,12 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("sortDate", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 50 -f16 -k(Date -o0 asc --fo " + format + ")" + Helper.DEFAULT_OPTIONS);
+                + " --max 50 -f16"
+                + "--co(-ndate Date -o0 --fo " + format + ")"
+                + "--o(date)"
+                + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 50L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -255,9 +257,12 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("sortFixed1000", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 1000 -f10 -k(Integer -o4 -l4 desc)" + Helper.DEFAULT_OPTIONS);
+                + " --max 1000 -f10"
+                + "--col(-nc Integer -o4 -l4 )"
+                + "--order(c desc)"
+                + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 1000L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -280,7 +285,7 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("sortFullKeyVariable1000Asc", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
                 + " --power 4" + Helper.DEFAULT_OPTIONS);
 
@@ -305,9 +310,12 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("sortIntVar1000", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --power 4 -k(Integer -o4 -l4 desc)" + Helper.DEFAULT_OPTIONS);
+                + " --power 4"
+                + "--col(-nc Integer -o4 -l4)"
+                + "--orderby(c desc)"
+                + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 1000L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -317,7 +325,7 @@ public class FunnelTest
     @Test
     public void sortStringVar1000 () throws Throwable
     {
-        Helper.initializeFor("TEST sortVar1000");
+        Helper.initializeFor("TEST sortStringVar1000");
 
         final List<String> in = new ArrayList<>();
         for (int r = 0; r < 1000; r++)
@@ -330,10 +338,14 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile(in);
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --power 4 -k(String -o4 -l4 desc)" + Helper.DEFAULT_OPTIONS);
-
+        final File file = Helper.createUnsortedFile("sortStringVar1000", in);
+        final FunnelContext context = Funnel.sort(
+                file.getAbsolutePath()
+                        + " -o" + file.getAbsolutePath()
+                        + " --power 4 "
+                        + "--col(-nn String -o4 -l4)"
+                        + "--order(n desc)"
+                        + Helper.DEFAULT_OPTIONS);
         Assert.assertEquals("records", 1000L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
@@ -355,9 +367,12 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("sortVarP2", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --power 2 -k(Integer,-o4,-l2,desc)" + Helper.DEFAULT_OPTIONS);
+                + " --power 2"
+                + "--col(-ncol1 Integer,-o4,-l2)"
+                + "--ord(col1 desc) "
+                + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 10L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);

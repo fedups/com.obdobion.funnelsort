@@ -18,23 +18,23 @@ public class AlphaKey extends KeyPart
     }
 
     @Override
-    public void format (final KeyContext context) throws Exception
+    public void pack (final KeyContext context) throws Exception
     {
-        final byte[] rawBytes = (byte[]) parseObjectFromRawData(context);
+        final byte[] rawBytes = ((String) parseObjectFromRawData(context)).getBytes();
 
         formatObjectIntoKey(context, rawBytes);
 
         if (nextPart != null)
-            nextPart.format(context);
+            nextPart.pack(context);
     }
 
     private void formatObjectIntoKey (final KeyContext context, final byte[] rawBytes)
     {
         int lengthThisTime = length;
-        if (rawBytes.length < offset + length)
-            lengthThisTime = rawBytes.length - offset;
+        if (rawBytes.length < length)
+            lengthThisTime = rawBytes.length;
 
-        System.arraycopy(rawBytes, offset, context.key, context.keyLength, lengthThisTime);
+        System.arraycopy(rawBytes, 0, context.key, context.keyLength, lengthThisTime);
         context.keyLength += lengthThisTime;
 
         if (direction == KeyDirection.AASC || direction == KeyDirection.ADESC)
@@ -75,6 +75,13 @@ public class AlphaKey extends KeyPart
     @Override
     public Object parseObjectFromRawData (KeyContext context) throws Exception
     {
-        return rawBytes(context);
+        byte[] bytes = rawBytes(context);
+
+        int endOffset = this.offset;
+        for (; endOffset < this.offset + this.length; endOffset++)
+            if (bytes.length <= endOffset || bytes[endOffset] == 0)
+                break;
+
+        return new String(rawBytes(context), this.offset, endOffset - this.offset);
     }
 }

@@ -27,9 +27,8 @@ public class FixedLengthProvider implements FunnelDataProvider
     final FunnelContext context;
     InputReader         reader;
     long                size;
-    private long        position;
     private long        recordNumber;
-    byte[]              recordContents;
+    byte[]              row;
     private long        unselectedCount;
 
     public FixedLengthProvider(final FunnelContext _context) throws IOException, ParseException
@@ -44,7 +43,7 @@ public class FixedLengthProvider implements FunnelDataProvider
     }
 
     public void attachTo (
-        final FunnelItem item)
+            final FunnelItem item)
     {
         item.setProvider(this);
     }
@@ -67,10 +66,19 @@ public class FixedLengthProvider implements FunnelDataProvider
         {
             App.abort(-1, e);
         }
-        this.recordContents = new byte[context.fixedRecordLength];
+        this.row = new byte[context.fixedRecordLength];
 
         int optimalFunnelDepth = 2;
         long pow2 = size;
+
+        /*
+         * If the user specific a max rows expected then make sure to use that.
+         * It might be the case that there are more than this single file being
+         * sorted. And at this point we only know about the first one.
+         */
+        if (context.maximumNumberOfRows > 0)
+            pow2 = context.maximumNumberOfRows;
+
         while (true)
         {
             if (pow2 < 2)
@@ -94,7 +102,7 @@ public class FixedLengthProvider implements FunnelDataProvider
         else
             this.reader =
                     new FixedLengthFileReader(context.getInputFile(context.inputFileIndex()),
-                        context.endOfRecordDelimiter);
+                            context.endOfRecordDelimiter);
     }
 
     private void logStatistics (final int fileIndex) throws ParseException, IOException
@@ -133,14 +141,16 @@ public class FixedLengthProvider implements FunnelDataProvider
         }
         item.setPhase(phase);
 
-        int bcount = 0;
+        int byteCount = 0;
+        long startPosition = 0;
         try
         {
             while (true)
             {
-                bcount = reader.read(recordContents);
+                startPosition = reader.position();
+                byteCount = reader.read(row);
 
-                if (bcount == -1)
+                if (byteCount == -1)
                 {
                     /*
                      * See if there are more files to be read.
@@ -156,24 +166,34 @@ public class FixedLengthProvider implements FunnelDataProvider
                     break;
                 }
 
-                if (bcount != -1 && bcount != context.fixedRecordLength)
-                    throw new IOException("Record truncated at EOF, bytes read = " + bcount + ", bytes expected = "
-                        + context.fixedRecordLength);
-
-                context.columnHelper.extract(recordContents, recordNumber, bcount);
-                if (context.columnHelper.whereIsTrue())
+                if (byteCount != -1 && byteCount != context.fixedRecordLength)
                 {
-                    break;
+                    logger.warn("Record truncated at EOF, bytes read = " + byteCount + ", bytes expected = "
+                            + context.fixedRecordLength);
+                    continue;
                 }
-                recordNumber++;
-                unselectedCount++;
-                continue;
+
+                if (!isRowSelected(byteCount))
+                {
+                    recordNumber++;
+                    continue;
+                }
+
+                preSelectionExtract(byteCount);
+
+                if (!context.whereIsTrue())
+                {
+                    recordNumber++;
+                    unselectedCount++;
+                    continue;
+                }
+                break;
             }
         } catch (final Exception e)
         {
             App.abort(-1, e);
         }
-        if (bcount == -1)
+        if (byteCount == -1)
         {
             item.setEndOfData(true);
             try
@@ -190,7 +210,7 @@ public class FixedLengthProvider implements FunnelDataProvider
         KeyContext kContext = null;
         try
         {
-            kContext = context.keyHelper.extractKey(recordContents, recordNumber);
+            kContext = context.keyHelper.extractKey(row, recordNumber);
         } catch (final Exception e)
         {
             throw new IOException(e);
@@ -201,19 +221,28 @@ public class FixedLengthProvider implements FunnelDataProvider
 
         wrapped.size = kContext.keyLength;
         wrapped.sortKey = kContext.key;
-        wrapped.originalSize = bcount;
-        wrapped.originalLocation = position;
+        wrapped.originalSize = byteCount;
+        wrapped.originalLocation = startPosition;
 
         if (DuplicateDisposition.LastOnly == context.duplicateDisposition
-            || DuplicateDisposition.Reverse == context.duplicateDisposition)
+                || DuplicateDisposition.Reverse == context.duplicateDisposition)
             wrapped.originalRecordNumber = -recordNumber;
         else
             wrapped.originalRecordNumber = recordNumber;
 
-        position += wrapped.originalSize;
         recordNumber++;
         item.setData(wrapped);
         return true;
+    }
+
+    boolean isRowSelected (@SuppressWarnings("unused") final int byteCount)
+    {
+        return true;
+    }
+
+    void preSelectionExtract (int byteCount) throws Exception
+    {
+        context.columnHelper.extract(context, row, recordNumber, byteCount);
     }
 
     public void reset () throws IOException, ParseException
@@ -222,7 +251,7 @@ public class FixedLengthProvider implements FunnelDataProvider
     }
 
     public void setMaximumNumberOfRows (
-        final long max)
+            final long max)
     {
         size = max;
     }

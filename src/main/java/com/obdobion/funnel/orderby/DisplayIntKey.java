@@ -16,16 +16,16 @@ public class DisplayIntKey extends KeyPart
     }
 
     @Override
-    public void format (final KeyContext context) throws Exception
+    public void pack (final KeyContext context) throws Exception
     {
         Long longValue = (Long) parseObjectFromRawData(context);
-        formatObjectIntoKey(context, longValue);
+        packObjectIntoKey(context, longValue);
 
         if (nextPart != null)
-            nextPart.format(context);
+            nextPart.pack(context);
     }
 
-    public void formatObjectIntoKey (final KeyContext context, Long _longValue)
+    public void packObjectIntoKey (final KeyContext context, Long _longValue)
     {
         Long longValue = _longValue;
 

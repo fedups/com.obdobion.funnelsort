@@ -8,7 +8,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.obdobion.Helper;
-import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.orderby.DateKey;
 import com.obdobion.funnel.orderby.DisplayFloatKey;
 import com.obdobion.funnel.orderby.DisplayIntKey;
@@ -41,7 +40,7 @@ public class FormatTests
         key.direction = KeyDirection.ASC;
         key.parseFormat = "yyyy-MM-dd";
         final KeyContext kx = Helper.dummyKeyContext(" 1960-04-a");
-        key.format(kx);
+        key.pack(kx);
         verifyFormatted(new byte[]
         {
                 -128, 0, 0, 0, 0, 0, 0, 0
@@ -59,7 +58,7 @@ public class FormatTests
         key.direction = KeyDirection.ASC;
         key.parseFormat = "yyyy-MM-dd";
         final KeyContext kx = Helper.dummyKeyContext(" 1960-04-09");
-        key.format(kx);
+        key.pack(kx);
         verifyFormatted(new byte[]
         {
                 127, -1, -1, -72, -126, -64, 95, 0
@@ -77,7 +76,7 @@ public class FormatTests
         key.direction = KeyDirection.ASC;
         key.parseFormat = "####.###";
         final KeyContext kx = Helper.dummyKeyContext("5.1  ");
-        key.format(kx);
+        key.pack(kx);
         verifyFormatted(new byte[]
         {
                 -64, 20, 102, 102, 102, 102, 102, 102
@@ -95,7 +94,7 @@ public class FormatTests
         key.direction = KeyDirection.ASC;
         key.parseFormat = "####.##";
         final KeyContext kx = Helper.dummyKeyContext("$5,000.10-");
-        key.format(kx);
+        key.pack(kx);
         verifyFormatted(new byte[]
         {
                 63, 76, 119, -26, 102, 102, 102, 101
@@ -113,7 +112,7 @@ public class FormatTests
         key.direction = KeyDirection.ASC;
         key.parseFormat = "####.##";
         final KeyContext kx = Helper.dummyKeyContext("$5,000.10");
-        key.format(kx);
+        key.pack(kx);
         verifyFormatted(new byte[]
         {
                 -64, -77, -120, 25, -103, -103, -103, -102
@@ -131,7 +130,7 @@ public class FormatTests
         key.direction = KeyDirection.ASC;
         key.parseFormat = "####";
         final KeyContext kx = Helper.dummyKeyContext(" 5");
-        key.format(kx);
+        key.pack(kx);
         verifyFormatted(new byte[]
         {
                 -128, 0, 0, 0, 0, 0, 0, 5
@@ -149,7 +148,7 @@ public class FormatTests
         key.direction = KeyDirection.ASC;
         key.parseFormat = "####";
         final KeyContext kx = Helper.dummyKeyContext("5   ");
-        key.format(kx);
+        key.pack(kx);
         verifyFormatted(new byte[]
         {
                 -128, 0, 0, 0, 0, 0, 0, 5
@@ -167,7 +166,7 @@ public class FormatTests
         key.direction = KeyDirection.ASC;
         key.parseFormat = "####";
         final KeyContext kx = Helper.dummyKeyContext("$-5,0");
-        key.format(kx);
+        key.pack(kx);
         verifyFormatted(new byte[]
         {
                 127, -1, -1, -1, -1, -1, -1, -50
@@ -185,7 +184,7 @@ public class FormatTests
         key.direction = KeyDirection.AASC;
         key.parseFormat = "####";
         final KeyContext kx = Helper.dummyKeyContext("-5");
-        key.format(kx);
+        key.pack(kx);
         verifyFormatted(new byte[]
         {
                 -128, 0, 0, 0, 0, 0, 0, 5
@@ -203,7 +202,7 @@ public class FormatTests
         key.direction = KeyDirection.ADESC;
         key.parseFormat = "####";
         final KeyContext kx = Helper.dummyKeyContext("-5");
-        key.format(kx);
+        key.pack(kx);
         verifyFormatted(new byte[]
         {
                 127, -1, -1, -1, -1, -1, -1, -5
@@ -221,7 +220,7 @@ public class FormatTests
         key.direction = KeyDirection.ASC;
         key.parseFormat = "####";
         final KeyContext kx = Helper.dummyKeyContext("-5");
-        key.format(kx);
+        key.pack(kx);
         verifyFormatted(new byte[]
         {
                 127, -1, -1, -1, -1, -1, -1, -5
@@ -239,7 +238,7 @@ public class FormatTests
         key.direction = KeyDirection.DESC;
         key.parseFormat = "####";
         final KeyContext kx = Helper.dummyKeyContext("-5");
-        key.format(kx);
+        key.pack(kx);
         verifyFormatted(new byte[]
         {
                 -128, 0, 0, 0, 0, 0, 0, 5
@@ -257,7 +256,7 @@ public class FormatTests
         key.direction = KeyDirection.ASC;
         key.parseFormat = "####";
         final KeyContext kx = Helper.dummyKeyContext(" -5");
-        key.format(kx);
+        key.pack(kx);
         verifyFormatted(new byte[]
         {
                 127, -1, -1, -1, -1, -1, -1, -5
@@ -275,7 +274,7 @@ public class FormatTests
         key.direction = KeyDirection.ASC;
         key.parseFormat = "####";
         final KeyContext kx = Helper.dummyKeyContext(" 5-");
-        key.format(kx);
+        key.pack(kx);
         verifyFormatted(new byte[]
         {
                 127, -1, -1, -1, -1, -1, -1, -5
@@ -293,7 +292,7 @@ public class FormatTests
         key.direction = KeyDirection.ASC;
         key.parseFormat = "####";
         final KeyContext kx = Helper.dummyKeyContext("$5,0");
-        key.format(kx);
+        key.pack(kx);
         verifyFormatted(new byte[]
         {
                 -128, 0, 0, 0, 0, 0, 0, 50
@@ -311,7 +310,7 @@ public class FormatTests
         key.direction = KeyDirection.AASC;
         key.parseFormat = "####";
         final KeyContext kx = Helper.dummyKeyContext("5");
-        key.format(kx);
+        key.pack(kx);
         verifyFormatted(new byte[]
         {
                 -128, 0, 0, 0, 0, 0, 0, 5
@@ -329,7 +328,7 @@ public class FormatTests
         key.direction = KeyDirection.ADESC;
         key.parseFormat = "####";
         final KeyContext kx = Helper.dummyKeyContext("5");
-        key.format(kx);
+        key.pack(kx);
         verifyFormatted(new byte[]
         {
                 127, -1, -1, -1, -1, -1, -1, -5
@@ -347,7 +346,7 @@ public class FormatTests
         key.direction = KeyDirection.ASC;
         key.parseFormat = "####";
         final KeyContext kx = Helper.dummyKeyContext("5");
-        key.format(kx);
+        key.pack(kx);
         verifyFormatted(new byte[]
         {
                 -128, 0, 0, 0, 0, 0, 0, 5
@@ -365,7 +364,7 @@ public class FormatTests
         key.direction = KeyDirection.DESC;
         key.parseFormat = "####";
         final KeyContext kx = Helper.dummyKeyContext("5");
-        key.format(kx);
+        key.pack(kx);
         verifyFormatted(new byte[]
         {
                 127, -1, -1, -1, -1, -1, -1, -5
@@ -379,10 +378,13 @@ public class FormatTests
 
         final List<String> in = new ArrayList<>();
         in.add("row 1000");
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("lengthMaxString", in);
 
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 130 -f10 --key(string -o0)" + Helper.DEFAULT_OPTIONS);
+                + " --max 130 -f10 "
+                + "--col(-n col1 string -o0)"
+                + "--orderby(col1)"
+                + Helper.DEFAULT_OPTIONS);
         Assert.assertEquals("key length", 255, context.keys.get(0).length);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -394,10 +396,13 @@ public class FormatTests
 
         final List<String> in = new ArrayList<>();
         in.add("row 1000");
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("lengthOverride", in);
 
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 130 -f10 --key(integer -o4 -l4 --format '###')" + Helper.DEFAULT_OPTIONS);
+                + " --max 130 -f10"
+                + " --col(--name col1 integer -o4 -l4 --format '###')"
+                + " --orderby(col1)"
+                + Helper.DEFAULT_OPTIONS);
         Assert.assertEquals("key length", 4, context.keys.get(0).length);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -409,10 +414,13 @@ public class FormatTests
 
         final List<String> in = new ArrayList<>();
         in.add("row 1000");
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("lengthUnspecified", in);
 
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 130 -f10 --key(integer -o4 --format '###')" + Helper.DEFAULT_OPTIONS);
+                + " --max 130 -f10"
+                + " --col(-n col1 integer -o4 --format '###')"
+                + "--orderby(col1)"
+                + Helper.DEFAULT_OPTIONS);
         Assert.assertEquals("key length", 3, context.keys.get(0).length);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -428,14 +436,20 @@ public class FormatTests
             in.add("row " + (r + 1000));
         }
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("offsetDefault", in);
         FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 130 -f10 --key(string)" + Helper.DEFAULT_OPTIONS);
-        Assert.assertEquals("key length", 0, context.keys.get(0).offset);
+                + " --max 130 -f10"
+                + " --col(-n col1 string)"
+                + " --orderby(col1)"
+                + Helper.DEFAULT_OPTIONS);
+        Assert.assertEquals("key offset", 0, context.keys.get(0).offset);
 
         context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 130 -f10 --key(string -o1)" + Helper.DEFAULT_OPTIONS);
-        Assert.assertEquals("key length", 1, context.keys.get(0).offset);
+                + " --max 130 -f10"
+                + " --col(-n col1 -o1 string)"
+                + " --orderby(col1)"
+                + Helper.DEFAULT_OPTIONS);
+        Assert.assertEquals("key offset", 1, context.keys.get(0).offset);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 }

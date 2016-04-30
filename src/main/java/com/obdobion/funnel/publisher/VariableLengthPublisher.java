@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import com.obdobion.funnel.App;
 import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.FunnelDataPublisher;
+import com.obdobion.funnel.columns.ColumnWriter;
 import com.obdobion.funnel.parameters.DuplicateDisposition;
 import com.obdobion.funnel.parameters.FunnelContext;
 import com.obdobion.funnel.segment.SourceProxyRecord;
@@ -19,7 +20,7 @@ import com.obdobion.funnel.segment.SourceProxyRecord;
  * @author Chris DeGreef
  *
  */
-abstract public class VariableLengthPublisher implements FunnelDataPublisher
+abstract public class VariableLengthPublisher implements FunnelDataPublisher, ColumnWriter
 {
     static final private Logger logger          = Logger.getLogger(VariableLengthPublisher.class);
     static final int            WriteBufferSize = 1 << 15;
@@ -164,7 +165,7 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher
         }
 
         originalFile.read(item.originalInputFileIndex, originalBytes, item.originalLocation, item.originalSize);
-        write(originalBytes, 0, item.originalSize);
+        context.formatOutHelper.format(this, originalBytes, item);
         write(context.endOfRecordOutDelimiter, 0, context.endOfRecordOutDelimiter.length);
         writeCount++;
         /*
@@ -188,7 +189,7 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher
         }
     }
 
-    void write (
+    public void write (
         final byte[] sourceBytes,
         final int off,
         final int len)

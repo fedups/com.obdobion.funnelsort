@@ -7,31 +7,18 @@
 		<url>http://sourceforge.net/p/funnelsort</url>
 	</organization>
 	<artifactId>funnel</artifactId>
-	<version>1.5.0</version>
+	<version>1.5.4</version>
 	<name>funnel</name>
 
-	<!-- 1.1.11 Removed the systemType argument for the newer more specific 
-		vlr argument -->
-	<!-- 1.1.12 changed vlr to eol and added eolOut -->
-	<!-- 1.1.12 Added spec files. dos2unix and unix2dos -->
-	<!-- 1.1.12 CSV support. csv(header <boolean>, separator <byte>, quote <byte>) -->
-	<!-- 1.1.12 key(field <0-relative #>) -->
-	<!-- 1.1.13 metermaid.master corruption after sort -->
-	<!-- 1.1.13 installation of funnel will be in the opt directory -->
-	<!-- 1.1.14 When funnel is embedded use the surrounding applications logger -->
-	<!-- 1.1.15 normalize the install -->
-	<!-- 1.3.18 multiple input files allowed -->
-	<!-- 1.4.19 where clause -->
-
-    <properties>
-        <java.target.version>1.7</java.target.version>
-        <java.source.version>1.7</java.source.version>
-        <junit.version>4.8.1</junit.version>
-        <log4j.version>1.2.17</log4j.version>
-        <argument.version>2.3.41</argument.version>
-        <algebrain.version>1.2.4</algebrain.version>
-        <project.build.sourceEncoding>Cp1252</project.build.sourceEncoding>
-    </properties>
+	<properties>
+		<java.target.version>1.8</java.target.version>
+		<java.source.version>1.8</java.source.version>
+		<junit.version>4.8.1</junit.version>
+		<log4j.version>1.2.17</log4j.version>
+		<argument.version>2.3.41</argument.version>
+		<algebrain.version>1.2.6</algebrain.version>
+		<project.build.sourceEncoding>Cp1252</project.build.sourceEncoding>
+	</properties>
 
 	<distributionManagement>
 		<repository>
@@ -59,14 +46,14 @@
 					<target>${java.target.version}</target>
 				</configuration>
 			</plugin>
-            <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>3.0.0</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.4</version>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.0.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
 				<configuration>
 					<attach>true</attach>
 				</configuration>
@@ -98,18 +85,22 @@
 
 			</plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19</version>
-            </plugin>
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.7</version>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.6</version>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.18</version>
+				<configuration>
+					<forkCount>5</forkCount>
+					<reuseForks>true</reuseForks>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.7</version>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.6</version>
 				<configuration>
 					<descriptors>
 						<descriptor>src/assembly/gz.xml</descriptor>
@@ -122,14 +113,14 @@
 				<artifactId>nsis-maven-plugin</artifactId>
 				<version>1.0-alpha-1</version>
 				<configuration>
-                    <makensisBin>C:\Program Files (x86)\NSIS\makensis.exe</makensisBin>
-                    <scriptFile>src/nsis/setup.nsi</scriptFile>
+					<makensisBin>C:\Program Files (x86)\NSIS\makensis.exe</makensisBin>
+					<scriptFile>src/nsis/setup.nsi</scriptFile>
 				</configuration>
 				<executions>
 					<execution>
 						<goals>
-                            <goal>generate-headerfile</goal>
-                            <goal>make</goal>
+							<goal>generate-headerfile</goal>
+							<goal>make</goal>
 						</goals>
 					</execution>
 				</executions>

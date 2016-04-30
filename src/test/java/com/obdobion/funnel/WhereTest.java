@@ -30,16 +30,19 @@ public class WhereTest
             in1.add("" + x);
         }
 
-        final File file = Helper.createUnsortedFile(in1);
+        final File file = Helper.createUnsortedFile("oneColumnWhere", in1);
 
         final FunnelContext context = Funnel.sort(file.getAbsolutePath()
                 + " --col(int -o0 -l5 -n zipCode)"
-                + " --where '(zipcode > 50000 && zipcode < 60000)'"
-                + " --key(int -o0 -l5 asc)"
+                + " --where 'zipcode = 50100'"
+                + " --orderby(zipcode asc)"
                 + " -r "
                 + Helper.DEFAULT_OPTIONS);
 
-        Assert.assertEquals("records", 99L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
+        final List<String> exp = new ArrayList<>();
+        exp.add("50100");
+        Helper.compare(file, exp);
 
         Assert.assertTrue(file.delete());
     }
@@ -56,7 +59,7 @@ public class WhereTest
             in1.add("" + x);
         }
 
-        final File file = Helper.createUnsortedFile(in1);
+        final File file = Helper.createUnsortedFile("selectOddNumberedRows", in1);
 
         final FunnelContext context = Funnel.sort(file.getAbsolutePath()
                 + " --where 'recordnumber % 2 = 1'"
@@ -80,15 +83,75 @@ public class WhereTest
             in1.add("" + x);
         }
 
-        final File file = Helper.createUnsortedFile(in1);
+        final File file = Helper.createUnsortedFile("columnDefinedWithinKey", in1);
 
         final FunnelContext context = Funnel.sort(file.getAbsolutePath()
-                + " --where '(zipcode > 50000 && zipcode < 60000)'"
-                + " --key(-n zipCode int -o0 -l5 asc)"
+                + " --where '(zipcode >= 50100 && zipcode <= 50200)'"
+                + " --col(-n zipCode int -o0 -l5)"
+                + "--orderby(zipcode desc)"
                 + " -r "
                 + Helper.DEFAULT_OPTIONS);
 
-        Assert.assertEquals("records", 99L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 2L, context.publisher.getWriteCount());
+        final List<String> exp = new ArrayList<>();
+        exp.add("50200");
+        exp.add("50100");
+        Helper.compare(file, exp);
+        Assert.assertTrue(file.delete());
+    }
+
+    @Test
+    public void fixedLengthSelectionOf2 ()
+            throws Throwable
+    {
+        Helper.initializeFor("TEST fixedLengthSelectionOf2");
+
+        final List<String> in1 = new ArrayList<>();
+        for (int x = 10000; x <= 99999; x += 100)
+        {
+            in1.add("" + x);
+        }
+
+        final File file = Helper.createUnsortedFile("fixedLengthSelectionOf2", in1);
+
+        final FunnelContext context = Funnel.sort(file.getAbsolutePath()
+                + " -f7 --variableout"
+                + " --where '(zipcode >= 50100 && zipcode <= 50200)'"
+                + " --col(-n zipCode int -o0 -l5)"
+                + " --format(zipcode)"
+                + "--orderby(zipcode desc)"
+                + " -r "
+                + Helper.DEFAULT_OPTIONS);
+
+        Assert.assertEquals("records", 2L, context.publisher.getWriteCount());
+        final List<String> exp = new ArrayList<>();
+        exp.add("50200");
+        exp.add("50100");
+        Helper.compare(file, exp);
+        Assert.assertTrue(file.delete());
+    }
+
+    @Test
+    public void whereIntEqualTo ()
+            throws Throwable
+    {
+        Helper.initializeFor("TEST whereIntEqualTo");
+
+        final List<String> in1 = new ArrayList<>();
+        for (int x = 10000; x <= 20000; x += 100)
+        {
+            in1.add("" + x);
+        }
+
+        final File file = Helper.createUnsortedFile("whereIntEqualTo", in1);
+
+        final FunnelContext context = Funnel.sort(file.getAbsolutePath()
+                + " --col(-n zipCode int -o0 -l5)"
+                + " --where 'zipcode = 10100'"
+                + " -r "
+                + Helper.DEFAULT_OPTIONS);
+
+        Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
 
         Assert.assertTrue(file.delete());
     }
@@ -105,16 +168,20 @@ public class WhereTest
             in1.add("" + x);
         }
 
-        final File file = Helper.createUnsortedFile(in1);
+        final File file = Helper.createUnsortedFile("fixedLength", in1);
 
         final FunnelContext context = Funnel.sort(file.getAbsolutePath()
                 + " --fixed 7 "
-                + " --where '(zipcode > 50000 && zipcode < 60000)'"
-                + " --key(-n zipCode int -o0 -l5 asc)"
+                + " --where 'zipcode = 50100'"
+                + " --col(-n zipCode int -o0 -l5)"
+                + " --orderby(zipcode asc)"
                 + " -r "
                 + Helper.DEFAULT_OPTIONS);
 
-        Assert.assertEquals("records", 99L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
+        final List<String> exp = new ArrayList<>();
+        exp.add("50100");
+        Helper.compare(file, exp);
 
         Assert.assertTrue(file.delete());
     }
@@ -131,7 +198,7 @@ public class WhereTest
             in1.add("" + x);
         }
 
-        final File file = Helper.createUnsortedFile(in1);
+        final File file = Helper.createUnsortedFile("sortOnColumn", in1);
 
         final FunnelContext context = Funnel.sort(file.getAbsolutePath()
                 + " --col(int -o0 -l5 -n zipCode)"
@@ -146,22 +213,69 @@ public class WhereTest
     }
 
     @Test
-    public void badOrderBySort ()
+    public void multiWhere ()
             throws Throwable
     {
-        Helper.initializeFor("TEST badOrderBySort");
-        try
+        Helper.initializeFor("TEST sortOnColumn");
+
+        final List<String> in1 = new ArrayList<>();
+        for (int x = 10000; x <= 99999; x += 100)
         {
-            Funnel.sort("*.notFound"
-                    + " --col(int -o0 -l5 -n zipCode)"
-                    + " --where '(zipcode > 50000 && zipcode < 60000)'"
-                    + " --orderby(zipCode asc) --key(int -o0 -l5)"
-                    + Helper.DEFAULT_OPTIONS);
-            Assert.fail("should have failed");
-        } catch (ParseException e)
-        {
-            Assert.assertEquals("--orderBy and --key can not be used in the same sort", e.getMessage());
+            in1.add("" + x);
         }
+
+        final File file = Helper.createUnsortedFile("sortOnColumn", in1);
+
+        final FunnelContext context = Funnel.sort(file.getAbsolutePath()
+                + " --col(int -o0 -l5 -n zipCode)"
+                + " --where 'zipcode > 50000' 'zipcode < 60000'"
+                + " --orderby(zipCode asc)"
+                + " -r "
+                + Helper.DEFAULT_OPTIONS);
+
+        Assert.assertEquals("records", 99L, context.publisher.getWriteCount());
+
+        Assert.assertTrue(file.delete());
+    }
+
+    @Test
+    public void badDataOnFirstRow ()
+            throws Throwable
+    {
+        Helper.initializeFor("TEST badDataOnFirstRow");
+
+        final List<String> in1 = new ArrayList<>();
+        in1.add("07/09/2010 10:59:47 07/09/2010 00:00:00 0080                                    "
+                + "10B0000001023080400000QQO       Tumber Hull L lc            1519     M0000033333");
+
+        final File file = Helper.createUnsortedFile("badDataOnFirstRow", in1);
+
+        final FunnelContext context = Funnel.sort(file.getAbsolutePath()
+                + " --fixed 80"
+                + " --columns"
+                + " (-n typeCode         integer --offset 0   --length 1)"
+                + " (-n typeStatus       String  --offset 1   --length 1)"
+                + " (-n typeInitial      String  --offset 2   --length 1)"
+                + " (-n lastModifiedTime integer --offset 3   --length 19)"
+                + " (-n initials         String  --offset 22  --length 10)"
+                + " (-n memberName       String  --offset 32  --length 28)"
+                + " (-n accountType      String  --offset 60  --length 1)"
+                + " (-n clearFirm        String  --offset 63  --length 3)"
+                + " (-n mailBox          String  --offset 67  --length 4)"
+                + " (-n recordType       String  --offset 68  --length 1)"
+                + " (-n role             String  --offset 60  --length 1)"
+                + " (-n membershipKey    Integer --offset 70  --length 10)"
+                + " --where \"rtrim(initials) = 'QQO'\""
+                + " -r "
+                + Helper.DEFAULT_OPTIONS);
+
+        Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
+
+        final List<String> exp = new ArrayList<>();
+        exp.add("10B0000001023080400000QQO       Tumber Hull L lc            1519     M0000033333");
+        Helper.compare(file, exp);
+
+        Assert.assertTrue(file.delete());
     }
 
     @Test

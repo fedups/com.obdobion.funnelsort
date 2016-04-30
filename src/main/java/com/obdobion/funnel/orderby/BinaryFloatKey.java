@@ -18,13 +18,13 @@ public class BinaryFloatKey extends KeyPart
     }
 
     @Override
-    public void format (final KeyContext _context) throws Exception
+    public void pack (final KeyContext _context) throws Exception
     {
         Double _doubleValue = (Double) parseObjectFromRawData(_context);
         formatObjectIntoKey(_context, _doubleValue);
 
         if (nextPart != null)
-            nextPart.format(_context);
+            nextPart.pack(_context);
     }
 
     private void formatObjectIntoKey (final KeyContext _context, Double _doubleValue)

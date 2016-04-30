@@ -93,8 +93,8 @@ public class Funnel
      * @throws Exception
      */
     static public FunnelContext sort (
-        final String... args)
-        throws Throwable
+            final String... args)
+            throws Throwable
     {
         Equ.getInstance(true);
         FunnelContext context = null;
@@ -148,10 +148,10 @@ public class Funnel
 
                 logger.debug(Runtime.getRuntime().availableProcessors() + " available processors");
                 logger.debug("memory used "
-                    + ByteFormatter.format(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())
-                            .trim() + " free " + ByteFormatter.format(Runtime.getRuntime().freeMemory()).trim()
-                    + " total " + ByteFormatter.format(Runtime.getRuntime().totalMemory()).trim() + " max "
-                    + ByteFormatter.format(Runtime.getRuntime().maxMemory()).trim());
+                        + ByteFormatter.format(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())
+                                .trim() + " free " + ByteFormatter.format(Runtime.getRuntime().freeMemory()).trim()
+                        + " total " + ByteFormatter.format(Runtime.getRuntime().totalMemory()).trim() + " max "
+                        + ByteFormatter.format(Runtime.getRuntime().maxMemory()).trim());
             }
 
         } catch (final Exception e)
@@ -223,7 +223,7 @@ public class Funnel
      * @return
      */
     FunnelItem contestantOne (
-        final int winnersCircle)
+            final int winnersCircle)
     {
         final int c = winnersCircle * 2 + 2;
         if (c > entryRowStart)
@@ -239,7 +239,7 @@ public class Funnel
      * @return
      */
     FunnelItem contestantTwo (
-        final int winnersCircle)
+            final int winnersCircle)
     {
         final int c = winnersCircle * 2 + 1;
         if (c > entryRowStart)
@@ -269,7 +269,7 @@ public class Funnel
      * @param phase
      */
     void initializePhase (
-        final long phase)
+            final long phase)
     {
         for (final FunnelItem item : getItems())
         {
@@ -309,7 +309,7 @@ public class Funnel
      * @param provider
      */
     void populateFunnel (
-        final FunnelDataProvider provider)
+            final FunnelDataProvider provider)
     {
         /*
          * Apply data provider to the top of the funnel.
@@ -377,7 +377,7 @@ public class Funnel
      * @throws Exception
      */
     void process ()
-        throws Exception
+            throws Exception
     {
         assert context.provider != null : "provider must not be null";
         assert context.publisher != null : "publisher must not be null";
@@ -388,13 +388,19 @@ public class Funnel
         FunnelDataProvider passProvider;
         FunnelDataPublisher passPublisher = null;
 
+        long passOneRowCount = 0;
+
         long passStartMS = 0;
         long passInitializedMS = 0;
         long passEndMS = 0;
 
+        long passStartNano = 0;
+        long passEndNano = 0;
+
         while (passPublisher != context.publisher)
         {
             passStartMS = System.currentTimeMillis();
+            passStartNano = System.nanoTime();
 
             passCount++;
 
@@ -451,18 +457,43 @@ public class Funnel
                 if (!inorder && passPublisher == context.publisher)
                 {
                     throw new Exception("Sort failure. Check provider max rows ("
-                        + context.provider.maximumNumberOfRows() + ") and power (" + context.depth + ").");
+                            + context.provider.maximumNumberOfRows() + ") and power (" + context.depth + ").");
                 }
             }
             passProvider.close();
             passPublisher.close();
 
             passEndMS = System.currentTimeMillis();
+            passEndNano = System.nanoTime();
 
-            if (logger.isDebugEnabled())
-                logger.debug("pass " + passCount + ") init=" + (passInitializedMS - passStartMS) + "ms" + " IO="
-                    + (passEndMS - passInitializedMS) + "ms" + " rows=" + passProvider.actualNumberOfRows()
-                    + " phases=" + (phase - 1));
+            if (passOneRowCount == 0)
+                passOneRowCount = passProvider.actualNumberOfRows();
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("pass(").append(passCount).append(")");
+            sb.append(" init(").append((passInitializedMS - passStartMS)).append("ms)");
+            sb.append(" io(").append((passEndMS - passInitializedMS)).append("ms)");
+            sb.append(" rows(").append(passProvider.actualNumberOfRows()).append(")");
+            sb.append(" phases(").append(phase - 1).append(")");
+
+            logger.debug(sb.toString());
+        }
+        if (passOneRowCount > 0)
+        {
+            long perRowMS = (passEndMS - passStartMS) / passOneRowCount;
+            long perRowNano = (passEndNano - passStartNano) / passOneRowCount;
+
+            StringBuilder sb = new StringBuilder();
+            if (perRowMS > 0)
+            {
+                sb.append("perRow(").append(perRowMS).append(" ms)");
+                sb.append(" rowsPerSecond(").append(1000L / perRowNano).append(")");
+            } else
+            {
+                sb.append("perRow(").append(perRowNano).append(" nano)");
+                sb.append(" rowsPerSecond(").append(1000000000L / perRowNano).append(")");
+            }
+            logger.info(sb.toString());
         }
     }
 

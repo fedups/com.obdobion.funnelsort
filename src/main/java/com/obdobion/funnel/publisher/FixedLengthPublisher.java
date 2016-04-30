@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import com.obdobion.funnel.App;
 import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.FunnelDataPublisher;
+import com.obdobion.funnel.columns.ColumnWriter;
 import com.obdobion.funnel.parameters.DuplicateDisposition;
 import com.obdobion.funnel.parameters.FunnelContext;
 import com.obdobion.funnel.segment.SourceProxyRecord;
@@ -19,7 +20,7 @@ import com.obdobion.funnel.segment.SourceProxyRecord;
  * @author Chris DeGreef
  *
  */
-abstract public class FixedLengthPublisher implements FunnelDataPublisher
+abstract public class FixedLengthPublisher implements FunnelDataPublisher, ColumnWriter
 {
     static final private Logger logger          = Logger.getLogger(FixedLengthPublisher.class);
     static final int            WriteBufferSize = 1 << 15;
@@ -145,7 +146,7 @@ abstract public class FixedLengthPublisher implements FunnelDataPublisher
          * Get original data and write it to the output file.
          */
         originalFile.read(item.originalInputFileIndex, originalBytes, item.originalLocation, item.originalSize);
-        write(originalBytes);
+        context.formatOutHelper.format(this, originalBytes, item);
         writeCount++;
         /*
          * Return the instance for reuse.
@@ -165,11 +166,13 @@ abstract public class FixedLengthPublisher implements FunnelDataPublisher
             previousData.release();
     }
 
-    void write (
-        final byte[] _originalBytes)
+    public void write (
+            final byte[] _originalBytes,
+            int offset,
+            int length)
         throws IOException
     {
-        final int sizeThisTime = _originalBytes.length;
+        final int sizeThisTime = length;
 
         if (sizeThisTime + bb.position() >= WriteBufferSize)
         {

@@ -37,14 +37,14 @@ public class InputTest
             sb.append(outline).append(System.getProperty("line.separator"));
         }
 
-        final File file = Helper.createUnsortedFile(out);
+        final File file = Helper.createUnsortedFile("dos2unix", out);
 
         final FunnelContext context = Funnel.sort(file.getAbsolutePath()
                 + " --replace --max 2 -c original --eol CR LF --eolOut LF" + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
-        // file.delete();
+        file.delete();
     }
 
     @Test
@@ -63,7 +63,13 @@ public class InputTest
 
         final FunnelContext context = Funnel.sort("-f6--max 2 " + Helper.DEFAULT_OPTIONS);
         Assert.assertEquals("records", 0L, context.provider.actualNumberOfRows());
-        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+        outputStream.close();
+        try
+        {
+            file.delete();
+        } catch (Exception e)
+        {//
+        }
     }
 
     @Test
@@ -82,7 +88,13 @@ public class InputTest
 
         final FunnelContext context = Funnel.sort("" + Helper.DEFAULT_OPTIONS);
         Assert.assertEquals("records", 0L, context.provider.actualNumberOfRows());
-        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+        outputStream.close();
+        try
+        {
+            file.delete();
+        } catch (Exception e)
+        {//
+        }
     }
 
     @Test
@@ -110,7 +122,12 @@ public class InputTest
 
         Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
-        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+        try
+        {
+            file.delete();
+        } catch (Exception e)
+        {//
+        }
     }
 
     @Test
@@ -130,7 +147,13 @@ public class InputTest
         final FunnelContext context = Funnel.sort("-f6--max 2 -c original" + Helper.DEFAULT_OPTIONS);
         Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
         Helper.compareFixed(file, out);
-        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+        try
+        {
+            outputStream.close();
+            file.delete();
+        } catch (Exception e)
+        {//
+        }
     }
 
     @Test
@@ -149,7 +172,7 @@ public class InputTest
 
         try
         {
-            Funnel.sort("--replace -f6--max 2 -k(S)" + Helper.DEFAULT_OPTIONS);
+            Funnel.sort("--replace -f6--max 2 --col(S -nS) --o(S)" + Helper.DEFAULT_OPTIONS);
             Assert.fail("Expected error");
         } catch (final ParseException e)
         {
@@ -159,7 +182,13 @@ public class InputTest
                     e.getMessage());
         } finally
         {
-            Assert.assertFalse("delete " + file.getAbsolutePath(), file.delete());
+            outputStream.close();
+            try
+            {
+                file.delete();
+            } catch (Exception e)
+            {//
+            }
         }
     }
 
@@ -178,7 +207,7 @@ public class InputTest
             sb.append(outline).append(System.getProperty("line.separator"));
         }
 
-        final File file = Helper.createUnsortedFile(out);
+        final File file = Helper.createUnsortedFile("replaceInput", out);
 
         final FunnelContext context = Funnel.sort(file.getAbsolutePath()
                 + " --replace --max 2 -c original --eol CR LF" + Helper.DEFAULT_OPTIONS);
@@ -204,7 +233,7 @@ public class InputTest
 
         try
         {
-            Funnel.sort("--replace -f6--max 2 -k(String)" + Helper.DEFAULT_OPTIONS);
+            Funnel.sort("--replace -f6--max 2 --col(-nc String) --o(c)" + Helper.DEFAULT_OPTIONS);
             Assert.fail("Expected error");
         } catch (final ParseException e)
         {
@@ -214,7 +243,14 @@ public class InputTest
                     e.getMessage());
         } finally
         {
-            Assert.assertFalse("delete " + file.getAbsolutePath(), file.delete());
+            outputStream.close();
+            try
+            {
+                file.delete();
+            } catch (Exception e)
+            {//
+            }
+
         }
     }
 
@@ -270,6 +306,13 @@ public class InputTest
 
         Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
-        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+        outputStream.close();
+        try
+        {
+            file.delete();
+        } catch (Exception e)
+        {//
+        }
+
     }
 }

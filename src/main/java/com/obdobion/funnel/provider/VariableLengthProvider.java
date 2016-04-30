@@ -170,14 +170,15 @@ public class VariableLengthProvider implements FunnelDataProvider
                     break;
                 }
 
-                context.columnHelper.extract(row, recordNumber, byteCount);
                 if (!isRowSelected(byteCount))
                 {
                     recordNumber++;
                     continue;
                 }
 
-                if (!context.columnHelper.whereIsTrue())
+                preSelectionExtract(byteCount);
+
+                if (!context.whereIsTrue())
                 {
                     recordNumber++;
                     unselectedCount++;
@@ -228,6 +229,11 @@ public class VariableLengthProvider implements FunnelDataProvider
 
         item.setData(wrapped);
         return true;
+    }
+
+    void preSelectionExtract (int byteCount) throws Exception
+    {
+        context.columnHelper.extract(context, row, recordNumber, byteCount);
     }
 
     /**

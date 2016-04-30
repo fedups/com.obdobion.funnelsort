@@ -37,10 +37,11 @@ public class BigTest
             expectedOut.add("" + x);
         }
 
-        final File file = Helper.createUnsortedFile(in1);
+        final File file = Helper.createUnsortedFile("oneBigFile", in1);
 
         final FunnelContext context = Funnel.sort(file.getAbsolutePath()
-                + " --key(int -o0 -l7 desc)"
+                + " --col(int -o0 -l7 -n col1)"
+                + " --orderby(col1 desc)"
                 + " -o "
                 + output.getAbsolutePath()
                 + " --pow 8 --cacheWork --cacheInput"

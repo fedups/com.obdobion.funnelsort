@@ -148,12 +148,6 @@ public class CommandLineOptionsTest
     }
 
     @Test
-    public void defineInputFileExact () throws Exception
-    {
-        ctx = new FunnelContext("C:/tmp/funnel.3339840198501934555.in -r ");
-    }
-
-    @Test
     public void version () throws Exception
     {
         System.setProperty("version", "1.2.3");

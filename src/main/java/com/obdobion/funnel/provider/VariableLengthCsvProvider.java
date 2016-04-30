@@ -35,20 +35,21 @@ public class VariableLengthCsvProvider extends VariableLengthProvider
     public VariableLengthCsvProvider(final FunnelContext _context) throws IOException, ParseException
     {
         super(_context);
-        if (_context == null || _context.keys == null)
+        if (_context == null || _context.inputColumnDefs == null)
             return;
         /*
          * Find out which fields we really care about. No sense in moving around
          * bytes or analyzing fields we ultimately won't care about.
          */
         int highestKeyedColumnNumber = -1;
-        for (final KeyPart kdef : _context.keys)
+
+        for (final KeyPart kdef : _context.inputColumnDefs)
         {
             if (kdef.csvFieldNumber > highestKeyedColumnNumber)
                 highestKeyedColumnNumber = kdef.csvFieldNumber;
         }
         includeColumn = new boolean[highestKeyedColumnNumber + 1];
-        for (final KeyPart kdef : _context.keys)
+        for (final KeyPart kdef : _context.inputColumnDefs)
             includeColumn[kdef.csvFieldNumber] = true;
     }
 
@@ -135,6 +136,13 @@ public class VariableLengthCsvProvider extends VariableLengthProvider
             return false;
         }
         return true;
+    }
+
+    @Override
+    void preSelectionExtract (int byteCount) throws Exception
+    {
+        final byte[][] data = decodeCsv(row, byteCount, context.csv.quoteByte, context.csv.separatorByte);
+        context.columnHelper.extract(context, data, recordNumber, byteCount);
     }
 
     @Override

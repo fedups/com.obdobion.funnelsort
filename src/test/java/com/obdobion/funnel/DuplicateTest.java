@@ -18,7 +18,7 @@ public class DuplicateTest
 {
     @Test
     public void dupsFirst ()
-        throws Throwable
+            throws Throwable
     {
         Helper.initializeFor("TEST dupsFirst");
 
@@ -30,9 +30,12 @@ public class DuplicateTest
         final List<String> out = new ArrayList<>();
         out.add(in.get(0));
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("dupsFirst", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-            + " --max 130 -f10 -k(String -o0,-l3) --dup firstonly" + Helper.DEFAULT_OPTIONS);
+                + " --max 130 -f10"
+                + "--col(String -o0,-l3 -n col1)"
+                + "--orderby(col1) "
+                + "--dup firstonly" + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 130L, context.provider.actualNumberOfRows());
         Assert.assertEquals("dups", 129L, context.publisher.getDuplicateCount());
@@ -43,7 +46,7 @@ public class DuplicateTest
 
     @Test
     public void dupsLast ()
-        throws Throwable
+            throws Throwable
     {
         Helper.initializeFor("TEST dupsLast");
 
@@ -55,9 +58,12 @@ public class DuplicateTest
         final List<String> out = new ArrayList<>();
         out.add(in.get(129));
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("dupsLast", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-            + " --max 130 -f10 -k(String -o0,-l3) --dup lastonly" + Helper.DEFAULT_OPTIONS);
+                + " --max 130 -f10"
+                + "--col(String -o0,-l3 -n col1)"
+                + "--orderby(col1) "
+                + "--dup lastonly" + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 130L, context.provider.actualNumberOfRows());
         Assert.assertEquals("dups", 129L, context.publisher.getDuplicateCount());
@@ -68,9 +74,9 @@ public class DuplicateTest
 
     @Test
     public void dupsReverse ()
-        throws Throwable
+            throws Throwable
     {
-        Helper.initializeFor("TEST dupsFirst");
+        Helper.initializeFor("TEST dupsReverse");
 
         final List<String> in = new ArrayList<>();
         for (int r = 0; r < 130; r++)
@@ -84,9 +90,12 @@ public class DuplicateTest
             out.add("row " + (r + 1000));
         }
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("dupsReverse", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-            + " --max 130 -f10 -k(String -o0,-l3) --dup reverse" + Helper.DEFAULT_OPTIONS);
+                + " --max 130 -f10 "
+                + "--col(String -o0,-l3 -n col1)"
+                + "--orderby(col1) "
+                + "--dup reverse" + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 130L, context.provider.actualNumberOfRows());
         Assert.assertEquals("dups", 129L, context.publisher.getDuplicateCount());

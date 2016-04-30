@@ -13,7 +13,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.obdobion.Helper;
-import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.parameters.FunnelContext;
 import com.obdobion.funnel.provider.VariableLengthCsvProvider;
 
@@ -24,6 +23,8 @@ import com.obdobion.funnel.provider.VariableLengthCsvProvider;
 @SuppressWarnings("deprecation")
 public class CsvTest
 {
+
+    static private String csvColumns = " --col(Int --field 0 -n Number)(String --field 1 -n A)(String --field 2 -n B) ";
     static private List<String> csvInput ()
     {
         final List<String> in = new ArrayList<>();
@@ -61,7 +62,9 @@ public class CsvTest
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
-        final FunnelContext context = Funnel.sort("--csv() --key(I, --fi 1)(S --fi 0) --max 2 --eol cr,lf "
+        final FunnelContext context = Funnel.sort("--csv() --max 2 --eol cr,lf "
+                + "--col(I, --fi 1 -n field1)(S --fi 0 -n field0) "
+                + "--orderBy (field1)(field0)"
                 + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
@@ -90,7 +93,9 @@ public class CsvTest
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
-        final FunnelContext context = Funnel.sort("--csv(-q'\"'-s',') --key(I, --fi 1) --max 2 --eol cr,lf "
+        final FunnelContext context = Funnel.sort("--csv(-q'\"'-s',') "
+                + "--col(String -f0 -nA)(Int -f1 -nB)"
+                + "--orderBy(A desc) --max 2 --eol cr,lf "
                 + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
@@ -121,7 +126,9 @@ public class CsvTest
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
-        final FunnelContext context = Funnel.sort("--csv(-h) --key(I, --fi 1) --max 2 --eol cr,lf "
+        final FunnelContext context = Funnel.sort("--csv(-h) "
+                + "--col(String -f0 -nletters)(Int -f1 -nnumbers) "
+                + "--orderBy(numbers) --max 2 --eol cr,lf "
                 + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
@@ -211,7 +218,10 @@ public class CsvTest
         Helper.initializeFor("TEST keyCsvField");
         try
         {
-            Funnel.sort("--csv () -k (string --field 0)(date --field 1)" + Helper.DEFAULT_OPTIONS);
+            Funnel.sort("--csv () "
+                    + "--col(String -f0 -na)(Date -f1 -nd)"
+                    + "--orderBy (a)(d)"
+                    + Helper.DEFAULT_OPTIONS);
         } catch (final ParseException pe)
         {
             Assert.fail(pe.getMessage());
@@ -224,7 +234,9 @@ public class CsvTest
         Helper.initializeFor("TEST keyCsvFieldsOnNonCsvFile");
         try
         {
-            Funnel.sort("-k (string --field 0)(date --field 1)" + Helper.DEFAULT_OPTIONS);
+            Funnel.sort(csvColumns +
+                    "--orderBy (Number)(A)"
+                    + Helper.DEFAULT_OPTIONS);
             Assert.fail("Expected a ParseException");
 
         } catch (final ParseException pe)
@@ -239,7 +251,7 @@ public class CsvTest
         Helper.initializeFor("TEST normalKeysOnCsvFile");
         try
         {
-            Funnel.sort("--csv() -k (string -o0)" + Helper.DEFAULT_OPTIONS);
+            Funnel.sort("--csv() --col(String -o0 -n Name) --orderBy(Name)" + Helper.DEFAULT_OPTIONS);
             Assert.fail("Expected a ParseException");
 
         } catch (final ParseException pe)
@@ -254,7 +266,7 @@ public class CsvTest
         Helper.initializeFor("TEST repeatedField");
         try
         {
-            Funnel.sort("--csv() -k (string --fi 1)(string --fi 0)(string --fi 0)" + Helper.DEFAULT_OPTIONS);
+            Funnel.sort("--csv() " + csvColumns + "--orderBy (A)(Number)(Number)" + Helper.DEFAULT_OPTIONS);
             Assert.fail("Expected a ParseException");
 
         } catch (final ParseException pe)
@@ -283,9 +295,12 @@ public class CsvTest
         out.add("2,a,bb");
         out.add("1,a,b");
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("sortField0Desc", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --csv() -k(integer --field 0 desc)" + Helper.DEFAULT_OPTIONS);
+                + " --csv() "
+                + csvColumns
+                + "--orderBy(Number desc)"
+                + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 10L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -312,9 +327,11 @@ public class CsvTest
         out.add("9,aaaa,b");
         out.add("10,aaaaa,b");
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("sortField1Asc", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --csv() -k(String --field 1)" + Helper.DEFAULT_OPTIONS);
+                + " --csv() "
+                + csvColumns
+                + "--orderBy(A)" + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 10L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -341,9 +358,11 @@ public class CsvTest
         out.add("5,a,bbbbb");
         out.add("6,a,b");
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("sortField1Desc", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --csv() -k(String --field 1 desc)" + Helper.DEFAULT_OPTIONS);
+                + " --csv() "
+                + csvColumns
+                + "--orderBy(A desc)" + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 10L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -370,9 +389,13 @@ public class CsvTest
         out.add("4,a,bbbb");
         out.add("5,a,bbbbb");
 
-        final File file = Helper.createUnsortedFile(in);
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --csv() -k(String --field 2)" + Helper.DEFAULT_OPTIONS);
+        final File file = Helper.createUnsortedFile("sortField2Asc", in);
+        final FunnelContext context = Funnel.sort(
+                file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+                        + "--csv() "
+                        + csvColumns
+                        + "--orderBy (B) "
+                        + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 10L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -399,9 +422,11 @@ public class CsvTest
         out.add("9,aaaa,b");
         out.add("10,aaaaa,b");
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("sortField2Desc", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --csv() -k(String --field 2 desc)" + Helper.DEFAULT_OPTIONS);
+                + " --csv() "
+                + csvColumns
+                + "--orderBy(B desc)" + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 10L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -412,7 +437,7 @@ public class CsvTest
     public void sortOnTwoFieldsAsc () throws Throwable
     {
 
-        Helper.initializeFor("TEST sortField2Asc");
+        Helper.initializeFor("TEST sortOnTwoFieldsAsc");
 
         final List<String> in = csvInput();
 
@@ -428,9 +453,12 @@ public class CsvTest
         out.add("4,a,bbbb");
         out.add("5,a,bbbbb");
 
-        final File file = Helper.createUnsortedFile(in);
+        final File file = Helper.createUnsortedFile("sortOnTwoFieldsAsc", in);
         final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --csv() -k(String --field 2)(Integer --field 0 desc)" + Helper.DEFAULT_OPTIONS);
+                + " --csv() "
+                + csvColumns
+                + "--orderBy(B)(Number desc)"
+                + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 10L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);

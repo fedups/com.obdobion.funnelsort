@@ -75,7 +75,7 @@ public class KeyHelper
         context.rawRecordBytes[0] = data;
         context.recordNumber = recordNumber;
 
-        formatter.format(context);
+        formatter.pack(context);
 
         context.rawRecordBytes = null;
         return context;
@@ -103,7 +103,7 @@ public class KeyHelper
         context.rawRecordBytes = data;
         context.recordNumber = recordNumber;
 
-        formatter.format(context);
+        formatter.pack(context);
 
         context.rawRecordBytes = null;
         return context;
@@ -117,12 +117,13 @@ public class KeyHelper
         context.rawRecordBytes[0] = data.getBytes();
         context.recordNumber = recordNumber;
 
-        formatter.format(context);
+        formatter.pack(context);
 
         context.rawRecordBytes = null;
         return context;
     }
 
+    @SuppressWarnings("incomplete-switch")
     public void setUpAsCopy (final FunnelContext funnelContext)
     {
         switch (funnelContext.copyOrder)

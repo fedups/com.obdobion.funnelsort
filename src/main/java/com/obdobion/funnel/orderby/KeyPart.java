@@ -1,5 +1,9 @@
 package com.obdobion.funnel.orderby;
 
+import java.io.ByteArrayOutputStream;
+
+import com.obdobion.funnel.segment.SourceProxyRecord;
+
 /**
  * @author Chris DeGreef
  * 
@@ -31,7 +35,7 @@ abstract public class KeyPart
             nextPart.add(anotherFormatter);
     }
 
-    abstract public void format (KeyContext context) throws Exception;
+    abstract public void pack (KeyContext context) throws Exception;
 
     abstract public Object parseObjectFromRawData (final KeyContext context) throws Exception;
 
@@ -83,5 +87,24 @@ abstract public class KeyPart
         myCopy.direction = direction;
         myCopy.columnName = columnName;
         return myCopy;
+    }
+
+    public void originalData (final KeyContext context,  SourceProxyRecord proxyRecord, ByteArrayOutputStream outputBytes)
+    {
+        final byte[] rawBytes = rawBytes(context);
+
+        int lengthThisTime = length;
+        if (proxyRecord.originalSize < offset + length)
+            lengthThisTime = proxyRecord.originalSize - offset;
+
+        outputBytes.write(rawBytes, offset, lengthThisTime);
+        if (context.keyLength > lengthThisTime)
+        {
+            for (int x = 0; x < context.keyLength - lengthThisTime; x++)
+                outputBytes.write(' ');
+        }
+
+        if (nextPart != null)
+            nextPart.originalData(context, proxyRecord, outputBytes);
     }
 }

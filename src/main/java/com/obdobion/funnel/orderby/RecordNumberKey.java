@@ -24,13 +24,13 @@ public class RecordNumberKey extends KeyPart
     }
 
     @Override
-    public void format (final KeyContext context) throws Exception
+    public void pack (final KeyContext context) throws Exception
     {
         Long longValue = (Long) parseObjectFromRawData(context);
         formatObjectIntoKey(context, longValue);
 
         if (nextPart != null)
-            nextPart.format(context);
+            nextPart.pack(context);
     }
 
     private void formatObjectIntoKey (final KeyContext context, Long _longValue)

@@ -77,7 +77,7 @@ Section "FunnelSort"
     File ..\..\..\calendar\target\calendar-${CALENDAR_VERSION}.jar
     
     FileOpen $9 funnel.bat w
-    FileWrite $9 "java -Dlog4j.configuration=$\"$INSTDIR\log4j.xml$\" -jar $\"$INSTDIR\funnel-${PROJECT_VERSION}.jar$\" %*$\r$\n"
+    FileWrite $9 "java -Dversion=${PROJECT_VERSION} -DspecPath=$\"$INSTDIR\scripts$\" -Dlog4j.configuration=$\"$INSTDIR\log4j.xml$\" -jar $\"$INSTDIR\funnel-${PROJECT_VERSION}.jar$\" %*$\r$\n"
     FileClose $9
     
     ${EnvVarUpdate} $0 "PATH" "A" "HKLM" $INSTDIR

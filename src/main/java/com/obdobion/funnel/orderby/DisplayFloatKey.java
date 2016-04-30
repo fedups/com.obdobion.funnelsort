@@ -16,13 +16,13 @@ public class DisplayFloatKey extends KeyPart
     }
 
     @Override
-    public void format (final KeyContext context) throws Exception
+    public void pack (final KeyContext context) throws Exception
     {
         Double doubleValue = (Double) parseObjectFromRawData(context);
         formatObjectIntoKey(context, doubleValue);
 
         if (nextPart != null)
-            nextPart.format(context);
+            nextPart.pack(context);
     }
 
     private void formatObjectIntoKey (final KeyContext context, Double _doubleValue)
