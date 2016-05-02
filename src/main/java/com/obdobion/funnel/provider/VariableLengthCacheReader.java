@@ -28,7 +28,8 @@ public class VariableLengthCacheReader implements InputReader
     public void close ()
         throws IOException
     {
-        // Intentionally empty
+        // intentionally. Cached input is opened and closed when the instance is
+        // made.
     }
 
     public long length ()
@@ -45,9 +46,9 @@ public class VariableLengthCacheReader implements InputReader
         logger.debug("loaded " + context.getInputFile(context.inputFileIndex()).getAbsolutePath());
     }
 
-    public void open (final File inputFile)
+    public void open (final File inputFile) throws IOException
     {
-        // intentionally empty
+        throw new IOException("the cacheInput option is not allowed with multiple input files");
     }
 
     public long position ()

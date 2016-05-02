@@ -12,7 +12,7 @@
 	</appender>
 
 	<category name="com.obdobion">
-		<priority value="INFO" />
+		<priority value="TRACE" />
 	</category>
 
 	<category name="org">

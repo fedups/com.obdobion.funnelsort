@@ -45,7 +45,7 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
     public void actAsProvider ()
     {
         provider = true;
-        logger.debug("switched from publisher to provider");
+        logger.trace("switched from publisher to provider");
     }
 
     public long actualNumberOfRows ()
@@ -148,6 +148,11 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
         return true;
     }
 
+    public void reset ()
+    {
+        // intentionally empty
+    }
+
     /**
      * @param data
      * @param phase
@@ -170,11 +175,6 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
      * @param comparator
      */
     public void setComparator (final Comparator<SourceProxyRecord> comparator)
-    {
-        // intentionally empty
-    }
-
-    public void reset ()
     {
         // intentionally empty
     }

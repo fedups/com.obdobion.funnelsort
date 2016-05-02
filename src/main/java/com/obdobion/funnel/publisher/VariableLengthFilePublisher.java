@@ -33,13 +33,13 @@ public class VariableLengthFilePublisher extends VariableLengthPublisher
         ((RandomAccessFile) writer).close();
 
         if (context.outputFile.delete())
-            logger.debug("deleted " + context.outputFile.getAbsolutePath());
+            logger.trace("deleted " + context.outputFile.getAbsolutePath());
 
         if (!sortedTempFile.renameTo(context.outputFile))
             throw new IOException("failed to rename " + sortedTempFile.getAbsolutePath() + " to "
                 + context.outputFile.getAbsolutePath());
 
-        logger.debug("renamed " + sortedTempFile.getAbsolutePath() + " to " + context.outputFile.getAbsolutePath());
+        logger.trace("renamed " + sortedTempFile.getAbsolutePath() + " to " + context.outputFile.getAbsolutePath());
 
     }
 

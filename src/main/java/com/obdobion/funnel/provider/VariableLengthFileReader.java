@@ -89,6 +89,13 @@ public class VariableLengthFileReader implements InputReader
 
         int rowNextPointer = 0;
         int sepNextPointer = 0;
+
+        /*
+         * Clear the row before reading.
+         */
+        for (int b = 0; b < row.length; b++)
+            row[b] = 0x00;
+
         for (rowNextPointer = 0;; bbNextPointer++)
         {
             /*

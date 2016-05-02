@@ -7,7 +7,7 @@ import org.apache.log4j.xml.DOMConfigurator;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class App
 {
@@ -15,7 +15,7 @@ public class App
      * @param code
      * @param ex
      */
-    static public void abort (int code, Exception ex)
+    static public void abort (final int code, final Exception ex)
     {
         ex.printStackTrace();
         System.exit(code);

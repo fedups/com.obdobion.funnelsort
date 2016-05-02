@@ -5,7 +5,6 @@ import java.text.ParseException;
 
 import org.apache.log4j.Logger;
 
-import com.obdobion.funnel.App;
 import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.FunnelDataProvider;
 import com.obdobion.funnel.FunnelItem;
@@ -189,7 +188,8 @@ public class VariableLengthProvider implements FunnelDataProvider
 
         } catch (final Exception e)
         {
-            App.abort(-1, e);
+            logger.fatal(e.getMessage(), e);
+            throw new IOException(e.getMessage(), e);
         }
         if (byteCount == -1)
         {
@@ -231,11 +231,6 @@ public class VariableLengthProvider implements FunnelDataProvider
         return true;
     }
 
-    void preSelectionExtract (int byteCount) throws Exception
-    {
-        context.columnHelper.extract(context, row, recordNumber, byteCount);
-    }
-
     /**
      * @param byteCount
      * @return
@@ -254,6 +249,11 @@ public class VariableLengthProvider implements FunnelDataProvider
             throw new IOException(e);
         }
         return kContext;
+    }
+
+    void preSelectionExtract (final int byteCount) throws Exception
+    {
+        context.columnHelper.extract(context, row, recordNumber, byteCount);
     }
 
     public void reset () throws IOException, ParseException
