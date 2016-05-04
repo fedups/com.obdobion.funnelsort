@@ -19,7 +19,7 @@ public class CompareTests
     static private SourceProxyRecord dummySourceProxyRecord (final KeyContext kx1, final int keySize)
     {
 
-        final SourceProxyRecord spr1 = SourceProxyRecord.getInstance();
+        final SourceProxyRecord spr1 = SourceProxyRecord.getInstance(null);
         spr1.originalLocation = 0;
         spr1.originalRecordNumber = 0;
         spr1.originalSize = 0;

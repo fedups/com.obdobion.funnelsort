@@ -27,20 +27,20 @@ public class CommandLineOptionsTest
         Assert.assertFalse("cacheInput", ctx.cacheInput);
     }
 
-    /**
-     * -tBoolean -k cacheWork --var cacheWork --def false
-     */
     @Test
     public void defineCacheWork () throws Exception
     {
         ctx = new FunnelContext();
-        Assert.assertFalse("default cacheWork", ctx.cacheWork);
+        Assert.assertFalse("default diskWork", ctx.diskWork);
+        Assert.assertTrue("default isCacheWork", ctx.isCacheWork());
 
-        ctx = new FunnelContext("--cacheW");
-        Assert.assertTrue("cacheWork", ctx.cacheWork);
+        ctx = new FunnelContext("--diskWork");
+        Assert.assertTrue("diskWork", ctx.diskWork);
+        Assert.assertFalse("isCacheWork", ctx.isCacheWork());
 
-        ctx = new FunnelContext("-!cacheW");
-        Assert.assertFalse("cacheWork", ctx.cacheWork);
+        ctx = new FunnelContext("-!diskWork");
+        Assert.assertFalse("diskWork", ctx.diskWork);
+        Assert.assertTrue("isCacheWork", ctx.isCacheWork());
     }
 
     /**

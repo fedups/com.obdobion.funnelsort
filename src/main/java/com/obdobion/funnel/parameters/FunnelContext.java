@@ -8,6 +8,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.commons.csv.CSVFormat;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -15,6 +16,8 @@ import org.apache.log4j.PropertyConfigurator;
 import com.obdobion.algebrain.Equ;
 import com.obdobion.argument.ByteCLA;
 import com.obdobion.argument.CmdLine;
+import com.obdobion.argument.CmdLineCLA;
+import com.obdobion.argument.ICmdLine;
 import com.obdobion.argument.WildFiles;
 import com.obdobion.argument.input.CommandLineParser;
 import com.obdobion.argument.input.IParserInput;
@@ -54,7 +57,7 @@ public class FunnelContext
     static private void defineCacheWork (
             final List<String> def)
     {
-        def.add("-tBoolean -k cacheWork --var cacheWork --def false -h 'Work files are saved in memory.  Otherwise they are stored on disk.  The amount of memory required to hold work areas in memory is about (2 * (keySize + 24)).'");
+        def.add("-tBoolean -k diskWork --var diskWork --def false -h 'Work files are stored on disk.  The amount of memory required to hold work areas in memory is about (2 * (keySize + 24)).'");
     }
 
     static private void defineColumnsInSubParser (
@@ -108,22 +111,62 @@ public class FunnelContext
             final ArrayList<String> def)
     {
         def.add("-tBegin -k csv --var csv -h 'The definition of the CSV file being read as input.  Using this indicates that the input is in fact a CSV file and the columns parameter must use the --field arguments.'");
+
+        defineCsvPredefinedFormat(def);
         defineCsvHeader(def);
-        defineCsvQuoteByte(def);
-        defineCsvSeparatorByte(def);
+        defineCsvCommentMarker(def);
+        defineCsvFieldDelimiter(def);
+        defineCsvEscape(def);
+        defineCsvIgnoreEmptyLines(def);
+        defineCsvIgnoreSurroundingSpaces(def);
+        defineCsvNullString(def);
+        defineCsvQuote(def);
+
         def.add("-tEnd -k csv");
     }
 
-    static private void defineCsvQuoteByte (
-            final ArrayList<String> def)
+    static private void defineCsvPredefinedFormat (final ArrayList<String> def)
     {
-        def.add("-tByte -k q quoteByte --var quoteByte -h'This is the single character that you would like to use for a quote.' --def '\"'");
+        def.add("-tEnum -k f --var predefinedFormat -p --def "
+                + CSVFormat.Predefined.Default.name()
+                + " -h'A predefined way to parse the CSV input.  Other parameters may override the specifics of this definition.' "
+                + " --case --enumList "
+                + CSVFormat.Predefined.class.getName());
     }
 
-    static private void defineCsvSeparatorByte (
-            final ArrayList<String> def)
+    static private void defineCsvCommentMarker (final ArrayList<String> def)
     {
-        def.add("-tByte -k s separatorByte --var separatorByte -h'This is the single character that you would like to use for the field separator.' --def ','");
+        def.add("-tByte -k c commentMarker --var commentMarker -h 'Sets the comment start marker of the format to the specified character. Note that the comment start character is only recognized at the start of a line.'");
+    }
+
+    static private void defineCsvFieldDelimiter (final ArrayList<String> def)
+    {
+        def.add("-tByte -k d delimiter --var delimiter -h 'Sets the delimiter of the format to the specified character.'");
+    }
+
+    static private void defineCsvEscape (final ArrayList<String> def)
+    {
+        def.add("-tByte -k x escape --var escape -h 'Sets the escape character of the format to the specified character.'");
+    }
+
+    static private void defineCsvIgnoreEmptyLines (final ArrayList<String> def)
+    {
+        def.add("-tBoolean -k e ignoreEmptyLines --var ignoreEmptyLines -h 'Sets the empty line skipping behavior of the format to true.'");
+    }
+
+    static private void defineCsvIgnoreSurroundingSpaces (final ArrayList<String> def)
+    {
+        def.add("-tBoolean -k s ignoreSurroundingSpaces --var ignoreSurroundingSpaces -h 'Sets the trimming behavior of the format to true.'");
+    }
+
+    static private void defineCsvNullString (final ArrayList<String> def)
+    {
+        def.add("-tString -k n nullString --var nullString -h 'Converts strings equal to the given nullString to null when reading records.'");
+    }
+
+    static private void defineCsvQuote (final ArrayList<String> def)
+    {
+        def.add("-tByte -k q quote --var quote -h 'Sets the quoteChar of the format to the specified character.'");
     }
 
     static private void defineDuplicateHandling (
@@ -234,7 +277,7 @@ public class FunnelContext
     static private void defineColumnOffset (
             final ArrayList<String> def)
     {
-        def.add("-tInteger -k o offset --var offset --def 0 -h'The zero relative offset from the beginning of a row.' --range 0");
+        def.add("-tInteger -k o offset --var offset --def 0 -h'The zero relative offset from the beginning of a row.  This will be computed, if not specified, to be the location of the previous column plus the length of the previous column.  Most often this parameter is not needed.' --range 0");
     }
 
     static private void defineColumnType (
@@ -297,6 +340,12 @@ public class FunnelContext
         def.add("-tString -k w where --var whereClause -m1 -h 'Rows that evaluate to TRUE are selected for Output.  See \"Algebrain\" for details.  Columns are used as variables in this Algebrain equation.'");
     }
 
+    static private void defineStopWhen (
+            final ArrayList<String> def)
+    {
+        def.add("-tString -k s stopWhen --var stopClause -m1 -h 'The sort will stop reading input when this equation returns TRUE.  See \"Algebrain\" for details.  Columns are used as variables in this Algebrain equation.'");
+    }
+
     static private void defineWorkDirectory (
             final ArrayList<String> def)
     {
@@ -354,6 +403,8 @@ public class FunnelContext
 
     public String[]             whereClause;
     private Equ                 whereEqu;
+    public String[]             stopClause;
+    private Equ                 stopEqu;
 
     private int                 inputFileIndex;
     public WildFiles            inputFiles;
@@ -373,7 +424,7 @@ public class FunnelContext
     public FunnelDataPublisher  publisher;
     public InputCache           inputCache;
     public boolean              cacheInput;
-    public boolean              cacheWork;
+    public boolean              diskWork;
     public boolean              debug;
     public KeyHelper            keyHelper;
     public OutputFormatHelper   formatOutHelper;
@@ -382,6 +433,8 @@ public class FunnelContext
     public byte[]               endOfRecordDelimiter;
     public byte[]               endOfRecordOutDelimiter;
     public CSVDef               csv;
+
+    public long                 comparisonCounter;
 
     public FunnelContext(final String... _args) throws IOException, ParseException
     {
@@ -428,6 +481,7 @@ public class FunnelContext
         defineColumnsInSubParser(def);
         defineFormatOutSubParser(def);
         defineWhere(def);
+        defineStopWhen(def);
         defineEol(def);
         defineEolOut(def);
         defineDuplicateHandling(def);
@@ -505,7 +559,7 @@ public class FunnelContext
 
     public boolean isCacheWork ()
     {
-        return cacheWork;
+        return !diskWork;
     }
 
     public boolean isInPlaceSort ()
@@ -540,6 +594,7 @@ public class FunnelContext
          */
         if (inputColumnDefs != null)
         {
+            KeyPart previousColDef = null;
             for (final KeyPart colDef : inputColumnDefs)
             {
                 try
@@ -555,7 +610,19 @@ public class FunnelContext
                         logger.debug("column \"" + colDef.columnName + "\" length set to " + colDef.length
                                 + " because of format");
                     }
+                    /*
+                     * Compute an offset if one was not specified. But only for
+                     * non-csv files since offset is not part of the csv
+                     * specification.
+                     */
+                    if (csv == null)
+                        if (colDef.offset == 0)
+                        {
+                            if (previousColDef != null)
+                                colDef.offset = previousColDef.offset + previousColDef.length;
+                        }
                     columnHelper.add(colDef);
+                    previousColDef = colDef;
 
                 } catch (final Exception e)
                 {
@@ -689,11 +756,62 @@ public class FunnelContext
             {
                 throw new ParseException(e.getMessage(), 0);
             }
+
+        if (stopClause != null)
+            try
+            {
+                stopEqu = Equ.getInstance(true);
+                StringBuilder sb = new StringBuilder();
+                String connector = "";
+                for (String partialClause : stopClause)
+                {
+                    sb.append(connector);
+                    sb.append(" ( ");
+                    sb.append(partialClause);
+                    sb.append(" ) ");
+                    connector = " && ";
+                }
+                stopEqu.compile(sb.toString());
+
+            } catch (final Exception e)
+            {
+                throw new ParseException(e.getMessage(), 0);
+            }
+
+        /*
+         * Create a CSV parser if needed.
+         */
+        if (parser.arg("--csv").isParsed())
+        {
+            csv.format = csv.predefinedFormat.getFormat();
+            logger.debug("defining the CSV parser based on \"" + csv.predefinedFormat.name() + "\"");
+            ICmdLine csvParser = ((CmdLineCLA) parser.arg("--csv")).templateCmdLine;
+
+            if (csvParser.arg("--commentMarker").isParsed())
+                csv.format = csv.format.withCommentMarker((char) csv.commentMarker);
+            if (csvParser.arg("--delimiter").isParsed())
+                csv.format = csv.format.withDelimiter((char) csv.delimiter);
+            if (csvParser.arg("--escape").isParsed())
+                csv.format = csv.format.withEscape((char) csv.escape);
+            if (csvParser.arg("--ignoreEmptyLines").isParsed())
+                csv.format = csv.format.withIgnoreEmptyLines(csv.ignoreEmptyLines);
+            if (csvParser.arg("--ignoreSurroundingSpaces").isParsed())
+                csv.format = csv.format.withIgnoreSurroundingSpaces(csv.ignoreSurroundingSpaces);
+            if (csvParser.arg("--nullString").isParsed())
+                csv.format = csv.format.withNullString(csv.nullString);
+            if (csvParser.arg("--quote").isParsed())
+                csv.format = csv.format.withQuote((char) csv.quote);
+        }
     }
 
     public Equ getWhereEqu ()
     {
         return whereEqu;
+    }
+
+    public Equ getStopEqu ()
+    {
+        return stopEqu;
     }
 
     public void reset () throws IOException, ParseException
@@ -772,8 +890,6 @@ public class FunnelContext
                     csvMsg.append("has header");
                 else
                     csvMsg.append("no header");
-                csvMsg.append(" quote=" + ByteCLA.asLiteral(csv.quoteByte));
-                csvMsg.append(" separator=" + ByteCLA.asLiteral(csv.separatorByte));
                 logger.debug(csvMsg.toString());
             }
         }
@@ -816,6 +932,18 @@ public class FunnelContext
             try
             {
                 logger.trace("\n" + getWhereEqu().showRPN());
+            } catch (final Exception e)
+            {
+                logger.warn("algebrain", e);
+            }
+        }
+
+        if (getStopEqu() != null)
+        {
+            logger.info("stopWhen \"" + getStopEqu().toString() + "\"");
+            try
+            {
+                logger.trace("\n" + getStopEqu().showRPN());
             } catch (final Exception e)
             {
                 logger.warn("algebrain", e);
@@ -900,6 +1028,19 @@ public class FunnelContext
             return true;
         if (!(result instanceof Boolean))
             throw new Exception("--where clause must evaluate to true or false");
+        return ((Boolean) result).booleanValue();
+    }
+
+    public boolean stopIsTrue () throws Exception
+    {
+        if (getStopEqu() == null)
+            return false;
+
+        final Object result = getStopEqu().evaluate();
+        if (result == null)
+            return false;
+        if (!(result instanceof Boolean))
+            throw new Exception("--stopWhen clause must evaluate to true or false");
         return ((Boolean) result).booleanValue();
     }
 

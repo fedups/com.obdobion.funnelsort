@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.csv.CSVFormat;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -93,7 +94,7 @@ public class CsvTest
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
-        final FunnelContext context = Funnel.sort("--csv(-q'\"'-s',') "
+        final FunnelContext context = Funnel.sort("--csv() "
                 + "--col(String -f0 -nA)(Int -f1 -nB)"
                 + "--orderBy(A desc) --max 2 --eol cr,lf "
                 + Helper.DEFAULT_OPTIONS);
@@ -147,7 +148,9 @@ public class CsvTest
         {
                 true, false
         });
-        final byte[][] result = csv.decodeCsv(csvData, csvData.length, (byte) '\'', (byte) ',');
+
+        CSVFormat format = CSVFormat.Predefined.Default.getFormat();
+        final byte[][] result = csv.decodeCsv(csvData, csvData.length, format);
 
         Assert.assertEquals("extract field 0", "field1", new String(result[0]));
     }
@@ -157,14 +160,15 @@ public class CsvTest
     {
         Helper.initializeFor("TEST field1TrimNeeded");
 
-        final byte[] csvData = "' \tfield1\t , ',field2".getBytes();
+        final byte[] csvData = "\" \tfield1\t , \",field2".getBytes();
         final VariableLengthCsvProvider csv = new VariableLengthCsvProvider(new boolean[]
         {
                 true, false
         });
-        final byte[][] result = csv.decodeCsv(csvData, csvData.length, (byte) '\'', (byte) ',');
+        CSVFormat format = CSVFormat.Predefined.Default.getFormat();
+        final byte[][] result = csv.decodeCsv(csvData, csvData.length, format);
 
-        Assert.assertEquals("extract field 0", "field1\t ,", new String(result[0]));
+        Assert.assertEquals("extract field 0", " \tfield1\t , ", new String(result[0]));
     }
 
     @Test
@@ -172,12 +176,13 @@ public class CsvTest
     {
         Helper.initializeFor("TEST field1WithQuotedComma");
 
-        final byte[] csvData = "'field1,',field2".getBytes();
+        final byte[] csvData = "\"field1,\",field2".getBytes();
         final VariableLengthCsvProvider csv = new VariableLengthCsvProvider(new boolean[]
         {
                 true, false
         });
-        final byte[][] result = csv.decodeCsv(csvData, csvData.length, (byte) '\'', (byte) ',');
+        CSVFormat format = CSVFormat.Predefined.Default.getFormat();
+        final byte[][] result = csv.decodeCsv(csvData, csvData.length, format);
 
         Assert.assertEquals("extract field 0", "field1,", new String(result[0]));
     }
@@ -192,7 +197,8 @@ public class CsvTest
         {
                 false, true
         });
-        final byte[][] result = csv.decodeCsv(csvData, csvData.length, (byte) '\'', (byte) ',');
+        CSVFormat format = CSVFormat.Predefined.Default.getFormat();
+        final byte[][] result = csv.decodeCsv(csvData, csvData.length, format);
 
         Assert.assertEquals("extract field 0", "field2", new String(result[1]));
     }
@@ -202,12 +208,13 @@ public class CsvTest
     {
         Helper.initializeFor("TEST field2WithQuotedComma");
 
-        final byte[] csvData = "'field1,',field2".getBytes();
+        final byte[] csvData = "\"field1,\",field2".getBytes();
         final VariableLengthCsvProvider csv = new VariableLengthCsvProvider(new boolean[]
         {
                 false, true
         });
-        final byte[][] result = csv.decodeCsv(csvData, csvData.length, (byte) '\'', (byte) ',');
+        CSVFormat format = CSVFormat.Predefined.Default.getFormat();
+        final byte[][] result = csv.decodeCsv(csvData, csvData.length, format);
 
         Assert.assertEquals("extract field 0", "field2", new String(result[1]));
     }
@@ -273,6 +280,132 @@ public class CsvTest
         {
             Assert.assertEquals("sorting on the same field (--field 0) is not allowed", pe.getMessage());
         }
+    }
+
+    @Test
+    public void csvParserCommentMarker () throws Throwable
+    {
+
+        Helper.initializeFor("TEST csvParserCommentMarker");
+
+        final List<String> in = csvInput();
+
+        final File file = Helper.createUnsortedFile("csvParserCommentMarker", in);
+        Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+                + " --csv(--commentMarker ',') "
+                + csvColumns
+                + "--orderBy(Number desc)"
+                + Helper.DEFAULT_OPTIONS);
+
+        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+    }
+
+    @Test
+    public void csvParserDelimiter () throws Throwable
+    {
+
+        Helper.initializeFor("TEST csvParserDelimiter");
+
+        final List<String> in = csvInput();
+
+        final File file = Helper.createUnsortedFile("csvParserDelimiter", in);
+        Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+                + " --csv(--delimiter ',') "
+                + csvColumns
+                + "--orderBy(Number desc)"
+                + Helper.DEFAULT_OPTIONS);
+
+        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+    }
+
+    @Test
+    public void csvParserEscape () throws Throwable
+    {
+
+        Helper.initializeFor("TEST csvParserEscape");
+
+        final List<String> in = csvInput();
+
+        final File file = Helper.createUnsortedFile("csvParserEscape", in);
+        Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+                + " --csv(--escape '~') "
+                + csvColumns
+                + "--orderBy(Number desc)"
+                + Helper.DEFAULT_OPTIONS);
+
+        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+    }
+
+    @Test
+    public void csvParserIgnoreEmptyLines () throws Throwable
+    {
+
+        Helper.initializeFor("TEST csvParserIgnoreEmptyLines");
+
+        final List<String> in = csvInput();
+
+        final File file = Helper.createUnsortedFile("csvParserIgnoreEmptyLines", in);
+        Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+                + " --csv(--ignoreEmptyLines) "
+                + csvColumns
+                + "--orderBy(Number desc)"
+                + Helper.DEFAULT_OPTIONS);
+
+        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+    }
+
+    @Test
+    public void csvParserNullString () throws Throwable
+    {
+
+        Helper.initializeFor("TEST csvParserNullString");
+
+        final List<String> in = csvInput();
+
+        final File file = Helper.createUnsortedFile("csvParserNullString", in);
+        Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+                + " --csv(--NullString 'n/a') "
+                + csvColumns
+                + "--orderBy(Number desc)"
+                + Helper.DEFAULT_OPTIONS);
+
+        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+    }
+
+    @Test
+    public void csvParserQuote () throws Throwable
+    {
+
+        Helper.initializeFor("TEST csvParserQuote");
+
+        final List<String> in = csvInput();
+
+        final File file = Helper.createUnsortedFile("csvParserQuote", in);
+        Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+                + " --csv(--quote \"'\") "
+                + csvColumns
+                + "--orderBy(Number desc)"
+                + Helper.DEFAULT_OPTIONS);
+
+        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+    }
+
+    @Test
+    public void csvParserIgnoreSurroundingSpaces () throws Throwable
+    {
+
+        Helper.initializeFor("TEST csvParserIgnoreSurroundingSpaces");
+
+        final List<String> in = csvInput();
+
+        final File file = Helper.createUnsortedFile("csvParserIgnoreSurroundingSpaces", in);
+        Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+                + " --csv(--ignoreSurroundingSpaces) "
+                + csvColumns
+                + "--orderBy(Number desc)"
+                + Helper.DEFAULT_OPTIONS);
+
+        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
     @Test
@@ -471,14 +604,15 @@ public class CsvTest
 
         Helper.initializeFor("TEST twoFields");
 
-        final byte[] csvData = "' \tfield1\t , ',field2".getBytes();
+        final byte[] csvData = "\" \tfield1\t , \",field2".getBytes();
         final VariableLengthCsvProvider csv = new VariableLengthCsvProvider(new boolean[]
         {
                 true, true
         });
-        final byte[][] result = csv.decodeCsv(csvData, csvData.length, (byte) '\'', (byte) ',');
+        CSVFormat format = CSVFormat.Predefined.Default.getFormat();
+        final byte[][] result = csv.decodeCsv(csvData, csvData.length, format);
 
-        Assert.assertEquals("extract field 0", "field1\t ,", new String(result[0]));
+        Assert.assertEquals("extract field 0", " \tfield1\t , ", new String(result[0]));
         Assert.assertEquals("extract field 1", "field2", new String(result[1]));
     }
 }

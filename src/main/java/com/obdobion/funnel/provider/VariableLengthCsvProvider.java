@@ -2,7 +2,11 @@ package com.obdobion.funnel.provider;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Iterator;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.log4j.Logger;
 
 import com.obdobion.funnel.orderby.KeyContext;
@@ -57,66 +61,42 @@ public class VariableLengthCsvProvider extends VariableLengthProvider
     public long actualNumberOfRows ()
     {
         return super.actualNumberOfRows()
-            - (context.csv.header
-                    ? 1
-                    : 0);
+                - (context.csv.header
+                        ? 1
+                        : 0);
     }
 
-    public byte[][] decodeCsv (final byte[] input, final int inputLength, final byte quoteByte, final byte separatorByte)
+    /**
+     * @param inputLength current not used and won't be unless an issue arises
+     * with null terminated input strings
+     */
+    public byte[][] decodeCsv (final byte[] input, final int inputLength, CSVFormat csvFormat)
+            throws IOException
     {
         final byte[][] field = new byte[includeColumn.length][];
 
-        boolean inQuotes = false;
-        int fNum = 0;
-        int currentStart = 0;
-        int locationOfNextByteAfterField;
-        for (locationOfNextByteAfterField = 0; locationOfNextByteAfterField < inputLength; locationOfNextByteAfterField++)
+        CSVParser csvparser = CSVParser.parse(new String(input), csvFormat);
+        try
         {
-            if (fNum >= includeColumn.length)
-                return field;
-            /*
-             * The length does not help because it is the length of the whole
-             * row and at this point we don't know the context of this specific
-             * field within the scope of the whole row. So we have to settle for
-             * looking for the hex0. And since this is a variable length file it
-             * is not reasonable to have hex data within the row. And this
-             * coding means that any specific field can only be accessed up to
-             * the first 0 or its delimiter of it is not the last field.
-             */
-            if (input[locationOfNextByteAfterField] == 0)
-                break;
+            CSVRecord csvrecord = csvparser.getRecords().get(0);
+            Iterator<String> fields = csvrecord.iterator();
+            for (int fNum = 0; fields.hasNext(); fNum++)
+            {
+                String fieldAsString = fields.next();
 
-            if (inQuotes)
-            {
-                if (input[locationOfNextByteAfterField] == quoteByte)
-                {
-                    inQuotes = false;
-                }
-                continue;
-            }
-            if (input[locationOfNextByteAfterField] == separatorByte)
-            {
+                if (fNum >= includeColumn.length)
+                    return field;
+
                 if (fNum < includeColumn.length)
                     if (includeColumn[fNum])
-                    {
-                        field[fNum] = unquote(input, currentStart, locationOfNextByteAfterField - 1, quoteByte);
-                    }
-                fNum++;
-                currentStart = locationOfNextByteAfterField + 1;
-                continue;
+                        field[fNum] = fieldAsString.getBytes();
             }
-            if (input[locationOfNextByteAfterField] == quoteByte)
-            {
-                inQuotes = true;
-                continue;
-            }
+
+            return field;
+        } finally
+        {
+            csvparser.close();
         }
-
-        if (fNum < includeColumn.length)
-            if (includeColumn[fNum])
-                field[fNum] = unquote(input, currentStart, locationOfNextByteAfterField - 1, quoteByte);
-
-        return field;
     }
 
     /**
@@ -141,7 +121,7 @@ public class VariableLengthCsvProvider extends VariableLengthProvider
     @Override
     void preSelectionExtract (int byteCount) throws Exception
     {
-        final byte[][] data = decodeCsv(row, byteCount, context.csv.quoteByte, context.csv.separatorByte);
+        final byte[][] data = decodeCsv(row, byteCount, context.csv.format);
         context.columnHelper.extract(context, data, recordNumber, byteCount);
     }
 
@@ -151,7 +131,7 @@ public class VariableLengthCsvProvider extends VariableLengthProvider
         KeyContext kContext = null;
         try
         {
-            final byte[][] data = decodeCsv(row, byteCount, context.csv.quoteByte, context.csv.separatorByte);
+            final byte[][] data = decodeCsv(row, byteCount, context.csv.format);
             kContext = context.keyHelper.extractKey(data, recordNumber);
 
         } catch (final Exception e)

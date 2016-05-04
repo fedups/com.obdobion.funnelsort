@@ -141,6 +141,7 @@ public class FixedLengthProvider implements FunnelDataProvider
         }
         item.setPhase(phase);
 
+        boolean earlyEnd = false;
         int byteCount = 0;
         long startPosition = 0;
         try
@@ -181,6 +182,18 @@ public class FixedLengthProvider implements FunnelDataProvider
 
                 preSelectionExtract(byteCount);
 
+                if (context.stopIsTrue())
+                {
+                    earlyEnd = true;
+                    /*
+                     * The record number should be display as 1 relative while
+                     * it is actually 0 relative. The EQU processing gets the 1
+                     * relative version to use.
+                     */
+                    logger.debug("stopWhen triggered at row " + (recordNumber + 1));
+                    break;
+                }
+
                 if (!context.whereIsTrue())
                 {
                     recordNumber++;
@@ -191,9 +204,10 @@ public class FixedLengthProvider implements FunnelDataProvider
             }
         } catch (final Exception e)
         {
-            App.abort(-1, e);
+            logger.fatal(e.getMessage(), e);
+            throw new IOException(e.getMessage(), e);
         }
-        if (byteCount == -1)
+        if (byteCount == -1 || earlyEnd)
         {
             item.setEndOfData(true);
             try
@@ -216,7 +230,7 @@ public class FixedLengthProvider implements FunnelDataProvider
             throw new IOException(e);
         }
 
-        final SourceProxyRecord wrapped = SourceProxyRecord.getInstance();
+        final SourceProxyRecord wrapped = SourceProxyRecord.getInstance(context);
         wrapped.originalInputFileIndex = context.inputFileIndex();
 
         wrapped.size = kContext.keyLength;

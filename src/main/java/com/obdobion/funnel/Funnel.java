@@ -7,7 +7,6 @@ import java.util.Comparator;
 
 import org.apache.log4j.Logger;
 
-import com.obdobion.algebrain.Equ;
 import com.obdobion.argument.WildFiles;
 import com.obdobion.funnel.orderby.KeyHelper;
 import com.obdobion.funnel.parameters.FunnelContext;
@@ -96,7 +95,6 @@ public class Funnel
         final String... args)
         throws Throwable
     {
-        Equ.getInstance(true);
         FunnelContext context = null;
 
         try
@@ -492,6 +490,13 @@ public class Funnel
                 sb.append(" rowsPerSecond(").append(1000000000L / perRowNano).append(")");
             }
             logger.info(sb.toString());
+
+            if (context.comparisonCounter > 0)
+                logger.debug("Average comparison count per input row: "
+                        + (context.comparisonCounter / passOneRowCount)
+                        + ", n(log n) = "
+                        + (passOneRowCount * Math.log(passOneRowCount))
+                        + ".  Total comparisons = " + context.comparisonCounter);
         }
     }
 

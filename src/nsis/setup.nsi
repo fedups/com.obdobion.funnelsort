@@ -95,6 +95,7 @@ Section "uninstall"
     delete $INSTDIR\funnel.bat
     delete $INSTDIR\*.jar
     delete $INSTDIR\log4j.xml
+    delete $INSTDIR\commons-csv-1.2.xml
     delete $INSTDIR\funnel.log
 SectionEnd
 

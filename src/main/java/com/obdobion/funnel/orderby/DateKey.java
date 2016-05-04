@@ -2,6 +2,7 @@ package com.obdobion.funnel.orderby;
 
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
@@ -20,17 +21,13 @@ public class DateKey extends KeyPart
     public DateKey()
     {
         super();
-        // assert parseFormat != null :
-        // "\"--format <dateformat>\"  is required for \"Date\"";
-        // assert parseFormat.trim().length() > 0 :
-        // "\"--format <dateformat>\"  is required for \"Date\"";
     }
 
     @Override
     public void pack (final KeyContext context) throws Exception
     {
-        Long _longValue = (Long) parseObjectFromRawData(context);
-        formatObjectIntoKey(context, _longValue);
+        Calendar cal = (Calendar) parseObjectFromRawData(context);
+        formatObjectIntoKey(context, cal.getTimeInMillis());
 
         if (nextPart != null)
             nextPart.pack(context);
@@ -58,6 +55,8 @@ public class DateKey extends KeyPart
     @Override
     public Object parseObjectFromRawData (KeyContext context)
     {
+        Calendar calendar = Calendar.getInstance();
+
         final byte[] rawBytes = rawBytes(context);
 
         int lengthThisTime = length;
@@ -82,7 +81,7 @@ public class DateKey extends KeyPart
                 dateFormatErrors++;
             }
         }
-        return longValue;
-
+        calendar.setTimeInMillis(longValue);
+        return calendar;
     }
 }

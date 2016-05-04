@@ -163,7 +163,7 @@ public class InputCacheTests
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
-        Funnel.sort("--cacheInput --cacheWork");
+        Funnel.sort("--cacheInput");
 
         outputStream.flush();
         outputStream.close();

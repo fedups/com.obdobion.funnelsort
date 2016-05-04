@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.obdobion.algebrain.Equ;
 import com.obdobion.funnel.orderby.KeyContext;
 import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
@@ -87,22 +86,29 @@ public class ColumnHelper
         context.rawRecordBytes[0] = data;
         context.recordNumber = recordNumber;
 
-        extractColumnContentsFromRawData(funnelContext.getWhereEqu(), recordNumber, dataLength);
+        extractColumnContentsFromRawData(funnelContext, recordNumber, dataLength);
 
         context.rawRecordBytes = null;
         return context;
     }
 
-    private void extractColumnContentsFromRawData (Equ equ, final long recordNumber, final int dataLength)
+    private void extractColumnContentsFromRawData (
+            FunnelContext funnelContext,
+            final long recordNumber,
+            final int dataLength)
             throws Exception
     {
-        if (equ == null)
+        if (funnelContext == null)
             return;
         for (final KeyPart col : columns)
         {
             try
             {
-                equ.getSupport().assignVariable(col.columnName, col.parseObjectFromRawData(context));
+                Object rawData = col.parseObjectFromRawData(context);
+                if (funnelContext.getWhereEqu() != null)
+                    funnelContext.getWhereEqu().getSupport().assignVariable(col.columnName, rawData);
+                if (funnelContext.getStopEqu() != null)
+                    funnelContext.getStopEqu().getSupport().assignVariable(col.columnName, rawData);
 
             } catch (Exception e)
             {
@@ -110,8 +116,18 @@ public class ColumnHelper
                         + (recordNumber + 1));
             }
         }
-        equ.getSupport().assignVariable("recordnumber", new Long(recordNumber + 1));
-        equ.getSupport().assignVariable("recordsize", new Integer(dataLength));
+        Long rn = new Long(recordNumber + 1);
+        Integer rs = new Integer(dataLength);
+
+        if (funnelContext.getWhereEqu() != null)
+            funnelContext.getWhereEqu().getSupport().assignVariable("recordnumber", rn);
+        if (funnelContext.getStopEqu() != null)
+            funnelContext.getStopEqu().getSupport().assignVariable("recordnumber", rn);
+
+        if (funnelContext.getWhereEqu() != null)
+            funnelContext.getWhereEqu().getSupport().assignVariable("recordsize", rs);
+        if (funnelContext.getStopEqu() != null)
+            funnelContext.getStopEqu().getSupport().assignVariable("recordsize", rs);
     }
 
     /**
@@ -140,7 +156,7 @@ public class ColumnHelper
         context.rawRecordBytes = data;
         context.recordNumber = recordNumber;
 
-        extractColumnContentsFromRawData(funnelContext.getWhereEqu(), recordNumber, dataLength);
+        extractColumnContentsFromRawData(funnelContext, recordNumber, dataLength);
 
         context.rawRecordBytes = null;
         return context;

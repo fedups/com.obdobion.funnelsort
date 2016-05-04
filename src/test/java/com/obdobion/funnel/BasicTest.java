@@ -37,8 +37,6 @@ public class BasicTest
             + " --pow 2"
             + " --max 3"
             + " -o " + output.getAbsolutePath()
-                // + " --maxRows 1024"
-                // + " --cacheWork"
                 );
 
         Assert.assertEquals("records", 3L, context.publisher.getWriteCount());
@@ -76,8 +74,6 @@ public class BasicTest
             + " --max 6"
             + " -o "
             + output.getAbsolutePath()
-                // + " --maxRows 1024"
-                // + " --cacheWork"
                 );
 
         Assert.assertEquals("records", 6L, context.publisher.getWriteCount());
@@ -100,26 +96,25 @@ public class BasicTest
     public void multifileInputStringSort ()
         throws Throwable
     {
-        Helper.initializeFor("TEST multifileInputIntegerSort");
+        Helper.initializeFor("TEST multifileInputStringSort");
 
-        final File output = new File("/tmp/multifileInputIntegerSort");
+        final File output = new File("/tmp/multifileInputStringSort");
 
         final List<String> in1 = new ArrayList<>();
         in1.add("1");
         in1.add("111");
         in1.add("21");
 
-        final File file1 = Helper.createUnsortedFile("multifileInputIntegerSort1", in1);
-        final File file2 = Helper.createUnsortedFile("multifileInputIntegerSort2", in1);
+        final File file1 = Helper.createUnsortedFile("multifileInputStringSort1", in1);
+        final File file2 = Helper.createUnsortedFile("multifileInputStringSort2", in1);
         final FunnelContext context = Funnel.sort(file1.getParentFile().getAbsolutePath()
-            + "/multifileInputIntegerSort?.* "
+                + "/multifileInputStringSort?.* "
             + " --col(String -o0 -l3 -n col1)"
             + " --orderby(col1 desc)"
             + " --pow 2"
             + " --max 6"
             + " -o "
             + output.getAbsolutePath()
-            + " --cacheWork"
                 );
 
         Assert.assertEquals("records", 6L, context.publisher.getWriteCount());

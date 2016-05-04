@@ -17,7 +17,7 @@ import com.obdobion.funnel.parameters.FunnelContext;
 public class WorkCore implements WorkRepository
 {
     static final private Logger logger               = Logger.getLogger(WorkCore.class);
-    static final int            RecordHeaderSize     = 24;
+    static final int            RecordHeaderSize     = 28;
     static final int            WriteBufferIncrement = 32768;
 
     final FunnelContext         context;
@@ -102,6 +102,7 @@ public class WorkCore implements WorkRepository
     {
         currentBuffer.position((int) (position - begBufPos));
 
+        rec.originalInputFileIndex = currentBuffer.getInt();
         rec.originalRecordNumber = currentBuffer.getLong();
         rec.originalLocation = currentBuffer.getLong();
         rec.originalSize = currentBuffer.getInt();
@@ -147,6 +148,7 @@ public class WorkCore implements WorkRepository
             currentBuffer = ByteBuffer.wrap(new byte[WriteBufferIncrement], 0, WriteBufferIncrement);
         }
 
+        currentBuffer.putInt(rec.originalInputFileIndex);
         currentBuffer.putLong(rec.originalRecordNumber);
         currentBuffer.putLong(rec.originalLocation);
         currentBuffer.putInt(rec.originalSize);
@@ -157,5 +159,10 @@ public class WorkCore implements WorkRepository
         writeFilePointer += sizeThisTime;
 
         return startingPointer;
+    }
+
+    public FunnelContext getContext ()
+    {
+        return context;
     }
 }

@@ -2,6 +2,8 @@ package com.obdobion.funnel.segment;
 
 import java.util.Stack;
 
+import com.obdobion.funnel.parameters.FunnelContext;
+
 /**
  * The internal control record for a specific row in the original source. Any
  * temporary file used in the sort / merge process is formatted with these rows.
@@ -22,16 +24,17 @@ public class SourceProxyRecord implements Comparable<SourceProxyRecord>
      */
     static final public Stack<SourceProxyRecord> AvailableInstances = new Stack<>();
 
-    public static SourceProxyRecord getInstance ()
+    public static SourceProxyRecord getInstance (FunnelContext context)
     {
         synchronized (AvailableInstances)
         {
             if (AvailableInstances.isEmpty())
-                return new SourceProxyRecord();
+                return new SourceProxyRecord(context);
             return AvailableInstances.pop();
         }
     }
 
+    private FunnelContext context;
     public int    originalInputFileIndex;
     public long   originalRecordNumber;
     public long   originalLocation;
@@ -39,14 +42,18 @@ public class SourceProxyRecord implements Comparable<SourceProxyRecord>
     public int    size;
     public byte[] sortKey;
 
-    public SourceProxyRecord()
+    private SourceProxyRecord(FunnelContext _context)
     {
         super();
+        context = _context;
     }
 
     public int compareTo (
         final SourceProxyRecord o)
     {
+        if (context != null)
+            context.comparisonCounter++;
+
         int unsignedLeft, unsignedRight;
         final int oSize = o.size;
         /*

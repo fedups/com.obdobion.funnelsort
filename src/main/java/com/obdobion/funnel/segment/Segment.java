@@ -73,7 +73,7 @@ class Segment implements FunnelDataProvider
         /*
          * A new wrapper that gets passed around in the funnel.
          */
-        item.setData(SourceProxyRecord.getInstance());
+        item.setData(SourceProxyRecord.getInstance(workfile.getContext()));
         nextPosition += workfile.read(nextPosition, item.getData());
         nextRow++;
 

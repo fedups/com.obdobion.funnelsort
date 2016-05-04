@@ -86,6 +86,7 @@ public class WorkFile implements WorkRepository
     {
         raf.seek(position);
 
+        rec.originalInputFileIndex = raf.readInt();
         rec.originalRecordNumber = raf.readLong();
         rec.originalLocation = raf.readLong();
         rec.originalSize = raf.readInt();
@@ -103,6 +104,7 @@ public class WorkFile implements WorkRepository
         if (sizeThisTime + bb.position() >= WriteBufferSize)
             flushWritesToDisk();
 
+        bb.putInt(rec.originalInputFileIndex);
         bb.putLong(rec.originalRecordNumber);
         bb.putLong(rec.originalLocation);
         bb.putInt(rec.originalSize);
@@ -113,5 +115,10 @@ public class WorkFile implements WorkRepository
         writeFilePointer += sizeThisTime;
 
         return startingPointer;
+    }
+
+    public FunnelContext getContext ()
+    {
+        return context;
     }
 }

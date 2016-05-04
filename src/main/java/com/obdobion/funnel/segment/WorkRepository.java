@@ -2,6 +2,8 @@ package com.obdobion.funnel.segment;
 
 import java.io.IOException;
 
+import com.obdobion.funnel.parameters.FunnelContext;
+
 /**
  * @author Chris DeGreef
  * 
@@ -15,6 +17,8 @@ public interface WorkRepository
     public abstract void open () throws IOException;
 
     public abstract long outputPosition ();
+
+    public FunnelContext getContext ();
 
     public abstract long read (final long position, final SourceProxyRecord rec) throws IOException;
 
