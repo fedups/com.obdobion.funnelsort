@@ -1,0 +1,9 @@
+--columnsIn
+	(-n FIPS --length 2 int)
+	(-n postalCode --length 2 string)
+	(-n stateName --length 21 string)
+	(-n povertyAll --length 11 int)
+	(-n povertyAllPercent --length 4 float)
+	(-n medianHouseholdIncome --length 6 int)
+
+--fixed 46

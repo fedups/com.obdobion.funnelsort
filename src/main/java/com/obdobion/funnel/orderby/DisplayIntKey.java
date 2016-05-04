@@ -54,6 +54,9 @@ public class DisplayIntKey extends KeyPart
         final byte[] rawBytes = rawBytes(context);
 
         int lengthThisTime = length;
+        if (rawBytes == null)
+            lengthThisTime = 0;
+        else
         if (rawBytes.length < offset + length)
             lengthThisTime = rawBytes.length - offset;
 
@@ -82,6 +85,9 @@ public class DisplayIntKey extends KeyPart
             if (t > 0)
                 break;
         }
+
+        if (trimmed[0] == 0x00)
+            return new Long(0);
 
         Long longValue = Long.parseLong(new String(trimmed, 0, t));
         if (minusSignFound)

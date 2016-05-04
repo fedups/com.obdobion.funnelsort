@@ -589,9 +589,19 @@ public class FunnelContext
         columnHelper = new ColumnHelper();
         keyHelper = new KeyHelper();
         formatOutHelper = new OutputFormatHelper(columnHelper);
-        /*
-         * Save the columns for later referencing
-         */
+
+        postParseInputColumns();
+        postParseOrderBy();
+        postParseFormatOut();
+        postParseOutputFile();
+        postParseEolOut();
+        postParseWhere();
+        postParseStop();
+        postParseCSV();
+    }
+
+    private void postParseInputColumns () throws ParseException
+    {
         if (inputColumnDefs != null)
         {
             KeyPart previousColDef = null;
@@ -630,7 +640,10 @@ public class FunnelContext
                 }
             }
         }
+    }
 
+    private void postParseOrderBy () throws ParseException
+    {
         /*
          * Convert OrderBys into sort keys
          */
@@ -702,7 +715,10 @@ public class FunnelContext
                     throw new ParseException(e.getMessage(), 0);
                 }
             }
+    }
 
+    private void postParseFormatOut () throws ParseException
+    {
         if (formatOutDefs != null)
         {
             if (csv != null)
@@ -721,7 +737,10 @@ public class FunnelContext
                 }
             }
         }
+    }
 
+    private void postParseOutputFile () throws ParseException, IOException
+    {
         if (isInPlaceSort() && outputFile != null)
             throw new ParseException("--replace and --outputFile are mutually exclusive parameters", 0);
 
@@ -732,52 +751,16 @@ public class FunnelContext
                 && (inputFiles != null
                 && (inputFiles.files().size() == 1 || isInPlaceSort())))
             outputFile = getInputFile(0);
+    }
 
+    private void postParseEolOut ()
+    {
         if (endOfRecordOutDelimiter == null)
             endOfRecordOutDelimiter = endOfRecordDelimiter;
+    }
 
-        if (whereClause != null)
-            try
-            {
-                whereEqu = Equ.getInstance(true);
-                StringBuilder sb = new StringBuilder();
-                String connector = "";
-                for (String partialClause : whereClause)
-                {
-                    sb.append(connector);
-                    sb.append(" ( ");
-                    sb.append(partialClause);
-                    sb.append(" ) ");
-                    connector = " && ";
-                }
-                whereEqu.compile(sb.toString());
-
-            } catch (final Exception e)
-            {
-                throw new ParseException(e.getMessage(), 0);
-            }
-
-        if (stopClause != null)
-            try
-            {
-                stopEqu = Equ.getInstance(true);
-                StringBuilder sb = new StringBuilder();
-                String connector = "";
-                for (String partialClause : stopClause)
-                {
-                    sb.append(connector);
-                    sb.append(" ( ");
-                    sb.append(partialClause);
-                    sb.append(" ) ");
-                    connector = " && ";
-                }
-                stopEqu.compile(sb.toString());
-
-            } catch (final Exception e)
-            {
-                throw new ParseException(e.getMessage(), 0);
-            }
-
+    private void postParseCSV ()
+    {
         /*
          * Create a CSV parser if needed.
          */
@@ -802,6 +785,60 @@ public class FunnelContext
             if (csvParser.arg("--quote").isParsed())
                 csv.format = csv.format.withQuote((char) csv.quote);
         }
+    }
+
+    private void postParseStop () throws ParseException
+    {
+        if (stopClause != null)
+            try
+            {
+                stopEqu = Equ.getInstance(true);
+                StringBuilder sb = new StringBuilder();
+                String connector = "";
+                for (String partialClause : stopClause)
+                {
+                    if (partialClause != null && partialClause.trim().length() > 0)
+                    {
+                        sb.append(connector);
+                        sb.append(" ( ");
+                        sb.append(partialClause);
+                        sb.append(" ) ");
+                        connector = " && ";
+                    }
+                }
+                stopEqu.compile(sb.toString());
+
+            } catch (final Exception e)
+            {
+                throw new ParseException(e.getMessage(), 0);
+            }
+    }
+
+    private void postParseWhere () throws ParseException
+    {
+        if (whereClause != null)
+            try
+            {
+                whereEqu = Equ.getInstance(true);
+                StringBuilder sb = new StringBuilder();
+                String connector = "";
+                for (String partialClause : whereClause)
+                {
+                    if (partialClause != null && partialClause.trim().length() > 0)
+                    {
+                        sb.append(connector);
+                        sb.append(" ( ");
+                        sb.append(partialClause);
+                        sb.append(" ) ");
+                        connector = " && ";
+                    }
+                }
+                whereEqu.compile(sb.toString());
+
+            } catch (final Exception e)
+            {
+                throw new ParseException(e.getMessage(), 0);
+            }
     }
 
     public Equ getWhereEqu ()

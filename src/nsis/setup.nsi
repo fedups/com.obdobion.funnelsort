@@ -7,6 +7,7 @@
   !include Sections.nsh
   !include ..\..\funnel.nsh
   !include envvarupdate.nsh
+  !include ReplaceInFile.nsh
 
 ;======================================================
 ; Installer Information
@@ -76,13 +77,30 @@ Section "FunnelSort"
     File ..\..\..\algebrain\target\algebrain-${ALGEBRAIN_VERSION}.jar
     File ..\..\..\calendar\target\calendar-${CALENDAR_VERSION}.jar
     
+    ${StrRep} $0 $INSTDIR "\" "/"
+    !insertmacro _ReplaceInFile log4j.xml !{INSTDIR} $0
+     
     FileOpen $9 funnel.bat w
     FileWrite $9 "java -Dversion=${PROJECT_VERSION} -DspecPath=$\"$INSTDIR\scripts$\" -Dlog4j.configuration=$\"$INSTDIR\log4j.xml$\" -jar $\"$INSTDIR\funnel-${PROJECT_VERSION}.jar$\" %*$\r$\n"
     FileClose $9
     
+    SetOutPath $INSTDIR\examples\data
+    SetOverwrite on
+    
+    File ..\..\src\examples\data\MyDataCSV.in
+    File ..\..\src\examples\data\MyDataFixed.in
+    File ..\..\src\examples\data\MyDataVariable.in
+    
+    SetOutPath $INSTDIR\examples
+    SetOverwrite on
+    
+    File ..\..\src\examples\MyDataCSV.def
+    File ..\..\src\examples\MyDataFixed.def
+    File ..\..\src\examples\MyDataVariable.def
+    
     ${EnvVarUpdate} $0 "PATH" "A" "HKLM" $INSTDIR
     
-    writeUninstaller "$INSTDIR\tidy_uninstall.exe"
+    writeUninstaller "$INSTDIR\uninstall.exe"
 SectionEnd
 
 ; Installer functions
@@ -95,8 +113,10 @@ Section "uninstall"
     delete $INSTDIR\funnel.bat
     delete $INSTDIR\*.jar
     delete $INSTDIR\log4j.xml
-    delete $INSTDIR\commons-csv-1.2.xml
     delete $INSTDIR\funnel.log
+    delete $INSTDIR\examples\data\*.in
+    delete $INSTDIR\examples\*.def
+    delete $INSTDIR\examples\*.fun
 SectionEnd
 
 Function .onInit

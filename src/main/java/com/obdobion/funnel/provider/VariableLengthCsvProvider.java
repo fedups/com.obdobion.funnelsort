@@ -66,16 +66,12 @@ public class VariableLengthCsvProvider extends VariableLengthProvider
                         : 0);
     }
 
-    /**
-     * @param inputLength current not used and won't be unless an issue arises
-     * with null terminated input strings
-     */
     public byte[][] decodeCsv (final byte[] input, final int inputLength, CSVFormat csvFormat)
             throws IOException
     {
         final byte[][] field = new byte[includeColumn.length][];
 
-        CSVParser csvparser = CSVParser.parse(new String(input), csvFormat);
+        CSVParser csvparser = CSVParser.parse(new String(input, 0, inputLength), csvFormat);
         try
         {
             CSVRecord csvrecord = csvparser.getRecords().get(0);
