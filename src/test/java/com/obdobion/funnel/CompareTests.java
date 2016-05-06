@@ -12,7 +12,7 @@ import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class CompareTests
 {
@@ -31,7 +31,8 @@ public class CompareTests
     @Test
     public void compareDates () throws Throwable
     {
-        Helper.initializeFor("TEST compareDates");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DateKey key1 = new DateKey();
         key1.offset = 0;
@@ -57,7 +58,8 @@ public class CompareTests
     @Test
     public void compareDatesShortFormat () throws Throwable
     {
-        Helper.initializeFor("TEST compareDatesShortFormat");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DateKey key1 = new DateKey();
         key1.offset = 0;
@@ -83,7 +85,8 @@ public class CompareTests
     @Test
     public void compareDatesWrapping () throws Throwable
     {
-        Helper.initializeFor("TEST compareDatesWrapping");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DateKey key1 = new DateKey();
         key1.offset = 0;
@@ -109,7 +112,8 @@ public class CompareTests
     @Test
     public void compareDatesY2K () throws Throwable
     {
-        Helper.initializeFor("TEST compareDatesShortFormat");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DateKey key1 = new DateKey();
         key1.offset = 0;
@@ -135,7 +139,8 @@ public class CompareTests
     @Test
     public void compareDouble () throws Throwable
     {
-        Helper.initializeFor("TEST compareDouble");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayFloatKey key1 = new DisplayFloatKey();
         key1.offset = 0;
@@ -159,7 +164,8 @@ public class CompareTests
     @Test
     public void compareDoubleDec () throws Throwable
     {
-        Helper.initializeFor("TEST compareDoubleDec");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayFloatKey key1 = new DisplayFloatKey();
         key1.offset = 0;
@@ -183,7 +189,8 @@ public class CompareTests
     @Test
     public void compareDoubleMax16Whole () throws Throwable
     {
-        Helper.initializeFor("TEST compareDoubleMax16Whole");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayFloatKey key1 = new DisplayFloatKey();
         key1.offset = 0;
@@ -207,7 +214,8 @@ public class CompareTests
     @Test
     public void compareDoubleMax18Decimals () throws Throwable
     {
-        Helper.initializeFor("TEST compareDoubleMax18Decimals");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayFloatKey key1 = new DisplayFloatKey();
         key1.offset = 0;
@@ -231,7 +239,8 @@ public class CompareTests
     @Test
     public void compareDoubleMaxRatio17Total () throws Throwable
     {
-        Helper.initializeFor("TEST compareDoubleMaxRatio17Total");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayFloatKey key1 = new DisplayFloatKey();
         key1.offset = 0;

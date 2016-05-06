@@ -16,7 +16,8 @@ public class VariableInputTest
     public void variableUnterminatedLastLine ()
         throws Throwable
     {
-        Helper.initializeFor("TEST variableUnterminatedLastLine");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> out = new ArrayList<>();
         out.add("line 1");
@@ -25,7 +26,8 @@ public class VariableInputTest
 
         final File file = Helper.createUnsortedFile("variableInputTest", out, false);
 
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath() + "--max 2 -c original --eol cr,lf -r "
+        final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
+            + "--max 2 -c original --eol cr,lf -r "
             + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 3L, context.provider.actualNumberOfRows());

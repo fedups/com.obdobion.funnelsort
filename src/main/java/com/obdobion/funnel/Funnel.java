@@ -91,15 +91,14 @@ public class Funnel
      * @param args
      * @throws Exception
      */
-    static public FunnelContext sort (
-        final String... args)
+    static public FunnelContext sort (final AppContext cfg, final String... args)
         throws Throwable
     {
         FunnelContext context = null;
 
         try
         {
-            context = new FunnelContext(args);
+            context = new FunnelContext(cfg, args);
             if (context.parser.isUsageRun())
             {
                 logger.info("usage only");
@@ -494,8 +493,6 @@ public class Funnel
             if (context.comparisonCounter > 0)
                 logger.debug("Average comparison count per input row: "
                         + (context.comparisonCounter / passOneRowCount)
-                        + ", n(log n) = "
-                        + (passOneRowCount * Math.log(passOneRowCount))
                         + ".  Total comparisons = " + context.comparisonCounter);
         }
     }

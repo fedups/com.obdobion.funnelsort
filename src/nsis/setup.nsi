@@ -69,36 +69,56 @@
 
 
 Section "FunnelSort"
+
     SetOutPath $INSTDIR
     SetOverwrite on
+    
     File /r /x *.svn .\programfiles\*
+
+    ${StrRep} $0 $AppData "\" "/"
+    !insertmacro _ReplaceInFile log4j.xml !{APPDATA} $0
+
+    !insertmacro _ReplaceInFile funnel.cfg !{VERSION} ${PROJECT_VERSION}
+    !insertmacro _ReplaceInFile funnel.cfg !{INSTDIR} $INSTDIR
+
     File /x *source* ..\..\target\funnel-${PROJECT_VERSION}.jar
     File ..\..\..\argument\target\argument-${ARGUMENT_VERSION}.jar
     File ..\..\..\algebrain\target\algebrain-${ALGEBRAIN_VERSION}.jar
     File ..\..\..\calendar\target\calendar-${CALENDAR_VERSION}.jar
-    
-    ${StrRep} $0 $INSTDIR "\" "/"
-    !insertmacro _ReplaceInFile log4j.xml !{INSTDIR} $0
      
     FileOpen $9 funnel.bat w
-    FileWrite $9 "java -Dversion=${PROJECT_VERSION} -DspecPath=$\"$INSTDIR\scripts$\" -Dlog4j.configuration=$\"$INSTDIR\log4j.xml$\" -jar $\"$INSTDIR\funnel-${PROJECT_VERSION}.jar$\" %*$\r$\n"
+    FileWrite $9 "@echo off$\r$\n"
+    FileWrite $9 "java -Dfunnel.config=$\"$INSTDIR\funnel.cfg$\" -jar $\"$INSTDIR\funnel-${PROJECT_VERSION}.jar$\" %*$\r$\n"
     FileClose $9
     
     SetOutPath $INSTDIR\examples\data
     SetOverwrite on
     
     File ..\..\src\examples\data\MyDataCSV.in
+    SetFileAttributes MyDataCSV.in READONLY
+    
     File ..\..\src\examples\data\MyDataFixed.in
+    SetFileAttributes MyDataFixed.in READONLY
+    
     File ..\..\src\examples\data\MyDataVariable.in
+    SetFileAttributes MyDataVariable.in READONLY
+    
+    File ..\..\src\examples\data\MyDataVariable1.in
+    SetFileAttributes MyDataVariable1.in READONLY
+    
+    File ..\..\src\examples\data\MyDataVariable2.in
+    SetFileAttributes MyDataVariable2.in READONLY
     
     SetOutPath $INSTDIR\examples
     SetOverwrite on
     
-    File ..\..\src\examples\MyDataCSV.def
-    File ..\..\src\examples\MyDataFixed.def
-    File ..\..\src\examples\MyDataVariable.def
+    File ..\..\src\examples\*.def
+    File ..\..\src\examples\*.fun
     
     ${EnvVarUpdate} $0 "PATH" "A" "HKLM" $INSTDIR
+    
+    CreateDirectory "$SMPROGRAMS\Funnel"
+    createShortCut "$SMPROGRAMS\Funnel\Log.lnk" "$AppData\funnel.log" "" ""
     
     writeUninstaller "$INSTDIR\uninstall.exe"
 SectionEnd
@@ -110,10 +130,10 @@ FunctionEnd
 
 Section "uninstall"
     ${un.EnvVarUpdate} $0 "PATH" "R" "HKLM" $INSTDIR
+    delete "$SMPROGRAMS\Funnel\Log.lnk"
     delete $INSTDIR\funnel.bat
     delete $INSTDIR\*.jar
     delete $INSTDIR\log4j.xml
-    delete $INSTDIR\funnel.log
     delete $INSTDIR\examples\data\*.in
     delete $INSTDIR\examples\*.def
     delete $INSTDIR\examples\*.fun

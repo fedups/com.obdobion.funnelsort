@@ -17,30 +17,32 @@ import com.obdobion.funnel.provider.InputCache;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 @SuppressWarnings("deprecation")
 public class InputCacheTests
 {
     static private FunnelContext createDummyContext (
-            final InputStream in,
-            final PrintStream out)
-            throws Exception
+        final InputStream in,
+        final PrintStream out)
+        throws Exception
     {
         System.setIn(in);
         System.setOut(out);
-        return new FunnelContext("");
+        return new FunnelContext(Helper.config(), "");
     }
 
     @Test
     public void bufferPositioningLargeNumbers ()
-            throws Throwable
+        throws Throwable
     {
-        Helper.initializeFor("TEST bufferPositioningPow2");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final long[] bufStarts =
         {
-                0, 32768
+            0,
+            32768
         };
 
         Assert.assertEquals(0, InputCache.findBufferIndexForPosition(32767, bufStarts));
@@ -50,13 +52,17 @@ public class InputCacheTests
 
     @Test
     public void bufferPositioningNotPow2 ()
-            throws Throwable
+        throws Throwable
     {
-        Helper.initializeFor("TEST bufferPositioningNotPow2");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final long[] bufStarts =
         {
-                0, 10, 20, 30
+            0,
+            10,
+            20,
+            30
         };
 
         Assert.assertEquals(0, InputCache.findBufferIndexForPosition(0, bufStarts));
@@ -70,13 +76,15 @@ public class InputCacheTests
 
     @Test
     public void bufferPositioningPow2 ()
-            throws Throwable
+        throws Throwable
     {
-        Helper.initializeFor("TEST bufferPositioningPow2");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final long[] bufStarts =
         {
-                0, 10
+            0,
+            10
         };
 
         Assert.assertEquals(0, InputCache.findBufferIndexForPosition(0, bufStarts));
@@ -90,9 +98,11 @@ public class InputCacheTests
 
     @Test
     public void inputStreamWith2BuffersByArray ()
-            throws Throwable
+        throws Throwable
     {
-        Helper.initializeFor("TEST inputStreamWith2BuffersByArray");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
         final int minRow = 100000;
         final int maxRows = 104106;
 
@@ -118,9 +128,11 @@ public class InputCacheTests
 
     @Test
     public void inputStreamWith2BuffersByByte ()
-            throws Throwable
+        throws Throwable
     {
-        Helper.initializeFor("TEST inputStreamWith2BuffersByByte");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
         final int minRow = 100000;
         final int maxRows = 104106;
 
@@ -147,9 +159,11 @@ public class InputCacheTests
 
     @Test
     public void sortWith2Buffers ()
-            throws Throwable
+        throws Throwable
     {
-        Helper.initializeFor("TEST sortWith2Buffers");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
         final int minRow = 100000;
         final int maxRows = 104106;
 
@@ -163,7 +177,7 @@ public class InputCacheTests
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
-        Funnel.sort("--cacheInput");
+        Funnel.sort(Helper.config(), "--cacheInput");
 
         outputStream.flush();
         outputStream.close();

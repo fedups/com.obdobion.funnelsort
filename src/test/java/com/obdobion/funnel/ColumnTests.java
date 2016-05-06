@@ -12,39 +12,16 @@ import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class ColumnTests
 {
     @Test
-    public void startingInFirstColumn ()
-            throws Throwable
-    {
-        Helper.initializeFor("TEST startingInFirstColumn");
-
-        final List<String> logFile = new ArrayList<>();
-        logFile.add("FATAL");
-        logFile.add("INFO ");
-        logFile.add("WARN ");
-
-        final File file = Helper.createUnsortedFile("startingInFirstColumn", logFile);
-
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath()
-                + " --col(string -o0 -l5 -n level)"
-                + " --where \"(level = 'FATAL')\""
-                + " -r "
-                + Helper.DEFAULT_OPTIONS);
-
-        Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
-
-        Assert.assertTrue(file.delete());
-    }
-
-    @Test
     public void notStartingInFirstColumn ()
-            throws Throwable
+        throws Throwable
     {
-        Helper.initializeFor("TEST notStartingInFirstColumn");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> logFile = new ArrayList<>();
         logFile.add("  FATAL");
@@ -53,11 +30,11 @@ public class ColumnTests
 
         final File file = Helper.createUnsortedFile("notStartingInFirstColumn", logFile);
 
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath()
-                + " --col(string -o2 -l5 -n level)"
-                + " --where \"(level = 'FATAL')\""
-                + " -r "
-                + Helper.DEFAULT_OPTIONS);
+        final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
+            + " --col(string -o2 -l5 -n level)"
+            + " --where \"(level = 'FATAL')\""
+            + " -r "
+            + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
 
@@ -65,10 +42,11 @@ public class ColumnTests
     }
 
     @Test
-    public void shortValue()
-            throws Throwable
+    public void shortValue ()
+        throws Throwable
     {
-        Helper.initializeFor("TEST shortValue");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> logFile = new ArrayList<>();
         logFile.add("  FATAL");
@@ -77,11 +55,36 @@ public class ColumnTests
 
         final File file = Helper.createUnsortedFile("shortValue", logFile);
 
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath()
-                + " --col(string -o2 -l5 -n level)"
-                + " --where \"(level = 'INFO ')\""
-                + " -r "
-                + Helper.DEFAULT_OPTIONS);
+        final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
+            + " --col(string -o2 -l5 -n level)"
+            + " --where \"(level = 'INFO ')\""
+            + " -r "
+            + Helper.DEFAULT_OPTIONS);
+
+        Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
+
+        Assert.assertTrue(file.delete());
+    }
+
+    @Test
+    public void startingInFirstColumn ()
+        throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        final List<String> logFile = new ArrayList<>();
+        logFile.add("FATAL");
+        logFile.add("INFO ");
+        logFile.add("WARN ");
+
+        final File file = Helper.createUnsortedFile("startingInFirstColumn", logFile);
+
+        final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
+            + " --col(string -o0 -l5 -n level)"
+            + " --where \"(level = 'FATAL')\""
+            + " -r "
+            + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
 

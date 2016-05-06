@@ -6,12 +6,9 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Properties;
 
 import org.apache.commons.csv.CSVFormat;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 import com.obdobion.algebrain.Equ;
 import com.obdobion.argument.ByteCLA;
@@ -21,6 +18,7 @@ import com.obdobion.argument.ICmdLine;
 import com.obdobion.argument.WildFiles;
 import com.obdobion.argument.input.CommandLineParser;
 import com.obdobion.argument.input.IParserInput;
+import com.obdobion.funnel.AppContext;
 import com.obdobion.funnel.FunnelDataProvider;
 import com.obdobion.funnel.FunnelDataPublisher;
 import com.obdobion.funnel.columns.ColumnHelper;
@@ -40,13 +38,7 @@ import com.obdobion.funnel.publisher.PublisherFactory;
  */
 public class FunnelContext
 {
-    private static final String MASTER_LOG_NAME   = "MasterAppender";
-    private static final String SYSPARM_SPEC_PATH = "specPath";
-    public static final String  SYSPARM_DEBUG     = "debug";
-    public static final String  SYSPARM_VERSION   = "version";
-    private static final String ENVVAR_USERHOME   = "user.home";
-
-    static final private Logger logger            = Logger.getLogger(FunnelContext.class);
+    static final private Logger logger = Logger.getLogger(FunnelContext.class);
 
     static private void defineCacheInput (
             final List<String> def)
@@ -219,7 +211,7 @@ public class FunnelContext
     static private void defineColumnCSVField (
             final ArrayList<String> def)
     {
-        def.add("-tInteger -k f field --var csvFieldNumber -h'If this is a CSV file then use this instead of offset and length.' --range 0");
+        def.add("-tInteger -k f field --var csvFieldNumber -h'If this is a CSV file then use this instead of offset and length.  The first field is field #1 (not zero).' --range 1");
     }
 
     static private void defineKeyDirection (
@@ -416,7 +408,6 @@ public class FunnelContext
     public CopyOrder            copyOrder;
     public DuplicateDisposition duplicateDisposition;
     public File                 workDirectory;
-    public File                 logDirectory;
     public String               specDirectory;
     public boolean              inPlaceSort;
     public boolean              version;
@@ -425,50 +416,31 @@ public class FunnelContext
     public InputCache           inputCache;
     public boolean              cacheInput;
     public boolean              diskWork;
-    public boolean              debug;
     public KeyHelper            keyHelper;
     public OutputFormatHelper   formatOutHelper;
     public ColumnHelper         columnHelper;
-    private final String        installedVersionNumber;
     public byte[]               endOfRecordDelimiter;
     public byte[]               endOfRecordOutDelimiter;
     public CSVDef               csv;
 
     public long                 comparisonCounter;
 
-    public FunnelContext(final String... _args) throws IOException, ParseException
+    public FunnelContext(AppContext cfg, final String... _args) throws IOException, ParseException
     {
-        this.debug = System.getProperty(SYSPARM_DEBUG, "NO").equalsIgnoreCase("on");
-
-        installedVersionNumber = System.getProperty(SYSPARM_VERSION, "missing -D" + SYSPARM_VERSION + " parameter");
-
-        /*
-         * The log directory is specified here so that the log can be used
-         * immediately.
-         */
-        startLogging(logDirectory = new File(System.getProperty(ENVVAR_USERHOME, "/tmp"),
-                "funnel/var/log"));
         logger.info("================ BEGIN ===================");
-        logger.debug("Funnel " + installedVersionNumber);
+        logger.debug("Funnel " + cfg.version);
 
         parser = new CmdLine(null,
                 "Funnel is a sort / copy / merge utility.\n\nVersion "
-                        + installedVersionNumber
-                        + ".  The log file is located in "
-                        + logDirectory.getAbsolutePath()
+                        + cfg.version
+                        + ".  The log4j configuration file is " + cfg.log4jConfigFileName
                         + ".");
-        /*
-         * The specification directory is passed to the parser to control where
-         * the default include (import) files are located. This is passed in to
-         * Funnel via a JVM parameter (-DspecPath=<path>).
-         */
-        specDirectory = System.getProperty(SYSPARM_SPEC_PATH, null);
-        if (specDirectory != null)
+
+        if (cfg.specPath != null)
         {
-            final String[] pathParts = specDirectory.split("[,;]");
-            for (int p = 0; p < pathParts.length; p++)
+            for (int p = 0; p < cfg.specPath.length; p++)
             {
-                parser.addDefaultIncludeDirectory(new File(pathParts[p]));
+                parser.addDefaultIncludeDirectory(new File(cfg.specPath[p]));
             }
         }
 
@@ -504,8 +476,8 @@ public class FunnelContext
             return;
         if (version)
         {
-            logger.info("version " + installedVersionNumber);
-            System.out.println("Funnel " + installedVersionNumber);
+            logger.info("version " + cfg.version);
+            System.out.println("Funnel " + cfg.version);
             return;
         }
 
@@ -533,11 +505,6 @@ public class FunnelContext
     public File getInputFile (final int fileNumber) throws ParseException, IOException
     {
         return inputFiles.files().get(fileNumber);
-    }
-
-    public String getVersion ()
-    {
-        return installedVersionNumber;
     }
 
     public int inputFileCount () throws ParseException, IOException
@@ -631,6 +598,14 @@ public class FunnelContext
                             if (previousColDef != null)
                                 colDef.offset = previousColDef.offset + previousColDef.length;
                         }
+                    /*
+                     * Since the parameter is 1-relative, an arbitrary decision,
+                     * we have to subtract one from them before they can be
+                     * used.
+                     */
+                    if (colDef.csvFieldNumber > 0)
+                        colDef.csvFieldNumber--;
+
                     columnHelper.add(colDef);
                     previousColDef = colDef;
 
@@ -747,9 +722,11 @@ public class FunnelContext
         if (isInPlaceSort() && isSysin())
             throw new ParseException("--replace requires --inputFile, redirection or piped input is not allowed", 0);
 
-        if (outputFile == null
-                && (inputFiles != null
-                && (inputFiles.files().size() == 1 || isInPlaceSort())))
+        /*
+         * -r is how the input file is replaced. If we set the outputFile here
+         * it then becomes impossible to sort to the command line (sysout).
+         */
+        if (isInPlaceSort())
             outputFile = getInputFile(0);
     }
 
@@ -888,8 +865,6 @@ public class FunnelContext
 
         if (specDirectory != null)
             logger.debug("specification include path is " + specDirectory);
-        if (specDirectory != null)
-            logger.debug("The log file is in this directory: " + logDirectory.getAbsolutePath());
 
         if (fixedRecordLength > 0)
         {
@@ -1000,48 +975,6 @@ public class FunnelContext
                         + " "
                         + def.direction.name());
             }
-    }
-
-    /**
-     * @param _logDirectory
-     */
-    private void startLogging (
-            final File _logDirectory)
-    {
-        /*
-         * Loggers will be defined only if funnel is being included in another
-         * application that also has Log4J initialized. In this case we want to
-         * use the LogManager initialize from the surrounding application.
-         */
-        if (LogManager.getCurrentLoggers().hasMoreElements())
-            return;
-
-        if (_logDirectory.mkdirs())
-            System.out.println("mkdirs " + _logDirectory.getAbsolutePath());
-        else if (!_logDirectory.exists())
-            System.out.println("mkdirs, " + _logDirectory.getAbsolutePath() + " not created");
-
-        final Properties log4j = new Properties();
-
-        if (debug)
-            log4j.setProperty("log4j.rootLogger", "DEBUG, " + MASTER_LOG_NAME);
-        else
-            log4j.setProperty("log4j.rootLogger", "INFO, " + MASTER_LOG_NAME);
-
-        log4j.setProperty("log4j.appender." + MASTER_LOG_NAME, "org.apache.log4j.RollingFileAppender");
-        log4j.setProperty("log4j.appender." + MASTER_LOG_NAME + ".File", _logDirectory.getAbsolutePath()
-                + "/funnel.log");
-        log4j.setProperty("log4j.appender." + MASTER_LOG_NAME + ".maxBackupIndex", "3");
-        log4j.setProperty("log4j.appender." + MASTER_LOG_NAME + ".maxFileSize", "10MB");
-
-        log4j.setProperty("log4j.appender." + MASTER_LOG_NAME + ".layout", "org.apache.log4j.PatternLayout");
-        if (debug)
-            log4j.setProperty("log4j.appender." + MASTER_LOG_NAME + ".layout.ConversionPattern",
-                    "%d%6r%5L-%-36c{1}%-6p%m%n");
-        else
-            log4j.setProperty("log4j.appender." + MASTER_LOG_NAME + ".layout.ConversionPattern", "%d %m%n");
-
-        PropertyConfigurator.configure(log4j);
     }
 
     public boolean startNextInput () throws ParseException, IOException

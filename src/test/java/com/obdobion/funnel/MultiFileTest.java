@@ -12,16 +12,17 @@ import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class MultiFileTest
 {
 
     @Test
     public void twoInputFilesMerged ()
-            throws Throwable
+        throws Throwable
     {
-        Helper.initializeFor("TEST twoInputFilesMerged");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final File output = new File("/tmp/twoInputFilesMerged");
 
@@ -43,10 +44,10 @@ public class MultiFileTest
         final File file = Helper.createUnsortedFile("MultiFileTest", in1);
         final File file2 = Helper.createUnsortedFile("MultiFileTest", in2);
 
-        final FunnelContext context = Funnel.sort(file.getParent() + "/MultiFileTest*"
-                + " -o " + output.getAbsolutePath()
-                + " --max 4 --eol CR LF --eolOut LF"
-                + Helper.DEFAULT_OPTIONS);
+        final FunnelContext context = Funnel.sort(Helper.config(), file.getParent() + "/MultiFileTest*"
+            + " -o " + output.getAbsolutePath()
+            + " --max 4 --eol CR LF --eolOut LF"
+            + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 4L, context.publisher.getWriteCount());
         Helper.compare(output, expectedOutput);
@@ -58,9 +59,10 @@ public class MultiFileTest
 
     @Test
     public void twoInputFilesWithReplace ()
-            throws Throwable
+        throws Throwable
     {
-        Helper.initializeFor("TEST twoInputFilesWithReplace");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> out = new ArrayList<>();
         out.add("line 1");
@@ -69,11 +71,11 @@ public class MultiFileTest
         final File file = Helper.createUnsortedFile("twoInputFilesWithReplace", out);
         final File file2 = Helper.createUnsortedFile("twoInputFilesWithReplace", out);
 
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath()
-                + ","
-                + file2.getAbsolutePath()
-                + " --replace --max 2 -c original --eol CR LF --eolOut LF"
-                + Helper.DEFAULT_OPTIONS);
+        final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
+            + ","
+            + file2.getAbsolutePath()
+            + " --replace --max 2 -c original --eol CR LF --eolOut LF"
+            + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);

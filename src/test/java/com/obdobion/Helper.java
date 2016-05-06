@@ -6,12 +6,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 import org.junit.Assert;
 
+import com.obdobion.funnel.AppContext;
 import com.obdobion.funnel.orderby.KeyContext;
-import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
  * @author Chris DeGreef
@@ -24,6 +25,12 @@ public class Helper
     public static final String DEFAULT_OPTIONS = "";              // "--cachew--workDir "
                                                                    // + workDir;
     public static final String DEBUG           = "ON";
+
+    static public String testName ()
+    {
+        final StackTraceElement[] ste = Thread.currentThread().getStackTrace();
+        return ste[2].getMethodName();
+    }
 
     static public void compare (final File file, final List<String> expectedLines)
         throws IOException
@@ -94,13 +101,25 @@ public class Helper
         return kx;
     }
 
+    public static String myDataCSVFileName ()
+    {
+        return "./src/examples/data/MyDataCSV.in";
+    }
+
+    public static String outFileName (String jUnitTestName)
+    {
+        return "c:\\tmp\\" + jUnitTestName + ".out";
+    }
+
     public static void initializeFor (final String testCaseName)
     {
         System.out.println();
         System.out.println(testCaseName);
-        System.setProperty(FunnelContext.SYSPARM_DEBUG, DEBUG);
-        System.setProperty(FunnelContext.SYSPARM_VERSION, "TESTING");
+    }
 
+    static public AppContext config () throws IOException, ParseException
+    {
+        return new AppContext(System.getProperty("user.dir"));
     }
 
     static public File outFileWhenInIsSysin ()

@@ -9,6 +9,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.log4j.Logger;
 
+import com.obdobion.funnel.AppContext;
 import com.obdobion.funnel.orderby.KeyContext;
 import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
@@ -32,7 +33,7 @@ public class VariableLengthCsvProvider extends VariableLengthProvider
      */
     public VariableLengthCsvProvider(final boolean _includeColumn[]) throws Exception
     {
-        this(new FunnelContext());
+        this(new FunnelContext(new AppContext()));
         this.includeColumn = _includeColumn;
     }
 

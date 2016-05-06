@@ -5,6 +5,7 @@ import java.text.ParseException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 public class CommandLineOptionsTest
@@ -17,28 +18,34 @@ public class CommandLineOptionsTest
     @Test
     public void defineCacheInput () throws Exception
     {
-        ctx = new FunnelContext();
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        ctx = new FunnelContext(Helper.config());
         Assert.assertFalse("default cacheInput", ctx.cacheInput);
 
-        ctx = new FunnelContext("--cacheI");
+        ctx = new FunnelContext(Helper.config(), "--cacheI");
         Assert.assertTrue("cacheInput", ctx.cacheInput);
 
-        ctx = new FunnelContext("-!cacheI");
+        ctx = new FunnelContext(Helper.config(), "-!cacheI");
         Assert.assertFalse("cacheInput", ctx.cacheInput);
     }
 
     @Test
     public void defineCacheWork () throws Exception
     {
-        ctx = new FunnelContext();
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        ctx = new FunnelContext(Helper.config());
         Assert.assertFalse("default diskWork", ctx.diskWork);
         Assert.assertTrue("default isCacheWork", ctx.isCacheWork());
 
-        ctx = new FunnelContext("--diskWork");
+        ctx = new FunnelContext(Helper.config(), "--diskWork");
         Assert.assertTrue("diskWork", ctx.diskWork);
         Assert.assertFalse("isCacheWork", ctx.isCacheWork());
 
-        ctx = new FunnelContext("-!diskWork");
+        ctx = new FunnelContext(Helper.config(), "-!diskWork");
         Assert.assertFalse("diskWork", ctx.diskWork);
         Assert.assertTrue("isCacheWork", ctx.isCacheWork());
     }
@@ -54,7 +61,10 @@ public class CommandLineOptionsTest
     @Test
     public void defineColumnsSubparser () throws Exception
     {
-        ctx = new FunnelContext("--col(string)");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        ctx = new FunnelContext(Helper.config(), "--col(string)");
         Assert.assertEquals("columns", 1, ctx.columnHelper.getNames().size());
         Assert.assertNull("column name", ctx.columnHelper.getNames().get(0));
         Assert.assertEquals("column type", "String", ctx.columnHelper.get(null).typeName);
@@ -63,13 +73,13 @@ public class CommandLineOptionsTest
          */
         try
         {
-            ctx = new FunnelContext("--col(string)(int)");
+            ctx = new FunnelContext(Helper.config(), "--col(string)(int)");
             Assert.fail("should have failed because of more than one unnamed column");
         } catch (final ParseException e)
         {
             Assert.assertEquals("Column already defined: null", e.getMessage());
         }
-        ctx = new FunnelContext("--col(string)(-n myInt int)");
+        ctx = new FunnelContext(Helper.config(), "--col(string)(-n myInt int)");
         Assert.assertEquals("columns", 2, ctx.columnHelper.getNames().size());
         Assert.assertNull("column name", ctx.columnHelper.getNames().get(0));
         Assert.assertEquals("column name", "myInt", ctx.columnHelper.getNames().get(1));
@@ -78,7 +88,7 @@ public class CommandLineOptionsTest
         /*
          * More verbose
          */
-        ctx = new FunnelContext("--col(string) --col(-n myInt int)");
+        ctx = new FunnelContext(Helper.config(), "--col(string) --col(-n myInt int)");
         Assert.assertEquals("columns", 2, ctx.columnHelper.getNames().size());
         Assert.assertNull("column name", ctx.columnHelper.getNames().get(0));
         Assert.assertEquals("column name", "myInt", ctx.columnHelper.getNames().get(1));
@@ -87,43 +97,43 @@ public class CommandLineOptionsTest
         /*
          * Binary Integer type
          */
-        ctx = new FunnelContext("--col(bI)");
+        ctx = new FunnelContext(Helper.config(), "--col(bI)");
         Assert.assertEquals("column type", "BInteger", ctx.columnHelper.get(null).typeName);
         /*
          * Display Float type
          */
-        ctx = new FunnelContext("--col(float)");
+        ctx = new FunnelContext(Helper.config(), "--col(float)");
         Assert.assertEquals("column type", "Float", ctx.columnHelper.get(null).typeName);
         /*
          * Binary Float type
          */
-        ctx = new FunnelContext("--col(bfloat)");
+        ctx = new FunnelContext(Helper.config(), "--col(bfloat)");
         Assert.assertEquals("column type", "BFloat", ctx.columnHelper.get(null).typeName);
         /*
          * Date
          */
-        ctx = new FunnelContext("--col(Date)");
+        ctx = new FunnelContext(Helper.config(), "--col(Date)");
         Assert.assertEquals("column type", "Date", ctx.columnHelper.get(null).typeName);
         /*
          * csv field
          */
-        ctx = new FunnelContext("--col(String -f1)");
-        Assert.assertEquals("column as field", 1, ctx.columnHelper.get(null).csvFieldNumber);
+        ctx = new FunnelContext(Helper.config(), "--col(String -f1)");
+        Assert.assertEquals("column as field", 0, ctx.columnHelper.get(null).csvFieldNumber);
         /*
          * offset
          */
-        ctx = new FunnelContext("--col(String -o10)");
+        ctx = new FunnelContext(Helper.config(), "--col(String -o10)");
         Assert.assertEquals("offset", 10, ctx.columnHelper.get(null).offset);
         Assert.assertEquals("length", 255, ctx.columnHelper.get(null).length);
         /*
          * offset
          */
-        ctx = new FunnelContext("--col(String -l5)");
+        ctx = new FunnelContext(Helper.config(), "--col(String -l5)");
         Assert.assertEquals("offset", 5, ctx.columnHelper.get(null).length);
         /*
          * offset
          */
-        ctx = new FunnelContext("--col(Date -d'yyyyMM')");
+        ctx = new FunnelContext(Helper.config(), "--col(Date -d'yyyyMM')");
         Assert.assertEquals("format", "yyyyMM", ctx.columnHelper.get(null).parseFormat);
     }
 
@@ -135,23 +145,23 @@ public class CommandLineOptionsTest
     @Test
     public void defineInputFile () throws Exception
     {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
         /*
          * This will change if the number of class files changes.
          */
-        ctx = new FunnelContext("**/main/**/funnel/*.java");
-        Assert.assertEquals("file count", 5, ctx.inputFiles.files().size());
+        ctx = new FunnelContext(Helper.config(), "**/main/**/funnel/*.java");
+        Assert.assertEquals("file count", 6, ctx.inputFiles.files().size());
         /*
          * This will change if the number of class files changes.
          */
-        ctx = new FunnelContext("**/main/**/funnel/*.java", "**/main/**/segment/*.java");
-        Assert.assertEquals("file count", 11, ctx.inputFiles.files().size());
+        ctx = new FunnelContext(Helper.config(), "**/main/**/funnel/*.java", "**/main/**/segment/*.java");
+        Assert.assertEquals("file count", 12, ctx.inputFiles.files().size());
     }
 
     @Test
     public void version () throws Exception
     {
-        System.setProperty("version", "1.2.3");
-        ctx = new FunnelContext("--version");
-        Assert.assertEquals("version", "1.2.3", ctx.getVersion());
+        Assert.assertEquals("version", "JUNIT.TESTING", Helper.config().version);
     }
 }

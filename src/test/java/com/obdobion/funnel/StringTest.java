@@ -21,7 +21,8 @@ public class StringTest
     public void caseMatters ()
         throws Throwable
     {
-        Helper.initializeFor("TEST caseMatters");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final File output = new File("/tmp/caseMatters");
 
@@ -31,8 +32,9 @@ public class StringTest
         in1.add("M");
 
         final File file1 = Helper.createUnsortedFile("caseMatters1", in1);
-        final FunnelContext context = Funnel.sort(file1.getParentFile().getAbsolutePath() + "/caseMatters?.* "
-                + " --col(string -o0 -l1 -n col1)"
+        final FunnelContext context = Funnel.sort(Helper.config(), file1.getParentFile().getAbsolutePath()
+            + "/caseMatters?.* "
+            + " --col(string -o0 -l1 -n col1)"
             + " --orderby(col1 asc)"
             + " -o " + output.getAbsolutePath()
                 );
@@ -51,9 +53,10 @@ public class StringTest
 
     @Test
     public void ignoreCase ()
-            throws Throwable
+        throws Throwable
     {
-        Helper.initializeFor("TEST ignoreCase");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final File output = new File("/tmp/ignoreCase");
 
@@ -63,10 +66,11 @@ public class StringTest
         in1.add("M");
 
         final File file1 = Helper.createUnsortedFile("ignoreCase1", in1);
-        final FunnelContext context = Funnel.sort(file1.getParentFile().getAbsolutePath() + "/ignoreCase?.* "
-                + " --col(string -o0 -l1 -n col1)"
-                + " --orderby(col1 aasc)"
-                + " -o " + output.getAbsolutePath()
+        final FunnelContext context = Funnel.sort(Helper.config(), file1.getParentFile().getAbsolutePath()
+            + "/ignoreCase?.* "
+            + " --col(string -o0 -l1 -n col1)"
+            + " --orderby(col1 aasc)"
+            + " -o " + output.getAbsolutePath()
                 );
 
         Assert.assertEquals("records", 3L, context.publisher.getWriteCount());

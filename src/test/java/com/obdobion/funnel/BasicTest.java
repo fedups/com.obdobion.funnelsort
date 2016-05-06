@@ -21,7 +21,8 @@ public class BasicTest
     public void integerSort ()
         throws Throwable
     {
-        Helper.initializeFor("TEST integerSort");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final File output = new File("/tmp/integerSort");
 
@@ -31,7 +32,8 @@ public class BasicTest
         in1.add("11");
 
         final File file1 = Helper.createUnsortedFile("integerSort1", in1);
-        final FunnelContext context = Funnel.sort(file1.getParentFile().getAbsolutePath() + "/integerSort?.* "
+        final FunnelContext context = Funnel.sort(Helper.config(), file1.getParentFile().getAbsolutePath()
+            + "/integerSort?.* "
             + " --col(int -o0 -l7 -n col1)"
             + " --orderby(col1 asc)"
             + " --pow 2"
@@ -55,7 +57,8 @@ public class BasicTest
     public void multifileInputIntegerSort ()
         throws Throwable
     {
-        Helper.initializeFor("TEST multifileInputIntegerSort");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final File output = new File("/tmp/multifileInputIntegerSort");
 
@@ -66,7 +69,7 @@ public class BasicTest
 
         final File file1 = Helper.createUnsortedFile("multifileInputIntegerSort1", in1);
         final File file2 = Helper.createUnsortedFile("multifileInputIntegerSort2", in1);
-        final FunnelContext context = Funnel.sort(file1.getParentFile().getAbsolutePath()
+        final FunnelContext context = Funnel.sort(Helper.config(), file1.getParentFile().getAbsolutePath()
             + "/multifileInputIntegerSort?.* "
             + " --col(int -o0 -l3 -n col1)"
             + " --orderby(col1 desc)"
@@ -96,7 +99,8 @@ public class BasicTest
     public void multifileInputStringSort ()
         throws Throwable
     {
-        Helper.initializeFor("TEST multifileInputStringSort");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final File output = new File("/tmp/multifileInputStringSort");
 
@@ -107,8 +111,8 @@ public class BasicTest
 
         final File file1 = Helper.createUnsortedFile("multifileInputStringSort1", in1);
         final File file2 = Helper.createUnsortedFile("multifileInputStringSort2", in1);
-        final FunnelContext context = Funnel.sort(file1.getParentFile().getAbsolutePath()
-                + "/multifileInputStringSort?.* "
+        final FunnelContext context = Funnel.sort(Helper.config(), file1.getParentFile().getAbsolutePath()
+            + "/multifileInputStringSort?.* "
             + " --col(String -o0 -l3 -n col1)"
             + " --orderby(col1 desc)"
             + " --pow 2"

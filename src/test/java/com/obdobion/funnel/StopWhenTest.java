@@ -12,16 +12,17 @@ import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class StopWhenTest
 {
 
     @Test
     public void stopAfter10 ()
-            throws Throwable
+        throws Throwable
     {
-        Helper.initializeFor("TEST stopAfter10");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> in1 = new ArrayList<>();
         for (int x = 10000; x <= 99999; x += 100)
@@ -31,10 +32,10 @@ public class StopWhenTest
 
         final File file = Helper.createUnsortedFile("stopAfter10", in1);
 
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath()
-                + " -r "
-                + " --stopWhen 'recordNumber > 1'"
-                + Helper.DEFAULT_OPTIONS);
+        final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
+            + " -r "
+            + " --stopWhen 'recordNumber > 1'"
+            + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
         final List<String> exp = new ArrayList<>();

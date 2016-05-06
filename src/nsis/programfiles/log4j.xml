@@ -5,7 +5,7 @@
 	debug="false">
 	<appender name="FILE" class="org.apache.log4j.FileAppender">
 		<param name="Threshold" value="DEBUG" />
-		<param name="File" value="!{INSTDIR}/funnel.log"/>
+		<param name="File" value="!{APPDATA}/funnel.log"/>
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d %-5p (%x) %m%n" />
 		</layout>

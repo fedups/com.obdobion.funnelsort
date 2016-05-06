@@ -12,15 +12,16 @@ import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class DuplicateTest
 {
     @Test
     public void dupsFirst ()
-            throws Throwable
+        throws Throwable
     {
-        Helper.initializeFor("TEST dupsFirst");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> in = new ArrayList<>();
         for (int r = 0; r < 130; r++)
@@ -31,7 +32,9 @@ public class DuplicateTest
         out.add(in.get(0));
 
         final File file = Helper.createUnsortedFile("dupsFirst", in);
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+        final FunnelContext context = Funnel.sort(
+            Helper.config(),
+            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
                 + " --max 130 -f10"
                 + "--col(String -o0,-l3 -n col1)"
                 + "--orderby(col1) "
@@ -46,9 +49,10 @@ public class DuplicateTest
 
     @Test
     public void dupsLast ()
-            throws Throwable
+        throws Throwable
     {
-        Helper.initializeFor("TEST dupsLast");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> in = new ArrayList<>();
         for (int r = 0; r < 130; r++)
@@ -59,7 +63,9 @@ public class DuplicateTest
         out.add(in.get(129));
 
         final File file = Helper.createUnsortedFile("dupsLast", in);
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+        final FunnelContext context = Funnel.sort(
+            Helper.config(),
+            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
                 + " --max 130 -f10"
                 + "--col(String -o0,-l3 -n col1)"
                 + "--orderby(col1) "
@@ -74,9 +80,10 @@ public class DuplicateTest
 
     @Test
     public void dupsReverse ()
-            throws Throwable
+        throws Throwable
     {
-        Helper.initializeFor("TEST dupsReverse");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> in = new ArrayList<>();
         for (int r = 0; r < 130; r++)
@@ -91,7 +98,9 @@ public class DuplicateTest
         }
 
         final File file = Helper.createUnsortedFile("dupsReverse", in);
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+        final FunnelContext context = Funnel.sort(
+            Helper.config(),
+            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
                 + " --max 130 -f10 "
                 + "--col(String -o0,-l3 -n col1)"
                 + "--orderby(col1) "

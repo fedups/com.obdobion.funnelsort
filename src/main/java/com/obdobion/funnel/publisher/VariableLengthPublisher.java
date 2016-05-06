@@ -121,6 +121,13 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher, Co
          * know a duplicate has been found.
          */
         item.originalRecordNumber = 0;
+        /*
+         * The same goes for the original file number. But it is important not
+         * to loose this information because it is needed to get the original
+         * data.
+         */
+        int originalFileNumber = item.originalInputFileIndex;
+        item.originalInputFileIndex = 0;
 
         int comparison = 0;
         if (previousData != null)
@@ -164,7 +171,7 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher, Co
             originalBytes = new byte[item.originalSize + 1024];
         }
 
-        originalFile.read(item.originalInputFileIndex, originalBytes, item.originalLocation, item.originalSize);
+        originalFile.read(originalFileNumber, originalBytes, item.originalLocation, item.originalSize);
         context.formatOutHelper.format(this, originalBytes, item);
         write(context.endOfRecordOutDelimiter, 0, context.endOfRecordOutDelimiter.length);
         writeCount++;

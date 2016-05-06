@@ -123,6 +123,13 @@ abstract public class FixedLengthPublisher implements FunnelDataPublisher, Colum
          */
         item.originalRecordNumber = 0;
         /*
+         * The same goes for the original file number. But it is important not
+         * to loose this information because it is needed to get the original
+         * data.
+         */
+        int originalFileNumber = item.originalInputFileIndex;
+        item.originalInputFileIndex = 0;
+        /*
          * check to see if this item is in order, return false if not.
          */
         int comparison = 0;
@@ -145,7 +152,7 @@ abstract public class FixedLengthPublisher implements FunnelDataPublisher, Colum
         /*
          * Get original data and write it to the output file.
          */
-        originalFile.read(item.originalInputFileIndex, originalBytes, item.originalLocation, item.originalSize);
+        originalFile.read(originalFileNumber, originalBytes, item.originalLocation, item.originalSize);
         context.formatOutHelper.format(this, originalBytes, item);
         writeCount++;
         /*

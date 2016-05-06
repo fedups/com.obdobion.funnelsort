@@ -19,13 +19,14 @@ import com.obdobion.funnel.provider.VariableLengthCsvProvider;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 @SuppressWarnings("deprecation")
 public class CsvTest
 {
 
-    static private String csvColumns = " --col(Int --field 0 -n Number)(String --field 1 -n A)(String --field 2 -n B) ";
+    static private String csvColumns = " --col(Int --field 1 -n Number)(String --field 2 -n A)(String --field 3 -n B) ";
+
     static private List<String> csvInput ()
     {
         final List<String> in = new ArrayList<>();
@@ -45,7 +46,8 @@ public class CsvTest
     @Test
     public void csvAllDefault () throws Throwable
     {
-        Helper.initializeFor("TEST csvAllDefault");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> out = new ArrayList<>();
         out.add("abc,3");
@@ -63,8 +65,9 @@ public class CsvTest
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
-        final FunnelContext context = Funnel.sort("--csv() --max 2 --eol cr,lf "
-                + "--col(I, --fi 1 -n field1)(S --fi 0 -n field0) "
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            "--csv() --max 2 --eol cr,lf "
+                + "--col(I, --fi 2 -n field1)(S --fi 1 -n field0) "
                 + "--orderBy (field1)(field0)"
                 + Helper.DEFAULT_OPTIONS);
 
@@ -76,7 +79,8 @@ public class CsvTest
     @Test
     public void csvFile () throws Throwable
     {
-        Helper.initializeFor("TEST csvFile");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> out = new ArrayList<>();
         out.add("def,3");
@@ -94,8 +98,9 @@ public class CsvTest
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
-        final FunnelContext context = Funnel.sort("--csv() "
-                + "--col(String -f0 -nA)(Int -f1 -nB)"
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            "--csv() "
+                + "--col(String -f1 -nA)(Int -f2 -nB)"
                 + "--orderBy(A desc) --max 2 --eol cr,lf "
                 + Helper.DEFAULT_OPTIONS);
 
@@ -107,7 +112,8 @@ public class CsvTest
     @Test
     public void csvHeader () throws Throwable
     {
-        Helper.initializeFor("TEST csvHeader");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> out = new ArrayList<>();
         out.add("letters,numbers");
@@ -127,10 +133,10 @@ public class CsvTest
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
-        final FunnelContext context = Funnel.sort("--csv(-h) "
-                + "--col(String -f0 -nletters)(Int -f1 -nnumbers) "
-                + "--orderBy(numbers) --max 2 --eol cr,lf "
-                + Helper.DEFAULT_OPTIONS);
+        final FunnelContext context = Funnel.sort(Helper.config(), "--csv(-h) "
+            + "--col(String -f1 -nletters)(Int -f2 -nnumbers) "
+            + "--orderBy(numbers) --max 2 --eol cr,lf "
+            + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -138,18 +144,146 @@ public class CsvTest
     }
 
     @Test
+    public void csvParserCommentMarker () throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        final List<String> in = csvInput();
+
+        final File file = Helper.createUnsortedFile("csvParserCommentMarker", in);
+        Funnel.sort(Helper.config(), file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+            + " --csv(--commentMarker ',') "
+            + csvColumns
+            + "--orderBy(Number desc)"
+            + Helper.DEFAULT_OPTIONS);
+
+        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+    }
+
+    @Test
+    public void csvParserDelimiter () throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        final List<String> in = csvInput();
+
+        final File file = Helper.createUnsortedFile("csvParserDelimiter", in);
+        Funnel.sort(Helper.config(), file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+            + " --csv(--delimiter ',') "
+            + csvColumns
+            + "--orderBy(Number desc)"
+            + Helper.DEFAULT_OPTIONS);
+
+        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+    }
+
+    @Test
+    public void csvParserEscape () throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        final List<String> in = csvInput();
+
+        final File file = Helper.createUnsortedFile("csvParserEscape", in);
+        Funnel.sort(Helper.config(), file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+            + " --csv(--escape '~') "
+            + csvColumns
+            + "--orderBy(Number desc)"
+            + Helper.DEFAULT_OPTIONS);
+
+        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+    }
+
+    @Test
+    public void csvParserIgnoreEmptyLines () throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        final List<String> in = csvInput();
+
+        final File file = Helper.createUnsortedFile("csvParserIgnoreEmptyLines", in);
+        Funnel.sort(Helper.config(), file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+            + " --csv(--ignoreEmptyLines) "
+            + csvColumns
+            + "--orderBy(Number desc)"
+            + Helper.DEFAULT_OPTIONS);
+
+        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+    }
+
+    @Test
+    public void csvParserIgnoreSurroundingSpaces () throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        final List<String> in = csvInput();
+
+        final File file = Helper.createUnsortedFile("csvParserIgnoreSurroundingSpaces", in);
+        Funnel.sort(Helper.config(), file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+            + " --csv(--ignoreSurroundingSpaces) "
+            + csvColumns
+            + "--orderBy(Number desc)"
+            + Helper.DEFAULT_OPTIONS);
+
+        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+    }
+
+    @Test
+    public void csvParserNullString () throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        final List<String> in = csvInput();
+
+        final File file = Helper.createUnsortedFile("csvParserNullString", in);
+        Funnel.sort(Helper.config(), file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+            + " --csv(--NullString 'n/a') "
+            + csvColumns
+            + "--orderBy(Number desc)"
+            + Helper.DEFAULT_OPTIONS);
+
+        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+    }
+
+    @Test
+    public void csvParserQuote () throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        final List<String> in = csvInput();
+
+        final File file = Helper.createUnsortedFile("csvParserQuote", in);
+        Funnel.sort(Helper.config(), file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+            + " --csv(--quote \"'\") "
+            + csvColumns
+            + "--orderBy(Number desc)"
+            + Helper.DEFAULT_OPTIONS);
+
+        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+    }
+
+    @Test
     public void field1 () throws Throwable
     {
-        Helper.initializeFor("TEST field1");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final byte[] csvData = "field1,field2".getBytes();
 
         final VariableLengthCsvProvider csv = new VariableLengthCsvProvider(new boolean[]
         {
-                true, false
+            true,
+            false
         });
 
-        CSVFormat format = CSVFormat.Predefined.Default.getFormat();
+        final CSVFormat format = CSVFormat.Predefined.Default.getFormat();
         final byte[][] result = csv.decodeCsv(csvData, csvData.length, format);
 
         Assert.assertEquals("extract field 0", "field1", new String(result[0]));
@@ -158,14 +292,16 @@ public class CsvTest
     @Test
     public void field1TrimNeeded () throws Throwable
     {
-        Helper.initializeFor("TEST field1TrimNeeded");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final byte[] csvData = "\" \tfield1\t , \",field2".getBytes();
         final VariableLengthCsvProvider csv = new VariableLengthCsvProvider(new boolean[]
         {
-                true, false
+            true,
+            false
         });
-        CSVFormat format = CSVFormat.Predefined.Default.getFormat();
+        final CSVFormat format = CSVFormat.Predefined.Default.getFormat();
         final byte[][] result = csv.decodeCsv(csvData, csvData.length, format);
 
         Assert.assertEquals("extract field 0", " \tfield1\t , ", new String(result[0]));
@@ -174,14 +310,16 @@ public class CsvTest
     @Test
     public void field1WithQuotedComma () throws Throwable
     {
-        Helper.initializeFor("TEST field1WithQuotedComma");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final byte[] csvData = "\"field1,\",field2".getBytes();
         final VariableLengthCsvProvider csv = new VariableLengthCsvProvider(new boolean[]
         {
-                true, false
+            true,
+            false
         });
-        CSVFormat format = CSVFormat.Predefined.Default.getFormat();
+        final CSVFormat format = CSVFormat.Predefined.Default.getFormat();
         final byte[][] result = csv.decodeCsv(csvData, csvData.length, format);
 
         Assert.assertEquals("extract field 0", "field1,", new String(result[0]));
@@ -190,14 +328,16 @@ public class CsvTest
     @Test
     public void field2 () throws Throwable
     {
-        Helper.initializeFor("TEST field2");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final byte[] csvData = "field1,field2".getBytes();
         final VariableLengthCsvProvider csv = new VariableLengthCsvProvider(new boolean[]
         {
-                false, true
+            false,
+            true
         });
-        CSVFormat format = CSVFormat.Predefined.Default.getFormat();
+        final CSVFormat format = CSVFormat.Predefined.Default.getFormat();
         final byte[][] result = csv.decodeCsv(csvData, csvData.length, format);
 
         Assert.assertEquals("extract field 0", "field2", new String(result[1]));
@@ -206,14 +346,16 @@ public class CsvTest
     @Test
     public void field2WithQuotedComma () throws Throwable
     {
-        Helper.initializeFor("TEST field2WithQuotedComma");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final byte[] csvData = "\"field1,\",field2".getBytes();
         final VariableLengthCsvProvider csv = new VariableLengthCsvProvider(new boolean[]
         {
-                false, true
+            false,
+            true
         });
-        CSVFormat format = CSVFormat.Predefined.Default.getFormat();
+        final CSVFormat format = CSVFormat.Predefined.Default.getFormat();
         final byte[][] result = csv.decodeCsv(csvData, csvData.length, format);
 
         Assert.assertEquals("extract field 0", "field2", new String(result[1]));
@@ -222,13 +364,15 @@ public class CsvTest
     @Test
     public void keyCsvFields () throws Throwable
     {
-        Helper.initializeFor("TEST keyCsvField");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
         try
         {
-            Funnel.sort("--csv () "
-                    + "--col(String -f0 -na)(Date -f1 -nd)"
-                    + "--orderBy (a)(d)"
-                    + Helper.DEFAULT_OPTIONS);
+            Funnel.sort(Helper.config(), "--csv () "
+                + "--col(String -f1 -na)(Date -f2 -nd)"
+                + "--orderBy (a)(d)"
+                + Helper.DEFAULT_OPTIONS);
         } catch (final ParseException pe)
         {
             Assert.fail(pe.getMessage());
@@ -238,12 +382,14 @@ public class CsvTest
     @Test
     public void keyCsvFieldsOnNonCsvFile () throws Throwable
     {
-        Helper.initializeFor("TEST keyCsvFieldsOnNonCsvFile");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
         try
         {
-            Funnel.sort(csvColumns +
-                    "--orderBy (Number)(A)"
-                    + Helper.DEFAULT_OPTIONS);
+            Funnel.sort(Helper.config(), csvColumns +
+                "--orderBy (Number)(A)"
+                + Helper.DEFAULT_OPTIONS);
             Assert.fail("Expected a ParseException");
 
         } catch (final ParseException pe)
@@ -255,10 +401,12 @@ public class CsvTest
     @Test
     public void normalKeysOnCsvFile () throws Throwable
     {
-        Helper.initializeFor("TEST normalKeysOnCsvFile");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
         try
         {
-            Funnel.sort("--csv() --col(String -o0 -n Name) --orderBy(Name)" + Helper.DEFAULT_OPTIONS);
+            Funnel.sort(Helper.config(), "--csv() --col(String -o0 -n Name) --orderBy(Name)" + Helper.DEFAULT_OPTIONS);
             Assert.fail("Expected a ParseException");
 
         } catch (final ParseException pe)
@@ -270,10 +418,13 @@ public class CsvTest
     @Test
     public void repeatedField () throws Throwable
     {
-        Helper.initializeFor("TEST repeatedField");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
         try
         {
-            Funnel.sort("--csv() " + csvColumns + "--orderBy (A)(Number)(Number)" + Helper.DEFAULT_OPTIONS);
+            Funnel.sort(Helper.config(), "--csv() " + csvColumns + "--orderBy (A)(Number)(Number)"
+                + Helper.DEFAULT_OPTIONS);
             Assert.fail("Expected a ParseException");
 
         } catch (final ParseException pe)
@@ -283,136 +434,10 @@ public class CsvTest
     }
 
     @Test
-    public void csvParserCommentMarker () throws Throwable
-    {
-
-        Helper.initializeFor("TEST csvParserCommentMarker");
-
-        final List<String> in = csvInput();
-
-        final File file = Helper.createUnsortedFile("csvParserCommentMarker", in);
-        Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --csv(--commentMarker ',') "
-                + csvColumns
-                + "--orderBy(Number desc)"
-                + Helper.DEFAULT_OPTIONS);
-
-        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
-    }
-
-    @Test
-    public void csvParserDelimiter () throws Throwable
-    {
-
-        Helper.initializeFor("TEST csvParserDelimiter");
-
-        final List<String> in = csvInput();
-
-        final File file = Helper.createUnsortedFile("csvParserDelimiter", in);
-        Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --csv(--delimiter ',') "
-                + csvColumns
-                + "--orderBy(Number desc)"
-                + Helper.DEFAULT_OPTIONS);
-
-        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
-    }
-
-    @Test
-    public void csvParserEscape () throws Throwable
-    {
-
-        Helper.initializeFor("TEST csvParserEscape");
-
-        final List<String> in = csvInput();
-
-        final File file = Helper.createUnsortedFile("csvParserEscape", in);
-        Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --csv(--escape '~') "
-                + csvColumns
-                + "--orderBy(Number desc)"
-                + Helper.DEFAULT_OPTIONS);
-
-        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
-    }
-
-    @Test
-    public void csvParserIgnoreEmptyLines () throws Throwable
-    {
-
-        Helper.initializeFor("TEST csvParserIgnoreEmptyLines");
-
-        final List<String> in = csvInput();
-
-        final File file = Helper.createUnsortedFile("csvParserIgnoreEmptyLines", in);
-        Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --csv(--ignoreEmptyLines) "
-                + csvColumns
-                + "--orderBy(Number desc)"
-                + Helper.DEFAULT_OPTIONS);
-
-        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
-    }
-
-    @Test
-    public void csvParserNullString () throws Throwable
-    {
-
-        Helper.initializeFor("TEST csvParserNullString");
-
-        final List<String> in = csvInput();
-
-        final File file = Helper.createUnsortedFile("csvParserNullString", in);
-        Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --csv(--NullString 'n/a') "
-                + csvColumns
-                + "--orderBy(Number desc)"
-                + Helper.DEFAULT_OPTIONS);
-
-        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
-    }
-
-    @Test
-    public void csvParserQuote () throws Throwable
-    {
-
-        Helper.initializeFor("TEST csvParserQuote");
-
-        final List<String> in = csvInput();
-
-        final File file = Helper.createUnsortedFile("csvParserQuote", in);
-        Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --csv(--quote \"'\") "
-                + csvColumns
-                + "--orderBy(Number desc)"
-                + Helper.DEFAULT_OPTIONS);
-
-        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
-    }
-
-    @Test
-    public void csvParserIgnoreSurroundingSpaces () throws Throwable
-    {
-
-        Helper.initializeFor("TEST csvParserIgnoreSurroundingSpaces");
-
-        final List<String> in = csvInput();
-
-        final File file = Helper.createUnsortedFile("csvParserIgnoreSurroundingSpaces", in);
-        Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --csv(--ignoreSurroundingSpaces) "
-                + csvColumns
-                + "--orderBy(Number desc)"
-                + Helper.DEFAULT_OPTIONS);
-
-        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
-    }
-
-    @Test
     public void sortField0Desc () throws Throwable
     {
-
-        Helper.initializeFor("TEST sortField0Desc");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> in = csvInput();
 
@@ -429,7 +454,9 @@ public class CsvTest
         out.add("1,a,b");
 
         final File file = Helper.createUnsortedFile("sortField0Desc", in);
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+        final FunnelContext context = Funnel.sort(
+            Helper.config(),
+            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
                 + " --csv() "
                 + csvColumns
                 + "--orderBy(Number desc)"
@@ -443,8 +470,8 @@ public class CsvTest
     @Test
     public void sortField1Asc () throws Throwable
     {
-
-        Helper.initializeFor("TEST sortField1Asc");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> in = csvInput();
 
@@ -461,7 +488,9 @@ public class CsvTest
         out.add("10,aaaaa,b");
 
         final File file = Helper.createUnsortedFile("sortField1Asc", in);
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+        final FunnelContext context = Funnel.sort(
+            Helper.config(),
+            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
                 + " --csv() "
                 + csvColumns
                 + "--orderBy(A)" + Helper.DEFAULT_OPTIONS);
@@ -474,8 +503,8 @@ public class CsvTest
     @Test
     public void sortField1Desc () throws Throwable
     {
-
-        Helper.initializeFor("TEST sortField1Desc");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> in = csvInput();
 
@@ -492,7 +521,9 @@ public class CsvTest
         out.add("6,a,b");
 
         final File file = Helper.createUnsortedFile("sortField1Desc", in);
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+        final FunnelContext context = Funnel.sort(
+            Helper.config(),
+            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
                 + " --csv() "
                 + csvColumns
                 + "--orderBy(A desc)" + Helper.DEFAULT_OPTIONS);
@@ -505,8 +536,8 @@ public class CsvTest
     @Test
     public void sortField2Asc () throws Throwable
     {
-
-        Helper.initializeFor("TEST sortField2Asc");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> in = csvInput();
 
@@ -523,12 +554,12 @@ public class CsvTest
         out.add("5,a,bbbbb");
 
         final File file = Helper.createUnsortedFile("sortField2Asc", in);
-        final FunnelContext context = Funnel.sort(
-                file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                        + "--csv() "
-                        + csvColumns
-                        + "--orderBy (B) "
-                        + Helper.DEFAULT_OPTIONS);
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+                + "--csv() "
+                + csvColumns
+                + "--orderBy (B) "
+                + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 10L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -538,8 +569,8 @@ public class CsvTest
     @Test
     public void sortField2Desc () throws Throwable
     {
-
-        Helper.initializeFor("TEST sortField2Desc");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> in = csvInput();
 
@@ -556,7 +587,9 @@ public class CsvTest
         out.add("10,aaaaa,b");
 
         final File file = Helper.createUnsortedFile("sortField2Desc", in);
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+        final FunnelContext context = Funnel.sort(
+            Helper.config(),
+            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
                 + " --csv() "
                 + csvColumns
                 + "--orderBy(B desc)" + Helper.DEFAULT_OPTIONS);
@@ -569,8 +602,8 @@ public class CsvTest
     @Test
     public void sortOnTwoFieldsAsc () throws Throwable
     {
-
-        Helper.initializeFor("TEST sortOnTwoFieldsAsc");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> in = csvInput();
 
@@ -587,7 +620,9 @@ public class CsvTest
         out.add("5,a,bbbbb");
 
         final File file = Helper.createUnsortedFile("sortOnTwoFieldsAsc", in);
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+        final FunnelContext context = Funnel.sort(
+            Helper.config(),
+            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
                 + " --csv() "
                 + csvColumns
                 + "--orderBy(B)(Number desc)"
@@ -601,15 +636,16 @@ public class CsvTest
     @Test
     public void twoFields () throws Throwable
     {
-
-        Helper.initializeFor("TEST twoFields");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final byte[] csvData = "\" \tfield1\t , \",field2".getBytes();
         final VariableLengthCsvProvider csv = new VariableLengthCsvProvider(new boolean[]
         {
-                true, true
+            true,
+            true
         });
-        CSVFormat format = CSVFormat.Predefined.Default.getFormat();
+        final CSVFormat format = CSVFormat.Predefined.Default.getFormat();
         final byte[][] result = csv.decodeCsv(csvData, csvData.length, format);
 
         Assert.assertEquals("extract field 0", " \tfield1\t , ", new String(result[0]));

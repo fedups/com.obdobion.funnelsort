@@ -19,9 +19,10 @@ public class BigTest
 
     @Test
     public void multipleInputFiles ()
-            throws Throwable
+        throws Throwable
     {
-        Helper.initializeFor("TEST multipleInputFiles");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final File output = new File("/tmp/multipleInputFiles");
 
@@ -43,11 +44,11 @@ public class BigTest
         final File file2 = Helper.createUnsortedFile("multipleInputFiles2", in1);
         final File file3 = Helper.createUnsortedFile("multipleInputFiles3", in1);
 
-        final FunnelContext context = Funnel.sort(file.getParentFile().getAbsolutePath() + "/multipleInputFiles* "
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getParentFile().getAbsolutePath() + "/multipleInputFiles* "
                 + " --col(int -o0 -l7 -n col1)"
                 + " --orderby(col1 desc)"
-                + " -o "
-                + output.getAbsolutePath()
+                + " -o " + output.getAbsolutePath()
                 + " --max 5000000 "
                 + " --pow 16"
                 + Helper.DEFAULT_OPTIONS);
@@ -63,9 +64,10 @@ public class BigTest
 
     @Test
     public void oneBigFile ()
-            throws Throwable
+        throws Throwable
     {
-        Helper.initializeFor("TEST oneBigFile");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final File output = new File("/tmp/oneBigFile");
 
@@ -83,13 +85,13 @@ public class BigTest
 
         final File file = Helper.createUnsortedFile("oneBigFile", in1);
 
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath()
-                + " --col(int -o0 -l7 -n col1)"
-                + " --orderby(col1 desc)"
-                + " -o "
-                + output.getAbsolutePath()
-                + " --pow 8"
-                + Helper.DEFAULT_OPTIONS);
+        final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
+            + " --col(int -o0 -l7 -n col1)"
+            + " --orderby(col1 desc)"
+            + " -o "
+            + output.getAbsolutePath()
+            + " --pow 8"
+            + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 1000000L, context.publisher.getWriteCount());
         Helper.compare(output, expectedOut);

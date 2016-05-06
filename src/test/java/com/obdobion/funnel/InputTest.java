@@ -17,7 +17,7 @@ import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 @SuppressWarnings("deprecation")
 public class InputTest
@@ -25,7 +25,8 @@ public class InputTest
     @Test
     public void dos2unix () throws Throwable
     {
-        Helper.initializeFor("TEST dos2unix");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> out = new ArrayList<>();
         out.add("line 1");
@@ -39,8 +40,8 @@ public class InputTest
 
         final File file = Helper.createUnsortedFile("dos2unix", out);
 
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath()
-                + " --replace --max 2 -c original --eol CR LF --eolOut LF" + Helper.DEFAULT_OPTIONS);
+        final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
+            + " --replace --max 2 -c original --eol CR LF --eolOut LF" + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -50,7 +51,8 @@ public class InputTest
     @Test
     public void emptySysin () throws Throwable
     {
-        Helper.initializeFor("TEST fixedEmptySysin");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final String out = "";
 
@@ -61,13 +63,13 @@ public class InputTest
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
-        final FunnelContext context = Funnel.sort("-f6--max 2 " + Helper.DEFAULT_OPTIONS);
+        final FunnelContext context = Funnel.sort(Helper.config(), "-f6--max 2 " + Helper.DEFAULT_OPTIONS);
         Assert.assertEquals("records", 0L, context.provider.actualNumberOfRows());
         outputStream.close();
         try
         {
             file.delete();
-        } catch (Exception e)
+        } catch (final Exception e)
         {//
         }
     }
@@ -75,7 +77,8 @@ public class InputTest
     @Test
     public void emptySysinNoMax () throws Throwable
     {
-        Helper.initializeFor("TEST emptySysinNoMax");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final String out = "";
 
@@ -86,13 +89,13 @@ public class InputTest
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
-        final FunnelContext context = Funnel.sort("" + Helper.DEFAULT_OPTIONS);
+        final FunnelContext context = Funnel.sort(Helper.config(), "" + Helper.DEFAULT_OPTIONS);
         Assert.assertEquals("records", 0L, context.provider.actualNumberOfRows());
         outputStream.close();
         try
         {
             file.delete();
-        } catch (Exception e)
+        } catch (final Exception e)
         {//
         }
     }
@@ -100,7 +103,8 @@ public class InputTest
     @Test
     public void everythingDefaults () throws Throwable
     {
-        Helper.initializeFor("TEST everythingDefaults");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> out = new ArrayList<>();
         out.add("line 1");
@@ -118,14 +122,14 @@ public class InputTest
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
-        final FunnelContext context = Funnel.sort();
+        final FunnelContext context = Funnel.sort(Helper.config());
 
         Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
         try
         {
             file.delete();
-        } catch (Exception e)
+        } catch (final Exception e)
         {//
         }
     }
@@ -133,7 +137,8 @@ public class InputTest
     @Test
     public void fixedSysinSysout () throws Throwable
     {
-        Helper.initializeFor("TEST fixedSysinSysout");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final String out = "line 1line 2";
 
@@ -144,14 +149,14 @@ public class InputTest
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
-        final FunnelContext context = Funnel.sort("-f6--max 2 -c original" + Helper.DEFAULT_OPTIONS);
+        final FunnelContext context = Funnel.sort(Helper.config(), "-f6--max 2 -c original" + Helper.DEFAULT_OPTIONS);
         Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
         Helper.compareFixed(file, out);
         try
         {
             outputStream.close();
             file.delete();
-        } catch (Exception e)
+        } catch (final Exception e)
         {//
         }
     }
@@ -159,7 +164,8 @@ public class InputTest
     @Test
     public void replaceErrorOut () throws Throwable
     {
-        Helper.initializeFor("TEST fixedReplaceErrorOut");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final String out = "line 1line 2";
 
@@ -172,21 +178,21 @@ public class InputTest
 
         try
         {
-            Funnel.sort("--replace -f6--max 2 --col(S -nS) --o(S)" + Helper.DEFAULT_OPTIONS);
+            Funnel.sort(Helper.config(), "--replace -f6--max 2 --col(S -nS) --o(S)" + Helper.DEFAULT_OPTIONS);
             Assert.fail("Expected error");
         } catch (final ParseException e)
         {
             Assert.assertEquals(
-                    "error msg",
-                    "--replace requires --inputFile, redirection or piped input is not allowed",
-                    e.getMessage());
+                "error msg",
+                "--replace requires --inputFile, redirection or piped input is not allowed",
+                e.getMessage());
         } finally
         {
             outputStream.close();
             try
             {
                 file.delete();
-            } catch (Exception e)
+            } catch (final Exception e)
             {//
             }
         }
@@ -195,7 +201,8 @@ public class InputTest
     @Test
     public void replaceInput () throws Throwable
     {
-        Helper.initializeFor("TEST replaceInput");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> out = new ArrayList<>();
         out.add("line 1");
@@ -209,8 +216,8 @@ public class InputTest
 
         final File file = Helper.createUnsortedFile("replaceInput", out);
 
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath()
-                + " --replace --max 2 -c original --eol CR LF" + Helper.DEFAULT_OPTIONS);
+        final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
+            + " --replace --max 2 -c original --eol CR LF" + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -220,7 +227,8 @@ public class InputTest
     @Test
     public void replacePipedInputNotAllowed () throws Throwable
     {
-        Helper.initializeFor("TEST replacePipedInputNotAllowed");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final String out = "line 1line 2";
 
@@ -233,21 +241,21 @@ public class InputTest
 
         try
         {
-            Funnel.sort("--replace -f6--max 2 --col(-nc String) --o(c)" + Helper.DEFAULT_OPTIONS);
+            Funnel.sort(Helper.config(), "--replace -f6--max 2 --col(-nc String) --o(c)" + Helper.DEFAULT_OPTIONS);
             Assert.fail("Expected error");
         } catch (final ParseException e)
         {
             Assert.assertEquals(
-                    "error msg",
-                    "--replace requires --inputFile, redirection or piped input is not allowed",
-                    e.getMessage());
+                "error msg",
+                "--replace requires --inputFile, redirection or piped input is not allowed",
+                e.getMessage());
         } finally
         {
             outputStream.close();
             try
             {
                 file.delete();
-            } catch (Exception e)
+            } catch (final Exception e)
             {//
             }
 
@@ -257,7 +265,8 @@ public class InputTest
     @Test
     public void sysinFileout () throws Throwable
     {
-        Helper.initializeFor("TEST sysinSysout");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> out = new ArrayList<>();
         out.add("line 1");
@@ -273,8 +282,9 @@ public class InputTest
 
         final File file = Helper.outFileWhenInIsSysin();
 
-        final FunnelContext context = Funnel.sort("-o" + file.getAbsolutePath() + " --max 2 -c original --eol CR,LF"
-                + Helper.DEFAULT_OPTIONS);
+        final FunnelContext context = Funnel.sort(Helper.config(), "-o" + file.getAbsolutePath()
+            + " --max 2 -c original --eol CR,LF"
+            + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -284,7 +294,8 @@ public class InputTest
     @Test
     public void variableSysinSysout () throws Throwable
     {
-        Helper.initializeFor("TEST variableSysinSysout");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> out = new ArrayList<>();
         out.add("line 1");
@@ -302,7 +313,8 @@ public class InputTest
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
-        final FunnelContext context = Funnel.sort("--max 2 -c original --eol cr,lf " + Helper.DEFAULT_OPTIONS);
+        final FunnelContext context = Funnel.sort(Helper.config(), "--max 2 -c original --eol cr,lf "
+            + Helper.DEFAULT_OPTIONS);
 
         Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -310,7 +322,7 @@ public class InputTest
         try
         {
             file.delete();
-        } catch (Exception e)
+        } catch (final Exception e)
         {//
         }
 

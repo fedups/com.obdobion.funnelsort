@@ -19,7 +19,7 @@ import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class FormatTests
 {
@@ -32,7 +32,8 @@ public class FormatTests
     @Test
     public void dateFormatInvalid () throws Throwable
     {
-        Helper.initializeFor("TEST dateFormatInvalid");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final KeyPart key = KeyType.create(KeyType.Date.name());
         key.offset = 0;
@@ -43,14 +44,22 @@ public class FormatTests
         key.pack(kx);
         verifyFormatted(new byte[]
         {
-                -128, 0, 0, 0, 0, 0, 0, 0
+            -128,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
         }, kx);
     }
 
     @Test
     public void dateFormatTrimLeft () throws Throwable
     {
-        Helper.initializeFor("TEST dateFormatTrimLeft");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DateKey key = new DateKey();
         key.offset = 0;
@@ -61,14 +70,22 @@ public class FormatTests
         key.pack(kx);
         verifyFormatted(new byte[]
         {
-                127, -1, -1, -72, -126, -64, 95, 0
+            127,
+            -1,
+            -1,
+            -72,
+            -126,
+            -64,
+            95,
+            0
         }, kx);
     }
 
     @Test
     public void floatFormatTrimRight () throws Throwable
     {
-        Helper.initializeFor("TEST floatFormatTrimRight");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayFloatKey key = new DisplayFloatKey();
         key.offset = 0;
@@ -79,14 +96,22 @@ public class FormatTests
         key.pack(kx);
         verifyFormatted(new byte[]
         {
-                -64, 20, 102, 102, 102, 102, 102, 102
+            -64,
+            20,
+            102,
+            102,
+            102,
+            102,
+            102,
+            102
         }, kx);
     }
 
     @Test
     public void floatNegDollarFormat () throws Throwable
     {
-        Helper.initializeFor("TEST floatNegDollarFormat");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayFloatKey key = new DisplayFloatKey();
         key.offset = 0;
@@ -97,14 +122,22 @@ public class FormatTests
         key.pack(kx);
         verifyFormatted(new byte[]
         {
-                63, 76, 119, -26, 102, 102, 102, 101
+            63,
+            76,
+            119,
+            -26,
+            102,
+            102,
+            102,
+            101
         }, kx);
     }
 
     @Test
     public void floatPosDollarFormat () throws Throwable
     {
-        Helper.initializeFor("TEST floatPosDollarFormat");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayFloatKey key = new DisplayFloatKey();
         key.offset = 0;
@@ -115,14 +148,22 @@ public class FormatTests
         key.pack(kx);
         verifyFormatted(new byte[]
         {
-                -64, -77, -120, 25, -103, -103, -103, -102
+            -64,
+            -77,
+            -120,
+            25,
+            -103,
+            -103,
+            -103,
+            -102
         }, kx);
     }
 
     @Test
     public void integerFormatTrimLeft () throws Throwable
     {
-        Helper.initializeFor("TEST integerFormatTrimLeft");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayIntKey key = new DisplayIntKey();
         key.offset = 0;
@@ -133,14 +174,22 @@ public class FormatTests
         key.pack(kx);
         verifyFormatted(new byte[]
         {
-                -128, 0, 0, 0, 0, 0, 0, 5
+            -128,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            5
         }, kx);
     }
 
     @Test
     public void integerFormatTrimRight () throws Throwable
     {
-        Helper.initializeFor("TEST integerFormatTrimRight");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayIntKey key = new DisplayIntKey();
         key.offset = 0;
@@ -151,14 +200,22 @@ public class FormatTests
         key.pack(kx);
         verifyFormatted(new byte[]
         {
-                -128, 0, 0, 0, 0, 0, 0, 5
+            -128,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            5
         }, kx);
     }
 
     @Test
     public void integerNegDollarFormat () throws Throwable
     {
-        Helper.initializeFor("TEST integerNegDollarFormat");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayIntKey key = new DisplayIntKey();
         key.offset = 0;
@@ -169,14 +226,22 @@ public class FormatTests
         key.pack(kx);
         verifyFormatted(new byte[]
         {
-                127, -1, -1, -1, -1, -1, -1, -50
+            127,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -50
         }, kx);
     }
 
     @Test
     public void integerNegFormatAASC () throws Throwable
     {
-        Helper.initializeFor("TEST integerNegFormatAASC");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayIntKey key = new DisplayIntKey();
         key.offset = 0;
@@ -187,14 +252,22 @@ public class FormatTests
         key.pack(kx);
         verifyFormatted(new byte[]
         {
-                -128, 0, 0, 0, 0, 0, 0, 5
+            -128,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            5
         }, kx);
     }
 
     @Test
     public void integerNegFormatADESC () throws Throwable
     {
-        Helper.initializeFor("TEST integerNegFormatADESC");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayIntKey key = new DisplayIntKey();
         key.offset = 0;
@@ -205,14 +278,22 @@ public class FormatTests
         key.pack(kx);
         verifyFormatted(new byte[]
         {
-                127, -1, -1, -1, -1, -1, -1, -5
+            127,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -5
         }, kx);
     }
 
     @Test
     public void integerNegFormatASC () throws Throwable
     {
-        Helper.initializeFor("TEST integerNegFormatASC");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayIntKey key = new DisplayIntKey();
         key.offset = 0;
@@ -223,14 +304,22 @@ public class FormatTests
         key.pack(kx);
         verifyFormatted(new byte[]
         {
-                127, -1, -1, -1, -1, -1, -1, -5
+            127,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -5
         }, kx);
     }
 
     @Test
     public void integerNegFormatDESC () throws Throwable
     {
-        Helper.initializeFor("TEST integerNegFormatDESC");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayIntKey key = new DisplayIntKey();
         key.offset = 0;
@@ -241,14 +330,22 @@ public class FormatTests
         key.pack(kx);
         verifyFormatted(new byte[]
         {
-                -128, 0, 0, 0, 0, 0, 0, 5
+            -128,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            5
         }, kx);
     }
 
     @Test
     public void integerNegLeftFormat () throws Throwable
     {
-        Helper.initializeFor("TEST integerNegLeftFormat");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayIntKey key = new DisplayIntKey();
         key.offset = 0;
@@ -259,14 +356,22 @@ public class FormatTests
         key.pack(kx);
         verifyFormatted(new byte[]
         {
-                127, -1, -1, -1, -1, -1, -1, -5
+            127,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -5
         }, kx);
     }
 
     @Test
     public void integerNegRightFormat () throws Throwable
     {
-        Helper.initializeFor("TEST integerNegLeftFormat");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayIntKey key = new DisplayIntKey();
         key.offset = 0;
@@ -277,14 +382,22 @@ public class FormatTests
         key.pack(kx);
         verifyFormatted(new byte[]
         {
-                127, -1, -1, -1, -1, -1, -1, -5
+            127,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -5
         }, kx);
     }
 
     @Test
     public void integerPosDollarFormat () throws Throwable
     {
-        Helper.initializeFor("TEST integerPosDollarFormat");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayIntKey key = new DisplayIntKey();
         key.offset = 0;
@@ -295,14 +408,22 @@ public class FormatTests
         key.pack(kx);
         verifyFormatted(new byte[]
         {
-                -128, 0, 0, 0, 0, 0, 0, 50
+            -128,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            50
         }, kx);
     }
 
     @Test
     public void integerPosFormatAASC () throws Throwable
     {
-        Helper.initializeFor("TEST integerPosFormatAASC");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayIntKey key = new DisplayIntKey();
         key.offset = 0;
@@ -313,14 +434,22 @@ public class FormatTests
         key.pack(kx);
         verifyFormatted(new byte[]
         {
-                -128, 0, 0, 0, 0, 0, 0, 5
+            -128,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            5
         }, kx);
     }
 
     @Test
     public void integerPosFormatADESC () throws Throwable
     {
-        Helper.initializeFor("TEST integerPosFormatADESC");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayIntKey key = new DisplayIntKey();
         key.offset = 0;
@@ -331,14 +460,22 @@ public class FormatTests
         key.pack(kx);
         verifyFormatted(new byte[]
         {
-                127, -1, -1, -1, -1, -1, -1, -5
+            127,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -5
         }, kx);
     }
 
     @Test
     public void integerPosFormatASC () throws Throwable
     {
-        Helper.initializeFor("TEST integerPosFormatASC");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayIntKey key = new DisplayIntKey();
         key.offset = 0;
@@ -349,14 +486,22 @@ public class FormatTests
         key.pack(kx);
         verifyFormatted(new byte[]
         {
-                -128, 0, 0, 0, 0, 0, 0, 5
+            -128,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            5
         }, kx);
     }
 
     @Test
     public void integerPosFormatDESC () throws Throwable
     {
-        Helper.initializeFor("TEST integerPosFormatDESC");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final DisplayIntKey key = new DisplayIntKey();
         key.offset = 0;
@@ -367,20 +512,30 @@ public class FormatTests
         key.pack(kx);
         verifyFormatted(new byte[]
         {
-                127, -1, -1, -1, -1, -1, -1, -5
+            127,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -5
         }, kx);
     }
 
     @Test
     public void lengthMaxString () throws Throwable
     {
-        Helper.initializeFor("TEST lengthMaxString");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> in = new ArrayList<>();
         in.add("row 1000");
         final File file = Helper.createUnsortedFile("lengthMaxString", in);
 
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+        final FunnelContext context = Funnel.sort(
+            Helper.config(),
+            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
                 + " --max 130 -f10 "
                 + "--col(-n col1 string -o0)"
                 + "--orderby(col1)"
@@ -392,13 +547,16 @@ public class FormatTests
     @Test
     public void lengthOverride () throws Throwable
     {
-        Helper.initializeFor("TEST lengthOverride");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> in = new ArrayList<>();
         in.add("row 1000");
         final File file = Helper.createUnsortedFile("lengthOverride", in);
 
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+        final FunnelContext context = Funnel.sort(
+            Helper.config(),
+            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
                 + " --max 130 -f10"
                 + " --col(--name col1 integer -o4 -l4 --format '###')"
                 + " --orderby(col1)"
@@ -410,13 +568,16 @@ public class FormatTests
     @Test
     public void lengthUnspecified () throws Throwable
     {
-        Helper.initializeFor("TEST lengthUnspecified");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> in = new ArrayList<>();
         in.add("row 1000");
         final File file = Helper.createUnsortedFile("lengthUnspecified", in);
 
-        final FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+        final FunnelContext context = Funnel.sort(
+            Helper.config(),
+            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
                 + " --max 130 -f10"
                 + " --col(-n col1 integer -o4 --format '###')"
                 + "--orderby(col1)"
@@ -428,7 +589,8 @@ public class FormatTests
     @Test
     public void offsetDefault () throws Throwable
     {
-        Helper.initializeFor("TEST offsetDefault");
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
 
         final List<String> in = new ArrayList<>();
         for (int r = 0; r < 130; r++)
@@ -437,18 +599,18 @@ public class FormatTests
         }
 
         final File file = Helper.createUnsortedFile("offsetDefault", in);
-        FunnelContext context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 130 -f10"
-                + " --col(-n col1 string)"
-                + " --orderby(col1)"
-                + Helper.DEFAULT_OPTIONS);
+        FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+            + " --max 130 -f10"
+            + " --col(-n col1 string)"
+            + " --orderby(col1)"
+            + Helper.DEFAULT_OPTIONS);
         Assert.assertEquals("key offset", 0, context.keys.get(0).offset);
 
-        context = Funnel.sort(file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 130 -f10"
-                + " --col(-n col1 -o1 string)"
-                + " --orderby(col1)"
-                + Helper.DEFAULT_OPTIONS);
+        context = Funnel.sort(Helper.config(), file.getAbsolutePath() + " -o" + file.getAbsolutePath()
+            + " --max 130 -f10"
+            + " --col(-n col1 -o1 string)"
+            + " --orderby(col1)"
+            + Helper.DEFAULT_OPTIONS);
         Assert.assertEquals("key offset", 1, context.keys.get(0).offset);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }

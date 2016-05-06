@@ -1,9 +1,9 @@
 --columnsIn
-	(-n FIPS -f 0 int)
-	(-n postalCode -f 1 string)
-	(-n stateName -f 2 string)
-	(-n povertyAll -f 3 int)
-	(-n povertyAllPercent -f 4 float)
-	(-n medianHouseholdIncome -f 5 int)
+	(-n FIPS -f 1 int)
+	(-n postalCode -f 2 string)
+	(-n stateName -f 3 string)
+	(-n povertyAll -f 4 int)
+	(-n povertyAllPercent -f 5 float)
+	(-n medianHouseholdIncome -f 6 int)
 
 --csv(EXCEL -h)

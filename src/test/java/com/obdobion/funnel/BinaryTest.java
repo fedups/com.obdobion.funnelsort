@@ -4,9 +4,11 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import com.obdobion.Helper;
+
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class BinaryTest
 {
@@ -48,7 +50,7 @@ public class BinaryTest
         final long end = System.currentTimeMillis();
 
         System.out.println("value " + value + " " + (long) ((double) loop / (double) (end - start))
-                + " / ms (15000 = best so far)");
+            + " / ms (15000 = best so far)");
 
         return binaryfind(values, values.length, value);
     }
@@ -67,6 +69,8 @@ public class BinaryTest
     @Test
     public void binary0 () throws Exception
     {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
         final long[] values = values(8000, 10);
         Assert.assertEquals(-1, find(values, 0));
     }
@@ -74,6 +78,8 @@ public class BinaryTest
     @Test
     public void binary10 () throws Exception
     {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
         final long[] values = values(8000, 10);
         Assert.assertEquals(0, find(values, 10));
 
@@ -82,6 +88,8 @@ public class BinaryTest
     @Test
     public void binary11 () throws Exception
     {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
         final long[] values = values(8000, 10);
         Assert.assertEquals(0, find(values, 11));
     }
@@ -89,6 +97,8 @@ public class BinaryTest
     @Test
     public void binary20 () throws Exception
     {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
         final long[] values = values(8000, 10);
         Assert.assertEquals(1, find(values, 20));
     }
@@ -96,6 +106,8 @@ public class BinaryTest
     @Test
     public void binary40000_direct_immediate_hit () throws Exception
     {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
         final long[] values = values(8000, 10);
         Assert.assertEquals(4000, find(values, 40010));
 
@@ -104,6 +116,8 @@ public class BinaryTest
     @Test
     public void binary79999 () throws Exception
     {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
         final long[] values = values(8000, 10);
         Assert.assertEquals(7998, find(values, 79999));
 
@@ -112,6 +126,8 @@ public class BinaryTest
     @Test
     public void binary80000 () throws Exception
     {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
         final long[] values = values(8000, 10);
         Assert.assertEquals(7999, find(values, 80000));
     }
@@ -119,6 +135,8 @@ public class BinaryTest
     @Test
     public void binary80001 () throws Exception
     {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
         final long[] values = values(1000000, 10);
         Assert.assertEquals(7999, find(values, 80001));
     }
