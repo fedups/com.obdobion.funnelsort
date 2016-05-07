@@ -14,11 +14,11 @@ public interface WorkRepository
 
     public abstract void delete () throws IOException;
 
+    public FunnelContext getContext ();
+
     public abstract void open () throws IOException;
 
     public abstract long outputPosition ();
-
-    public FunnelContext getContext ();
 
     public abstract long read (final long position, final SourceProxyRecord rec) throws IOException;
 

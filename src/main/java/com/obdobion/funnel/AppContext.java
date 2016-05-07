@@ -16,13 +16,9 @@ import com.obdobion.argument.input.NamespaceParser;
  */
 public class AppContext
 {
-    /*
-     * Do not configure a logger in this class since it is used prior to setting
-     * that up.
-     */
-    static private void defineVersion (final List<String> def)
+    static private void defineLog4j (final List<String> def)
     {
-        def.add("-tString -k version --var version");
+        def.add("-tString -k log4j --var log4jConfigFileName -m 1");
     }
 
     static private void defineSpecPath (final List<String> def)
@@ -30,9 +26,13 @@ public class AppContext
         def.add("-tString -k specPath --var specPath -m 1");
     }
 
-    static private void defineLog4j (final List<String> def)
+    /*
+     * Do not configure a logger in this class since it is used prior to setting
+     * that up.
+     */
+    static private void defineVersion (final List<String> def)
     {
-        def.add("-tString -k log4j --var log4jConfigFileName -m 1");
+        def.add("-tString -k version --var version");
     }
 
     final private CmdLine parser;
@@ -53,7 +53,7 @@ public class AppContext
     public AppContext(String workingDirectory) throws IOException, ParseException
     {
         final String configFileName = System.getProperty("funnel.config", workingDirectory
-                + "/src/test/resources/funnel.cfg");
+            + "/src/test/resources/funnel.cfg");
 
         parser = new CmdLine(null);
 

@@ -43,7 +43,7 @@ public class FixedLengthProvider implements FunnelDataProvider
     }
 
     public void attachTo (
-            final FunnelItem item)
+        final FunnelItem item)
     {
         item.setProvider(this);
     }
@@ -102,7 +102,13 @@ public class FixedLengthProvider implements FunnelDataProvider
         else
             this.reader =
                     new FixedLengthFileReader(context.getInputFile(context.inputFileIndex()),
-                            context.endOfRecordDelimiter);
+                        context.endOfRecordDelimiter);
+    }
+
+    boolean isRowSelected (@SuppressWarnings("unused")
+    final int byteCount)
+    {
+        return true;
     }
 
     private void logStatistics (final int fileIndex) throws ParseException, IOException
@@ -170,7 +176,7 @@ public class FixedLengthProvider implements FunnelDataProvider
                 if (byteCount != -1 && byteCount != context.fixedRecordLength)
                 {
                     logger.warn("Record truncated at EOF, bytes read = " + byteCount + ", bytes expected = "
-                            + context.fixedRecordLength);
+                        + context.fixedRecordLength);
                     continue;
                 }
 
@@ -239,18 +245,13 @@ public class FixedLengthProvider implements FunnelDataProvider
         wrapped.originalLocation = startPosition;
 
         if (DuplicateDisposition.LastOnly == context.duplicateDisposition
-                || DuplicateDisposition.Reverse == context.duplicateDisposition)
+            || DuplicateDisposition.Reverse == context.duplicateDisposition)
             wrapped.originalRecordNumber = -recordNumber;
         else
             wrapped.originalRecordNumber = recordNumber;
 
         recordNumber++;
         item.setData(wrapped);
-        return true;
-    }
-
-    boolean isRowSelected (@SuppressWarnings("unused") final int byteCount)
-    {
         return true;
     }
 
@@ -265,7 +266,7 @@ public class FixedLengthProvider implements FunnelDataProvider
     }
 
     public void setMaximumNumberOfRows (
-            final long max)
+        final long max)
     {
         size = max;
     }

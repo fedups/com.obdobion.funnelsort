@@ -21,16 +21,11 @@ import com.obdobion.funnel.orderby.KeyContext;
 public class Helper
 {
 
-    static final File          workDir         = new File("/tmp");
-    public static final String DEFAULT_OPTIONS = "";              // "--cachew--workDir "
-                                                                   // + workDir;
+    static final File          workDir         = new File("target");
+    public static final String DEFAULT_OPTIONS = "";                // "--cachew--workDir "
+                                                                     // +
+                                                                     // workDir;
     public static final String DEBUG           = "ON";
-
-    static public String testName ()
-    {
-        final StackTraceElement[] ste = Thread.currentThread().getStackTrace();
-        return ste[2].getMethodName();
-    }
 
     static public void compare (final File file, final List<String> expectedLines)
         throws IOException
@@ -57,22 +52,27 @@ public class Helper
         sorted.close();
     }
 
+    static public AppContext config () throws IOException, ParseException
+    {
+        return new AppContext(System.getProperty("user.dir"));
+    }
+
     static public File createUnsortedFile (final List<String> lines)
         throws IOException
     {
         return createUnsortedFile("funnel", lines, true);
     }
 
-    static public File createUnsortedFile (String prefix, final List<String> lines)
-            throws IOException
+    static public File createUnsortedFile (final String prefix, final List<String> lines)
+        throws IOException
     {
         return createUnsortedFile(prefix, lines, true);
     }
 
     static public File createUnsortedFile (
-            String prefix,
-            final List<String> lines,
-            final boolean includeTrailingLineTerminator)
+        final String prefix,
+        final List<String> lines,
+        final boolean includeTrailingLineTerminator)
         throws IOException
     {
         final File file = File.createTempFile(prefix + ".", ".in", workDir);
@@ -101,30 +101,36 @@ public class Helper
         return kx;
     }
 
-    public static String myDataCSVFileName ()
-    {
-        return "./src/examples/data/MyDataCSV.in";
-    }
-
-    public static String outFileName (String jUnitTestName)
-    {
-        return "c:\\tmp\\" + jUnitTestName + ".out";
-    }
-
     public static void initializeFor (final String testCaseName)
     {
         System.out.println();
         System.out.println(testCaseName);
     }
 
-    static public AppContext config () throws IOException, ParseException
+    public static String myDataCSVFileName ()
     {
-        return new AppContext(System.getProperty("user.dir"));
+        return "./src/examples/data/MyDataCSV.in";
+    }
+
+    public static File outFile (final String testName)
+    {
+        return new File(outFileName(testName));
+    }
+
+    public static String outFileName (final String jUnitTestName)
+    {
+        return workDir + "\\" + jUnitTestName + ".out";
     }
 
     static public File outFileWhenInIsSysin ()
         throws IOException
     {
         return File.createTempFile("funnel.", ".out", workDir);
+    }
+
+    static public String testName ()
+    {
+        final StackTraceElement[] ste = Thread.currentThread().getStackTrace();
+        return ste[2].getMethodName();
     }
 }

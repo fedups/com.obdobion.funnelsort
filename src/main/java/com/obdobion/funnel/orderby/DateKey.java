@@ -23,16 +23,6 @@ public class DateKey extends KeyPart
         super();
     }
 
-    @Override
-    public void pack (final KeyContext context) throws Exception
-    {
-        Calendar cal = (Calendar) parseObjectFromRawData(context);
-        formatObjectIntoKey(context, cal.getTimeInMillis());
-
-        if (nextPart != null)
-            nextPart.pack(context);
-    }
-
     private void formatObjectIntoKey (final KeyContext context, Long _longValue)
     {
         Long longValue = _longValue;
@@ -50,6 +40,16 @@ public class DateKey extends KeyPart
          */
         bb.putLong(longValue ^ 0x8000000000000000L);
         context.keyLength += 8;
+    }
+
+    @Override
+    public void pack (final KeyContext context) throws Exception
+    {
+        Calendar cal = (Calendar) parseObjectFromRawData(context);
+        formatObjectIntoKey(context, cal.getTimeInMillis());
+
+        if (nextPart != null)
+            nextPart.pack(context);
     }
 
     @Override

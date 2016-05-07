@@ -113,6 +113,11 @@ public class WorkCore implements WorkRepository
         return RecordHeaderSize + rec.size;
     }
 
+    public FunnelContext getContext ()
+    {
+        return context;
+    }
+
     public void open () throws IOException
     {
         logger.trace("setting cache pointer to beginning");
@@ -159,10 +164,5 @@ public class WorkCore implements WorkRepository
         writeFilePointer += sizeThisTime;
 
         return startingPointer;
-    }
-
-    public FunnelContext getContext ()
-    {
-        return context;
     }
 }

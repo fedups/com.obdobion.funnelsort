@@ -492,8 +492,8 @@ public class Funnel
 
             if (context.comparisonCounter > 0)
                 logger.debug("Average comparison count per input row: "
-                        + (context.comparisonCounter / passOneRowCount)
-                        + ".  Total comparisons = " + context.comparisonCounter);
+                    + (context.comparisonCounter / passOneRowCount)
+                    + ".  Total comparisons = " + context.comparisonCounter);
         }
     }
 

@@ -33,7 +33,6 @@ public class App
         final String log4jParm = System.getProperty("log4j.configuration", workDir() + "/src/test/java/log4j.xml");
         DOMConfigurator.configure(cfg.log4jConfigFileName);
 
-
         try
         {
             Funnel.sort(cfg, args);

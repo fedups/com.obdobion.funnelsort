@@ -16,7 +16,7 @@ import com.obdobion.funnel.segment.SourceProxyRecord;
  */
 public class OutputFormatHelper
 {
-    final private static Logger logger       = Logger.getLogger(OutputFormatHelper.class);
+    final private static Logger logger          = Logger.getLogger(OutputFormatHelper.class);
 
     public static final int     MAX_OUTPUT_SIZE = 4096;
     final KeyContext            context;

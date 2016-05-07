@@ -18,7 +18,9 @@ import com.obdobion.funnel.publisher.RandomAccessInputSource;
  */
 public class InputCache implements RandomAccessInputSource
 {
-    static final private Logger logger = Logger.getLogger(InputCache.class);
+    static final private Logger logger     = Logger.getLogger(InputCache.class);
+
+    static final int            BufferSize = 1 << 15;
 
     /*
      * public for junit only
@@ -54,7 +56,6 @@ public class InputCache implements RandomAccessInputSource
     }
 
     final FunnelContext    context;
-    static final int       BufferSize = 1 << 15;
     final InputStream      source;
     final List<ByteBuffer> sourceBuffers;
     /*

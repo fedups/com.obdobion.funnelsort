@@ -35,12 +35,12 @@ public class SourceProxyRecord implements Comparable<SourceProxyRecord>
     }
 
     private FunnelContext context;
-    public int    originalInputFileIndex;
-    public long   originalRecordNumber;
-    public long   originalLocation;
-    public int    originalSize;
-    public int    size;
-    public byte[] sortKey;
+    public int            originalInputFileIndex;
+    public long           originalRecordNumber;
+    public long           originalLocation;
+    public int            originalSize;
+    public int            size;
+    public byte[]         sortKey;
 
     private SourceProxyRecord(FunnelContext _context)
     {

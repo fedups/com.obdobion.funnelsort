@@ -23,17 +23,15 @@ public class BasicTest
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
-
-        final File output = new File("/tmp/integerSort");
+        final File output = Helper.outFile(testName);
 
         final List<String> in1 = new ArrayList<>();
         in1.add("1");
         in1.add("111");
         in1.add("11");
 
-        final File file1 = Helper.createUnsortedFile("integerSort1", in1);
-        final FunnelContext context = Funnel.sort(Helper.config(), file1.getParentFile().getAbsolutePath()
-            + "/integerSort?.* "
+        final File file1 = Helper.createUnsortedFile(testName, in1);
+        final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
             + " --col(int -o0 -l7 -n col1)"
             + " --orderby(col1 asc)"
             + " --pow 2"
@@ -60,23 +58,23 @@ public class BasicTest
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
 
-        final File output = new File("/tmp/multifileInputIntegerSort");
+        final File output = Helper.outFile(testName);
 
         final List<String> in1 = new ArrayList<>();
         in1.add("1");
         in1.add("111");
         in1.add("21");
 
-        final File file1 = Helper.createUnsortedFile("multifileInputIntegerSort1", in1);
-        final File file2 = Helper.createUnsortedFile("multifileInputIntegerSort2", in1);
-        final FunnelContext context = Funnel.sort(Helper.config(), file1.getParentFile().getAbsolutePath()
-            + "/multifileInputIntegerSort?.* "
-            + " --col(int -o0 -l3 -n col1)"
-            + " --orderby(col1 desc)"
-            + " --pow 2"
-            + " --max 6"
-            + " -o "
-            + output.getAbsolutePath()
+        final File file1 = Helper.createUnsortedFile(testName + "1", in1);
+        final File file2 = Helper.createUnsortedFile(testName + "2", in1);
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file1.getAbsolutePath() + " " + file2.getAbsolutePath()
+                + " --col(int -o0 -l3 -n col1)"
+                + " --orderby(col1 desc)"
+                + " --pow 2"
+                + " --max 6"
+                + " -o "
+                + output.getAbsolutePath()
                 );
 
         Assert.assertEquals("records", 6L, context.publisher.getWriteCount());
@@ -102,23 +100,23 @@ public class BasicTest
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
 
-        final File output = new File("/tmp/multifileInputStringSort");
+        final File output = Helper.outFile(testName);
 
         final List<String> in1 = new ArrayList<>();
         in1.add("1");
         in1.add("111");
         in1.add("21");
 
-        final File file1 = Helper.createUnsortedFile("multifileInputStringSort1", in1);
-        final File file2 = Helper.createUnsortedFile("multifileInputStringSort2", in1);
-        final FunnelContext context = Funnel.sort(Helper.config(), file1.getParentFile().getAbsolutePath()
-            + "/multifileInputStringSort?.* "
-            + " --col(String -o0 -l3 -n col1)"
-            + " --orderby(col1 desc)"
-            + " --pow 2"
-            + " --max 6"
-            + " -o "
-            + output.getAbsolutePath()
+        final File file1 = Helper.createUnsortedFile(testName + "1", in1);
+        final File file2 = Helper.createUnsortedFile(testName + "2", in1);
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file1.getAbsolutePath() + " " + file2.getAbsolutePath()
+                + " --col(String -o0 -l3 -n col1)"
+                + " --orderby(col1 desc)"
+                + " --pow 2"
+                + " --max 6"
+                + " -o "
+                + output.getAbsolutePath()
                 );
 
         Assert.assertEquals("records", 6L, context.publisher.getWriteCount());

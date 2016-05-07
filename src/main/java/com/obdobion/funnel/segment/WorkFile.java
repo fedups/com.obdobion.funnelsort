@@ -69,6 +69,11 @@ public class WorkFile implements WorkRepository
         bb.position(0);
     }
 
+    public FunnelContext getContext ()
+    {
+        return context;
+    }
+
     public void open () throws IOException
     {
         raf = new RandomAccessFile(file, "rw");
@@ -115,10 +120,5 @@ public class WorkFile implements WorkRepository
         writeFilePointer += sizeThisTime;
 
         return startingPointer;
-    }
-
-    public FunnelContext getContext ()
-    {
-        return context;
     }
 }

@@ -441,7 +441,6 @@ public class FunnelTest
 
         try
         {
-            System.setProperty("specPath", "nowhere/specs;~/funnel;/etc/funnel/specs;/tmp");
             Funnel.sort(Helper.config(), "-?");
         } catch (final ParseException e)
         {

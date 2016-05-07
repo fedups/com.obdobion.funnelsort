@@ -24,7 +24,7 @@ public class BigTest
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
 
-        final File output = new File("/tmp/multipleInputFiles");
+        final File output = Helper.outFile(testName);
 
         final List<String> in1 = new ArrayList<>();
         for (int x = 1; x <= 1000000; x++)
@@ -69,7 +69,7 @@ public class BigTest
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
 
-        final File output = new File("/tmp/oneBigFile");
+        final File output = Helper.outFile(testName);
 
         final List<String> in1 = new ArrayList<>();
         for (int x = 1; x <= 1000000; x++)

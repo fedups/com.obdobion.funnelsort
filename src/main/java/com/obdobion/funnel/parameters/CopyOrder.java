@@ -6,8 +6,8 @@ package com.obdobion.funnel.parameters;
  */
 public enum CopyOrder
 {
-    // Random,
-    Reverse,
-    Original,
-    ByKey
+        // Random,
+        Reverse,
+        Original,
+        ByKey
 }

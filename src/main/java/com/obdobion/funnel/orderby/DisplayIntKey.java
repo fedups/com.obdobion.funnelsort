@@ -56,8 +56,7 @@ public class DisplayIntKey extends KeyPart
         int lengthThisTime = length;
         if (rawBytes == null)
             lengthThisTime = 0;
-        else
-        if (rawBytes.length < offset + length)
+        else if (rawBytes.length < offset + length)
             lengthThisTime = rawBytes.length - offset;
 
         int t = 0;

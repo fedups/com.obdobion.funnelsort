@@ -6,12 +6,12 @@ package com.obdobion.funnel.orderby;
  */
 public enum KeyType
 {
-    String(AlphaKey.class),
-    Integer(DisplayIntKey.class),
-    Float(DisplayFloatKey.class),
-    BInteger(BinaryIntKey.class),
-    BFloat(BinaryFloatKey.class),
-    Date(DateKey.class);
+        String(AlphaKey.class),
+        Integer(DisplayIntKey.class),
+        Float(DisplayFloatKey.class),
+        BInteger(BinaryIntKey.class),
+        BFloat(BinaryFloatKey.class),
+        Date(DateKey.class);
 
     static public KeyPart create (final String keyType) throws Exception
     {

@@ -23,16 +23,6 @@ public class RecordNumberKey extends KeyPart
         // "\"  is not expected for \"RecordNumber\"";
     }
 
-    @Override
-    public void pack (final KeyContext context) throws Exception
-    {
-        Long longValue = (Long) parseObjectFromRawData(context);
-        formatObjectIntoKey(context, longValue);
-
-        if (nextPart != null)
-            nextPart.pack(context);
-    }
-
     private void formatObjectIntoKey (final KeyContext context, Long _longValue)
     {
         Long longValue = _longValue;
@@ -43,6 +33,16 @@ public class RecordNumberKey extends KeyPart
         final ByteBuffer bb = ByteBuffer.wrap(context.key, context.keyLength, 8);
         bb.putLong(longValue ^ 0x8000000000000000L);
         context.keyLength += 8;
+    }
+
+    @Override
+    public void pack (final KeyContext context) throws Exception
+    {
+        Long longValue = (Long) parseObjectFromRawData(context);
+        formatObjectIntoKey(context, longValue);
+
+        if (nextPart != null)
+            nextPart.pack(context);
     }
 
     @Override

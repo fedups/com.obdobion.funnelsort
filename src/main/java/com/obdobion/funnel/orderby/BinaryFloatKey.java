@@ -17,16 +17,6 @@ public class BinaryFloatKey extends KeyPart
         // "Binary Float lengths must be 4 or 8.";
     }
 
-    @Override
-    public void pack (final KeyContext _context) throws Exception
-    {
-        Double _doubleValue = (Double) parseObjectFromRawData(_context);
-        formatObjectIntoKey(_context, _doubleValue);
-
-        if (nextPart != null)
-            nextPart.pack(_context);
-    }
-
     private void formatObjectIntoKey (final KeyContext _context, Double _doubleValue)
     {
         Double doubleValue = _doubleValue;
@@ -68,6 +58,16 @@ public class BinaryFloatKey extends KeyPart
                 break;
         }
         _context.keyLength += length;
+    }
+
+    @Override
+    public void pack (final KeyContext _context) throws Exception
+    {
+        Double _doubleValue = (Double) parseObjectFromRawData(_context);
+        formatObjectIntoKey(_context, _doubleValue);
+
+        if (nextPart != null)
+            nextPart.pack(_context);
     }
 
     @Override

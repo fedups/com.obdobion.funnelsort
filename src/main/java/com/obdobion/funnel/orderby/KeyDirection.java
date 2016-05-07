@@ -6,8 +6,8 @@ package com.obdobion.funnel.orderby;
  */
 public enum KeyDirection
 {
-    ASC,
-    DESC,
-    AASC,
-    ADESC
+        ASC,
+        DESC,
+        AASC,
+        ADESC
 }

@@ -23,8 +23,7 @@ public class MultiFileTest
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
-
-        final File output = new File("/tmp/twoInputFilesMerged");
+        final File output = Helper.outFile(testName);
 
         final List<String> expectedOutput = new ArrayList<>();
 

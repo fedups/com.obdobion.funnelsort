@@ -174,9 +174,9 @@ abstract public class FixedLengthPublisher implements FunnelDataPublisher, Colum
     }
 
     public void write (
-            final byte[] _originalBytes,
-            int offset,
-            int length)
+        final byte[] _originalBytes,
+        int offset,
+        int length)
         throws IOException
     {
         final int sizeThisTime = length;

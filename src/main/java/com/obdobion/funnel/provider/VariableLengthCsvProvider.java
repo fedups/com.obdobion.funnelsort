@@ -62,13 +62,13 @@ public class VariableLengthCsvProvider extends VariableLengthProvider
     public long actualNumberOfRows ()
     {
         return super.actualNumberOfRows()
-                - (context.csv.header
-                        ? 1
-                        : 0);
+            - (context.csv.header
+                    ? 1
+                    : 0);
     }
 
     public byte[][] decodeCsv (final byte[] input, final int inputLength, CSVFormat csvFormat)
-            throws IOException
+        throws IOException
     {
         final byte[][] field = new byte[includeColumn.length][];
 
@@ -116,13 +116,6 @@ public class VariableLengthCsvProvider extends VariableLengthProvider
     }
 
     @Override
-    void preSelectionExtract (int byteCount) throws Exception
-    {
-        final byte[][] data = decodeCsv(row, byteCount, context.csv.format);
-        context.columnHelper.extract(context, data, recordNumber, byteCount);
-    }
-
-    @Override
     KeyContext postReadKeyProcessing (final int byteCount) throws IOException
     {
         KeyContext kContext = null;
@@ -136,6 +129,13 @@ public class VariableLengthCsvProvider extends VariableLengthProvider
             throw new IOException(e);
         }
         return kContext;
+    }
+
+    @Override
+    void preSelectionExtract (int byteCount) throws Exception
+    {
+        final byte[][] data = decodeCsv(row, byteCount, context.csv.format);
+        context.columnHelper.extract(context, data, recordNumber, byteCount);
     }
 
     byte[] unquote (final byte[] input, final int _start, final int _end, final byte quoteByte)

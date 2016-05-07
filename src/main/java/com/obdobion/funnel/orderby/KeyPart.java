@@ -36,22 +36,6 @@ abstract public class KeyPart
             nextPart.add(anotherFormatter);
     }
 
-    abstract public void pack (KeyContext context) throws Exception;
-
-    abstract public Object parseObjectFromRawData (final KeyContext context) throws Exception;
-
-    public boolean isCsv ()
-    {
-        return csvFieldNumber >= 0;
-    }
-
-    byte[] rawBytes (final KeyContext context)
-    {
-        if (csvFieldNumber >= 0)
-            return context.rawRecordBytes[csvFieldNumber];
-        return context.rawRecordBytes[0];
-    }
-
     /**
      * Copy everything exception the key specific things like direction and
      * nextPart. Even if this is the key that caused the column to be defined we
@@ -67,6 +51,11 @@ abstract public class KeyPart
         parseFormat = colDef.parseFormat;
         typeName = colDef.typeName;
         columnName = colDef.columnName;
+    }
+
+    public boolean isCsv ()
+    {
+        return csvFieldNumber >= 0;
     }
 
     public KeyPart newCopy ()
@@ -90,7 +79,7 @@ abstract public class KeyPart
         return myCopy;
     }
 
-    public void originalData (final KeyContext context,  SourceProxyRecord proxyRecord, ByteArrayOutputStream outputBytes)
+    public void originalData (final KeyContext context, SourceProxyRecord proxyRecord, ByteArrayOutputStream outputBytes)
     {
         final byte[] rawBytes = rawBytes(context);
 
@@ -107,5 +96,16 @@ abstract public class KeyPart
 
         if (nextPart != null)
             nextPart.originalData(context, proxyRecord, outputBytes);
+    }
+
+    abstract public void pack (KeyContext context) throws Exception;
+
+    abstract public Object parseObjectFromRawData (final KeyContext context) throws Exception;
+
+    byte[] rawBytes (final KeyContext context)
+    {
+        if (csvFieldNumber >= 0)
+            return context.rawRecordBytes[csvFieldNumber];
+        return context.rawRecordBytes[0];
     }
 }

@@ -68,11 +68,11 @@ public class ColumnHelper
      * can't just store these bytes for later use.
      */
     public KeyContext extract (
-            FunnelContext funnelContext,
-            final byte[] data,
-            final long recordNumber,
-            final int dataLength)
-            throws Exception
+        FunnelContext funnelContext,
+        final byte[] data,
+        final long recordNumber,
+        final int dataLength)
+        throws Exception
     {
         /*
          * The extra byte is for a 0x00 character to be placed at the end of
@@ -92,44 +92,6 @@ public class ColumnHelper
         return context;
     }
 
-    private void extractColumnContentsFromRawData (
-            FunnelContext funnelContext,
-            final long recordNumber,
-            final int dataLength)
-            throws Exception
-    {
-        if (funnelContext == null)
-            return;
-        for (final KeyPart col : columns)
-        {
-            try
-            {
-                Object rawData = col.parseObjectFromRawData(context);
-                if (funnelContext.getWhereEqu() != null)
-                    funnelContext.getWhereEqu().getSupport().assignVariable(col.columnName, rawData);
-                if (funnelContext.getStopEqu() != null)
-                    funnelContext.getStopEqu().getSupport().assignVariable(col.columnName, rawData);
-
-            } catch (Exception e)
-            {
-                logger.warn(e.getClass().getSimpleName() + " " + e.getMessage() + " on record number "
-                        + (recordNumber + 1));
-            }
-        }
-        Long rn = new Long(recordNumber + 1);
-        Integer rs = new Integer(dataLength);
-
-        if (funnelContext.getWhereEqu() != null)
-            funnelContext.getWhereEqu().getSupport().assignVariable("recordnumber", rn);
-        if (funnelContext.getStopEqu() != null)
-            funnelContext.getStopEqu().getSupport().assignVariable("recordnumber", rn);
-
-        if (funnelContext.getWhereEqu() != null)
-            funnelContext.getWhereEqu().getSupport().assignVariable("recordsize", rs);
-        if (funnelContext.getStopEqu() != null)
-            funnelContext.getStopEqu().getSupport().assignVariable("recordsize", rs);
-    }
-
     /**
      * Call this method for csv files that break each row up into fields (byte
      * arrays). [][].
@@ -140,10 +102,10 @@ public class ColumnHelper
      * @throws Exception
      */
     public KeyContext extract (
-            FunnelContext funnelContext,
-            final byte[][] data,
-            final long recordNumber,
-            final int dataLength) throws Exception
+        FunnelContext funnelContext,
+        final byte[][] data,
+        final long recordNumber,
+        final int dataLength) throws Exception
     {
         /*
          * The extra byte is for a 0x00 character to be placed at the end of
@@ -160,6 +122,44 @@ public class ColumnHelper
 
         context.rawRecordBytes = null;
         return context;
+    }
+
+    private void extractColumnContentsFromRawData (
+        FunnelContext funnelContext,
+        final long recordNumber,
+        final int dataLength)
+        throws Exception
+    {
+        if (funnelContext == null)
+            return;
+        for (final KeyPart col : columns)
+        {
+            try
+            {
+                Object rawData = col.parseObjectFromRawData(context);
+                if (funnelContext.getWhereEqu() != null)
+                    funnelContext.getWhereEqu().getSupport().assignVariable(col.columnName, rawData);
+                if (funnelContext.getStopEqu() != null)
+                    funnelContext.getStopEqu().getSupport().assignVariable(col.columnName, rawData);
+
+            } catch (Exception e)
+            {
+                logger.warn(e.getClass().getSimpleName() + " " + e.getMessage() + " on record number "
+                    + (recordNumber + 1));
+            }
+        }
+        Long rn = new Long(recordNumber + 1);
+        Integer rs = new Integer(dataLength);
+
+        if (funnelContext.getWhereEqu() != null)
+            funnelContext.getWhereEqu().getSupport().assignVariable("recordnumber", rn);
+        if (funnelContext.getStopEqu() != null)
+            funnelContext.getStopEqu().getSupport().assignVariable("recordnumber", rn);
+
+        if (funnelContext.getWhereEqu() != null)
+            funnelContext.getWhereEqu().getSupport().assignVariable("recordsize", rs);
+        if (funnelContext.getStopEqu() != null)
+            funnelContext.getStopEqu().getSupport().assignVariable("recordsize", rs);
     }
 
     public KeyPart get (final String name)

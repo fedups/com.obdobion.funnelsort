@@ -6,8 +6,8 @@ package com.obdobion.funnel.parameters;
  */
 public enum DuplicateDisposition
 {
-    FirstOnly,
-    LastOnly,
-    Reverse,
-    Original
+        FirstOnly,
+        LastOnly,
+        Reverse,
+        Original
 }

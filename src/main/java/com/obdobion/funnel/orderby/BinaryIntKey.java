@@ -17,16 +17,6 @@ public class BinaryIntKey extends KeyPart
         // "Binary Integer lengths must be 1, 2, 4, or 8.";
     }
 
-    @Override
-    public void pack (final KeyContext context) throws Exception
-    {
-        Long _longValue = (Long) parseObjectFromRawData(context);
-        formatObjectIntoKey(context, _longValue);
-
-        if (nextPart != null)
-            nextPart.pack(context);
-    }
-
     private void formatObjectIntoKey (final KeyContext context, Long _longValue)
     {
         Long longValue = _longValue;
@@ -59,6 +49,16 @@ public class BinaryIntKey extends KeyPart
                 break;
         }
         context.keyLength += length;
+    }
+
+    @Override
+    public void pack (final KeyContext context) throws Exception
+    {
+        Long _longValue = (Long) parseObjectFromRawData(context);
+        formatObjectIntoKey(context, _longValue);
+
+        if (nextPart != null)
+            nextPart.pack(context);
     }
 
     @Override

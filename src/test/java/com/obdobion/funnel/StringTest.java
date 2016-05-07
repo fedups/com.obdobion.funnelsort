@@ -23,8 +23,7 @@ public class StringTest
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
-
-        final File output = new File("/tmp/caseMatters");
+        final File output = Helper.outFile(testName);
 
         final List<String> in1 = new ArrayList<>();
         in1.add("z");
@@ -57,8 +56,7 @@ public class StringTest
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
-
-        final File output = new File("/tmp/ignoreCase");
+        final File output = Helper.outFile(testName);
 
         final List<String> in1 = new ArrayList<>();
         in1.add("z");

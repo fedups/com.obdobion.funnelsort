@@ -17,17 +17,6 @@ public class AlphaKey extends KeyPart
         // "\"  is not expected for \"String\"";
     }
 
-    @Override
-    public void pack (final KeyContext context) throws Exception
-    {
-        final byte[] rawBytes = ((String) parseObjectFromRawData(context)).getBytes();
-
-        formatObjectIntoKey(context, rawBytes);
-
-        if (nextPart != null)
-            nextPart.pack(context);
-    }
-
     private void formatObjectIntoKey (final KeyContext context, final byte[] rawBytes)
     {
         int lengthThisTime = length;
@@ -70,6 +59,17 @@ public class AlphaKey extends KeyPart
             context.key[context.keyLength] = (byte) 0x00;
             context.keyLength++;
         }
+    }
+
+    @Override
+    public void pack (final KeyContext context) throws Exception
+    {
+        final byte[] rawBytes = ((String) parseObjectFromRawData(context)).getBytes();
+
+        formatObjectIntoKey(context, rawBytes);
+
+        if (nextPart != null)
+            nextPart.pack(context);
     }
 
     @Override
