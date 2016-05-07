@@ -109,6 +109,9 @@ Section "FunnelSort"
     File ..\..\src\examples\data\MyDataVariable2.in
     SetFileAttributes MyDataVariable2.in READONLY
     
+    File ..\..\src\examples\data\MyLog.in
+    SetFileAttributes MyLog.in READONLY
+    
     SetOutPath $INSTDIR\examples
     SetOverwrite on
     

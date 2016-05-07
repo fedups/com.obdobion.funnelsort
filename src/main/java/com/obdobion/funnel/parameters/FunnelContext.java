@@ -269,13 +269,13 @@ public class FunnelContext
     static private void defineColumnOffset (
             final ArrayList<String> def)
     {
-        def.add("-tInteger -k o offset --var offset --def 0 -h'The zero relative offset from the beginning of a row.  This will be computed, if not specified, to be the location of the previous column plus the length of the previous column.  Most often this parameter is not needed.' --range 0");
+        def.add("-tInteger -k o offset --var offset --def -1 -h'The zero relative offset from the beginning of a row.  This will be computed, if not specified, to be the location of the previous column plus the length of the previous column.  Most often this parameter is not needed.' --range 0");
     }
 
     static private void defineColumnType (
             final ArrayList<String> def)
     {
-        def.add("-tEnum -k t type -p --var typeName --req --case -h'The data type of the key in the file.' --case --enumList "
+        def.add("-tEnum -k t type -p --var typeName -r --case -h'The data type of the key in the file.' --case --enumList "
                 + KeyType.class.getName());
     }
 
@@ -484,8 +484,9 @@ public class FunnelContext
         try
         {
             final StringBuilder sb = new StringBuilder();
-            sb.append("commandline: ");
-            parser.exportCommandLine(sb);
+            sb.append("commandline:");
+            for (String arg : _args)
+                sb.append(" ").append(arg);
             logger.info(sb.toString());
 
             showSystemParameters();
@@ -593,10 +594,12 @@ public class FunnelContext
                      * specification.
                      */
                     if (csv == null)
-                        if (colDef.offset == 0)
+                        if (colDef.offset == -1) // unspecified
                         {
                             if (previousColDef != null)
                                 colDef.offset = previousColDef.offset + previousColDef.length;
+                            else
+                                colDef.offset = 0;
                         }
                     /*
                      * Since the parameter is 1-relative, an arbitrary decision,
@@ -604,7 +607,10 @@ public class FunnelContext
                      * used.
                      */
                     if (colDef.csvFieldNumber > 0)
+                    {
                         colDef.csvFieldNumber--;
+                        colDef.offset = 0;
+                    }
 
                     columnHelper.add(colDef);
                     previousColDef = colDef;
@@ -705,6 +711,8 @@ public class FunnelContext
             {
                 try
                 {
+                    if (kdef.offset == -1) // unspecified
+                        kdef.offset = 0;
                     formatOutHelper.add(kdef);
                 } catch (final Exception e)
                 {

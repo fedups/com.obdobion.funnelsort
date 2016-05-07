@@ -1,8 +1,10 @@
 --columnsIn
-	(-n FIPS --length 2 int)
+    (-n FIPS  --offset 0 --length 2 int)
+	(-n FIPS1 --offset 0 --length 1 String)
+    (-n FIPS2 --length 1 String)
 	(-n postalCode --length 2 string)
-	(-n povertyAll --length 11 int)
-	(-n povertyAllPercent --length 4 float)
+	(-n population --length 10 int)
+	(-n populationPercent --length 5 float)
 	(-n medianHouseholdIncome --length 7 int)
 	(-n stateName --length 21 string)
 

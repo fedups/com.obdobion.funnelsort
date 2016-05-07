@@ -8,7 +8,7 @@
 !include ..\..\target\project.nsh
 
 !define ALGEBRAIN_VERSION "1.3.0"
-!define ARGUMENT_VERSION "2.3.42"
+!define ARGUMENT_VERSION "2.3.43"
 !define CALENDAR_VERSION "1.0.0"
 
 !endif

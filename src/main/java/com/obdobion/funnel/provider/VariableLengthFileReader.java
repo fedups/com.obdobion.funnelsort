@@ -46,7 +46,7 @@ public class VariableLengthFileReader implements InputReader
     public void close () throws IOException, ParseException
     {
         raf.close();
-        logger.debug("loaded " + context.getInputFile(context.inputFileIndex()).getAbsolutePath());
+        logger.debug("loaded " + inFile.getAbsolutePath());
     }
 
     private int fillBB ()

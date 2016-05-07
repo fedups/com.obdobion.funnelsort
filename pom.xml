@@ -7,7 +7,7 @@
 		<url>http://sourceforge.net/p/funnelsort</url>
 	</organization>
 	<artifactId>funnel</artifactId>
-	<version>1.5.8</version>
+	<version>1.5.9</version>
 	<name>funnel</name>
 
 	<properties>
@@ -15,7 +15,7 @@
 		<java.source.version>1.8</java.source.version>
 		<junit.version>4.8.1</junit.version>
 		<log4j.version>1.2.17</log4j.version>
-		<argument.version>2.3.42</argument.version>
+		<argument.version>2.3.43</argument.version>
 		<algebrain.version>1.3.0</algebrain.version>
 		<project.build.sourceEncoding>Cp1252</project.build.sourceEncoding>
 	</properties>

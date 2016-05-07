@@ -25,6 +25,7 @@ abstract public class KeyPart
         csvFieldNumber = -1;
         typeName = null;
         columnName = null;
+        offset = -1;
     }
 
     public void add (final KeyPart anotherFormatter)

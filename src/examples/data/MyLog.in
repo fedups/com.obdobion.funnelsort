@@ -1,0 +1,24 @@
+2016-05-06 10:35:24,026 INFO  () ================ BEGIN ===================
+2016-05-06 10:35:24,048 INFO  () commandline:  "c:/Program Files/funnel/examples/data/MyDataVariable.in" -o"c:\tmp\MyDataVariable.out"
+2016-05-06 10:35:24,048 INFO  () user.name=degreefc
+2016-05-06 10:35:24,052 INFO  () inputFilename = c:\Program Files\funnel\examples\data\MyDataVariable.in
+2016-05-06 10:35:24,052 INFO  () outputFilename= c:\tmp\MyDataVariable.out
+2016-05-06 10:35:24,052 INFO  () dups    = Original
+2016-05-06 10:35:24,052 INFO  () process = ByKey order
+2016-05-06 10:35:24,119 INFO  () 52 rows obtained from MyDataVariable.in
+2016-05-06 10:35:24,138 INFO  () 52 rows written
+2016-05-06 10:35:24,143 INFO  () perRow(242280 nano) rowsPerSecond(4127)
+2016-05-06 10:35:24,143 INFO  () ================= END ====================
+2016-05-06 02:13:32,969 INFO  () ================ BEGIN ===================
+2016-05-06 02:13:32,991 INFO  () commandline:  "c:/Program Files/funnel/examples/data/MyDataVariable.in" --columnsIn[-n"FIPS2"  "Integer" -o1 -l1] [-n"stateName"  "String" -o26 -l20] --orderby[ "FIPS2"] [ "stateName"  "DESC"]
+2016-05-06 02:13:32,994 INFO  () inputFilename = c:\Program Files\funnel\examples\data\MyDataVariable.in
+2016-05-06 02:13:32,994 INFO  () output is SYSOUT
+2016-05-06 02:13:32,994 INFO  () dups    = Original
+2016-05-06 02:13:33,014 INFO  () 52 rows obtained from MyDataVariable.in
+2016-05-06 02:13:33,036 INFO  () 52 rows written
+2016-05-06 02:13:33,036 INFO  () perRow(198633 nano) rowsPerSecond(5034)
+2016-05-06 12:13:33,036 INFO  () ================= END ====================
+2016-05-07 12:14:19,820 INFO  () ================ BEGIN ===================
+2016-05-07 12:14:19,842 INFO  () commandline:  "c:/Program Files/funnel/examples/data/MyDataVariable.in" --columnsIn[-n"FIPS"  "Integer" -l2] [-n"postalCode"  "String" -l2] [-n"povertyAll"  "Integer" -l11] [-n"povertyAllPercent"  "Float" -l4] [-n"medianHouseholdIncome"  "Integer" -l7] [-n"stateName"  "String" -l21] --maxrows52 --orderby[ "FIPS2"] [ "stateName"  "DESC"]
+2016-05-07 12:14:19,843 FATAL () OrderBy must be a defined column: FIPS2
+2016-05-07 12:14:19,843 INFO  () ================= END ====================
