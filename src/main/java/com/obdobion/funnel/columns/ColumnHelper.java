@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.obdobion.algebrain.Equ;
 import com.obdobion.funnel.orderby.KeyContext;
 import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
@@ -68,10 +69,11 @@ public class ColumnHelper
      * can't just store these bytes for later use.
      */
     public KeyContext extract (
-        FunnelContext funnelContext,
+        final FunnelContext funnelContext,
         final byte[] data,
         final long recordNumber,
-        final int dataLength)
+        final int dataLength,
+        final Equ... equations)
         throws Exception
     {
         /*
@@ -86,7 +88,7 @@ public class ColumnHelper
         context.rawRecordBytes[0] = data;
         context.recordNumber = recordNumber;
 
-        extractColumnContentsFromRawData(funnelContext, recordNumber, dataLength);
+        extractColumnContentsFromRawData(funnelContext, recordNumber, dataLength, equations);
 
         context.rawRecordBytes = null;
         return context;
@@ -102,10 +104,11 @@ public class ColumnHelper
      * @throws Exception
      */
     public KeyContext extract (
-        FunnelContext funnelContext,
+        final FunnelContext funnelContext,
         final byte[][] data,
         final long recordNumber,
-        final int dataLength) throws Exception
+        final int dataLength,
+        final Equ... equations) throws Exception
     {
         /*
          * The extra byte is for a 0x00 character to be placed at the end of
@@ -118,16 +121,17 @@ public class ColumnHelper
         context.rawRecordBytes = data;
         context.recordNumber = recordNumber;
 
-        extractColumnContentsFromRawData(funnelContext, recordNumber, dataLength);
+        extractColumnContentsFromRawData(funnelContext, recordNumber, dataLength, equations);
 
         context.rawRecordBytes = null;
         return context;
     }
 
     private void extractColumnContentsFromRawData (
-        FunnelContext funnelContext,
+        final FunnelContext funnelContext,
         final long recordNumber,
-        final int dataLength)
+        final int dataLength,
+        final Equ... equations)
         throws Exception
     {
         if (funnelContext == null)
@@ -136,30 +140,30 @@ public class ColumnHelper
         {
             try
             {
-                Object rawData = col.parseObjectFromRawData(context);
-                if (funnelContext.getWhereEqu() != null)
-                    funnelContext.getWhereEqu().getSupport().assignVariable(col.columnName, rawData);
-                if (funnelContext.getStopEqu() != null)
-                    funnelContext.getStopEqu().getSupport().assignVariable(col.columnName, rawData);
+                final Object rawData = col.parseObjectFromRawData(context);
+                for (int e = 0; e < equations.length; e++)
+                {
+                    if (equations[e] != null)
+                        equations[e].getSupport().assignVariable(col.columnName, rawData);
+                }
 
-            } catch (Exception e)
+            } catch (final Exception e)
             {
                 logger.warn(e.getClass().getSimpleName() + " " + e.getMessage() + " on record number "
                     + (recordNumber + 1));
             }
         }
-        Long rn = new Long(recordNumber + 1);
-        Integer rs = new Integer(dataLength);
+        final Long rn = new Long(recordNumber + 1);
+        final Integer rs = new Integer(dataLength);
 
-        if (funnelContext.getWhereEqu() != null)
-            funnelContext.getWhereEqu().getSupport().assignVariable("recordnumber", rn);
-        if (funnelContext.getStopEqu() != null)
-            funnelContext.getStopEqu().getSupport().assignVariable("recordnumber", rn);
-
-        if (funnelContext.getWhereEqu() != null)
-            funnelContext.getWhereEqu().getSupport().assignVariable("recordsize", rs);
-        if (funnelContext.getStopEqu() != null)
-            funnelContext.getStopEqu().getSupport().assignVariable("recordsize", rs);
+        for (int e = 0; e < equations.length; e++)
+        {
+            if (equations[e] != null)
+            {
+                equations[e].getSupport().assignVariable("recordnumber", rn);
+                equations[e].getSupport().assignVariable("recordsize", rs);
+            }
+        }
     }
 
     public KeyPart get (final String name)

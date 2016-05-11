@@ -6,13 +6,14 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.obdobion.algebrain.Equ;
 import com.obdobion.funnel.orderby.KeyContext;
 import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class OutputFormatHelper
 {
@@ -25,12 +26,14 @@ public class OutputFormatHelper
     FormatPart                  formatter;
     List<FormatPart>            columns;
 
-    public OutputFormatHelper(ColumnHelper _columnHelper)
+    Equ[]                       referencesToallOutputFormatEquations;
+
+    public OutputFormatHelper(final ColumnHelper _columnHelper)
     {
         this(_columnHelper, MAX_OUTPUT_SIZE);
     }
 
-    public OutputFormatHelper(ColumnHelper _columnHelper, final int maxsize)
+    public OutputFormatHelper(final ColumnHelper _columnHelper, final int maxsize)
     {
         logger.debug("maximum output record length is " + MAX_OUTPUT_SIZE);
 
@@ -44,14 +47,14 @@ public class OutputFormatHelper
      * Add the field in sequence after all other fields that have already been
      * defined. This is done through a linked list of fields. Use the column
      * helper to find the definition of the key if a column name was specified.
-     * 
+     *
      * @param _formatter
      */
     public void add (final FormatPart _formatter)
     {
         if (columnHelper != null && columnHelper.exists(_formatter.columnName))
         {
-            KeyPart colDef = columnHelper.get(_formatter.columnName);
+            final KeyPart colDef = columnHelper.get(_formatter.columnName);
             _formatter.defineFrom(colDef);
         }
 
@@ -64,12 +67,12 @@ public class OutputFormatHelper
     /**
      * It is likely that the provided data is a reusable buffer of bytes. So we
      * can't just store these bytes for later use.
-     * 
+     *
      * @param data
      * @return
      * @throws Exception
      */
-    KeyContext extract (final byte[] data, SourceProxyRecord proxyRecord) throws Exception
+    KeyContext extract (final byte[] data, final SourceProxyRecord proxyRecord) throws Exception
     {
         /*
          * The extra byte is for a 0x00 character to be placed at the end of
@@ -83,8 +86,11 @@ public class OutputFormatHelper
         context.rawRecordBytes[0] = data;
         context.recordNumber = proxyRecord.originalRecordNumber;
 
-        ByteArrayOutputStream output = new ByteArrayOutputStream(maxRecordBytes);
+        final ByteArrayOutputStream output = new ByteArrayOutputStream(maxRecordBytes);
+
+        prepareEquationsWithOriginalColumnData(proxyRecord);
         formatter.originalData(context, proxyRecord, output);
+
         context.key = output.toByteArray();
         context.keyLength = context.key.length;
 
@@ -92,7 +98,8 @@ public class OutputFormatHelper
         return context;
     }
 
-    public void format (ColumnWriter writer, final byte[] originalData, SourceProxyRecord proxyRecord) throws Exception
+    public void format (final ColumnWriter writer, final byte[] originalData, final SourceProxyRecord proxyRecord)
+        throws Exception
     {
         if (formatter == null)
         {
@@ -109,6 +116,46 @@ public class OutputFormatHelper
         extract(originalData, proxyRecord);
 
         writer.write(context.key, 0, context.keyLength);
+    }
+
+    private void prepareEquationsWithOriginalColumnData (final SourceProxyRecord proxyRecord) throws Exception
+    {
+        /*
+         * Cache the variable values into all related equations ahead of need.
+         */
+        if (referencesToallOutputFormatEquations == null)
+        {
+            int equationCount = 0;
+            FormatPart formatPart = formatter;
+            while (formatPart != null)
+            {
+                if (formatPart.equation != null)
+                    equationCount++;
+                formatPart = formatPart.nextPart;
+            }
+            referencesToallOutputFormatEquations = new Equ[equationCount];
+            equationCount = 0;
+            formatPart = formatter;
+            while (formatPart != null)
+            {
+                if (formatPart.equation != null)
+                {
+                    referencesToallOutputFormatEquations[equationCount] = formatPart.equation;
+                    equationCount++;
+                }
+                formatPart = formatPart.nextPart;
+            }
+        }
+        /*
+         * Just to get the variables in the equation loaded from the original
+         * record
+         */
+        proxyRecord.getFunnelContext().columnHelper.extract(
+            proxyRecord.getFunnelContext(),
+            context.rawRecordBytes[0],
+            context.recordNumber,
+            context.rawRecordBytes[0].length,
+            referencesToallOutputFormatEquations);
     }
 
 }

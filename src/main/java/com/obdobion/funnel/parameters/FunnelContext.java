@@ -222,16 +222,31 @@ public class FunnelContext
         def.add("-tInteger -k f fixed --var fixedRecordLength -h 'The record length in a fixed record length file.' --ran 1 4096");
     }
 
+    static private void defineFormatEqu (
+        final ArrayList<String> def)
+    {
+        def.add("-tString -k e equation --var equationInput -h'Used instead of a column name, this will be evaluated with the result written to the output.'");
+    }
+
     static private void defineFormatFiller (
         final ArrayList<String> def)
     {
         def.add("-tByte -k f filler --var filler -h'The trailing filler character to use for a short field.'");
     }
 
+    static private void defineFormatFormat (
+        final ArrayList<String> def)
+    {
+        def.add("-tString -k d format --var format --case -h'The format for converting the contents of the data to be written. Use Java Formatter rules for making the format.  The format must match the type of the data.'");
+    }
+
     static private void defineFormatOutSubParser (final ArrayList<String> def)
     {
         def.add("-tBegin -k formatOut -m1 --var formatOutDefs --class com.obdobion.funnel.columns.FormatPart -h 'Column references defining the output file layout.'");
-        defineKeyNamePositional(def);
+        defineKeyNamePositional(def, false);
+        defineFormatEqu(def);
+        defineFormatType(def);
+        defineFormatFormat(def);
         defineColumnLength(def);
         defineFormatSize(def);
         defineColumnOffset(def);
@@ -246,6 +261,13 @@ public class FunnelContext
             + KeyHelper.MAX_KEY_SIZE
             + " -h'The number of characters this field will use on output.' --range 1 "
             + KeyHelper.MAX_KEY_SIZE);
+    }
+
+    static private void defineFormatType (
+        final ArrayList<String> def)
+    {
+        def.add("-tEnum -k t type -p --var typeName --case -h'The data type to be written.  Defaults to the columnIn data type.' --case --enumList "
+            + KeyType.class.getName());
     }
 
     static private void defineInPlaceSort (
@@ -274,9 +296,11 @@ public class FunnelContext
      * The name will always be lower case.
      */
     static private void defineKeyNamePositional (
-        final ArrayList<String> def)
+        final ArrayList<String> def, final boolean required)
     {
-        def.add("-tString -k n name --var columnName --pos --req -h'A previously defined column name.'");
+        def.add("-tString -k n name --var columnName --pos -h'A previously defined column name.'" + (required
+                ? " --req "
+                : ""));
     }
 
     static private void defineMaxRows (
@@ -297,7 +321,7 @@ public class FunnelContext
         final ArrayList<String> def)
     {
         def.add("-tBegin -k orderby -m1 --var orderBys -h 'The sort keys defined from columns.'");
-        defineKeyNamePositional(def);
+        defineKeyNamePositional(def, true);
         defineKeyDirection(def);
         def.add("-tEnd -k orderby");
     }
@@ -425,7 +449,7 @@ public class FunnelContext
 
     public long                 comparisonCounter;
 
-    public FunnelContext(AppContext cfg, final String... _args) throws IOException, ParseException
+    public FunnelContext(final AppContext cfg, final String... _args) throws IOException, ParseException
     {
         logger.info("================ BEGIN ===================");
         logger.debug("Funnel " + cfg.version);
@@ -485,7 +509,7 @@ public class FunnelContext
         {
             final StringBuilder sb = new StringBuilder();
             sb.append("commandline:");
-            for (String arg : _args)
+            for (final String arg : _args)
                 sb.append(" ").append(arg);
             logger.info(sb.toString());
 
@@ -587,7 +611,7 @@ public class FunnelContext
         {
             csv.format = csv.predefinedFormat.getFormat();
             logger.debug("defining the CSV parser based on \"" + csv.predefinedFormat.name() + "\"");
-            ICmdLine csvParser = ((CmdLineCLA) parser.arg("--csv")).templateCmdLine;
+            final ICmdLine csvParser = ((CmdLineCLA) parser.arg("--csv")).templateCmdLine;
 
             if (csvParser.arg("--commentMarker").isParsed())
                 csv.format = csv.format.withCommentMarker((char) csv.commentMarker);
@@ -627,6 +651,25 @@ public class FunnelContext
                 {
                     if (kdef.offset == -1) // unspecified
                         kdef.offset = 0;
+
+                    // if (kdef.columnName == null && kdef.equationInput ==
+                    // null)
+                    // throw new
+                    // ParseException("--formatOut columnName or --equ must be specified",
+                    // 0);
+                    if (kdef.columnName != null && kdef.equationInput != null)
+                        throw new ParseException("--formatOut columnName and --equ are mutually exclusive", 0);
+                    if (kdef.format != null && kdef.equationInput == null)
+                        throw new ParseException("--formatOut --format is only valid with --equ", 0);
+
+                    if (kdef.equationInput != null)
+                    {
+                        if (kdef.length == 255)
+                            throw new ParseException("--formatOut --length is required when --equ is specified", 0);
+                        kdef.equation = Equ.getInstance(true);
+                        kdef.equation.compile(kdef.equationInput);
+                    }
+
                     formatOutHelper.add(kdef);
                 } catch (final Exception e)
                 {
@@ -788,9 +831,9 @@ public class FunnelContext
             try
             {
                 stopEqu = Equ.getInstance(true);
-                StringBuilder sb = new StringBuilder();
+                final StringBuilder sb = new StringBuilder();
                 String connector = "";
-                for (String partialClause : stopClause)
+                for (final String partialClause : stopClause)
                 {
                     if (partialClause != null && partialClause.trim().length() > 0)
                     {
@@ -815,9 +858,9 @@ public class FunnelContext
             try
             {
                 whereEqu = Equ.getInstance(true);
-                StringBuilder sb = new StringBuilder();
+                final StringBuilder sb = new StringBuilder();
                 String connector = "";
-                for (String partialClause : whereClause)
+                for (final String partialClause : whereClause)
                 {
                     if (partialClause != null && partialClause.trim().length() > 0)
                     {

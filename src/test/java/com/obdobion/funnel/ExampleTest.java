@@ -224,4 +224,17 @@ public class ExampleTest
         Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
     }
 
+    @Test
+    public void whereRange () throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
+
+        Assert.assertEquals("records in ", 52L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records out", 8L, context.publisher.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+    }
+
 }

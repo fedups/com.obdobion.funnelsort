@@ -266,7 +266,9 @@ public class VariableLengthProvider implements FunnelDataProvider
 
     void preSelectionExtract (final int byteCount) throws Exception
     {
-        context.columnHelper.extract(context, row, recordNumber, byteCount);
+        context.columnHelper.extract(context, row, recordNumber, byteCount,
+            context.getWhereEqu(),
+            context.getStopEqu());
     }
 
     public void reset () throws IOException, ParseException

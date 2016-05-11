@@ -1,14 +1,17 @@
 package com.obdobion.funnel.columns;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Formatter;
 
+import com.obdobion.algebrain.Equ;
 import com.obdobion.funnel.orderby.KeyContext;
 import com.obdobion.funnel.orderby.KeyPart;
+import com.obdobion.funnel.orderby.KeyType;
 import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class FormatPart
 {
@@ -18,6 +21,10 @@ public class FormatPart
     public FormatPart nextPart;
     public String     columnName;
     public byte       filler;
+    public String     equationInput;
+    public Equ        equation;
+    public KeyType    typeName;
+    public String     format;
 
     KeyPart           column;
 
@@ -36,25 +43,73 @@ public class FormatPart
             nextPart.add(anotherFormatter);
     }
 
-    public void defineFrom (KeyPart colDef)
+    public void defineFrom (final KeyPart colDef)
     {
         column = colDef;
     }
 
-    public void originalData (final KeyContext context, SourceProxyRecord proxyRecord, ByteArrayOutputStream outputBytes)
+    public void originalData (
+        final KeyContext context,
+        final SourceProxyRecord proxyRecord,
+        final ByteArrayOutputStream outputBytes) throws Exception
     {
-        final byte[] rawBytes = context.rawRecordBytes[0];
+        if (column != null)
+        {
+            writeToOutput(outputBytes, context.rawRecordBytes[0], column.offset, column.length, proxyRecord.originalSize);
+        } else
+        {
+            if (equation != null)
+            {
+                final Object result = equation.evaluate();
+                if (typeName == null || KeyType.String == typeName)
+                {
+                    if (result instanceof String)
+                    {
+                        final String sResult = (String) result;
+                        writeToOutput(outputBytes, sResult.getBytes(), offset, sResult.length(), sResult.length());
+                    } else if (format == null)
+                    {
+                        final String sResult = result.toString();
+                        writeToOutput(outputBytes, sResult.getBytes(), offset, sResult.length(), sResult.length());
+                    } else
+                    {
+                        try (Formatter formatter = new Formatter())
+                        {
+                            final String sResult = formatter.format(format, result).out().toString();
+                            writeToOutput(outputBytes, sResult.getBytes(), offset, sResult.length(), sResult.length());
+                        }
+                    }
+                }
+            } else
+            {
+                /*
+                 * filler only
+                 */
+                writeToOutput(outputBytes, null, 0, 0, 0);
+            }
+        }
+        if (nextPart != null)
+            nextPart.originalData(context, proxyRecord, outputBytes);
+    }
 
-        int offsetForOutput = column.offset + offset;
+    private void writeToOutput (
+        final ByteArrayOutputStream outputBytes,
+        final byte[] rawBytes,
+        final int columnOffset,
+        final int columnLength,
+        final int originalSize)
+    {
+        final int offsetForOutput = columnOffset + offset;
 
-        int dataLength = column.length;
-        if (proxyRecord.originalSize < offsetForOutput + dataLength)
-            dataLength = proxyRecord.originalSize - offsetForOutput;
+        int dataLength = columnLength;
+        if (originalSize < offsetForOutput + dataLength)
+            dataLength = originalSize - offsetForOutput;
         if (length < dataLength)
             dataLength = length;
-        outputBytes.write(rawBytes, offsetForOutput, dataLength);
+        if (rawBytes != null)
+            outputBytes.write(rawBytes, offsetForOutput, dataLength);
 
-        int lengthWithFiller = column.length;
+        int lengthWithFiller = columnLength;
         if (length != 255) // 255 means not specified
             lengthWithFiller = length;
         if (size != 255) // 255 means not specified
@@ -66,8 +121,5 @@ public class FormatPart
             for (int x = 0; x < lengthWithFiller - dataLength; x++)
                 outputBytes.write(filler);
         }
-
-        if (nextPart != null)
-            nextPart.originalData(context, proxyRecord, outputBytes);
     }
 }

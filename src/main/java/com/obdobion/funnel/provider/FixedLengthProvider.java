@@ -255,9 +255,11 @@ public class FixedLengthProvider implements FunnelDataProvider
         return true;
     }
 
-    void preSelectionExtract (int byteCount) throws Exception
+    void preSelectionExtract (final int byteCount) throws Exception
     {
-        context.columnHelper.extract(context, row, recordNumber, byteCount);
+        context.columnHelper.extract(context, row, recordNumber, byteCount,
+            context.getWhereEqu(),
+            context.getStopEqu());
     }
 
     public void reset () throws IOException, ParseException

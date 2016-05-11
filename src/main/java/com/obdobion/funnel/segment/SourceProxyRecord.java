@@ -11,9 +11,9 @@ import com.obdobion.funnel.parameters.FunnelContext;
  * access files. This sortKey is always alphanumeric; it is converted from
  * whatever the fields actually are. This allows the sort to be on a single long
  * string key rather than a conversion to Java objects.
- * 
+ *
  * @author Chris DeGreef
- * 
+ *
  */
 public class SourceProxyRecord implements Comparable<SourceProxyRecord>
 {
@@ -24,13 +24,15 @@ public class SourceProxyRecord implements Comparable<SourceProxyRecord>
      */
     static final public Stack<SourceProxyRecord> AvailableInstances = new Stack<>();
 
-    public static SourceProxyRecord getInstance (FunnelContext context)
+    public static SourceProxyRecord getInstance (final FunnelContext context)
     {
         synchronized (AvailableInstances)
         {
             if (AvailableInstances.isEmpty())
                 return new SourceProxyRecord(context);
-            return AvailableInstances.pop();
+            final SourceProxyRecord proxy = AvailableInstances.pop();
+            proxy.context = context;
+            return proxy;
         }
     }
 
@@ -42,7 +44,7 @@ public class SourceProxyRecord implements Comparable<SourceProxyRecord>
     public int            size;
     public byte[]         sortKey;
 
-    private SourceProxyRecord(FunnelContext _context)
+    private SourceProxyRecord(final FunnelContext _context)
     {
         super();
         context = _context;
@@ -106,6 +108,11 @@ public class SourceProxyRecord implements Comparable<SourceProxyRecord>
         if (originalRecordNumber != other.originalRecordNumber)
             return false;
         return true;
+    }
+
+    public FunnelContext getFunnelContext ()
+    {
+        return context;
     }
 
     @Override
