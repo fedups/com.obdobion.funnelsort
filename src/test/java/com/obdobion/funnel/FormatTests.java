@@ -531,15 +531,12 @@ public class FormatTests
 
         final List<String> in = new ArrayList<>();
         in.add("row 1000");
-        final File file = Helper.createUnsortedFile("lengthMaxString", in);
+        final File file = Helper.createUnsortedFile(testName, in);
 
-        final FunnelContext context = Funnel.sort(
-            Helper.config(),
-            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 130 -f10 "
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getAbsolutePath() + " -r --max 130 --fixedIn 10 "
                 + "--col(-n col1 string -o0)"
-                + "--orderby(col1)"
-                + Helper.DEFAULT_OPTIONS);
+                + "--orderby(col1)");
         Assert.assertEquals("key length", 255, context.keys.get(0).length);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -552,15 +549,12 @@ public class FormatTests
 
         final List<String> in = new ArrayList<>();
         in.add("row 1000");
-        final File file = Helper.createUnsortedFile("lengthOverride", in);
+        final File file = Helper.createUnsortedFile(testName, in);
 
-        final FunnelContext context = Funnel.sort(
-            Helper.config(),
-            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 130 -f10"
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getAbsolutePath() + " -r --max 130 --fixedIn 10"
                 + " --col(--name col1 integer -o4 -l4 --format '###')"
-                + " --orderby(col1)"
-                + Helper.DEFAULT_OPTIONS);
+                + " --orderby(col1)");
         Assert.assertEquals("key length", 4, context.keys.get(0).length);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -573,15 +567,12 @@ public class FormatTests
 
         final List<String> in = new ArrayList<>();
         in.add("row 1000");
-        final File file = Helper.createUnsortedFile("lengthUnspecified", in);
+        final File file = Helper.createUnsortedFile(testName, in);
 
-        final FunnelContext context = Funnel.sort(
-            Helper.config(),
-            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 130 -f10"
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getAbsolutePath() + " -r --max 130 --fixedIn 10"
                 + " --col(-n col1 integer -o4 --format '###')"
-                + "--orderby(col1)"
-                + Helper.DEFAULT_OPTIONS);
+                + "--orderby(col1)");
         Assert.assertEquals("key length", 3, context.keys.get(0).length);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -598,19 +589,17 @@ public class FormatTests
             in.add("row " + (r + 1000));
         }
 
-        final File file = Helper.createUnsortedFile("offsetDefault", in);
-        FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-            + " --max 130 -f10"
+        final File file = Helper.createUnsortedFile(testName, in);
+        FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
+            + " -r --max 130 --fixedIn 10"
             + " --col(-n col1 string)"
-            + " --orderby(col1)"
-            + Helper.DEFAULT_OPTIONS);
+            + " --orderby(col1)");
         Assert.assertEquals("key offset", 0, context.keys.get(0).offset);
 
-        context = Funnel.sort(Helper.config(), file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-            + " --max 130 -f10"
+        context = Funnel.sort(Helper.config(), file.getAbsolutePath()
+            + " -r --max 130 --fixedIn 10"
             + " --col(-n col1 -o1 string)"
-            + " --orderby(col1)"
-            + Helper.DEFAULT_OPTIONS);
+            + " --orderby(col1)");
         Assert.assertEquals("key offset", 1, context.keys.get(0).offset);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }

@@ -15,6 +15,7 @@ import org.junit.runners.Suite.SuiteClasses;
     CompareTests.class,
     CsvTest.class,
     DuplicateTest.class,
+    ExampleTest.class,
     FormatOutputTest.class,
     FormatTests.class,
     FunnelTest.class,
@@ -23,7 +24,6 @@ import org.junit.runners.Suite.SuiteClasses;
     MultiFileTest.class,
     StopWhenTest.class,
     StringTest.class,
-    VariableInputTest.class,
     WhereTest.class
 })
 public class MasterSuite

@@ -20,13 +20,30 @@ public class OutputFormatHelper
     final private static Logger logger          = Logger.getLogger(OutputFormatHelper.class);
 
     public static final int     MAX_OUTPUT_SIZE = 4096;
-    final KeyContext            context;
-    final int                   maxRecordBytes;
-    final ColumnHelper          columnHelper;
-    FormatPart                  formatter;
-    List<FormatPart>            columns;
 
-    Equ[]                       referencesToallOutputFormatEquations;
+    public static int lengthToWrite (final byte[] data, final int offset, final int dataLength, final boolean rightTrim)
+    {
+        int lengthToWrite = 0;
+        if (!rightTrim)
+            lengthToWrite = dataLength;
+        else
+            for (int i = offset + dataLength - 1; i >= offset; i--)
+                if (data[i] != ' ')
+                {
+                    lengthToWrite = (i - offset) + 1;
+                    break;
+                }
+        return lengthToWrite;
+    }
+
+    final KeyContext   context;
+    final int          maxRecordBytes;
+    final ColumnHelper columnHelper;
+    FormatPart         formatter;
+
+    List<FormatPart>   columns;
+
+    Equ[]              referencesToallOutputFormatEquations;
 
     public OutputFormatHelper(final ColumnHelper _columnHelper)
     {
@@ -87,7 +104,13 @@ public class OutputFormatHelper
         context.recordNumber = proxyRecord.originalRecordNumber;
 
         final ByteArrayOutputStream output = new ByteArrayOutputStream(maxRecordBytes);
-
+        /*
+         * Use the output column definitions to format here. The real issue is
+         * that the input computations and system variables are not available at
+         * this point in the process. The rows from the original source were
+         * read and a tag sort was performed. Now that the rows are ready for
+         * writing it is necessary to recompute those fields.
+         */
         prepareEquationsWithOriginalColumnData(proxyRecord);
         formatter.originalData(context, proxyRecord, output);
 
@@ -98,24 +121,22 @@ public class OutputFormatHelper
         return context;
     }
 
-    public void format (final ColumnWriter writer, final byte[] originalData, final SourceProxyRecord proxyRecord)
-        throws Exception
+    public void format (
+        final ColumnWriter writer,
+        final byte[] originalData,
+        final SourceProxyRecord proxyRecord,
+        final boolean rightTrim) throws Exception
     {
         if (formatter == null)
         {
-            writer.write(originalData, 0, proxyRecord.originalSize);
+            final int lengthToWrite = lengthToWrite(originalData, 0, proxyRecord.originalSize, rightTrim);
+            writer.write(originalData, 0, lengthToWrite);
             return;
         }
-        /*
-         * Use the output column definitions to format here. The real issue is
-         * that the input computations and system variables are not available at
-         * this point in the process. The rows from the original source were
-         * read and a tag sort was performed. Now that the rows are ready for
-         * writing it is necessary to recompute those fields.
-         */
         extract(originalData, proxyRecord);
 
-        writer.write(context.key, 0, context.keyLength);
+        final int lengthToWrite = lengthToWrite(context.key, 0, context.keyLength, rightTrim);
+        writer.write(context.key, 0, lengthToWrite);
     }
 
     private void prepareEquationsWithOriginalColumnData (final SourceProxyRecord proxyRecord) throws Exception

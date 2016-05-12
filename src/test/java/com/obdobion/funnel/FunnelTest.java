@@ -36,11 +36,9 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile("copyOriginalFixed130", in);
-        final FunnelContext context = Funnel.sort(
-            Helper.config(),
-            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 130 -c original -f10" + Helper.DEFAULT_OPTIONS);
+        final File file = Helper.createUnsortedFile(testName, in);
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getAbsolutePath() + " -r --max 130 -c original --fixedIn 10");
 
         Assert.assertEquals("records", 130L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -64,11 +62,9 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile("copyOriginalFixed50", in);
-        final FunnelContext context = Funnel.sort(
-            Helper.config(),
-            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + "  --max 50 -c original -f10" + Helper.DEFAULT_OPTIONS);
+        final File file = Helper.createUnsortedFile(testName, in);
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getAbsolutePath() + " -r --max 50 -c original --fixedIn 10");
 
         Assert.assertEquals("records", 50L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -92,11 +88,9 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile("copyOriginalVar1000", in);
-        final FunnelContext context = Funnel.sort(
-            Helper.config(),
-            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 1000 -c original" + Helper.DEFAULT_OPTIONS);
+        final File file = Helper.createUnsortedFile(testName, in);
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getAbsolutePath() + " -r --max 1000 -c original");
 
         Assert.assertEquals("records", 1000L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -120,11 +114,9 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile("copyOriginalVar130", in);
-        final FunnelContext context = Funnel.sort(
-            Helper.config(),
-            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 130 -c original" + Helper.DEFAULT_OPTIONS);
+        final File file = Helper.createUnsortedFile(testName, in);
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getAbsolutePath() + " -r --max 130 -c original");
 
         Assert.assertEquals("records", 130L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -148,11 +140,9 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile("copyOriginalVar50", in);
-        final FunnelContext context = Funnel.sort(
-            Helper.config(),
-            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 50 -c original" + Helper.DEFAULT_OPTIONS);
+        final File file = Helper.createUnsortedFile(testName, in);
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getAbsolutePath() + " -r --max 50 -c original");
 
         Assert.assertEquals("records", 50L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -176,11 +166,9 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile("copyReverseFixed", in);
-        final FunnelContext context = Funnel.sort(
-            Helper.config(),
-            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 50 -c reverse -f10" + Helper.DEFAULT_OPTIONS);
+        final File file = Helper.createUnsortedFile(testName, in);
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getAbsolutePath() + " -r --max 50 -c reverse --fixedIn 10");
 
         Assert.assertEquals("records", 50L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -204,11 +192,9 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile("copyReverseVar", in);
-        final FunnelContext context = Funnel.sort(
-            Helper.config(),
-            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 50 -c reverse" + Helper.DEFAULT_OPTIONS);
+        final File file = Helper.createUnsortedFile(testName, in);
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getAbsolutePath() + " -r --max 50 -c reverse");
 
         Assert.assertEquals("records", 50L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -237,14 +223,11 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile("sortDate", in);
-        final FunnelContext context = Funnel.sort(
-            Helper.config(),
-            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 50 -f16"
+        final File file = Helper.createUnsortedFile(testName, in);
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getAbsolutePath() + " -r --max 50 --fixedIn 16"
                 + "--co(-ndate Date -o0 --fo " + format + ")"
-                + "--o(date)"
-                + Helper.DEFAULT_OPTIONS);
+                + "--o(date)");
 
         Assert.assertEquals("records", 50L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -256,15 +239,7 @@ public class FunnelTest
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
-
-        try
-        {
-            Funnel.sort(Helper.config(), "noteverread --max 50 -f10 -k(Date -o1 -l14 asc)" + Helper.DEFAULT_OPTIONS);
-            Assert.fail("expected missing date format error");
-        } catch (final Throwable e)
-        {
-            // intentionally empty
-        }
+        Funnel.sort(Helper.config(), "noteverread --max 50 --fixedin 10 --col(-ndate Date -o1 -l14)");
     }
 
     @Test
@@ -284,14 +259,11 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile("sortFixed1000", in);
-        final FunnelContext context = Funnel.sort(
-            Helper.config(),
-            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 1000 -f10"
+        final File file = Helper.createUnsortedFile(testName, in);
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getAbsolutePath() + " -r --max 1000 --fixedIn 10"
                 + "--col(-nc Integer -o4 -l4 )"
-                + "--order(c desc)"
-                + Helper.DEFAULT_OPTIONS);
+                + "--order(c desc)");
 
         Assert.assertEquals("records", 1000L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -315,11 +287,9 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile("sortFullKeyVariable1000Asc", in);
-        final FunnelContext context = Funnel.sort(
-            Helper.config(),
-            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --power 4" + Helper.DEFAULT_OPTIONS);
+        final File file = Helper.createUnsortedFile(testName, in);
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getAbsolutePath() + " -r --power 4");
 
         Assert.assertEquals("records", 1000L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -343,14 +313,11 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile("sortIntVar1000", in);
-        final FunnelContext context = Funnel.sort(
-            Helper.config(),
-            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --power 4"
+        final File file = Helper.createUnsortedFile(testName, in);
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getAbsolutePath() + " -r --power 4"
                 + "--col(-nc Integer -o4 -l4)"
-                + "--orderby(c desc)"
-                + Helper.DEFAULT_OPTIONS);
+                + "--orderby(c desc)");
 
         Assert.assertEquals("records", 1000L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -374,14 +341,12 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile("sortStringVar1000", in);
+        final File file = Helper.createUnsortedFile(testName, in);
         final FunnelContext context = Funnel.sort(Helper.config(),
             file.getAbsolutePath()
-                + " -o" + file.getAbsolutePath()
-                + " --power 4 "
+                + " -r --power 4 "
                 + "--col(-nn String -o4 -l4)"
-                + "--order(n desc)"
-                + Helper.DEFAULT_OPTIONS);
+                + "--order(n desc)");
         Assert.assertEquals("records", 1000L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
@@ -404,14 +369,11 @@ public class FunnelTest
             out.add(in.get(r));
         }
 
-        final File file = Helper.createUnsortedFile("sortVarP2", in);
-        final FunnelContext context = Funnel.sort(
-            Helper.config(),
-            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --power 2"
+        final File file = Helper.createUnsortedFile(testName, in);
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getAbsolutePath() + " -r --power 2"
                 + "--col(-ncol1 Integer,-o4,-l2)"
-                + "--ord(col1 desc) "
-                + Helper.DEFAULT_OPTIONS);
+                + "--ord(col1 desc) ");
 
         Assert.assertEquals("records", 10L, context.provider.actualNumberOfRows());
         Helper.compare(file, out);
@@ -426,7 +388,7 @@ public class FunnelTest
 
         try
         {
-            Funnel.sort(Helper.config(), "--ThisIsNotAValueArgument" + Helper.DEFAULT_OPTIONS);
+            Funnel.sort(Helper.config(), "--ThisIsNotAValueArgument");
         } catch (final ParseException pe)
         {
             Assert.assertEquals("unexpected input: --ThisIsNotAValueArgument ", pe.getMessage());
@@ -453,12 +415,6 @@ public class FunnelTest
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
-        try
-        {
-            Funnel.sort(Helper.config(), "--version" + Helper.DEFAULT_OPTIONS);
-        } catch (final ParseException pe)
-        {
-            Assert.assertEquals("unexpected input: --version ", pe.getMessage());
-        }
+        Funnel.sort(Helper.config(), "--version");
     }
 }

@@ -17,6 +17,29 @@ import com.obdobion.funnel.parameters.FunnelContext;
 public class ColumnTests
 {
     @Test
+    public void notLastColumnInVLR ()
+        throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        final List<String> logFile = new ArrayList<>();
+        logFile.add("  FATALX");
+        logFile.add("  INFO X");
+        logFile.add("  WARN X");
+
+        final File file = Helper.createUnsortedFile(testName, logFile);
+
+        final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
+            + " --col(string -o2 -l5 -n level)"
+            + " --where \"(rtrim(level) = 'INFO')\"");
+
+        Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
+
+        Assert.assertTrue(file.delete());
+    }
+
+    @Test
     public void notStartingInFirstColumn ()
         throws Throwable
     {
@@ -28,13 +51,12 @@ public class ColumnTests
         logFile.add("  INFO ");
         logFile.add("  WARN ");
 
-        final File file = Helper.createUnsortedFile("notStartingInFirstColumn", logFile);
+        final File file = Helper.createUnsortedFile(testName, logFile);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
             + " --col(string -o2 -l5 -n level)"
             + " --where \"(level = 'FATAL')\""
-            + " -r "
-            + Helper.DEFAULT_OPTIONS);
+            + " -r ");
 
         Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
 
@@ -53,13 +75,11 @@ public class ColumnTests
         logFile.add("  INFO ");
         logFile.add("  WARN ");
 
-        final File file = Helper.createUnsortedFile("shortValue", logFile);
+        final File file = Helper.createUnsortedFile(testName, logFile);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
             + " --col(string -o2 -l5 -n level)"
-            + " --where \"(level = 'INFO ')\""
-            + " -r "
-            + Helper.DEFAULT_OPTIONS);
+            + " --where \"(rtrim(level) = 'INFO')\"");
 
         Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
 
@@ -78,13 +98,12 @@ public class ColumnTests
         logFile.add("INFO ");
         logFile.add("WARN ");
 
-        final File file = Helper.createUnsortedFile("startingInFirstColumn", logFile);
+        final File file = Helper.createUnsortedFile(testName, logFile);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
             + " --col(string -o0 -l5 -n level)"
             + " --where \"(level = 'FATAL')\""
-            + " -r "
-            + Helper.DEFAULT_OPTIONS);
+            + " -r ");
 
         Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
 

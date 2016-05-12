@@ -34,6 +34,7 @@ public class FixedLengthProvider implements FunnelDataProvider
     public FixedLengthProvider(final FunnelContext _context) throws IOException, ParseException
     {
         this.context = _context;
+        logger.info("fixed length file provider activated");
         initialize();
     }
 
@@ -61,12 +62,12 @@ public class FixedLengthProvider implements FunnelDataProvider
         initializeReader();
         try
         {
-            this.size = reader.length() / context.fixedRecordLength;
+            this.size = reader.length() / context.fixedRecordLengthIn;
         } catch (final IOException e)
         {
             App.abort(-1, e);
         }
-        this.row = new byte[context.fixedRecordLength];
+        this.row = new byte[context.fixedRecordLengthIn];
 
         int optimalFunnelDepth = 2;
         long pow2 = size;
@@ -173,10 +174,10 @@ public class FixedLengthProvider implements FunnelDataProvider
                     break;
                 }
 
-                if (byteCount != -1 && byteCount != context.fixedRecordLength)
+                if (byteCount != -1 && byteCount != context.fixedRecordLengthIn)
                 {
                     logger.warn("Record truncated at EOF, bytes read = " + byteCount + ", bytes expected = "
-                        + context.fixedRecordLength);
+                        + context.fixedRecordLengthIn);
                     continue;
                 }
 

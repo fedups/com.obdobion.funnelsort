@@ -12,6 +12,7 @@ import java.util.List;
 import org.junit.Assert;
 
 import com.obdobion.funnel.AppContext;
+import com.obdobion.funnel.columns.OutputFormatHelper;
 import com.obdobion.funnel.orderby.KeyContext;
 
 /**
@@ -21,11 +22,8 @@ import com.obdobion.funnel.orderby.KeyContext;
 public class Helper
 {
 
-    static final File          workDir         = new File("target");
-    public static final String DEFAULT_OPTIONS = "";                // "--cachew--workDir "
-                                                                     // +
-                                                                     // workDir;
-    public static final String DEBUG           = "ON";
+    static final File          workDir = new File("target");
+    public static final String DEBUG   = "ON";
 
     static public void compare (final File file, final List<String> expectedLines)
         throws IOException
@@ -35,6 +33,22 @@ public class Helper
         {
             final String actual = sorted.readLine();
             Assert.assertEquals(expected, actual);
+        }
+        sorted.close();
+    }
+
+    static public void compareFixed (final File file, final List<String> expectedData)
+        throws IOException
+    {
+        final BufferedReader sorted = new BufferedReader(new FileReader(file));
+        final char[] foundChar = new char[1];
+        for (final String aRow : expectedData)
+        {
+            for (final byte expected : aRow.getBytes())
+            {
+                Assert.assertEquals("characters read", 1, sorted.read(foundChar));
+                Assert.assertEquals(expected, (byte) foundChar[0]);
+            }
         }
         sorted.close();
     }
@@ -55,6 +69,27 @@ public class Helper
     static public AppContext config () throws IOException, ParseException
     {
         return new AppContext(System.getProperty("user.dir"));
+    }
+
+    static public File createFixedUnsortedFile (
+        final String prefix,
+        final List<String> lines,
+        final int rowLength)
+        throws IOException
+    {
+        final File file = File.createTempFile(prefix + ".", ".in", workDir);
+        final BufferedWriter out = new BufferedWriter(new FileWriter(file));
+        for (int idx = 0; idx < lines.size(); idx++)
+        {
+            final String line = lines.get(idx);
+            out.write(line);
+            for (int fill = line.length(); fill < rowLength; fill++)
+            {
+                out.write(" ");
+            }
+        }
+        out.close();
+        return file;
     }
 
     static public File createUnsortedFile (final List<String> lines)
@@ -79,10 +114,13 @@ public class Helper
         final BufferedWriter out = new BufferedWriter(new FileWriter(file));
         for (int idx = 0; idx < lines.size(); idx++)
         {
+            final int lengthToWrite =
+                    OutputFormatHelper.lengthToWrite(lines.get(idx).getBytes(), 0, lines.get(idx).length(), true);
+
             final String line = lines.get(idx);
             if (idx > 0)
                 out.newLine();
-            out.write(line);
+            out.write(line, 0, lengthToWrite);
         }
         if (includeTrailingLineTerminator)
             out.newLine();

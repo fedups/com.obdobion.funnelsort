@@ -39,7 +39,7 @@ abstract public class FixedLengthPublisher implements FunnelDataPublisher, Colum
     public FixedLengthPublisher(final FunnelContext _context) throws ParseException, IOException
     {
         this.context = _context;
-        this.originalBytes = new byte[_context.fixedRecordLength];
+        this.originalBytes = new byte[_context.fixedRecordLengthOut];
 
         initialize();
 
@@ -127,7 +127,7 @@ abstract public class FixedLengthPublisher implements FunnelDataPublisher, Colum
          * to loose this information because it is needed to get the original
          * data.
          */
-        int originalFileNumber = item.originalInputFileIndex;
+        final int originalFileNumber = item.originalInputFileIndex;
         item.originalInputFileIndex = 0;
         /*
          * check to see if this item is in order, return false if not.
@@ -152,8 +152,14 @@ abstract public class FixedLengthPublisher implements FunnelDataPublisher, Colum
         /*
          * Get original data and write it to the output file.
          */
+        /*
+         * Clear original bytes before read
+         */
+        for (int b = 0; b < originalBytes.length; b++)
+            originalBytes[b] = ' ';
+
         originalFile.read(originalFileNumber, originalBytes, item.originalLocation, item.originalSize);
-        context.formatOutHelper.format(this, originalBytes, item);
+        context.formatOutHelper.format(this, originalBytes, item, false);
         writeCount++;
         /*
          * Return the instance for reuse.
@@ -175,8 +181,8 @@ abstract public class FixedLengthPublisher implements FunnelDataPublisher, Colum
 
     public void write (
         final byte[] _originalBytes,
-        int offset,
-        int length)
+        final int offset,
+        final int length)
         throws IOException
     {
         final int sizeThisTime = length;

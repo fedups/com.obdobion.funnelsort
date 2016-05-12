@@ -216,10 +216,16 @@ public class FunnelContext
         def.add("-tByte -keolOut --var endOfRecordOutDelimiter -m1 -h 'The byte(s) that end each line in a variable length record file.  This will be used to write the output file.  If this is not specified then the --eol value will be used.'");
     }
 
-    static private void defineFixedLength (
+    static private void defineFixedLengthIn (
         final ArrayList<String> def)
     {
-        def.add("-tInteger -k f fixed --var fixedRecordLength -h 'The record length in a fixed record length file.' --ran 1 4096");
+        def.add("-tInteger -k fixedIn --var fixedRecordLengthIn -h 'The record length in a fixed record length file.' --ran 1 4096");
+    }
+
+    static private void defineFixedLengthOut (
+        final ArrayList<String> def)
+    {
+        def.add("-tInteger -k fixedOut --var fixedRecordLengthOut -h 'The record length in a fixed record length file.  This is used to change an output file into a fixed format.  It is not necessary if --fixedIn is specified.' --ran 1 4096");
     }
 
     static private void defineFormatEqu (
@@ -425,7 +431,8 @@ public class FunnelContext
     private int                 inputFileIndex;
     public WildFiles            inputFiles;
     public File                 outputFile;
-    public int                  fixedRecordLength;
+    public int                  fixedRecordLengthIn;
+    public int                  fixedRecordLengthOut;
     public long                 maximumNumberOfRows;
     public int                  depth;
     public boolean              variableLengthOutput;
@@ -472,7 +479,8 @@ public class FunnelContext
 
         defineInputFile(def);
         defineOutputFile(def);
-        defineFixedLength(def);
+        defineFixedLengthIn(def);
+        defineFixedLengthOut(def);
         defineInPlaceSort(def);
         defineColumnsInSubParser(def);
         defineFormatOutSubParser(def);
@@ -600,6 +608,7 @@ public class FunnelContext
         postParseWhere();
         postParseStop();
         postParseCSV();
+        postParseFixed();
     }
 
     private void postParseCSV ()
@@ -634,6 +643,17 @@ public class FunnelContext
     {
         if (endOfRecordOutDelimiter == null)
             endOfRecordOutDelimiter = endOfRecordDelimiter;
+    }
+
+    private void postParseFixed () throws ParseException
+    {
+        if (fixedRecordLengthOut > 0 && variableLengthOutput)
+            throw new ParseException("--fixedOut and --variableOutput are mutually exclusive parameters", 0);
+        if (variableLengthOutput)
+            return;
+        if (fixedRecordLengthOut == 0)
+            fixedRecordLengthOut = fixedRecordLengthIn;
+
     }
 
     private void postParseFormatOut () throws ParseException
@@ -917,10 +937,10 @@ public class FunnelContext
         if (specDirectory != null)
             logger.debug("specification include path is " + specDirectory);
 
-        if (fixedRecordLength > 0)
+        if (fixedRecordLengthIn > 0)
         {
             final StringBuilder sb = new StringBuilder();
-            sb.append("LRecL   = ").append(fixedRecordLength);
+            sb.append("FixedIn  = ").append(fixedRecordLengthIn);
             if (variableLengthOutput)
                 sb.append(" adding VLR delimiters on output");
             logger.info(sb.toString());
@@ -936,11 +956,14 @@ public class FunnelContext
                 bytes.append(" ");
                 bytes.append(ByteCLA.asLiteral(endOfRecordDelimiter[b]));
             }
-            bytes.append(", out:");
-            for (int b = 0; b < endOfRecordOutDelimiter.length; b++)
+            if (fixedRecordLengthOut == 0)
             {
-                bytes.append(" ");
-                bytes.append(ByteCLA.asLiteral(endOfRecordOutDelimiter[b]));
+                bytes.append(", out:");
+                for (int b = 0; b < endOfRecordOutDelimiter.length; b++)
+                {
+                    bytes.append(" ");
+                    bytes.append(ByteCLA.asLiteral(endOfRecordOutDelimiter[b]));
+                }
             }
 
             logger.debug("End of line delimeter " + bytes.toString());
@@ -955,6 +978,12 @@ public class FunnelContext
                     csvMsg.append("no header");
                 logger.debug(csvMsg.toString());
             }
+        }
+        if (fixedRecordLengthOut > 0)
+        {
+            final StringBuilder sb = new StringBuilder();
+            sb.append("FixedOut = ").append(fixedRecordLengthOut);
+            logger.debug(sb.toString());
         }
 
         logger.debug("power   = " + depth);
@@ -1025,6 +1054,31 @@ public class FunnelContext
                     + def.columnName
                     + " "
                     + def.direction.name());
+            }
+
+        if (formatOutDefs != null)
+            for (final FormatPart outDef : formatOutDefs)
+            {
+                final StringBuilder sb = new StringBuilder();
+                sb.append("format ");
+                if (outDef.columnName != null)
+                    sb.append("\"").append(outDef.columnName).append("\"");
+                if (outDef.equationInput != null)
+                    sb.append("\"").append(outDef.equationInput).append("\"");
+                if (outDef.typeName != null)
+                    sb.append(" ").append(outDef.typeName.name());
+                if (outDef.format != null)
+                    sb.append(" format \"").append(outDef.format).append("\"");
+                if (outDef.filler != 0x00)
+                    sb.append(" fill=").append(ByteCLA.asLiteral(outDef.filler));
+                if (outDef.length != 255)
+                    sb.append(" length ").append(outDef.length);
+                if (outDef.offset != 0)
+                    sb.append(" offset ").append(outDef.offset);
+                if (outDef.size != 255)
+                    sb.append(" size ").append(outDef.size);
+
+                logger.debug(sb.toString());
             }
     }
 

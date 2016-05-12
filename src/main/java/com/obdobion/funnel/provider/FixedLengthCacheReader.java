@@ -23,6 +23,7 @@ public class FixedLengthCacheReader implements InputReader
     public FixedLengthCacheReader(final FunnelContext _context) throws IOException, ParseException
     {
         this.context = _context;
+        logger.info("fixed length cache provider activated");
         loadDataToCache();
         currentPosition = 0;
     }

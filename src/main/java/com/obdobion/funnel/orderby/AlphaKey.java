@@ -1,14 +1,20 @@
 package com.obdobion.funnel.orderby;
 
+import org.apache.log4j.Logger;
+
+import com.obdobion.funnel.columns.OutputFormatHelper;
+
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class AlphaKey extends KeyPart
 {
-    static final private byte LowerA       = (byte) 'a';
-    static final private byte LowerZ       = (byte) 'z';
-    static final private byte LowerToUpper = (byte) ((byte) 'A' - LowerA);
+    static final private Logger logger       = Logger.getLogger(AlphaKey.class);
+
+    static final private byte   LowerA       = (byte) 'a';
+    static final private byte   LowerZ       = (byte) 'z';
+    static final private byte   LowerToUpper = (byte) ((byte) 'A' - LowerA);
 
     public AlphaKey()
     {
@@ -73,15 +79,17 @@ public class AlphaKey extends KeyPart
     }
 
     @Override
-    public Object parseObjectFromRawData (KeyContext context) throws Exception
+    public Object parseObjectFromRawData (final KeyContext context) throws Exception
     {
-        byte[] bytes = rawBytes(context);
+        final byte[] bytes = rawBytes(context);
 
         int endOffset = this.offset;
         for (; endOffset < this.offset + this.length; endOffset++)
             if (bytes.length <= endOffset || bytes[endOffset] == 0)
                 break;
 
-        return new String(rawBytes(context), this.offset, endOffset - this.offset);
+        final int rightTrimmedLength = OutputFormatHelper
+                .lengthToWrite(bytes, this.offset, endOffset - this.offset, true);
+        return new String(bytes, this.offset, rightTrimmedLength);
     }
 }

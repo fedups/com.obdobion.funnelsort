@@ -40,9 +40,9 @@ public class BigTest
             expectedOut.add("" + x);
         }
 
-        final File file = Helper.createUnsortedFile("multipleInputFiles1", in1);
-        final File file2 = Helper.createUnsortedFile("multipleInputFiles2", in1);
-        final File file3 = Helper.createUnsortedFile("multipleInputFiles3", in1);
+        final File file = Helper.createUnsortedFile(testName + "1", in1);
+        final File file2 = Helper.createUnsortedFile(testName + "2", in1);
+        final File file3 = Helper.createUnsortedFile(testName + "3", in1);
 
         final FunnelContext context = Funnel.sort(Helper.config(),
             file.getParentFile().getAbsolutePath() + "/multipleInputFiles* "
@@ -50,8 +50,7 @@ public class BigTest
                 + " --orderby(col1 desc)"
                 + " -o " + output.getAbsolutePath()
                 + " --max 5000000 "
-                + " --pow 16"
-                + Helper.DEFAULT_OPTIONS);
+                + " --pow 16");
 
         Assert.assertEquals("records", 3000000L, context.publisher.getWriteCount());
         Helper.compare(output, expectedOut);
@@ -83,15 +82,13 @@ public class BigTest
             expectedOut.add("" + x);
         }
 
-        final File file = Helper.createUnsortedFile("oneBigFile", in1);
+        final File file = Helper.createUnsortedFile(testName, in1);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
+            + " -o " + output.getAbsolutePath()
             + " --col(int -o0 -l7 -n col1)"
             + " --orderby(col1 desc)"
-            + " -o "
-            + output.getAbsolutePath()
-            + " --pow 8"
-            + Helper.DEFAULT_OPTIONS);
+            + " --pow 8");
 
         Assert.assertEquals("records", 1000000L, context.publisher.getWriteCount());
         Helper.compare(output, expectedOut);

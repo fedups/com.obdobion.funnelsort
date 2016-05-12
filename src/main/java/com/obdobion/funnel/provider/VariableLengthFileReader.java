@@ -31,6 +31,7 @@ public class VariableLengthFileReader implements InputReader
     public VariableLengthFileReader(final FunnelContext _context) throws IOException, ParseException
     {
         this(_context, defaultCharBufferSize);
+        logger.info("variable length file provider activated");
     }
 
     public VariableLengthFileReader(final FunnelContext _context, final int sz) throws IOException, ParseException

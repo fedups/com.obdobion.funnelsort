@@ -38,8 +38,7 @@ public class FileSource implements RandomAccessInputSource
     {
         for (int i = 0; i < context.inputFileCount(); i++)
         {
-            raf[i] = new RandomAccessFile(
-                context.getInputFile(i), "r");
+            raf[i] = new RandomAccessFile(context.getInputFile(i), "r");
             logger.debug("rereading original input source " + context.getInputFile(i).getAbsolutePath());
         }
     }
@@ -52,6 +51,9 @@ public class FileSource implements RandomAccessInputSource
         throws IOException
     {
         raf[originalInputFileIndex].seek(originalLocation);
-        return raf[originalInputFileIndex].read(originalBytes, 0, originalSize);
+        int readSize = originalSize;
+        if (originalBytes.length < originalSize)
+            readSize = originalBytes.length;
+        return raf[originalInputFileIndex].read(originalBytes, 0, readSize);
     }
 }

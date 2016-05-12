@@ -22,6 +22,7 @@ public class VariableLengthCacheReader implements InputReader
     public VariableLengthCacheReader(final FunnelContext _context) throws IOException, ParseException
     {
         this.context = _context;
+        logger.info("variable length cache provider activated");
         loadDataToCache();
     }
 
