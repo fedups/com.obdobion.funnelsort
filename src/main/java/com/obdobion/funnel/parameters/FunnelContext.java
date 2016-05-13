@@ -1023,7 +1023,7 @@ public class FunnelContext
             logger.info("where \"" + getWhereEqu().toString() + "\"");
             try
             {
-                logger.trace("\n" + getWhereEqu().showRPN());
+                logger.debug("\n" + getWhereEqu().showRPN());
             } catch (final Exception e)
             {
                 logger.warn("algebrain", e);

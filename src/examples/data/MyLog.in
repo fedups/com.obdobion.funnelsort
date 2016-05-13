@@ -1,6 +1,5 @@
 2016-05-06 10:35:24,026 INFO  () ================ BEGIN ===================
 2016-05-06 10:35:24,048 INFO  () commandline:  "c:/Program Files/funnel/examples/data/MyDataVariable.in" -o"c:\tmp\MyDataVariable.out"
-2016-05-06 10:35:24,048 INFO  () user.name=degreefc
 2016-05-06 10:35:24,052 INFO  () inputFilename = c:\Program Files\funnel\examples\data\MyDataVariable.in
 2016-05-06 10:35:24,052 INFO  () outputFilename= c:\tmp\MyDataVariable.out
 2016-05-06 10:35:24,052 INFO  () dups    = Original

@@ -160,7 +160,7 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher, Co
         }
         /*
          * Get original data and write it to the output file.
-         *
+         * 
          * Self-healing code. Expand the size of the work buffer if a row is
          * found to exceed the current buffer size. Get a bit extra so that we
          * aren't back to this trough too often. Garbage in memory is something
@@ -170,6 +170,10 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher, Co
         {
             originalBytes = new byte[item.originalSize + 1024];
         }
+        /*
+         * Make sure to delimit the current record length in the input buffer.
+         */
+        originalBytes[item.originalSize] = 0x00;
 
         originalFile.read(originalFileNumber, originalBytes, item.originalLocation, item.originalSize);
         context.formatOutHelper.format(this, originalBytes, item, true);

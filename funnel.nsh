@@ -7,7 +7,7 @@
 ; this file is created with the build funnel.launch script using the nsis:generate-headerfile command
 !include ..\..\target\project.nsh
 
-!define ALGEBRAIN_VERSION "1.3.3"
+!define ALGEBRAIN_VERSION "1.3.4"
 !define ARGUMENT_VERSION "2.3.43"
 !define CALENDAR_VERSION "1.0.0"
 

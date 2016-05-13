@@ -65,8 +65,6 @@
 ;======================================================
 ; Installer Sections
 
-  !include javadownloader.nsh
-
 
 Section "FunnelSort"
 
