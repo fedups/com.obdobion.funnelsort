@@ -27,10 +27,9 @@ public class App
      */
     public static void main (final String... args) throws Throwable
     {
-        AppContext cfg = new AppContext(workDir());
+        final AppContext cfg = new AppContext(workDir());
 
         LogManager.resetConfiguration();
-        final String log4jParm = System.getProperty("log4j.configuration", workDir() + "/src/test/java/log4j.xml");
         DOMConfigurator.configure(cfg.log4jConfigFileName);
 
         try

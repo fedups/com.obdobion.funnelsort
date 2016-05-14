@@ -15,6 +15,32 @@ import com.obdobion.funnel.parameters.FunnelContext;
 public class ExampleTest
 {
     @Test
+    public void convertFixedToVariable () throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
+
+        Assert.assertEquals("records in ", 52L, context.getRecordCount());
+        Assert.assertEquals("records out", 52L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
+    }
+
+    @Test
+    public void convertVariableToFixed () throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
+
+        Assert.assertEquals("records in ", 52L, context.getRecordCount());
+        Assert.assertEquals("records out", 52L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
+    }
+
+    @Test
     public void copyCollate () throws Throwable
     {
         final String testName = Helper.testName();
@@ -22,9 +48,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 52L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 104L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 52L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 104L, context.getRecordCount());
+        Assert.assertEquals("records out", 104L, context.getWriteCount());
+        Assert.assertEquals("records dup", 52L, context.getDuplicateCount());
     }
 
     @Test
@@ -35,9 +61,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 52L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 52L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 52L, context.getRecordCount());
+        Assert.assertEquals("records out", 52L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test
@@ -48,9 +74,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 52L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 52L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 52L, context.getRecordCount());
+        Assert.assertEquals("records out", 52L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test
@@ -62,10 +88,23 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 52L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 52L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 52L, context.getRecordCount());
+        Assert.assertEquals("records out", 52L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
         Assert.assertTrue("delete", output.delete());
+    }
+
+    @Test
+    public void csvSort () throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
+
+        Assert.assertEquals("records in ", 53L, context.getRecordCount());
+        Assert.assertEquals("records out", 52L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test
@@ -76,9 +115,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 23L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 23L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 23L, context.getRecordCount());
+        Assert.assertEquals("records out", 23L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test
@@ -89,9 +128,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 23L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 2L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 21L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 23L, context.getRecordCount());
+        Assert.assertEquals("records out", 2L, context.getWriteCount());
+        Assert.assertEquals("records dup", 21L, context.getDuplicateCount());
     }
 
     @Test
@@ -102,9 +141,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 23L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 23L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 23L, context.getRecordCount());
+        Assert.assertEquals("records out", 23L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test
@@ -115,9 +154,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 52L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 52L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 52L, context.getRecordCount());
+        Assert.assertEquals("records out", 52L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test
@@ -128,9 +167,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 23L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 23L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 23L, context.getRecordCount());
+        Assert.assertEquals("records out", 23L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test
@@ -141,9 +180,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 52L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 52L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 52L, context.getRecordCount());
+        Assert.assertEquals("records out", 52L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test
@@ -154,9 +193,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 52L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 52L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 52L, context.getRecordCount());
+        Assert.assertEquals("records out", 52L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test
@@ -167,9 +206,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 52L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 52L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 52L, context.getRecordCount());
+        Assert.assertEquals("records out", 52L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test
@@ -180,9 +219,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 52L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 52L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 52L, context.getRecordCount());
+        Assert.assertEquals("records out", 52L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test
@@ -193,9 +232,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 28L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 28L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 28L, context.getRecordCount());
+        Assert.assertEquals("records out", 28L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test
@@ -206,9 +245,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 52L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 52L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 52L, context.getRecordCount());
+        Assert.assertEquals("records out", 52L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test
@@ -219,9 +258,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 23L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 23L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 8L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 23L, context.getRecordCount());
+        Assert.assertEquals("records out", 23L, context.getWriteCount());
+        Assert.assertEquals("records dup", 8L, context.getDuplicateCount());
     }
 
     @Test
@@ -232,9 +271,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 52L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 52L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 5L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 52L, context.getRecordCount());
+        Assert.assertEquals("records out", 52L, context.getWriteCount());
+        Assert.assertEquals("records dup", 5L, context.getDuplicateCount());
     }
 
     @Test
@@ -245,9 +284,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 52L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 52L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 52L, context.getRecordCount());
+        Assert.assertEquals("records out", 52L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test
@@ -258,9 +297,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 30L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 58L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 6L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 58L, context.getRecordCount());
+        Assert.assertEquals("records out", 58L, context.getWriteCount());
+        Assert.assertEquals("records dup", 6L, context.getDuplicateCount());
     }
 
     @Test
@@ -271,9 +310,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 52L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 52L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 52L, context.getRecordCount());
+        Assert.assertEquals("records out", 52L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test
@@ -284,9 +323,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 30L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 58L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 6L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 58L, context.getRecordCount());
+        Assert.assertEquals("records out", 58L, context.getWriteCount());
+        Assert.assertEquals("records dup", 6L, context.getDuplicateCount());
     }
 
     @Test
@@ -297,9 +336,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 10L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 10L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 10L, context.getRecordCount());
+        Assert.assertEquals("records out", 10L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test
@@ -310,9 +349,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 19L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 19L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 19L, context.getRecordCount());
+        Assert.assertEquals("records out", 19L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test
@@ -323,9 +362,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 23L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 23L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 23L, context.getRecordCount());
+        Assert.assertEquals("records out", 23L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test
@@ -336,9 +375,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 23L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 4L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 23L, context.getRecordCount());
+        Assert.assertEquals("records out", 4L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test
@@ -349,9 +388,9 @@ public class ExampleTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
 
-        Assert.assertEquals("records in ", 52L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records out", 8L, context.publisher.getWriteCount());
-        Assert.assertEquals("records dup", 0L, context.publisher.getDuplicateCount());
+        Assert.assertEquals("records in ", 52L, context.getRecordCount());
+        Assert.assertEquals("records out", 8L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
 }

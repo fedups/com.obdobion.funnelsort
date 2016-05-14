@@ -36,7 +36,7 @@ public class StringTest
             + " --col(string -o0 -l1 -n col1)"
             + " --orderby(col1 asc)");
 
-        Assert.assertEquals("records", 3L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 3L, context.getWriteCount());
 
         final List<String> expectedOut = new ArrayList<>();
         expectedOut.add("M");
@@ -67,7 +67,7 @@ public class StringTest
             + " --col(string -o0 -l1 -n col1)"
             + " --orderby(col1 aasc)");
 
-        Assert.assertEquals("records", 3L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 3L, context.getWriteCount());
 
         final List<String> expectedOut = new ArrayList<>();
         expectedOut.add("a");

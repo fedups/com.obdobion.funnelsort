@@ -40,7 +40,7 @@ public class VariableLengthCsvProvider extends VariableLengthProvider
     public VariableLengthCsvProvider(final FunnelContext _context) throws IOException, ParseException
     {
         super(_context);
-        logger.info("CSV file provider activated");
+        logger.debug("CSV file provider activated");
         if (_context == null || _context.inputColumnDefs == null)
             return;
         /*

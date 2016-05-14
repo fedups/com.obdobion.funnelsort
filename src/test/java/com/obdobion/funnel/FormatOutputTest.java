@@ -333,7 +333,7 @@ public class FormatOutputTest
             Funnel.sort(Helper.config(), file.getAbsolutePath()
                 + " --col(int -f1 -l5 -n zipCode)(string -f2 -n comments)"
                 + " --format(comments)(zipCode)"
-                + " -r --csv() --eol cr,lf ");
+                + " -r --csv() ");
         } catch (final ParseException e)
         {
             Assert.assertEquals("--csv and --format are mutually exclusive parameters", e.getMessage());

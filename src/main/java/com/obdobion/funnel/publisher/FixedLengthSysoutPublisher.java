@@ -20,7 +20,7 @@ public class FixedLengthSysoutPublisher extends FixedLengthPublisher
     public FixedLengthSysoutPublisher(final FunnelContext _context) throws ParseException, IOException
     {
         super(_context);
-        logger.info("fixed length sysout publisher activated");
+        logger.debug("fixed length sysout publisher activated");
     }
 
     @Override

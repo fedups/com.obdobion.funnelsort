@@ -34,7 +34,7 @@ public class ColumnTests
             + " --col(string -o2 -l5 -n level)"
             + " --where \"(rtrim(level) = 'INFO')\"");
 
-        Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 1L, context.getWriteCount());
 
         Assert.assertTrue(file.delete());
     }
@@ -58,7 +58,7 @@ public class ColumnTests
             + " --where \"(level = 'FATAL')\""
             + " -r ");
 
-        Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 1L, context.getWriteCount());
 
         Assert.assertTrue(file.delete());
     }
@@ -81,7 +81,7 @@ public class ColumnTests
             + " --col(string -o2 -l5 -n level)"
             + " --where \"(rtrim(level) = 'INFO')\"");
 
-        Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 1L, context.getWriteCount());
 
         Assert.assertTrue(file.delete());
     }
@@ -105,7 +105,7 @@ public class ColumnTests
             + " --where \"(level = 'FATAL')\""
             + " -r ");
 
-        Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 1L, context.getWriteCount());
 
         Assert.assertTrue(file.delete());
     }

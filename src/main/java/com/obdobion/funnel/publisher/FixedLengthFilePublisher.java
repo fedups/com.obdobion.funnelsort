@@ -20,7 +20,7 @@ public class FixedLengthFilePublisher extends FixedLengthPublisher
     public FixedLengthFilePublisher(final FunnelContext _context) throws ParseException, IOException
     {
         super(_context);
-        logger.info("fixed length file publisher activated");
+        logger.debug("fixed length file publisher activated");
     }
 
     @Override

@@ -45,9 +45,10 @@ public class MultiFileTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getParent() + "/" + testName + "*"
             + " -o " + output.getAbsolutePath()
-            + " --max 4 --eol CR LF --eolOut LF");
+            + " --max 4 --variableIn CR LF --variableOut LF");
 
-        Assert.assertEquals("records", 4L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 4L, context.getRecordCount());
+        Assert.assertEquals("records", 4L, context.getWriteCount());
         Helper.compare(output, expectedOutput);
 
         Assert.assertTrue(file.delete());
@@ -72,9 +73,9 @@ public class MultiFileTest
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
             + ","
             + file2.getAbsolutePath()
-            + " --replace --max 2 -c original --eol CR LF --eolOut LF");
+            + " --replace --max 2 -c original --variableIn CR LF --variableOut LF");
 
-        Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 4L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue(file.delete());
         Assert.assertTrue(file2.delete());

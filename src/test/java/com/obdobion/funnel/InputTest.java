@@ -41,9 +41,9 @@ public class InputTest
         final File file = Helper.createUnsortedFile(testName, out);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --replace --max 2 -c original --eol CR LF --eolOut LF");
+            + " --replace --max 2 -c original --variableIn CR LF --variableOut LF");
 
-        Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compare(file, out);
         file.delete();
     }
@@ -64,7 +64,7 @@ public class InputTest
         System.setOut(outputStream);
 
         final FunnelContext context = Funnel.sort(Helper.config(), "--fixedIn 10 --max 2 ");
-        Assert.assertEquals("records", 0L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 0L, context.getRecordCount());
         outputStream.close();
         try
         {
@@ -90,7 +90,7 @@ public class InputTest
         System.setOut(outputStream);
 
         final FunnelContext context = Funnel.sort(Helper.config(), "");
-        Assert.assertEquals("records", 0L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 0L, context.getRecordCount());
         outputStream.close();
         try
         {
@@ -125,7 +125,7 @@ public class InputTest
 
         final FunnelContext context = Funnel.sort(Helper.config());
 
-        Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue(file.delete());
     }
@@ -147,7 +147,7 @@ public class InputTest
         System.setOut(outputStream);
 
         final FunnelContext context = Funnel.sort(Helper.config(), "--fixedIn 6--max 2 -c original");
-        Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compareFixed(file, out);
         try
         {
@@ -174,8 +174,8 @@ public class InputTest
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
             + " --fixedIn 10 -r -c original");
 
-        Assert.assertEquals("records", 3L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records", 3L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 3L, context.getRecordCount());
+        Assert.assertEquals("records", 3L, context.getWriteCount());
         Helper.compareFixed(file, out);
         Assert.assertTrue(file.delete());
 
@@ -197,8 +197,8 @@ public class InputTest
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
             + " --fixedIn 10 --fixedOut 20 -c original");
 
-        Assert.assertEquals("records", 3L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records", 3L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 3L, context.getRecordCount());
+        Assert.assertEquals("records", 3L, context.getWriteCount());
         Helper.compareFixed(file, out);
         Assert.assertTrue(file.delete());
 
@@ -225,8 +225,8 @@ public class InputTest
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
             + " --fixedIn 10 --fixedOut 5 -r -c original");
 
-        Assert.assertEquals("records", 3L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records", 3L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 3L, context.getRecordCount());
+        Assert.assertEquals("records", 3L, context.getWriteCount());
         Helper.compareFixed(file, out);
         Assert.assertTrue(file.delete());
 
@@ -246,10 +246,10 @@ public class InputTest
         final File file = Helper.createFixedUnsortedFile(testName, out, 10);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --fixedIn 10 --variableOut -r -c original");
+            + " --fixedIn 10 --variableOut CR LF -r -c original");
 
-        Assert.assertEquals("records", 3L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records", 3L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 3L, context.getRecordCount());
+        Assert.assertEquals("records", 3L, context.getWriteCount());
         Helper.compare(file, out);
         Assert.assertTrue(file.delete());
 
@@ -311,9 +311,9 @@ public class InputTest
         final File file = Helper.createUnsortedFile(testName, out);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --replace --max 2 -c original --eol CR LF");
+            + " --replace --max 2 -c original --variableIn CR LF");
 
-        Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -377,9 +377,9 @@ public class InputTest
         final File file = Helper.outFileWhenInIsSysin();
 
         final FunnelContext context = Funnel.sort(Helper.config(), "-o" + file.getAbsolutePath()
-            + " --max 2 -c original --eol CR,LF");
+            + " --max 2 -c original --variableIn CR,LF");
 
-        Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -406,9 +406,9 @@ public class InputTest
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
-        final FunnelContext context = Funnel.sort(Helper.config(), "--max 2 -c original --eol cr,lf ");
+        final FunnelContext context = Funnel.sort(Helper.config(), "--max 2 -c original --variableIn cr,lf ");
 
-        Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compare(file, out);
         outputStream.close();
         try
@@ -435,9 +435,9 @@ public class InputTest
         final File file = Helper.createUnsortedFile(testName, out, false);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + "--max 2 -c original --eol cr,lf -r ");
+            + "--max 2 -c original --variableIn cr,lf -r ");
 
-        Assert.assertEquals("records", 3L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 3L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -458,8 +458,8 @@ public class InputTest
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
             + " --fixedOut 10 -r -c original");
 
-        Assert.assertEquals("records", 3L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records", 3L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 3L, context.getRecordCount());
+        Assert.assertEquals("records", 3L, context.getWriteCount());
         Helper.compareFixed(file, out);
         Assert.assertTrue(file.delete());
 
@@ -481,8 +481,8 @@ public class InputTest
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
             + " -r -c original");
 
-        Assert.assertEquals("records", 3L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("records", 3L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 3L, context.getRecordCount());
+        Assert.assertEquals("records", 3L, context.getWriteCount());
         Helper.compare(file, out);
         Assert.assertTrue(file.delete());
     }

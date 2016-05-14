@@ -38,7 +38,8 @@ public class BasicTest
             + " --pow 2"
             + " --max 3");
 
-        Assert.assertEquals("records", 3L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 3L, context.getRecordCount());
+        Assert.assertEquals("records", 3L, context.getWriteCount());
 
         final List<String> expectedOut = new ArrayList<>();
         expectedOut.add("1");
@@ -75,7 +76,8 @@ public class BasicTest
                 + " -o " + output.getAbsolutePath()
                 );
 
-        Assert.assertEquals("records", 6L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 6L, context.getRecordCount());
+        Assert.assertEquals("records", 6L, context.getWriteCount());
 
         final List<String> expectedOut = new ArrayList<>();
         expectedOut.add("111");
@@ -116,7 +118,8 @@ public class BasicTest
                 + " -o " + output.getAbsolutePath()
                 );
 
-        Assert.assertEquals("records", 6L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 6L, context.getRecordCount());
+        Assert.assertEquals("records", 6L, context.getWriteCount());
 
         final List<String> expectedOut = new ArrayList<>();
         expectedOut.add("21");

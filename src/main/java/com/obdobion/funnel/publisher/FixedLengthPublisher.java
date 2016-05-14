@@ -55,9 +55,11 @@ abstract public class FixedLengthPublisher implements FunnelDataPublisher, Colum
             flushWritesToDisk();
         originalFile.close();
 
+        context.outputCounters(duplicateCount, writeCount);
+
         if (duplicateCount > 0)
-            logger.info(Funnel.ByteFormatter.format(duplicateCount) + " duplicate rows");
-        logger.info(Funnel.ByteFormatter.format(writeCount) + " rows written");
+            logger.debug(Funnel.ByteFormatter.format(duplicateCount) + " duplicate rows");
+        logger.debug(Funnel.ByteFormatter.format(writeCount) + " rows written");
     }
 
     void flushWritesToDisk ()

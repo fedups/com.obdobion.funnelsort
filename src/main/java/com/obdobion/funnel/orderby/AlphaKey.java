@@ -1,7 +1,5 @@
 package com.obdobion.funnel.orderby;
 
-import org.apache.log4j.Logger;
-
 import com.obdobion.funnel.columns.OutputFormatHelper;
 
 /**
@@ -10,11 +8,9 @@ import com.obdobion.funnel.columns.OutputFormatHelper;
  */
 public class AlphaKey extends KeyPart
 {
-    static final private Logger logger       = Logger.getLogger(AlphaKey.class);
-
-    static final private byte   LowerA       = (byte) 'a';
-    static final private byte   LowerZ       = (byte) 'z';
-    static final private byte   LowerToUpper = (byte) ((byte) 'A' - LowerA);
+    static final private byte LowerA       = (byte) 'a';
+    static final private byte LowerZ       = (byte) 'z';
+    static final private byte LowerToUpper = (byte) ((byte) 'A' - LowerA);
 
     public AlphaKey()
     {
@@ -43,7 +39,7 @@ public class AlphaKey extends KeyPart
          * Delimiters at the end of strings are necessary so that unequal length
          * comparisons stop comparing rather than continue to compare into the
          * next part of the key.
-         * 
+         *
          * If the direction is DESC it is necessary to put an extra high-value
          * byte at the end of the keys so that the comparison of the generated
          * keys sorts shorter records to the end.

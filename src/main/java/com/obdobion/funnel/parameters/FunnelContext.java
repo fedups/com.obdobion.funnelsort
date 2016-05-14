@@ -196,26 +196,6 @@ public class FunnelContext
             + DuplicateDisposition.class.getName());
     }
 
-    static private void defineEol (
-        final ArrayList<String> def)
-    {
-        final StringBuilder bytes = new StringBuilder();
-        for (int b = 0; b < System.getProperty("line.separator").getBytes().length; b++)
-        {
-            bytes.append(" ");
-            bytes.append(ByteCLA.ByteLiteral[System.getProperty("line.separator").getBytes()[b]]);
-        }
-
-        def.add("-tByte -keol --var endOfRecordDelimiter -m1 -h 'The byte(s) that end each line in a variable length record file.' --def "
-            + bytes.toString());
-    }
-
-    static private void defineEolOut (
-        final ArrayList<String> def)
-    {
-        def.add("-tByte -keolOut --var endOfRecordOutDelimiter -m1 -h 'The byte(s) that end each line in a variable length record file.  This will be used to write the output file.  If this is not specified then the --eol value will be used.'");
-    }
-
     static private void defineFixedLengthIn (
         final ArrayList<String> def)
     {
@@ -350,10 +330,24 @@ public class FunnelContext
         def.add("-tString -k s stopWhen --var stopClause -m1 -h 'The sort will stop reading input when this equation returns TRUE.  See \"Algebrain\" for details.  Columns are used as variables in this Algebrain equation.'");
     }
 
-    static private void defineVariableOutput (
+    static private void defineVariableLengthIn (
         final ArrayList<String> def)
     {
-        def.add("-tBoolean -k variableoutput --var variableLengthOutput -h 'Use this to cause a fixed input to be written as variable.'");
+        final StringBuilder bytes = new StringBuilder();
+        for (int b = 0; b < System.getProperty("line.separator").getBytes().length; b++)
+        {
+            bytes.append(" ");
+            bytes.append(ByteCLA.ByteLiteral[System.getProperty("line.separator").getBytes()[b]]);
+        }
+
+        def.add("-tByte -k variableInput --var endOfRecordDelimiterIn -m1 -h 'The byte(s) that end each line in a variable length record file.' --def "
+            + bytes.toString());
+    }
+
+    static private void defineVariableLengthOut (
+        final ArrayList<String> def)
+    {
+        def.add("-tByte -k variableOutput --var endOfRecordDelimiterOut -m1 -h 'The byte(s) that end each line in a variable length record file.  This will be used to write the output file as a variable length file.  If this is not specified then the --variableInput value will be used.'");
     }
 
     static private void defineVersion (
@@ -399,15 +393,9 @@ public class FunnelContext
                     logger.debug("JVM: " + name + "=" + ls[0] + " " + ls[1]);
                 continue;
             }
-            if ("user.name".equals(name))
+            if ("java.version".equalsIgnoreCase(name))
             {
-                logger.info(name + "=" + System.getProperties().getProperty(name));
-                continue;
-            }
-            if ("user.home".equals(name)
-                || "user.dir".equals(name))
-            {
-                logger.debug(name + "=" + System.getProperties().getProperty(name));
+                logger.debug("Java version: " + System.getProperties().getProperty(name));
                 continue;
             }
             logger.trace("JVM: " + name + "=" + System.getProperties().getProperty(name));
@@ -435,7 +423,6 @@ public class FunnelContext
     public int                  fixedRecordLengthOut;
     public long                 maximumNumberOfRows;
     public int                  depth;
-    public boolean              variableLengthOutput;
     public CopyOrder            copyOrder;
     public DuplicateDisposition duplicateDisposition;
     public File                 workDirectory;
@@ -450,11 +437,15 @@ public class FunnelContext
     public KeyHelper            keyHelper;
     public OutputFormatHelper   formatOutHelper;
     public ColumnHelper         columnHelper;
-    public byte[]               endOfRecordDelimiter;
-    public byte[]               endOfRecordOutDelimiter;
+    public byte[]               endOfRecordDelimiterIn;
+    public byte[]               endOfRecordDelimiterOut;
     public CSVDef               csv;
 
     public long                 comparisonCounter;
+    private long                duplicateCount;
+    private long                writeCount;
+    private long                unselectedCount;
+    private long                recordCount;
 
     public FunnelContext(final AppContext cfg, final String... _args) throws IOException, ParseException
     {
@@ -486,14 +477,13 @@ public class FunnelContext
         defineFormatOutSubParser(def);
         defineWhere(def);
         defineStopWhen(def);
-        defineEol(def);
-        defineEolOut(def);
+        defineVariableLengthIn(def);
+        defineVariableLengthOut(def);
         defineDuplicateHandling(def);
         defineCopyOrder(def);
         defineMaxRows(def);
         defineOrderBySubParser(def);
         defineCSVInSubParser(def);
-        defineVariableOutput(def);
         defineWorkDirectory(def);
         defineCacheInput(def);
         defineCacheWork(def);
@@ -535,9 +525,19 @@ public class FunnelContext
         }
     }
 
+    public long getDuplicateCount ()
+    {
+        return duplicateCount;
+    }
+
     public File getInputFile (final int fileNumber) throws ParseException, IOException
     {
         return inputFiles.files().get(fileNumber);
+    }
+
+    public long getRecordCount ()
+    {
+        return recordCount;
     }
 
     public Equ getStopEqu ()
@@ -545,9 +545,26 @@ public class FunnelContext
         return stopEqu;
     }
 
+    public long getUnselectedCount ()
+    {
+        return unselectedCount;
+    }
+
     public Equ getWhereEqu ()
     {
         return whereEqu;
+    }
+
+    public long getWriteCount ()
+    {
+        return writeCount;
+    }
+
+    public void inputCounters (final long p_unselectedCount, final long p_recordCount)
+    {
+        unselectedCount += p_unselectedCount;
+        recordCount += p_recordCount;
+
     }
 
     public int inputFileCount () throws ParseException, IOException
@@ -592,6 +609,22 @@ public class FunnelContext
         if (isMultisourceInput() && isInPlaceSort())
             return false;
         return outputFile == null;
+    }
+
+    public boolean isVariableLengthInput ()
+    {
+        return parser.arg("--variableIn").isParsed() || !(parser.arg("--fixedIn").isParsed());
+    }
+
+    public boolean isVariableLengthOutput ()
+    {
+        return parser.arg("--variableOutput").isParsed();
+    }
+
+    public void outputCounters (final long p_duplicateCount, final long p_writeCount)
+    {
+        duplicateCount += p_duplicateCount;
+        writeCount += p_writeCount;
     }
 
     private void postParseAnalysis () throws ParseException, IOException
@@ -641,15 +674,15 @@ public class FunnelContext
 
     private void postParseEolOut ()
     {
-        if (endOfRecordOutDelimiter == null)
-            endOfRecordOutDelimiter = endOfRecordDelimiter;
+        if (endOfRecordDelimiterOut == null)
+            endOfRecordDelimiterOut = endOfRecordDelimiterIn;
     }
 
     private void postParseFixed () throws ParseException
     {
-        if (fixedRecordLengthOut > 0 && variableLengthOutput)
+        if (fixedRecordLengthOut > 0 && isVariableLengthOutput())
             throw new ParseException("--fixedOut and --variableOutput are mutually exclusive parameters", 0);
-        if (variableLengthOutput)
+        if (isVariableLengthOutput())
             return;
         if (fixedRecordLengthOut == 0)
             fixedRecordLengthOut = fixedRecordLengthIn;
@@ -941,7 +974,7 @@ public class FunnelContext
         {
             final StringBuilder sb = new StringBuilder();
             sb.append("FixedIn  = ").append(fixedRecordLengthIn);
-            if (variableLengthOutput)
+            if (isVariableLengthOutput())
                 sb.append(" adding VLR delimiters on output");
             logger.info(sb.toString());
         } else
@@ -951,18 +984,18 @@ public class FunnelContext
 
             final StringBuilder bytes = new StringBuilder();
             bytes.append("in:");
-            for (int b = 0; b < endOfRecordDelimiter.length; b++)
+            for (int b = 0; b < endOfRecordDelimiterIn.length; b++)
             {
                 bytes.append(" ");
-                bytes.append(ByteCLA.asLiteral(endOfRecordDelimiter[b]));
+                bytes.append(ByteCLA.asLiteral(endOfRecordDelimiterIn[b]));
             }
             if (fixedRecordLengthOut == 0)
             {
                 bytes.append(", out:");
-                for (int b = 0; b < endOfRecordOutDelimiter.length; b++)
+                for (int b = 0; b < endOfRecordDelimiterOut.length; b++)
                 {
                     bytes.append(" ");
-                    bytes.append(ByteCLA.asLiteral(endOfRecordOutDelimiter[b]));
+                    bytes.append(ByteCLA.asLiteral(endOfRecordDelimiterOut[b]));
                 }
             }
 
@@ -988,8 +1021,8 @@ public class FunnelContext
 
         logger.debug("power   = " + depth);
 
-        // if (duplicateDisposition != DuplicateDisposition.Original)
-        logger.info("dups    = " + duplicateDisposition.name());
+        if (duplicateDisposition != DuplicateDisposition.Original)
+            logger.info("dups    = " + duplicateDisposition.name());
 
         for (final String colName : columnHelper.getNames())
         {
@@ -1023,7 +1056,7 @@ public class FunnelContext
             logger.info("where \"" + getWhereEqu().toString() + "\"");
             try
             {
-                logger.debug("\n" + getWhereEqu().showRPN());
+                logger.trace("\n" + getWhereEqu().showRPN());
             } catch (final Exception e)
             {
                 logger.warn("algebrain", e);
@@ -1042,15 +1075,12 @@ public class FunnelContext
             }
         }
 
-        int kno = 1;
         if (keys == null)
             logger.info("process = " + copyOrder.name() + " order");
         else
             for (final KeyPart def : keys)
             {
-                logger.debug("key "
-                    + (kno++)
-                    + " "
+                logger.info("orderBy "
                     + def.columnName
                     + " "
                     + def.direction.name());
@@ -1064,7 +1094,16 @@ public class FunnelContext
                 if (outDef.columnName != null)
                     sb.append("\"").append(outDef.columnName).append("\"");
                 if (outDef.equationInput != null)
+                {
                     sb.append("\"").append(outDef.equationInput).append("\"");
+                    try
+                    {
+                        logger.trace("\n" + outDef.equation.showRPN());
+                    } catch (final Exception e)
+                    {
+                        logger.warn("algebrain", e);
+                    }
+                }
                 if (outDef.typeName != null)
                     sb.append(" ").append(outDef.typeName.name());
                 if (outDef.format != null)
@@ -1078,7 +1117,7 @@ public class FunnelContext
                 if (outDef.size != 255)
                     sb.append(" size ").append(outDef.size);
 
-                logger.debug(sb.toString());
+                logger.info(sb.toString());
             }
     }
 

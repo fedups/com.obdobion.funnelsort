@@ -23,7 +23,7 @@ public class VariableLengthFilePublisher extends VariableLengthPublisher
     public VariableLengthFilePublisher(final FunnelContext _context) throws ParseException, IOException
     {
         super(_context);
-        logger.info("variable length file publisher activated");
+        logger.debug("variable length file publisher activated");
     }
 
     @Override

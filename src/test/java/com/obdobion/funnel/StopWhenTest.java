@@ -36,7 +36,8 @@ public class StopWhenTest
             + " -r "
             + " --stopWhen 'recordNumber > 1'");
 
-        Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 1L, context.getRecordCount());
+        Assert.assertEquals("records", 1L, context.getWriteCount());
         final List<String> exp = new ArrayList<>();
         exp.add("10000");
         Helper.compare(file, exp);

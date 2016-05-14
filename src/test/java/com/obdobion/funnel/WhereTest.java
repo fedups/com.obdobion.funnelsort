@@ -49,7 +49,7 @@ public class WhereTest
             + " --where \"rtrim(initials) = 'QQO'\""
             + " -r ");
 
-        Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 1L, context.getWriteCount());
 
         final List<String> exp = new ArrayList<>();
         exp.add("10B0000001023080400000QQO       Tumber Hull L lc            1519     M0000033333");
@@ -100,7 +100,7 @@ public class WhereTest
             + "--orderby(zipcode desc)"
             + " -r ");
 
-        Assert.assertEquals("records", 2L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 2L, context.getWriteCount());
         final List<String> exp = new ArrayList<>();
         exp.add("50200");
         exp.add("50100");
@@ -130,7 +130,7 @@ public class WhereTest
             + " --orderby(zipcode asc)"
             + " -r ");
 
-        Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 1L, context.getWriteCount());
         final List<String> exp = new ArrayList<>();
         exp.add("50100");
         Helper.compare(file, exp);
@@ -154,14 +154,14 @@ public class WhereTest
         final File file = Helper.createUnsortedFile(testName, in1);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --fixedIn 7 --variableout"
+            + " --fixedIn 7 --variableout CR LF"
             + " --where '(zipcode >= 50100 && zipcode <= 50200)'"
             + " --col(-n zipCode int -o0 -l5)"
             + " --format(zipcode)"
             + "--orderby(zipcode desc)"
             + " -r ");
 
-        Assert.assertEquals("records", 2L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 2L, context.getWriteCount());
         final List<String> exp = new ArrayList<>();
         exp.add("50200");
         exp.add("50100");
@@ -190,7 +190,7 @@ public class WhereTest
             + " --orderby(zipCode asc)"
             + " -r ");
 
-        Assert.assertEquals("records", 99L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 99L, context.getWriteCount());
 
         Assert.assertTrue(file.delete());
     }
@@ -216,7 +216,7 @@ public class WhereTest
             + " --orderby(zipcode asc)"
             + " -r ");
 
-        Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 1L, context.getWriteCount());
         final List<String> exp = new ArrayList<>();
         exp.add("50100");
         Helper.compare(file, exp);
@@ -243,7 +243,7 @@ public class WhereTest
             + " --where 'recordnumber % 2 = 1'"
             + " -r ");
 
-        Assert.assertEquals("records", 450L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 450L, context.getWriteCount());
 
         Assert.assertTrue(file.delete());
     }
@@ -269,7 +269,7 @@ public class WhereTest
             + " --orderby(zipCode asc)"
             + " -r ");
 
-        Assert.assertEquals("records", 99L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 99L, context.getWriteCount());
 
         Assert.assertTrue(file.delete());
     }
@@ -294,7 +294,7 @@ public class WhereTest
             + " --where 'zipcode = 10100'"
             + " -r ");
 
-        Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 1L, context.getWriteCount());
 
         Assert.assertTrue(file.delete());
     }

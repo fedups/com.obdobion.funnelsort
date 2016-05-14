@@ -18,7 +18,7 @@ public class VariableLengthSysinReader extends VariableLengthCacheReader
     public VariableLengthSysinReader(final FunnelContext _context) throws IOException, ParseException
     {
         super(_context);
-        logger.info("variable length sysin provider activated");
+        logger.debug("variable length sysin provider activated");
     }
 
     @Override

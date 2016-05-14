@@ -22,7 +22,7 @@ public class VariableLengthCacheReader implements InputReader
     public VariableLengthCacheReader(final FunnelContext _context) throws IOException, ParseException
     {
         this.context = _context;
-        logger.info("variable length cache provider activated");
+        logger.debug("variable length cache provider activated");
         loadDataToCache();
     }
 
@@ -74,9 +74,9 @@ public class VariableLengthCacheReader implements InputReader
              * Then see of this character is the next expected character in the
              * end of row sequence.
              */
-            if (b == context.endOfRecordDelimiter[sepNextPointer])
+            if (b == context.endOfRecordDelimiterIn[sepNextPointer])
             {
-                if (sepNextPointer == context.endOfRecordDelimiter.length - 1)
+                if (sepNextPointer == context.endOfRecordDelimiterIn.length - 1)
                 {
                     return rowNextPointer;
                 }
@@ -90,7 +90,7 @@ public class VariableLengthCacheReader implements InputReader
             if (sepNextPointer > 0)
             {
                 for (int sp = 0; sp < sepNextPointer; sp++)
-                    row[rowNextPointer++] = context.endOfRecordDelimiter[sp];
+                    row[rowNextPointer++] = context.endOfRecordDelimiterIn[sp];
                 sepNextPointer = 0;
             }
             /*

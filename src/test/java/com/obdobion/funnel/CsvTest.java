@@ -67,11 +67,11 @@ public class CsvTest
         System.setOut(outputStream);
 
         final FunnelContext context = Funnel.sort(Helper.config(),
-            "--csv() --max 2 --eol cr,lf "
+            "--csv() --max 2 "
                 + "--col(I, --fi 2 -n field1)(S --fi 1 -n field0) "
                 + "--orderBy (field1)(field0)");
 
-        Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -102,9 +102,9 @@ public class CsvTest
         final FunnelContext context = Funnel.sort(Helper.config(),
             "--csv() "
                 + "--col(String -f1 -nA)(Int -f2 -nB)"
-                + "--orderBy(A desc) --max 2 --eol cr,lf ");
+                + "--orderBy(A desc) --max 2 ");
 
-        Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -136,9 +136,9 @@ public class CsvTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "--csv(-h) "
             + "--col(String -f1 -nletters)(Int -f2 -nnumbers) "
-            + "--orderBy(numbers) --max 2 --eol cr,lf ");
+            + "--orderBy(numbers) --max 2 ");
 
-        Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 3L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -443,7 +443,7 @@ public class CsvTest
                 + csvColumns
                 + "--orderBy(Number desc)");
 
-        Assert.assertEquals("records", 10L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 10L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -474,7 +474,7 @@ public class CsvTest
                 + csvColumns
                 + "--orderBy(A)");
 
-        Assert.assertEquals("records", 10L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 10L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -505,7 +505,7 @@ public class CsvTest
                 + csvColumns
                 + "--orderBy(A desc)");
 
-        Assert.assertEquals("records", 10L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 10L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -536,7 +536,7 @@ public class CsvTest
                 + csvColumns
                 + "--orderBy (B) ");
 
-        Assert.assertEquals("records", 10L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 10L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -567,7 +567,7 @@ public class CsvTest
                 + csvColumns
                 + "--orderBy(B desc)");
 
-        Assert.assertEquals("records", 10L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 10L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -598,7 +598,7 @@ public class CsvTest
                 + csvColumns
                 + "--orderBy(B)(Number desc)");
 
-        Assert.assertEquals("records", 10L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 10L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }

@@ -18,7 +18,7 @@ public class FixedLengthSysinReader extends FixedLengthCacheReader
     public FixedLengthSysinReader(final FunnelContext _context) throws IOException, ParseException
     {
         super(_context);
-        logger.info("fixed length sysin provider activated");
+        logger.debug("fixed length sysin provider activated");
     }
 
     @Override

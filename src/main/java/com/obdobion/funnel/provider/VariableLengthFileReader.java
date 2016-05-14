@@ -31,7 +31,7 @@ public class VariableLengthFileReader implements InputReader
     public VariableLengthFileReader(final FunnelContext _context) throws IOException, ParseException
     {
         this(_context, defaultCharBufferSize);
-        logger.info("variable length file provider activated");
+        logger.debug("variable length file provider activated");
     }
 
     public VariableLengthFileReader(final FunnelContext _context, final int sz) throws IOException, ParseException
@@ -39,7 +39,7 @@ public class VariableLengthFileReader implements InputReader
         assert sz > 0 : "Buffer size <= 0";
         this.context = _context;
         bb = new byte[sz];
-        this.separator = context.endOfRecordDelimiter;
+        this.separator = context.endOfRecordDelimiterIn;
 
         open(_context.getInputFile(context.inputFileIndex()));
     }

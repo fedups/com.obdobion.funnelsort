@@ -38,9 +38,9 @@ public class DuplicateTest
                 + "--orderby(col1) "
                 + "--dup firstonly");
 
-        Assert.assertEquals("records", 130L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("dups", 129L, context.publisher.getDuplicateCount());
-        Assert.assertEquals("write", 1L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 130L, context.getRecordCount());
+        Assert.assertEquals("dups", 129L, context.getDuplicateCount());
+        Assert.assertEquals("write", 1L, context.getWriteCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -67,9 +67,9 @@ public class DuplicateTest
                 + "--orderby(col1) "
                 + "--dup lastonly");
 
-        Assert.assertEquals("records", 130L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("dups", 129L, context.publisher.getDuplicateCount());
-        Assert.assertEquals("write", 1L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 130L, context.getRecordCount());
+        Assert.assertEquals("dups", 129L, context.getDuplicateCount());
+        Assert.assertEquals("write", 1L, context.getWriteCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -100,9 +100,9 @@ public class DuplicateTest
                 + "--orderby(col1) "
                 + "--dup reverse");
 
-        Assert.assertEquals("records", 130L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("dups", 129L, context.publisher.getDuplicateCount());
-        Assert.assertEquals("write", 130L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 130L, context.getRecordCount());
+        Assert.assertEquals("dups", 129L, context.getDuplicateCount());
+        Assert.assertEquals("write", 130L, context.getWriteCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }

@@ -52,7 +52,8 @@ public class BigTest
                 + " --max 5000000 "
                 + " --pow 16");
 
-        Assert.assertEquals("records", 3000000L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 3000000L, context.getRecordCount());
+        Assert.assertEquals("records", 3000000L, context.getWriteCount());
         Helper.compare(output, expectedOut);
 
         Assert.assertTrue(file.delete());
@@ -90,7 +91,8 @@ public class BigTest
             + " --orderby(col1 desc)"
             + " --pow 8");
 
-        Assert.assertEquals("records", 1000000L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 1000000L, context.getRecordCount());
+        Assert.assertEquals("records", 1000000L, context.getWriteCount());
         Helper.compare(output, expectedOut);
 
         Assert.assertTrue(file.delete());

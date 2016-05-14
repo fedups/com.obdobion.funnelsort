@@ -119,7 +119,10 @@ Section "FunnelSort"
     ${EnvVarUpdate} $0 "PATH" "A" "HKLM" $INSTDIR
     
     CreateDirectory "$SMPROGRAMS\Funnel"
-    createShortCut "$SMPROGRAMS\Funnel\Log.lnk" "$AppData\funnel.log" "" ""
+    CreateDirectory "$AppData\Obdobion\Funnel"
+    createShortCut "$SMPROGRAMS\Funnel\Log.lnk" "$AppData\Obdobion\Funnel\funnel.log" "" ""
+    createShortCut "$SMPROGRAMS\Funnel\Log Config.lnk" "$INSTDIR\log4j.xml" "" ""
+    createShortCut "$SMPROGRAMS\Funnel\Funnel Config.lnk" "$INSTDIR\funnel.cfg" "" ""
     
     writeUninstaller "$INSTDIR\uninstall.exe"
 SectionEnd
@@ -132,6 +135,8 @@ FunctionEnd
 Section "uninstall"
     ${un.EnvVarUpdate} $0 "PATH" "R" "HKLM" $INSTDIR
     delete "$SMPROGRAMS\Funnel\Log.lnk"
+    delete "$SMPROGRAMS\Funnel\Log Config.lnk"
+    delete "$SMPROGRAMS\Funnel\Funnel Config.lnk"
     delete $INSTDIR\funnel.bat
     delete $INSTDIR\*.jar
     delete $INSTDIR\log4j.xml

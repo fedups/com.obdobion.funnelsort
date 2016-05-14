@@ -124,7 +124,10 @@ public class VariableLengthProvider implements FunnelDataProvider
             sb.append(Funnel.ByteFormatter.format(unselectedCount));
             sb.append(" filtered out by where clause");
         }
-        logger.info(sb.toString());
+
+        context.inputCounters(unselectedCount, recordNumber);
+
+        logger.debug(sb.toString());
     }
 
     public long maximumNumberOfRows ()

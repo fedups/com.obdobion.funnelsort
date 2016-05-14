@@ -34,7 +34,7 @@ public class FixedLengthProvider implements FunnelDataProvider
     public FixedLengthProvider(final FunnelContext _context) throws IOException, ParseException
     {
         this.context = _context;
-        logger.info("fixed length file provider activated");
+        logger.debug("fixed length file provider activated");
         initialize();
     }
 
@@ -103,7 +103,7 @@ public class FixedLengthProvider implements FunnelDataProvider
         else
             this.reader =
                     new FixedLengthFileReader(context.getInputFile(context.inputFileIndex()),
-                        context.endOfRecordDelimiter);
+                        context.endOfRecordDelimiterIn);
     }
 
     boolean isRowSelected (@SuppressWarnings("unused")
@@ -128,7 +128,10 @@ public class FixedLengthProvider implements FunnelDataProvider
             sb.append(Funnel.ByteFormatter.format(unselectedCount));
             sb.append(" filtered out by where clause");
         }
-        logger.info(sb.toString());
+
+        context.inputCounters(unselectedCount, recordNumber);
+
+        logger.debug(sb.toString());
     }
 
     public long maximumNumberOfRows ()

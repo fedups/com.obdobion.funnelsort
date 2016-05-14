@@ -40,7 +40,7 @@ public class FunnelTest
         final FunnelContext context = Funnel.sort(Helper.config(),
             file.getAbsolutePath() + " -r --max 130 -c original --fixedIn 10");
 
-        Assert.assertEquals("records", 130L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 130L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -66,7 +66,7 @@ public class FunnelTest
         final FunnelContext context = Funnel.sort(Helper.config(),
             file.getAbsolutePath() + " -r --max 50 -c original --fixedIn 10");
 
-        Assert.assertEquals("records", 50L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 50L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -92,7 +92,7 @@ public class FunnelTest
         final FunnelContext context = Funnel.sort(Helper.config(),
             file.getAbsolutePath() + " -r --max 1000 -c original");
 
-        Assert.assertEquals("records", 1000L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 1000L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -118,7 +118,7 @@ public class FunnelTest
         final FunnelContext context = Funnel.sort(Helper.config(),
             file.getAbsolutePath() + " -r --max 130 -c original");
 
-        Assert.assertEquals("records", 130L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 130L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -144,7 +144,7 @@ public class FunnelTest
         final FunnelContext context = Funnel.sort(Helper.config(),
             file.getAbsolutePath() + " -r --max 50 -c original");
 
-        Assert.assertEquals("records", 50L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 50L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -170,7 +170,7 @@ public class FunnelTest
         final FunnelContext context = Funnel.sort(Helper.config(),
             file.getAbsolutePath() + " -r --max 50 -c reverse --fixedIn 10");
 
-        Assert.assertEquals("records", 50L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 50L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -196,7 +196,7 @@ public class FunnelTest
         final FunnelContext context = Funnel.sort(Helper.config(),
             file.getAbsolutePath() + " -r --max 50 -c reverse");
 
-        Assert.assertEquals("records", 50L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 50L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -229,7 +229,7 @@ public class FunnelTest
                 + "--co(-ndate Date -o0 --fo " + format + ")"
                 + "--o(date)");
 
-        Assert.assertEquals("records", 50L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 50L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -265,7 +265,7 @@ public class FunnelTest
                 + "--col(-nc Integer -o4 -l4 )"
                 + "--order(c desc)");
 
-        Assert.assertEquals("records", 1000L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 1000L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -291,7 +291,7 @@ public class FunnelTest
         final FunnelContext context = Funnel.sort(Helper.config(),
             file.getAbsolutePath() + " -r --power 4");
 
-        Assert.assertEquals("records", 1000L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 1000L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -319,7 +319,7 @@ public class FunnelTest
                 + "--col(-nc Integer -o4 -l4)"
                 + "--orderby(c desc)");
 
-        Assert.assertEquals("records", 1000L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 1000L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -347,7 +347,7 @@ public class FunnelTest
                 + " -r --power 4 "
                 + "--col(-nn String -o4 -l4)"
                 + "--order(n desc)");
-        Assert.assertEquals("records", 1000L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 1000L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -375,7 +375,7 @@ public class FunnelTest
                 + "--col(-ncol1 Integer,-o4,-l2)"
                 + "--ord(col1 desc) ");
 
-        Assert.assertEquals("records", 10L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 10L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
