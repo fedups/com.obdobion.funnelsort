@@ -30,15 +30,13 @@ public class StringTest
         in1.add("a");
         in1.add("M");
 
-        final File file1 = Helper.createUnsortedFile("caseMatters1", in1);
-        final FunnelContext context = Funnel.sort(Helper.config(), file1.getParentFile().getAbsolutePath()
-            + "/caseMatters?.* "
-            + " --col(string -o0 -l1 -n col1)"
-            + " --orderby(col1 asc)"
+        final File file1 = Helper.createUnsortedFile(testName, in1);
+        final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
             + " -o " + output.getAbsolutePath()
-                );
+            + " --col(string -o0 -l1 -n col1)"
+            + " --orderby(col1 asc)");
 
-        Assert.assertEquals("records", 3L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 3L, context.getWriteCount());
 
         final List<String> expectedOut = new ArrayList<>();
         expectedOut.add("M");
@@ -63,15 +61,13 @@ public class StringTest
         in1.add("a");
         in1.add("M");
 
-        final File file1 = Helper.createUnsortedFile("ignoreCase1", in1);
-        final FunnelContext context = Funnel.sort(Helper.config(), file1.getParentFile().getAbsolutePath()
-            + "/ignoreCase?.* "
-            + " --col(string -o0 -l1 -n col1)"
-            + " --orderby(col1 aasc)"
+        final File file1 = Helper.createUnsortedFile(testName, in1);
+        final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
             + " -o " + output.getAbsolutePath()
-                );
+            + " --col(string -o0 -l1 -n col1)"
+            + " --orderby(col1 aasc)");
 
-        Assert.assertEquals("records", 3L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 3L, context.getWriteCount());
 
         final List<String> expectedOut = new ArrayList<>();
         expectedOut.add("a");

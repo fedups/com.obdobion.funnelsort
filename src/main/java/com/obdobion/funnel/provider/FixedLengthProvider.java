@@ -34,6 +34,7 @@ public class FixedLengthProvider implements FunnelDataProvider
     public FixedLengthProvider(final FunnelContext _context) throws IOException, ParseException
     {
         this.context = _context;
+        logger.debug("fixed length file provider activated");
         initialize();
     }
 
@@ -61,12 +62,12 @@ public class FixedLengthProvider implements FunnelDataProvider
         initializeReader();
         try
         {
-            this.size = reader.length() / context.fixedRecordLength;
+            this.size = reader.length() / context.fixedRecordLengthIn;
         } catch (final IOException e)
         {
             App.abort(-1, e);
         }
-        this.row = new byte[context.fixedRecordLength];
+        this.row = new byte[context.fixedRecordLengthIn];
 
         int optimalFunnelDepth = 2;
         long pow2 = size;
@@ -102,7 +103,7 @@ public class FixedLengthProvider implements FunnelDataProvider
         else
             this.reader =
                     new FixedLengthFileReader(context.getInputFile(context.inputFileIndex()),
-                        context.endOfRecordDelimiter);
+                        context.endOfRecordDelimiterIn);
     }
 
     boolean isRowSelected (@SuppressWarnings("unused")
@@ -127,7 +128,10 @@ public class FixedLengthProvider implements FunnelDataProvider
             sb.append(Funnel.ByteFormatter.format(unselectedCount));
             sb.append(" filtered out by where clause");
         }
-        logger.info(sb.toString());
+
+        context.inputCounters(unselectedCount, recordNumber);
+
+        logger.debug(sb.toString());
     }
 
     public long maximumNumberOfRows ()
@@ -173,10 +177,10 @@ public class FixedLengthProvider implements FunnelDataProvider
                     break;
                 }
 
-                if (byteCount != -1 && byteCount != context.fixedRecordLength)
+                if (byteCount != -1 && byteCount != context.fixedRecordLengthIn)
                 {
                     logger.warn("Record truncated at EOF, bytes read = " + byteCount + ", bytes expected = "
-                        + context.fixedRecordLength);
+                        + context.fixedRecordLengthIn);
                     continue;
                 }
 
@@ -255,9 +259,11 @@ public class FixedLengthProvider implements FunnelDataProvider
         return true;
     }
 
-    void preSelectionExtract (int byteCount) throws Exception
+    void preSelectionExtract (final int byteCount) throws Exception
     {
-        context.columnHelper.extract(context, row, recordNumber, byteCount);
+        context.columnHelper.extract(context, row, recordNumber, byteCount,
+            context.getWhereEqu(),
+            context.getStopEqu());
     }
 
     public void reset () throws IOException, ParseException

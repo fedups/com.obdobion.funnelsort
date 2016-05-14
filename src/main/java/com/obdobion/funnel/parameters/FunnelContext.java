@@ -196,30 +196,22 @@ public class FunnelContext
             + DuplicateDisposition.class.getName());
     }
 
-    static private void defineEol (
+    static private void defineFixedLengthIn (
         final ArrayList<String> def)
     {
-        final StringBuilder bytes = new StringBuilder();
-        for (int b = 0; b < System.getProperty("line.separator").getBytes().length; b++)
-        {
-            bytes.append(" ");
-            bytes.append(ByteCLA.ByteLiteral[System.getProperty("line.separator").getBytes()[b]]);
-        }
-
-        def.add("-tByte -keol --var endOfRecordDelimiter -m1 -h 'The byte(s) that end each line in a variable length record file.' --def "
-            + bytes.toString());
+        def.add("-tInteger -k fixedIn --var fixedRecordLengthIn -h 'The record length in a fixed record length file.' --ran 1 4096");
     }
 
-    static private void defineEolOut (
+    static private void defineFixedLengthOut (
         final ArrayList<String> def)
     {
-        def.add("-tByte -keolOut --var endOfRecordOutDelimiter -m1 -h 'The byte(s) that end each line in a variable length record file.  This will be used to write the output file.  If this is not specified then the --eol value will be used.'");
+        def.add("-tInteger -k fixedOut --var fixedRecordLengthOut -h 'The record length in a fixed record length file.  This is used to change an output file into a fixed format.  It is not necessary if --fixedIn is specified.' --ran 1 4096");
     }
 
-    static private void defineFixedLength (
+    static private void defineFormatEqu (
         final ArrayList<String> def)
     {
-        def.add("-tInteger -k f fixed --var fixedRecordLength -h 'The record length in a fixed record length file.' --ran 1 4096");
+        def.add("-tString -k e equation --var equationInput -h'Used instead of a column name, this will be evaluated with the result written to the output.'");
     }
 
     static private void defineFormatFiller (
@@ -228,10 +220,19 @@ public class FunnelContext
         def.add("-tByte -k f filler --var filler -h'The trailing filler character to use for a short field.'");
     }
 
+    static private void defineFormatFormat (
+        final ArrayList<String> def)
+    {
+        def.add("-tString -k d format --var format --case -h'The format for converting the contents of the data to be written. Use Java Formatter rules for making the format.  The format must match the type of the data.'");
+    }
+
     static private void defineFormatOutSubParser (final ArrayList<String> def)
     {
         def.add("-tBegin -k formatOut -m1 --var formatOutDefs --class com.obdobion.funnel.columns.FormatPart -h 'Column references defining the output file layout.'");
-        defineKeyNamePositional(def);
+        defineKeyNamePositional(def, false);
+        defineFormatEqu(def);
+        defineFormatType(def);
+        defineFormatFormat(def);
         defineColumnLength(def);
         defineFormatSize(def);
         defineColumnOffset(def);
@@ -246,6 +247,13 @@ public class FunnelContext
             + KeyHelper.MAX_KEY_SIZE
             + " -h'The number of characters this field will use on output.' --range 1 "
             + KeyHelper.MAX_KEY_SIZE);
+    }
+
+    static private void defineFormatType (
+        final ArrayList<String> def)
+    {
+        def.add("-tEnum -k t type -p --var typeName --case -h'The data type to be written.  Defaults to the columnIn data type.' --case --enumList "
+            + KeyType.class.getName());
     }
 
     static private void defineInPlaceSort (
@@ -274,9 +282,11 @@ public class FunnelContext
      * The name will always be lower case.
      */
     static private void defineKeyNamePositional (
-        final ArrayList<String> def)
+        final ArrayList<String> def, final boolean required)
     {
-        def.add("-tString -k n name --var columnName --pos --req -h'A previously defined column name.'");
+        def.add("-tString -k n name --var columnName --pos -h'A previously defined column name.'" + (required
+                ? " --req "
+                : ""));
     }
 
     static private void defineMaxRows (
@@ -297,7 +307,7 @@ public class FunnelContext
         final ArrayList<String> def)
     {
         def.add("-tBegin -k orderby -m1 --var orderBys -h 'The sort keys defined from columns.'");
-        defineKeyNamePositional(def);
+        defineKeyNamePositional(def, true);
         defineKeyDirection(def);
         def.add("-tEnd -k orderby");
     }
@@ -320,10 +330,24 @@ public class FunnelContext
         def.add("-tString -k s stopWhen --var stopClause -m1 -h 'The sort will stop reading input when this equation returns TRUE.  See \"Algebrain\" for details.  Columns are used as variables in this Algebrain equation.'");
     }
 
-    static private void defineVariableOutput (
+    static private void defineVariableLengthIn (
         final ArrayList<String> def)
     {
-        def.add("-tBoolean -k variableoutput --var variableLengthOutput -h 'Use this to cause a fixed input to be written as variable.'");
+        final StringBuilder bytes = new StringBuilder();
+        for (int b = 0; b < System.getProperty("line.separator").getBytes().length; b++)
+        {
+            bytes.append(" ");
+            bytes.append(ByteCLA.ByteLiteral[System.getProperty("line.separator").getBytes()[b]]);
+        }
+
+        def.add("-tByte -k variableInput --var endOfRecordDelimiterIn -m1 -h 'The byte(s) that end each line in a variable length record file.' --def "
+            + bytes.toString());
+    }
+
+    static private void defineVariableLengthOut (
+        final ArrayList<String> def)
+    {
+        def.add("-tByte -k variableOutput --var endOfRecordDelimiterOut -m1 -h 'The byte(s) that end each line in a variable length record file.  This will be used to write the output file as a variable length file.  If this is not specified then the --variableInput value will be used.'");
     }
 
     static private void defineVersion (
@@ -369,15 +393,9 @@ public class FunnelContext
                     logger.debug("JVM: " + name + "=" + ls[0] + " " + ls[1]);
                 continue;
             }
-            if ("user.name".equals(name))
+            if ("java.version".equalsIgnoreCase(name))
             {
-                logger.info(name + "=" + System.getProperties().getProperty(name));
-                continue;
-            }
-            if ("user.home".equals(name)
-                || "user.dir".equals(name))
-            {
-                logger.debug(name + "=" + System.getProperties().getProperty(name));
+                logger.debug("Java version: " + System.getProperties().getProperty(name));
                 continue;
             }
             logger.trace("JVM: " + name + "=" + System.getProperties().getProperty(name));
@@ -401,10 +419,10 @@ public class FunnelContext
     private int                 inputFileIndex;
     public WildFiles            inputFiles;
     public File                 outputFile;
-    public int                  fixedRecordLength;
+    public int                  fixedRecordLengthIn;
+    public int                  fixedRecordLengthOut;
     public long                 maximumNumberOfRows;
     public int                  depth;
-    public boolean              variableLengthOutput;
     public CopyOrder            copyOrder;
     public DuplicateDisposition duplicateDisposition;
     public File                 workDirectory;
@@ -419,13 +437,17 @@ public class FunnelContext
     public KeyHelper            keyHelper;
     public OutputFormatHelper   formatOutHelper;
     public ColumnHelper         columnHelper;
-    public byte[]               endOfRecordDelimiter;
-    public byte[]               endOfRecordOutDelimiter;
+    public byte[]               endOfRecordDelimiterIn;
+    public byte[]               endOfRecordDelimiterOut;
     public CSVDef               csv;
 
     public long                 comparisonCounter;
+    private long                duplicateCount;
+    private long                writeCount;
+    private long                unselectedCount;
+    private long                recordCount;
 
-    public FunnelContext(AppContext cfg, final String... _args) throws IOException, ParseException
+    public FunnelContext(final AppContext cfg, final String... _args) throws IOException, ParseException
     {
         logger.info("================ BEGIN ===================");
         logger.debug("Funnel " + cfg.version);
@@ -448,20 +470,20 @@ public class FunnelContext
 
         defineInputFile(def);
         defineOutputFile(def);
-        defineFixedLength(def);
+        defineFixedLengthIn(def);
+        defineFixedLengthOut(def);
         defineInPlaceSort(def);
         defineColumnsInSubParser(def);
         defineFormatOutSubParser(def);
         defineWhere(def);
         defineStopWhen(def);
-        defineEol(def);
-        defineEolOut(def);
+        defineVariableLengthIn(def);
+        defineVariableLengthOut(def);
         defineDuplicateHandling(def);
         defineCopyOrder(def);
         defineMaxRows(def);
         defineOrderBySubParser(def);
         defineCSVInSubParser(def);
-        defineVariableOutput(def);
         defineWorkDirectory(def);
         defineCacheInput(def);
         defineCacheWork(def);
@@ -485,7 +507,7 @@ public class FunnelContext
         {
             final StringBuilder sb = new StringBuilder();
             sb.append("commandline:");
-            for (String arg : _args)
+            for (final String arg : _args)
                 sb.append(" ").append(arg);
             logger.info(sb.toString());
 
@@ -503,9 +525,19 @@ public class FunnelContext
         }
     }
 
+    public long getDuplicateCount ()
+    {
+        return duplicateCount;
+    }
+
     public File getInputFile (final int fileNumber) throws ParseException, IOException
     {
         return inputFiles.files().get(fileNumber);
+    }
+
+    public long getRecordCount ()
+    {
+        return recordCount;
     }
 
     public Equ getStopEqu ()
@@ -513,9 +545,26 @@ public class FunnelContext
         return stopEqu;
     }
 
+    public long getUnselectedCount ()
+    {
+        return unselectedCount;
+    }
+
     public Equ getWhereEqu ()
     {
         return whereEqu;
+    }
+
+    public long getWriteCount ()
+    {
+        return writeCount;
+    }
+
+    public void inputCounters (final long p_unselectedCount, final long p_recordCount)
+    {
+        unselectedCount += p_unselectedCount;
+        recordCount += p_recordCount;
+
     }
 
     public int inputFileCount () throws ParseException, IOException
@@ -562,6 +611,22 @@ public class FunnelContext
         return outputFile == null;
     }
 
+    public boolean isVariableLengthInput ()
+    {
+        return parser.arg("--variableIn").isParsed() || !(parser.arg("--fixedIn").isParsed());
+    }
+
+    public boolean isVariableLengthOutput ()
+    {
+        return parser.arg("--variableOutput").isParsed();
+    }
+
+    public void outputCounters (final long p_duplicateCount, final long p_writeCount)
+    {
+        duplicateCount += p_duplicateCount;
+        writeCount += p_writeCount;
+    }
+
     private void postParseAnalysis () throws ParseException, IOException
     {
         columnHelper = new ColumnHelper();
@@ -576,6 +641,7 @@ public class FunnelContext
         postParseWhere();
         postParseStop();
         postParseCSV();
+        postParseFixed();
     }
 
     private void postParseCSV ()
@@ -587,7 +653,7 @@ public class FunnelContext
         {
             csv.format = csv.predefinedFormat.getFormat();
             logger.debug("defining the CSV parser based on \"" + csv.predefinedFormat.name() + "\"");
-            ICmdLine csvParser = ((CmdLineCLA) parser.arg("--csv")).templateCmdLine;
+            final ICmdLine csvParser = ((CmdLineCLA) parser.arg("--csv")).templateCmdLine;
 
             if (csvParser.arg("--commentMarker").isParsed())
                 csv.format = csv.format.withCommentMarker((char) csv.commentMarker);
@@ -608,8 +674,19 @@ public class FunnelContext
 
     private void postParseEolOut ()
     {
-        if (endOfRecordOutDelimiter == null)
-            endOfRecordOutDelimiter = endOfRecordDelimiter;
+        if (endOfRecordDelimiterOut == null)
+            endOfRecordDelimiterOut = endOfRecordDelimiterIn;
+    }
+
+    private void postParseFixed () throws ParseException
+    {
+        if (fixedRecordLengthOut > 0 && isVariableLengthOutput())
+            throw new ParseException("--fixedOut and --variableOutput are mutually exclusive parameters", 0);
+        if (isVariableLengthOutput())
+            return;
+        if (fixedRecordLengthOut == 0)
+            fixedRecordLengthOut = fixedRecordLengthIn;
+
     }
 
     private void postParseFormatOut () throws ParseException
@@ -627,6 +704,25 @@ public class FunnelContext
                 {
                     if (kdef.offset == -1) // unspecified
                         kdef.offset = 0;
+
+                    // if (kdef.columnName == null && kdef.equationInput ==
+                    // null)
+                    // throw new
+                    // ParseException("--formatOut columnName or --equ must be specified",
+                    // 0);
+                    if (kdef.columnName != null && kdef.equationInput != null)
+                        throw new ParseException("--formatOut columnName and --equ are mutually exclusive", 0);
+                    if (kdef.format != null && kdef.equationInput == null)
+                        throw new ParseException("--formatOut --format is only valid with --equ", 0);
+
+                    if (kdef.equationInput != null)
+                    {
+                        if (kdef.length == 255)
+                            throw new ParseException("--formatOut --length is required when --equ is specified", 0);
+                        kdef.equation = Equ.getInstance(true);
+                        kdef.equation.compile(kdef.equationInput);
+                    }
+
                     formatOutHelper.add(kdef);
                 } catch (final Exception e)
                 {
@@ -788,9 +884,9 @@ public class FunnelContext
             try
             {
                 stopEqu = Equ.getInstance(true);
-                StringBuilder sb = new StringBuilder();
+                final StringBuilder sb = new StringBuilder();
                 String connector = "";
-                for (String partialClause : stopClause)
+                for (final String partialClause : stopClause)
                 {
                     if (partialClause != null && partialClause.trim().length() > 0)
                     {
@@ -815,9 +911,9 @@ public class FunnelContext
             try
             {
                 whereEqu = Equ.getInstance(true);
-                StringBuilder sb = new StringBuilder();
+                final StringBuilder sb = new StringBuilder();
                 String connector = "";
-                for (String partialClause : whereClause)
+                for (final String partialClause : whereClause)
                 {
                     if (partialClause != null && partialClause.trim().length() > 0)
                     {
@@ -874,11 +970,11 @@ public class FunnelContext
         if (specDirectory != null)
             logger.debug("specification include path is " + specDirectory);
 
-        if (fixedRecordLength > 0)
+        if (fixedRecordLengthIn > 0)
         {
             final StringBuilder sb = new StringBuilder();
-            sb.append("LRecL   = ").append(fixedRecordLength);
-            if (variableLengthOutput)
+            sb.append("FixedIn  = ").append(fixedRecordLengthIn);
+            if (isVariableLengthOutput())
                 sb.append(" adding VLR delimiters on output");
             logger.info(sb.toString());
         } else
@@ -888,16 +984,19 @@ public class FunnelContext
 
             final StringBuilder bytes = new StringBuilder();
             bytes.append("in:");
-            for (int b = 0; b < endOfRecordDelimiter.length; b++)
+            for (int b = 0; b < endOfRecordDelimiterIn.length; b++)
             {
                 bytes.append(" ");
-                bytes.append(ByteCLA.asLiteral(endOfRecordDelimiter[b]));
+                bytes.append(ByteCLA.asLiteral(endOfRecordDelimiterIn[b]));
             }
-            bytes.append(", out:");
-            for (int b = 0; b < endOfRecordOutDelimiter.length; b++)
+            if (fixedRecordLengthOut == 0)
             {
-                bytes.append(" ");
-                bytes.append(ByteCLA.asLiteral(endOfRecordOutDelimiter[b]));
+                bytes.append(", out:");
+                for (int b = 0; b < endOfRecordDelimiterOut.length; b++)
+                {
+                    bytes.append(" ");
+                    bytes.append(ByteCLA.asLiteral(endOfRecordDelimiterOut[b]));
+                }
             }
 
             logger.debug("End of line delimeter " + bytes.toString());
@@ -913,11 +1012,17 @@ public class FunnelContext
                 logger.debug(csvMsg.toString());
             }
         }
+        if (fixedRecordLengthOut > 0)
+        {
+            final StringBuilder sb = new StringBuilder();
+            sb.append("FixedOut = ").append(fixedRecordLengthOut);
+            logger.debug(sb.toString());
+        }
 
         logger.debug("power   = " + depth);
 
-        // if (duplicateDisposition != DuplicateDisposition.Original)
-        logger.info("dups    = " + duplicateDisposition.name());
+        if (duplicateDisposition != DuplicateDisposition.Original)
+            logger.info("dups    = " + duplicateDisposition.name());
 
         for (final String colName : columnHelper.getNames())
         {
@@ -970,18 +1075,49 @@ public class FunnelContext
             }
         }
 
-        int kno = 1;
         if (keys == null)
             logger.info("process = " + copyOrder.name() + " order");
         else
             for (final KeyPart def : keys)
             {
-                logger.debug("key "
-                    + (kno++)
-                    + " "
+                logger.info("orderBy "
                     + def.columnName
                     + " "
                     + def.direction.name());
+            }
+
+        if (formatOutDefs != null)
+            for (final FormatPart outDef : formatOutDefs)
+            {
+                final StringBuilder sb = new StringBuilder();
+                sb.append("format ");
+                if (outDef.columnName != null)
+                    sb.append("\"").append(outDef.columnName).append("\"");
+                if (outDef.equationInput != null)
+                {
+                    sb.append("\"").append(outDef.equationInput).append("\"");
+                    try
+                    {
+                        logger.trace("\n" + outDef.equation.showRPN());
+                    } catch (final Exception e)
+                    {
+                        logger.warn("algebrain", e);
+                    }
+                }
+                if (outDef.typeName != null)
+                    sb.append(" ").append(outDef.typeName.name());
+                if (outDef.format != null)
+                    sb.append(" format \"").append(outDef.format).append("\"");
+                if (outDef.filler != 0x00)
+                    sb.append(" fill=").append(ByteCLA.asLiteral(outDef.filler));
+                if (outDef.length != 255)
+                    sb.append(" length ").append(outDef.length);
+                if (outDef.offset != 0)
+                    sb.append(" offset ").append(outDef.offset);
+                if (outDef.size != 255)
+                    sb.append(" size ").append(outDef.size);
+
+                logger.info(sb.toString());
             }
     }
 

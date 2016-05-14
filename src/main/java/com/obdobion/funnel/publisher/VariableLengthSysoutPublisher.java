@@ -20,6 +20,7 @@ public class VariableLengthSysoutPublisher extends VariableLengthPublisher
     public VariableLengthSysoutPublisher(final FunnelContext _context) throws ParseException, IOException
     {
         super(_context);
+        logger.debug("variable length sysout publisher activated");
     }
 
     @Override

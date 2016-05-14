@@ -32,14 +32,14 @@ public class BasicTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
+            + " -o " + output.getAbsolutePath()
             + " --col(int -o0 -l7 -n col1)"
             + " --orderby(col1 asc)"
             + " --pow 2"
-            + " --max 3"
-            + " -o " + output.getAbsolutePath()
-                );
+            + " --max 3");
 
-        Assert.assertEquals("records", 3L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 3L, context.getRecordCount());
+        Assert.assertEquals("records", 3L, context.getWriteCount());
 
         final List<String> expectedOut = new ArrayList<>();
         expectedOut.add("1");
@@ -73,11 +73,11 @@ public class BasicTest
                 + " --orderby(col1 desc)"
                 + " --pow 2"
                 + " --max 6"
-                + " -o "
-                + output.getAbsolutePath()
+                + " -o " + output.getAbsolutePath()
                 );
 
-        Assert.assertEquals("records", 6L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 6L, context.getRecordCount());
+        Assert.assertEquals("records", 6L, context.getWriteCount());
 
         final List<String> expectedOut = new ArrayList<>();
         expectedOut.add("111");
@@ -115,11 +115,11 @@ public class BasicTest
                 + " --orderby(col1 desc)"
                 + " --pow 2"
                 + " --max 6"
-                + " -o "
-                + output.getAbsolutePath()
+                + " -o " + output.getAbsolutePath()
                 );
 
-        Assert.assertEquals("records", 6L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 6L, context.getRecordCount());
+        Assert.assertEquals("records", 6L, context.getWriteCount());
 
         final List<String> expectedOut = new ArrayList<>();
         expectedOut.add("21");

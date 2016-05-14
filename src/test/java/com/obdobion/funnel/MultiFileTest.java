@@ -40,15 +40,15 @@ public class MultiFileTest
         expectedOutput.add(in1.get(1));
         expectedOutput.add(in2.get(1));
 
-        final File file = Helper.createUnsortedFile("MultiFileTest", in1);
-        final File file2 = Helper.createUnsortedFile("MultiFileTest", in2);
+        final File file = Helper.createUnsortedFile(testName, in1);
+        final File file2 = Helper.createUnsortedFile(testName, in2);
 
-        final FunnelContext context = Funnel.sort(Helper.config(), file.getParent() + "/MultiFileTest*"
+        final FunnelContext context = Funnel.sort(Helper.config(), file.getParent() + "/" + testName + "*"
             + " -o " + output.getAbsolutePath()
-            + " --max 4 --eol CR LF --eolOut LF"
-            + Helper.DEFAULT_OPTIONS);
+            + " --max 4 --variableIn CR LF --variableOut LF");
 
-        Assert.assertEquals("records", 4L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 4L, context.getRecordCount());
+        Assert.assertEquals("records", 4L, context.getWriteCount());
         Helper.compare(output, expectedOutput);
 
         Assert.assertTrue(file.delete());
@@ -67,16 +67,15 @@ public class MultiFileTest
         out.add("line 1");
         out.add("line 2");
 
-        final File file = Helper.createUnsortedFile("twoInputFilesWithReplace", out);
-        final File file2 = Helper.createUnsortedFile("twoInputFilesWithReplace", out);
+        final File file = Helper.createUnsortedFile(testName, out);
+        final File file2 = Helper.createUnsortedFile(testName, out);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
             + ","
             + file2.getAbsolutePath()
-            + " --replace --max 2 -c original --eol CR LF --eolOut LF"
-            + Helper.DEFAULT_OPTIONS);
+            + " --replace --max 2 -c original --variableIn CR LF --variableOut LF");
 
-        Assert.assertEquals("records", 2L, context.provider.actualNumberOfRows());
+        Assert.assertEquals("records", 4L, context.getRecordCount());
         Helper.compare(file, out);
         Assert.assertTrue(file.delete());
         Assert.assertTrue(file2.delete());

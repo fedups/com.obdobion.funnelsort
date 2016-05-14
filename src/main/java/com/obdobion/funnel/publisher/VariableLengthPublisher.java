@@ -54,9 +54,11 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher, Co
             flushWritesToDisk();
         originalFile.close();
 
+        context.outputCounters(duplicateCount, writeCount);
+
         if (duplicateCount > 0)
-            logger.info(Funnel.ByteFormatter.format(duplicateCount) + " duplicate rows");
-        logger.info(Funnel.ByteFormatter.format(writeCount) + " rows written");
+            logger.debug(Funnel.ByteFormatter.format(duplicateCount) + " duplicate rows");
+        logger.debug(Funnel.ByteFormatter.format(writeCount) + " rows written");
     }
 
     void flushWritesToDisk ()
@@ -126,7 +128,7 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher, Co
          * to loose this information because it is needed to get the original
          * data.
          */
-        int originalFileNumber = item.originalInputFileIndex;
+        final int originalFileNumber = item.originalInputFileIndex;
         item.originalInputFileIndex = 0;
 
         int comparison = 0;
@@ -155,7 +157,7 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher, Co
             if (context.csv != null && context.csv.header && context.csv.headerContents != null)
             {
                 write(context.csv.headerContents, 0, context.csv.headerContents.length);
-                write(context.endOfRecordOutDelimiter, 0, context.endOfRecordOutDelimiter.length);
+                write(context.endOfRecordDelimiterOut, 0, context.endOfRecordDelimiterOut.length);
             }
         }
         /*
@@ -170,10 +172,14 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher, Co
         {
             originalBytes = new byte[item.originalSize + 1024];
         }
+        /*
+         * Make sure to delimit the current record length in the input buffer.
+         */
+        originalBytes[item.originalSize] = 0x00;
 
         originalFile.read(originalFileNumber, originalBytes, item.originalLocation, item.originalSize);
-        context.formatOutHelper.format(this, originalBytes, item);
-        write(context.endOfRecordOutDelimiter, 0, context.endOfRecordOutDelimiter.length);
+        context.formatOutHelper.format(this, originalBytes, item, true);
+        write(context.endOfRecordDelimiterOut, 0, context.endOfRecordDelimiterOut.length);
         writeCount++;
         /*
          * Return the instance for reuse.

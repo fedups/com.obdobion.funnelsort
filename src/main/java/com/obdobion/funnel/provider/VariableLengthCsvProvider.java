@@ -40,6 +40,7 @@ public class VariableLengthCsvProvider extends VariableLengthProvider
     public VariableLengthCsvProvider(final FunnelContext _context) throws IOException, ParseException
     {
         super(_context);
+        logger.debug("CSV file provider activated");
         if (_context == null || _context.inputColumnDefs == null)
             return;
         /*
@@ -67,19 +68,19 @@ public class VariableLengthCsvProvider extends VariableLengthProvider
                     : 0);
     }
 
-    public byte[][] decodeCsv (final byte[] input, final int inputLength, CSVFormat csvFormat)
+    public byte[][] decodeCsv (final byte[] input, final int inputLength, final CSVFormat csvFormat)
         throws IOException
     {
         final byte[][] field = new byte[includeColumn.length][];
 
-        CSVParser csvparser = CSVParser.parse(new String(input, 0, inputLength), csvFormat);
+        final CSVParser csvparser = CSVParser.parse(new String(input, 0, inputLength), csvFormat);
         try
         {
-            CSVRecord csvrecord = csvparser.getRecords().get(0);
-            Iterator<String> fields = csvrecord.iterator();
+            final CSVRecord csvrecord = csvparser.getRecords().get(0);
+            final Iterator<String> fields = csvrecord.iterator();
             for (int fNum = 0; fields.hasNext(); fNum++)
             {
-                String fieldAsString = fields.next();
+                final String fieldAsString = fields.next();
 
                 if (fNum >= includeColumn.length)
                     return field;
@@ -132,7 +133,7 @@ public class VariableLengthCsvProvider extends VariableLengthProvider
     }
 
     @Override
-    void preSelectionExtract (int byteCount) throws Exception
+    void preSelectionExtract (final int byteCount) throws Exception
     {
         final byte[][] data = decodeCsv(row, byteCount, context.csv.format);
         context.columnHelper.extract(context, data, recordNumber, byteCount);

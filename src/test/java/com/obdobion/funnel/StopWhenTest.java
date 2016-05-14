@@ -30,14 +30,14 @@ public class StopWhenTest
             in1.add("" + x);
         }
 
-        final File file = Helper.createUnsortedFile("stopAfter10", in1);
+        final File file = Helper.createUnsortedFile(testName, in1);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
             + " -r "
-            + " --stopWhen 'recordNumber > 1'"
-            + Helper.DEFAULT_OPTIONS);
+            + " --stopWhen 'recordNumber > 1'");
 
-        Assert.assertEquals("records", 1L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 1L, context.getRecordCount());
+        Assert.assertEquals("records", 1L, context.getWriteCount());
         final List<String> exp = new ArrayList<>();
         exp.add("10000");
         Helper.compare(file, exp);

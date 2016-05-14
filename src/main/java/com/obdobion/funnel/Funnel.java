@@ -138,6 +138,14 @@ public class Funnel
                  */
                 funnel.process();
 
+            final StringBuilder counterMsg = new StringBuilder();
+            counterMsg.append("Counters");
+            counterMsg.append(" input(").append(context.getRecordCount()).append(")");
+            counterMsg.append(" selected(").append(context.getRecordCount() - context.getUnselectedCount()).append(")");
+            counterMsg.append(" duplicates(").append(context.getDuplicateCount()).append(")");
+            counterMsg.append(" output(").append(context.getWriteCount()).append(")");
+            logger.info(counterMsg.toString());
+
             if (logger.isDebugEnabled())
             {
                 logger.debug(funnel.items.length + " funnel nodes, " + funnel.maxSorted + " rows per phase");
@@ -368,6 +376,7 @@ public class Funnel
      *
      * @throws Exception
      */
+    @SuppressWarnings("null")
     void process () throws Exception
     {
         assert context.provider != null : "provider must not be null";
@@ -488,7 +497,7 @@ public class Funnel
                 sb.append("perRow(").append(perRowNano).append(" nano)");
                 sb.append(" rowsPerSecond(").append(1000000000L / perRowNano).append(")");
             }
-            logger.info(sb.toString());
+            logger.debug(sb.toString());
 
             if (context.comparisonCounter > 0)
                 logger.debug("Average comparison count per input row: "

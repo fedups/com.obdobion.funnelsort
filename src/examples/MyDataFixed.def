@@ -6,4 +6,4 @@
 	(-n povertyAllPercent --length 4 float)
 	(-n medianHouseholdIncome --length 6 int)
 
---fixed 46
+--fixedIn 46

@@ -31,18 +31,16 @@ public class DuplicateTest
         final List<String> out = new ArrayList<>();
         out.add(in.get(0));
 
-        final File file = Helper.createUnsortedFile("dupsFirst", in);
-        final FunnelContext context = Funnel.sort(
-            Helper.config(),
-            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 130 -f10"
+        final File file = Helper.createUnsortedFile(testName, in);
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getAbsolutePath() + " -r --max 130 --fixedIn 10"
                 + "--col(String -o0,-l3 -n col1)"
                 + "--orderby(col1) "
-                + "--dup firstonly" + Helper.DEFAULT_OPTIONS);
+                + "--dup firstonly");
 
-        Assert.assertEquals("records", 130L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("dups", 129L, context.publisher.getDuplicateCount());
-        Assert.assertEquals("write", 1L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 130L, context.getRecordCount());
+        Assert.assertEquals("dups", 129L, context.getDuplicateCount());
+        Assert.assertEquals("write", 1L, context.getWriteCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -62,18 +60,16 @@ public class DuplicateTest
         final List<String> out = new ArrayList<>();
         out.add(in.get(129));
 
-        final File file = Helper.createUnsortedFile("dupsLast", in);
-        final FunnelContext context = Funnel.sort(
-            Helper.config(),
-            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 130 -f10"
+        final File file = Helper.createUnsortedFile(testName, in);
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getAbsolutePath() + " -r --max 130 --fixedIn 10"
                 + "--col(String -o0,-l3 -n col1)"
                 + "--orderby(col1) "
-                + "--dup lastonly" + Helper.DEFAULT_OPTIONS);
+                + "--dup lastonly");
 
-        Assert.assertEquals("records", 130L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("dups", 129L, context.publisher.getDuplicateCount());
-        Assert.assertEquals("write", 1L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 130L, context.getRecordCount());
+        Assert.assertEquals("dups", 129L, context.getDuplicateCount());
+        Assert.assertEquals("write", 1L, context.getWriteCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
@@ -97,18 +93,16 @@ public class DuplicateTest
             out.add("row " + (r + 1000));
         }
 
-        final File file = Helper.createUnsortedFile("dupsReverse", in);
-        final FunnelContext context = Funnel.sort(
-            Helper.config(),
-            file.getAbsolutePath() + " -o" + file.getAbsolutePath()
-                + " --max 130 -f10 "
+        final File file = Helper.createUnsortedFile(testName, in);
+        final FunnelContext context = Funnel.sort(Helper.config(),
+            file.getAbsolutePath() + " -r --max 130 --fixedIn 10 "
                 + "--col(String -o0,-l3 -n col1)"
                 + "--orderby(col1) "
-                + "--dup reverse" + Helper.DEFAULT_OPTIONS);
+                + "--dup reverse");
 
-        Assert.assertEquals("records", 130L, context.provider.actualNumberOfRows());
-        Assert.assertEquals("dups", 129L, context.publisher.getDuplicateCount());
-        Assert.assertEquals("write", 130L, context.publisher.getWriteCount());
+        Assert.assertEquals("records", 130L, context.getRecordCount());
+        Assert.assertEquals("dups", 129L, context.getDuplicateCount());
+        Assert.assertEquals("write", 130L, context.getWriteCount());
         Helper.compare(file, out);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }

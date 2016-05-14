@@ -9,3 +9,4 @@
 	(-n stateName --length 21 string)
 
 --maxRows 52
+--variableInput CR LF

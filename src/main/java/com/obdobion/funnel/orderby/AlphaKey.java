@@ -1,8 +1,10 @@
 package com.obdobion.funnel.orderby;
 
+import com.obdobion.funnel.columns.OutputFormatHelper;
+
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class AlphaKey extends KeyPart
 {
@@ -37,7 +39,7 @@ public class AlphaKey extends KeyPart
          * Delimiters at the end of strings are necessary so that unequal length
          * comparisons stop comparing rather than continue to compare into the
          * next part of the key.
-         * 
+         *
          * If the direction is DESC it is necessary to put an extra high-value
          * byte at the end of the keys so that the comparison of the generated
          * keys sorts shorter records to the end.
@@ -73,15 +75,17 @@ public class AlphaKey extends KeyPart
     }
 
     @Override
-    public Object parseObjectFromRawData (KeyContext context) throws Exception
+    public Object parseObjectFromRawData (final KeyContext context) throws Exception
     {
-        byte[] bytes = rawBytes(context);
+        final byte[] bytes = rawBytes(context);
 
         int endOffset = this.offset;
         for (; endOffset < this.offset + this.length; endOffset++)
             if (bytes.length <= endOffset || bytes[endOffset] == 0)
                 break;
 
-        return new String(rawBytes(context), this.offset, endOffset - this.offset);
+        final int rightTrimmedLength = OutputFormatHelper
+                .lengthToWrite(bytes, this.offset, endOffset - this.offset, true);
+        return new String(bytes, this.offset, rightTrimmedLength);
     }
 }

@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class DisplayIntKey extends KeyPart
 {
@@ -18,14 +18,14 @@ public class DisplayIntKey extends KeyPart
     @Override
     public void pack (final KeyContext context) throws Exception
     {
-        Long longValue = (Long) parseObjectFromRawData(context);
+        final Long longValue = (Long) parseObjectFromRawData(context);
         packObjectIntoKey(context, longValue);
 
         if (nextPart != null)
             nextPart.pack(context);
     }
 
-    public void packObjectIntoKey (final KeyContext context, Long _longValue)
+    public void packObjectIntoKey (final KeyContext context, final Long _longValue)
     {
         Long longValue = _longValue;
 
@@ -45,6 +45,7 @@ public class DisplayIntKey extends KeyPart
         context.keyLength += 8;
     }
 
+    @SuppressWarnings("null")
     @Override
     public Object parseObjectFromRawData (final KeyContext context)
     {

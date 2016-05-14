@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class BinaryIntKey extends KeyPart
 {
@@ -17,7 +17,8 @@ public class BinaryIntKey extends KeyPart
         // "Binary Integer lengths must be 1, 2, 4, or 8.";
     }
 
-    private void formatObjectIntoKey (final KeyContext context, Long _longValue)
+    @SuppressWarnings("incomplete-switch")
+    private void formatObjectIntoKey (final KeyContext context, final Long _longValue)
     {
         Long longValue = _longValue;
         if (longValue < 0)
@@ -27,7 +28,7 @@ public class BinaryIntKey extends KeyPart
         if (direction == KeyDirection.DESC || direction == KeyDirection.ADESC)
             longValue = 0 - longValue;
 
-        ByteBuffer bb = ByteBuffer.wrap(context.key, context.keyLength, 8);
+        final ByteBuffer bb = ByteBuffer.wrap(context.key, context.keyLength, 8);
 
         /*
          * Flip the sign bit so negatives are before positives in ascending
@@ -54,22 +55,23 @@ public class BinaryIntKey extends KeyPart
     @Override
     public void pack (final KeyContext context) throws Exception
     {
-        Long _longValue = (Long) parseObjectFromRawData(context);
+        final Long _longValue = (Long) parseObjectFromRawData(context);
         formatObjectIntoKey(context, _longValue);
 
         if (nextPart != null)
             nextPart.pack(context);
     }
 
+    @SuppressWarnings("incomplete-switch")
     @Override
-    public Object parseObjectFromRawData (KeyContext context) throws Exception
+    public Object parseObjectFromRawData (final KeyContext context) throws Exception
     {
         final byte[] rawBytes = rawBytes(context);
 
         if (rawBytes.length < offset + length)
             throw new Exception("index out of bounds: " + (offset + length));
 
-        ByteBuffer bb = ByteBuffer.wrap(rawBytes, offset, 8);
+        final ByteBuffer bb = ByteBuffer.wrap(rawBytes, offset, 8);
         switch (length)
         {
             case 1:

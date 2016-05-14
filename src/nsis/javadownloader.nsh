@@ -1,8 +1,8 @@
 !define CLASSPATH "sample.jar"
 !define CLASS "Sample"
  
-!define JRE_VERSION "1.7"
-!define JRE_URL "http://javadl.sun.com/webapps/download/GetFile/1.7.0_45-b18/windows-i586/xpiinstall.exe"
+!define JRE_VERSION "1.8"
+!define JRE_URL "http://javadl.sun.com/webapps/download/GetFile/1.8.0_20-b24/windows-i586/jre1.8.0_20patch64.msi"
 ; use javaw.exe to avoid dosbox.
 ; use java.exe to keep stdout/stderr
 !define JAVAEXE "javaw.exe"
