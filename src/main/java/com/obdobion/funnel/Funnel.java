@@ -145,26 +145,20 @@ public class Funnel
                  */
                 funnel.process();
 
-            final StringBuilder counterMsg = new StringBuilder();
-            counterMsg.append("Counters");
-            counterMsg.append(" input(").append(context.getRecordCount()).append(")");
-            counterMsg.append(" selected(").append(context.getRecordCount() - context.getUnselectedCount()).append(")");
-            counterMsg.append(" duplicates(").append(context.getDuplicateCount()).append(")");
-            counterMsg.append(" output(").append(context.getWriteCount()).append(")");
-            logger.info(counterMsg.toString());
+            logger.info("Counters input({}) selected({}) duplicates({}) output({})",
+                context.getRecordCount(),
+                context.getRecordCount() - context.getUnselectedCount(),
+                context.getDuplicateCount(),
+                context.getWriteCount());
 
-            if (logger.isDebugEnabled())
-            {
-                logger.debug(funnel.items.length + " funnel nodes, " + funnel.maxSorted + " rows per phase");
-                logger.debug(SourceProxyRecord.AvailableInstances.size() + " source proxies cached in core");
-
-                logger.debug(Runtime.getRuntime().availableProcessors() + " available processors");
-                logger.debug("memory used "
-                    + ByteFormatter.format(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())
-                            .trim() + " free " + ByteFormatter.format(Runtime.getRuntime().freeMemory()).trim()
-                    + " total " + ByteFormatter.format(Runtime.getRuntime().totalMemory()).trim() + " max "
-                    + ByteFormatter.format(Runtime.getRuntime().maxMemory()).trim());
-            }
+            logger.debug("{} funnel nodes, {} rows per phase", funnel.items.length, funnel.maxSorted);
+            logger.debug("{} source proxies cached in core", SourceProxyRecord.AvailableInstances.size());
+            logger.debug("{} available processors", Runtime.getRuntime().availableProcessors());
+            logger.debug("memory used({}) free({}) total({}) max({})",
+                ByteFormatter.format(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()).trim(),
+                ByteFormatter.format(Runtime.getRuntime().freeMemory()).trim(),
+                ByteFormatter.format(Runtime.getRuntime().totalMemory()).trim(),
+                ByteFormatter.format(Runtime.getRuntime().maxMemory()).trim());
 
         } catch (final Exception e)
         {
@@ -383,7 +377,6 @@ public class Funnel
      *
      * @throws Exception
      */
-    @SuppressWarnings("null")
     void process () throws Exception
     {
         assert context.provider != null : "provider must not be null";
@@ -476,40 +469,30 @@ public class Funnel
             if (passOneRowCount == 0)
                 passOneRowCount = passProvider.actualNumberOfRows();
 
-            final StringBuilder sb = new StringBuilder();
-            sb.append("pass(").append(passCount).append(")");
-            sb.append(" init(").append((passInitializedMS - passStartMS)).append("ms)");
-            sb.append(" io(").append((passEndMS - passInitializedMS)).append("ms)");
-            if (passCount == 1)
-                sb.append(" rows(");
-            else
-                sb.append(" segments(");
-            sb.append(passProvider.actualNumberOfRows()).append(")");
-            sb.append(" phases(").append(phase - 1).append(")");
-
-            logger.debug(sb.toString());
+            logger.debug("pass({}) init({}ms) io({}ms) {}({}) phases({})",
+                passCount,
+                passInitializedMS - passStartMS,
+                passEndMS - passInitializedMS,
+                (passCount == 1
+                        ? "rows"
+                        : "segments"),
+                passProvider.actualNumberOfRows(),
+                phase - 1);
         }
         if (passOneRowCount > 0)
         {
             final long perRowMS = (passEndMS - passStartMS) / passOneRowCount;
             final long perRowNano = (passEndNano - passStartNano) / passOneRowCount;
 
-            final StringBuilder sb = new StringBuilder();
             if (perRowMS > 0)
-            {
-                sb.append("perRow(").append(perRowMS).append(" ms)");
-                sb.append(" rowsPerSecond(").append(1000L / perRowNano).append(")");
-            } else
-            {
-                sb.append("perRow(").append(perRowNano).append(" nano)");
-                sb.append(" rowsPerSecond(").append(1000000000L / perRowNano).append(")");
-            }
-            logger.debug(sb.toString());
+                logger.debug("perRow({}ms)  rowsPerSecond({})", perRowMS, 1000L / perRowNano);
+            else
+                logger.debug("perRow({} nano)  rowsPerSecond({})", perRowNano, 1000000000L / perRowNano);
 
             if (context.comparisonCounter > 0)
-                logger.debug("Average comparison count per input row: "
-                    + (context.comparisonCounter / passOneRowCount)
-                    + ".  Total comparisons = " + context.comparisonCounter);
+                logger.debug("Average comparison count per input row: {}.  Total comparisons = {}",
+                    context.comparisonCounter / passOneRowCount,
+                    context.comparisonCounter);
         }
     }
 

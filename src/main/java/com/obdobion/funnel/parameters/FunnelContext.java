@@ -458,7 +458,7 @@ public class FunnelContext
     public FunnelContext(final AppContext cfg, final String... _args) throws IOException, ParseException
     {
         logger.info("================ BEGIN ===================");
-        logger.debug("Funnel " + cfg.version);
+        logger.debug("Funnel {}", cfg.version);
 
         parser = new CmdLine(null,
             "Funnel is a sort / copy / merge utility.\n\nVersion "
@@ -667,7 +667,7 @@ public class FunnelContext
         if (parser.arg("--csv").isParsed())
         {
             csv.format = csv.predefinedFormat.getFormat();
-            logger.debug("defining the CSV parser based on \"" + csv.predefinedFormat.name() + "\"");
+            logger.debug("defining the CSV parser based on \"{}\"", csv.predefinedFormat.name());
             final ICmdLine csvParser = ((CmdLineCLA) parser.arg("--csv")).templateCmdLine;
 
             if (csvParser.arg("--commentMarker").isParsed())
@@ -764,8 +764,7 @@ public class FunnelContext
                         && colDef.parseFormat.length() > 0)
                     {
                         colDef.length = colDef.parseFormat.length();
-                        logger.debug("column \"" + colDef.columnName + "\" length set to " + colDef.length
-                            + " because of format");
+                        logger.debug("column \"{}\" length set to {} because of format", colDef.columnName, colDef.length);
                     }
                     /*
                      * Compute an offset if one was not specified. But only for
@@ -979,7 +978,7 @@ public class FunnelContext
             logger.info("input is SYSIN");
         else
             for (final File file : inputFiles.files())
-                logger.info("inputFilename = " + file.getAbsolutePath());
+                logger.info("inputFilename = {}", file.getAbsolutePath());
 
         if (isCacheInput())
             if (logger.isDebugEnabled())
@@ -990,15 +989,15 @@ public class FunnelContext
         else if (isInPlaceSort())
             logger.info("outputFilename= input file name");
         else
-            logger.info("outputFilename= " + outputFile.getAbsolutePath());
+            logger.info("outputFilename= {}", outputFile.getAbsolutePath());
 
         if (isCacheWork())
             logger.debug("work files are cached in memory");
         else
-            logger.debug("work directory= " + workDirectory.getAbsolutePath());
+            logger.debug("work directory= {}", workDirectory.getAbsolutePath());
 
         if (specDirectory != null)
-            logger.debug("specification include path is " + specDirectory);
+            logger.debug("specification include path is {}", specDirectory);
 
         if (fixedRecordLengthIn > 0)
         {
@@ -1010,7 +1009,7 @@ public class FunnelContext
         } else
         {
             if (maximumNumberOfRows != Long.MAX_VALUE)
-                logger.debug("max rows= " + maximumNumberOfRows);
+                logger.debug("max rows= {}", maximumNumberOfRows);
 
             final StringBuilder bytes = new StringBuilder();
             bytes.append("in:");
@@ -1029,7 +1028,7 @@ public class FunnelContext
                 }
             }
 
-            logger.debug("End of line delimeter " + bytes.toString());
+            logger.debug("End of line delimeter {}", bytes.toString());
 
             if (csv != null)
             {
@@ -1049,44 +1048,32 @@ public class FunnelContext
             logger.debug(sb.toString());
         }
 
-        logger.debug("power   = " + depth);
+        logger.debug("power   = {}", depth);
 
         if (duplicateDisposition != DuplicateDisposition.Original)
-            logger.info("dups    = " + duplicateDisposition.name());
+            logger.info("dups    = {}", duplicateDisposition.name());
 
         for (final String colName : columnHelper.getNames())
         {
             final KeyPart col = columnHelper.get(colName);
             if (csv == null)
-                logger.debug("col \""
-                    + col.columnName
-                    + "\" "
-                    + col.typeName
-                    + " offset "
-                    + col.offset
-                    + " length "
-                    + col.length
-                    + (col.parseFormat == null
+                logger.debug("col \"{}\" {} offset {} length {} {}", col.columnName, col.typeName, col.offset, col.length,
+                    (col.parseFormat == null
                             ? ""
                             : " format " + col.parseFormat));
             else
-                logger.debug("col "
-                    + col.columnName
-                    + " "
-                    + col.typeName
-                    + " csvField "
-                    + col.csvFieldNumber
-                    + (col.parseFormat == null
+                logger.debug("col {} {} csvField {} {}", col.columnName, col.typeName, col.csvFieldNumber,
+                    (col.parseFormat == null
                             ? ""
                             : " format " + col.parseFormat));
         }
 
         if (getWhereEqu() != null)
         {
-            logger.info("where \"" + getWhereEqu().toString() + "\"");
+            logger.info("where \"{}\"", getWhereEqu().toString());
             try
             {
-                logger.trace("\n" + getWhereEqu().showRPN());
+                logger.trace("\n{}", getWhereEqu().showRPN());
             } catch (final Exception e)
             {
                 logger.warn("algebrain", e);
@@ -1095,10 +1082,10 @@ public class FunnelContext
 
         if (getStopEqu() != null)
         {
-            logger.info("stopWhen \"" + getStopEqu().toString() + "\"");
+            logger.info("stopWhen \"{}\"", getStopEqu().toString());
             try
             {
-                logger.trace("\n" + getStopEqu().showRPN());
+                logger.trace("\n{}", getStopEqu().showRPN());
             } catch (final Exception e)
             {
                 logger.warn("algebrain", e);
@@ -1106,14 +1093,11 @@ public class FunnelContext
         }
 
         if (keys == null)
-            logger.info("process = " + copyOrder.name() + " order");
+            logger.info("process = {} order", copyOrder.name());
         else
             for (final KeyPart def : keys)
             {
-                logger.info("orderBy "
-                    + def.columnName
-                    + " "
-                    + def.direction.name());
+                logger.info("orderBy {} {}", def.columnName, def.direction.name());
             }
 
         if (formatOutDefs != null)
@@ -1124,16 +1108,7 @@ public class FunnelContext
                 if (outDef.columnName != null)
                     sb.append("\"").append(outDef.columnName).append("\"");
                 if (outDef.equationInput != null)
-                {
                     sb.append("\"").append(outDef.equationInput).append("\"");
-                    try
-                    {
-                        logger.trace("\n" + outDef.equation.showRPN());
-                    } catch (final Exception e)
-                    {
-                        logger.warn("algebrain", e);
-                    }
-                }
                 if (outDef.typeName != null)
                     sb.append(" ").append(outDef.typeName.name());
                 if (outDef.format != null)
@@ -1148,6 +1123,17 @@ public class FunnelContext
                     sb.append(" size ").append(outDef.size);
 
                 logger.info(sb.toString());
+
+                if (outDef.equationInput != null)
+                {
+                    try
+                    {
+                        logger.trace("\n{}", outDef.equation.showRPN());
+                    } catch (final Exception e)
+                    {
+                        logger.warn("algebrain", e);
+                    }
+                }
             }
     }
 
