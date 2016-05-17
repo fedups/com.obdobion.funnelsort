@@ -8,7 +8,8 @@ import java.util.Enumeration;
 import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.obdobion.algebrain.Equ;
 import com.obdobion.argument.ByteCLA;
@@ -38,7 +39,7 @@ import com.obdobion.funnel.publisher.PublisherFactory;
  */
 public class FunnelContext
 {
-    static final private Logger logger = Logger.getLogger(FunnelContext.class);
+    static final private Logger logger = LoggerFactory.getLogger(FunnelContext.class);
 
     static private void defineCacheInput (
         final List<String> def)
@@ -330,6 +331,12 @@ public class FunnelContext
         def.add("-tString -k s stopWhen --var stopClause -m1 -h 'The sort will stop reading input when this equation returns TRUE.  See \"Algebrain\" for details.  Columns are used as variables in this Algebrain equation.'");
     }
 
+    static private void defineSyntaxOnly (
+        final ArrayList<String> def)
+    {
+        def.add("-tBoolean -k syntaxOnly --var syntaxOnly -h 'Check the command - will not run'");
+    }
+
     static private void defineVariableLengthIn (
         final ArrayList<String> def)
     {
@@ -440,6 +447,7 @@ public class FunnelContext
     public byte[]               endOfRecordDelimiterIn;
     public byte[]               endOfRecordDelimiterOut;
     public CSVDef               csv;
+    public boolean              syntaxOnly;
 
     public long                 comparisonCounter;
     private long                duplicateCount;
@@ -488,6 +496,7 @@ public class FunnelContext
         defineCacheInput(def);
         defineCacheWork(def);
         definePower(def);
+        defineSyntaxOnly(def);
         defineVersion(def);
 
         parser.compile(def);
@@ -599,9 +608,14 @@ public class FunnelContext
         return inputFiles != null && inputFiles.files().size() > 1;
     }
 
-    public boolean isSysin () throws ParseException, IOException
+    public boolean isSyntaxOnly ()
     {
-        return inputFiles == null || inputFiles.files().size() == 0;
+        return syntaxOnly;
+    }
+
+    public boolean isSysin ()
+    {
+        return !(parser.arg("--inputfilename").isParsed());
     }
 
     public boolean isSysout () throws ParseException, IOException
@@ -633,6 +647,7 @@ public class FunnelContext
         keyHelper = new KeyHelper();
         formatOutHelper = new OutputFormatHelper(columnHelper);
 
+        postParseInputFile();
         postParseInputColumns();
         postParseOrderBy();
         postParseFormatOut();
@@ -784,6 +799,21 @@ public class FunnelContext
                     throw new ParseException(e.getMessage(), 0);
                 }
             }
+        }
+    }
+
+    private void postParseInputFile () throws ParseException, IOException
+    {
+        if (!isSysin() && (inputFiles == null || inputFiles.files() == null || inputFiles.files().size() == 0))
+        {
+            final StringBuilder sb = new StringBuilder();
+            sb.append("file not found");
+            if (inputFiles != null)
+            {
+                sb.append(": ");
+                sb.append(inputFiles.toString());
+            }
+            throw new ParseException(sb.toString(), 0);
         }
     }
 

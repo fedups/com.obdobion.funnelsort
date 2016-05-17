@@ -18,6 +18,6 @@ public class ProviderFactory
             return new FixedLengthProvider(context);
         if (context.csv == null)
             return new VariableLengthProvider(context);
-        return new VariableLengthCsvProvider(context);
+        return new CsvProvider(context);
     }
 }

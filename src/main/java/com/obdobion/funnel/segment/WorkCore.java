@@ -5,7 +5,8 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.parameters.FunnelContext;
@@ -16,7 +17,7 @@ import com.obdobion.funnel.parameters.FunnelContext;
  */
 public class WorkCore implements WorkRepository
 {
-    static final private Logger logger               = Logger.getLogger(WorkCore.class);
+    static final private Logger logger               = LoggerFactory.getLogger(WorkCore.class);
     static final int            RecordHeaderSize     = 28;
     static final int            WriteBufferIncrement = 32768;
 

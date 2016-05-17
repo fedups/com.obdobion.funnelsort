@@ -7,7 +7,8 @@ import java.util.Iterator;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.obdobion.funnel.AppContext;
 import com.obdobion.funnel.orderby.KeyContext;
@@ -18,10 +19,10 @@ import com.obdobion.funnel.parameters.FunnelContext;
  * @author Chris DeGreef
  *
  */
-public class VariableLengthCsvProvider extends VariableLengthProvider
+public class CsvProvider extends VariableLengthProvider
 {
 
-    static final Logger _logger = Logger.getLogger(VariableLengthCsvProvider.class);
+    static final Logger _logger = LoggerFactory.getLogger(CsvProvider.class);
 
     boolean             includeColumn[];
 
@@ -31,13 +32,13 @@ public class VariableLengthCsvProvider extends VariableLengthProvider
      * @param context
      * @throws IOException
      */
-    public VariableLengthCsvProvider(final boolean _includeColumn[]) throws Exception
+    public CsvProvider(final boolean _includeColumn[]) throws Exception
     {
         this(new FunnelContext(new AppContext()));
         this.includeColumn = _includeColumn;
     }
 
-    public VariableLengthCsvProvider(final FunnelContext _context) throws IOException, ParseException
+    public CsvProvider(final FunnelContext _context) throws IOException, ParseException
     {
         super(_context);
         logger.debug("CSV file provider activated");
@@ -66,6 +67,17 @@ public class VariableLengthCsvProvider extends VariableLengthProvider
             - (context.csv.header
                     ? 1
                     : 0);
+    }
+
+    @Override
+    void assignReaderInstance () throws IOException, ParseException
+    {
+        if (context.isSysin())
+            this.reader = new CsvSysinReader(context);
+        else if (context.isCacheInput())
+            this.reader = new CsvCacheReader(context);
+        else
+            this.reader = new CsvFileReader(context);
     }
 
     public byte[][] decodeCsv (final byte[] input, final int inputLength, final CSVFormat csvFormat)

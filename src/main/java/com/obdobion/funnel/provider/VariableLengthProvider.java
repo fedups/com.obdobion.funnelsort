@@ -3,7 +3,8 @@ package com.obdobion.funnel.provider;
 import java.io.IOException;
 import java.text.ParseException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.FunnelDataProvider;
@@ -23,7 +24,7 @@ public class VariableLengthProvider implements FunnelDataProvider
 {
     private static final int MAX_VARIABLE_LENGTH_RECORD_SIZE = 1 << 13;
 
-    static final Logger      logger                          = Logger.getLogger(VariableLengthProvider.class);
+    static final Logger      logger                          = LoggerFactory.getLogger(VariableLengthProvider.class);
 
     final FunnelContext      context;
     InputReader              reader;
@@ -72,6 +73,16 @@ public class VariableLengthProvider implements FunnelDataProvider
         return recordNumber;
     }
 
+    void assignReaderInstance () throws IOException, ParseException
+    {
+        if (context.isSysin())
+            this.reader = new VariableLengthSysinReader(context);
+        else if (context.isCacheInput())
+            this.reader = new VariableLengthCacheReader(context);
+        else
+            this.reader = new VariableLengthFileReader(context);
+    }
+
     public void attachTo (
         final FunnelItem item)
     {
@@ -90,12 +101,7 @@ public class VariableLengthProvider implements FunnelDataProvider
     {
         recordNumber = unselectedCount = 0;
 
-        if (context.isSysin())
-            this.reader = new VariableLengthSysinReader(context);
-        else if (context.isCacheInput())
-            this.reader = new VariableLengthCacheReader(context);
-        else
-            this.reader = new VariableLengthFileReader(context);
+        assignReaderInstance();
     }
 
     /**
@@ -204,7 +210,7 @@ public class VariableLengthProvider implements FunnelDataProvider
 
         } catch (final Exception e)
         {
-            logger.fatal(e.getMessage(), e);
+            logger.error(e.getMessage(), e);
             throw new IOException(e.getMessage(), e);
         }
         if (byteCount == -1 || earlyEnd)

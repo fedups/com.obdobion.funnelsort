@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.text.ParseException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.obdobion.funnel.parameters.FunnelContext;
 
@@ -15,7 +16,7 @@ import com.obdobion.funnel.parameters.FunnelContext;
  */
 public class VariableLengthFileReader implements InputReader
 {
-    static final Logger logger                = Logger.getLogger(VariableLengthFileReader.class);
+    static final Logger logger                = LoggerFactory.getLogger(VariableLengthFileReader.class);
 
     static int          defaultCharBufferSize = 32768;
     final FunnelContext context;
@@ -31,7 +32,7 @@ public class VariableLengthFileReader implements InputReader
     public VariableLengthFileReader(final FunnelContext _context) throws IOException, ParseException
     {
         this(_context, defaultCharBufferSize);
-        logger.debug("variable length file provider activated");
+        logger.debug("variable length file reader activated");
     }
 
     public VariableLengthFileReader(final FunnelContext _context, final int sz) throws IOException, ParseException

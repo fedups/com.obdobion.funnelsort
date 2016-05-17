@@ -5,7 +5,8 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.Comparator;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.obdobion.argument.WildFiles;
 import com.obdobion.funnel.orderby.KeyHelper;
@@ -64,7 +65,7 @@ import com.obdobion.funnel.segment.SourceProxyRecord;
  */
 public class Funnel
 {
-    static Logger                     logger        = Logger.getLogger(Funnel.class.getName());
+    static Logger                     logger        = LoggerFactory.getLogger(Funnel.class.getName());
     static final public DecimalFormat ByteFormatter = new DecimalFormat("###,###,###,###");
     /**
      * The maximum depth is the highest (number of levels) the funnel can be.
@@ -107,6 +108,12 @@ public class Funnel
             if (context.version)
             {
                 logger.info("version check only");
+                return context;
+            }
+            if (context.isSyntaxOnly())
+            {
+                logger.info("syntax check complete, processing stopped");
+                System.out.println("Syntax only run - OK");
                 return context;
             }
 
@@ -162,9 +169,9 @@ public class Funnel
         } catch (final Exception e)
         {
             if (logger.isDebugEnabled())
-                logger.fatal(e.getMessage(), e);
+                logger.error(e.getMessage(), e);
             else
-                logger.fatal(e.getMessage());
+                logger.error(e.getMessage());
             throw e;
         } finally
         {

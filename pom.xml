@@ -3,22 +3,23 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>obdobion</groupId>
 	<artifactId>funnel</artifactId>
-	<version>1.5.13</version>
+	<version>1.5.14</version>
 	<name>funnel</name>
-    <url>https://github.com/fedup41/funnelsort</url>
-    <organization>
-        <name>Obdobion</name>
-        <url>https://github.com/fedup41</url>
-    </organization>
+	<url>https://github.com/fedup41/funnelsort</url>
+	<organization>
+		<name>Obdobion</name>
+		<url>https://github.com/fedup41</url>
+	</organization>
 
 	<properties>
 		<java.target.version>1.8</java.target.version>
 		<java.source.version>1.8</java.source.version>
 		<junit.version>4.8.1</junit.version>
 		<log4j.version>1.2.17</log4j.version>
-		<argument.version>2.3.43</argument.version>
+		<slf4j.version>1.7.13</slf4j.version>
+		<argument.version>2.3.44</argument.version>
 		<algebrain.version>1.3.4</algebrain.version>
-        <commons-codec.version>1.9</commons-codec.version>
+		<commons-codec.version>1.9</commons-codec.version>
 		<project.build.sourceEncoding>Cp1252</project.build.sourceEncoding>
 	</properties>
 
@@ -123,7 +124,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 
 	</build>
@@ -135,22 +135,35 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+			<scope>runtime</scope>
+		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
-			<scope>compile</scope>
+			<scope>runtime</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-csv</artifactId>
 			<version>1.2</version>
 		</dependency>
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>${commons-codec.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>${commons-codec.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>obdobion</groupId>
 			<artifactId>argument</artifactId>

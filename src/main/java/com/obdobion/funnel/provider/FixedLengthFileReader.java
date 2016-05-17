@@ -4,15 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class FixedLengthFileReader implements InputReader
 {
-    static final Logger logger = Logger.getLogger(FixedLengthFileReader.class);
+    static final Logger logger = LoggerFactory.getLogger(FixedLengthFileReader.class);
 
     File                inputFile;
     RandomAccessFile    reader;

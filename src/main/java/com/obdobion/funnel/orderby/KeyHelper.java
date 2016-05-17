@@ -1,17 +1,18 @@
 package com.obdobion.funnel.orderby;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.obdobion.funnel.columns.ColumnHelper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class KeyHelper
 {
-    final private static Logger logger       = Logger.getLogger(KeyHelper.class);
+    final private static Logger logger       = LoggerFactory.getLogger(KeyHelper.class);
 
     public static final int     MAX_KEY_SIZE = 255;
     final KeyContext            context;
@@ -35,15 +36,15 @@ public class KeyHelper
      * Add the key in sequence after all other keys that have already been
      * defined. This is done through a linked list of keys. Use the column
      * helper to find the definition of the key if a column name was specified.
-     * 
+     *
      * @param _formatter
      * @param columnHelper
      */
-    public void add (final KeyPart _formatter, ColumnHelper columnHelper)
+    public void add (final KeyPart _formatter, final ColumnHelper columnHelper)
     {
         if (columnHelper != null && columnHelper.exists(_formatter.columnName))
         {
-            KeyPart colDef = columnHelper.get(_formatter.columnName);
+            final KeyPart colDef = columnHelper.get(_formatter.columnName);
             _formatter.defineFrom(colDef);
         }
 
@@ -56,7 +57,7 @@ public class KeyHelper
     /**
      * It is likely that the provided data is a reusable buffer of bytes. So we
      * can't just store these bytes for later use.
-     * 
+     *
      * @param data
      * @return
      * @throws Exception
@@ -84,7 +85,7 @@ public class KeyHelper
     /**
      * Call this method for csv files that break each row up into fields (byte
      * arrays). [][].
-     * 
+     *
      * @param data
      * @param recordNumber
      * @return

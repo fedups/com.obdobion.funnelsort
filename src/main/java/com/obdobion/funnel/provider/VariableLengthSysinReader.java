@@ -3,7 +3,8 @@ package com.obdobion.funnel.provider;
 import java.io.IOException;
 import java.text.ParseException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.obdobion.funnel.parameters.FunnelContext;
 
@@ -13,12 +14,12 @@ import com.obdobion.funnel.parameters.FunnelContext;
  */
 public class VariableLengthSysinReader extends VariableLengthCacheReader
 {
-    static final private Logger _logger = Logger.getLogger(VariableLengthSysinReader.class);
+    static final private Logger _logger = LoggerFactory.getLogger(VariableLengthSysinReader.class);
 
     public VariableLengthSysinReader(final FunnelContext _context) throws IOException, ParseException
     {
         super(_context);
-        logger.debug("variable length sysin provider activated");
+        logger.debug("variable length sysin reader activated");
     }
 
     @Override

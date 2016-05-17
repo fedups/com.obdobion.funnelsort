@@ -5,18 +5,19 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class WorkFile implements WorkRepository
 {
-    static final private Logger logger           = Logger.getLogger(WorkFile.class);
+    static final private Logger logger           = LoggerFactory.getLogger(WorkFile.class);
     static final int            RecordHeaderSize = 24;
     static final int            WriteBufferSize  = 32768;
 

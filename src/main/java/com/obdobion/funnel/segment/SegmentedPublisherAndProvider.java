@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.Comparator;
 import java.util.Stack;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.obdobion.funnel.FunnelDataProvider;
 import com.obdobion.funnel.FunnelDataPublisher;
@@ -19,7 +20,7 @@ import com.obdobion.funnel.provider.EmptyProvider;
 public class SegmentedPublisherAndProvider implements FunnelDataPublisher, FunnelDataProvider
 {
 
-    static final private Logger logger   = Logger.getLogger(SegmentedPublisherAndProvider.class);
+    static final private Logger logger   = LoggerFactory.getLogger(SegmentedPublisherAndProvider.class);
 
     SourceProxyRecord           previousData;
     boolean                     provider = false;

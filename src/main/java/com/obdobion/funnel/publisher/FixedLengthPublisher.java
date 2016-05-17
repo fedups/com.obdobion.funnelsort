@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.ParseException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.obdobion.funnel.App;
 import com.obdobion.funnel.Funnel;
@@ -22,7 +23,7 @@ import com.obdobion.funnel.segment.SourceProxyRecord;
  */
 abstract public class FixedLengthPublisher implements FunnelDataPublisher, ColumnWriter
 {
-    static final private Logger logger          = Logger.getLogger(FixedLengthPublisher.class);
+    static final private Logger logger          = LoggerFactory.getLogger(FixedLengthPublisher.class);
     static final int            WriteBufferSize = 1 << 15;
 
     final FunnelContext         context;

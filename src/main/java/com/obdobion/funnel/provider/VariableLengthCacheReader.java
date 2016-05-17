@@ -5,7 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.obdobion.funnel.parameters.FunnelContext;
 
@@ -15,14 +16,14 @@ import com.obdobion.funnel.parameters.FunnelContext;
  */
 public class VariableLengthCacheReader implements InputReader
 {
-    static final Logger logger = Logger.getLogger(VariableLengthCacheReader.class);
+    static final Logger logger = LoggerFactory.getLogger(VariableLengthCacheReader.class);
 
     final FunnelContext context;
 
     public VariableLengthCacheReader(final FunnelContext _context) throws IOException, ParseException
     {
         this.context = _context;
-        logger.debug("variable length cache provider activated");
+        logger.debug("variable length cache reader activated");
         loadDataToCache();
     }
 

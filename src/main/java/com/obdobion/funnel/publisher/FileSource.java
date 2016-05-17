@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.text.ParseException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.obdobion.funnel.parameters.FunnelContext;
 
@@ -14,7 +15,7 @@ import com.obdobion.funnel.parameters.FunnelContext;
  */
 public class FileSource implements RandomAccessInputSource
 {
-    static final private Logger logger = Logger.getLogger(FileSource.class);
+    static final private Logger logger = LoggerFactory.getLogger(FileSource.class);
 
     final FunnelContext         context;
     RandomAccessFile[]          raf;

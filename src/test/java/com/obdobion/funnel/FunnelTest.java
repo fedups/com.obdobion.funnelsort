@@ -239,7 +239,14 @@ public class FunnelTest
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
-        Funnel.sort(Helper.config(), "noteverread --max 50 --fixedin 10 --col(-ndate Date -o1 -l14)");
+        try
+        {
+            Funnel.sort(Helper.config(), "noteverread --max 50 --fixedin 10 --col(-ndate Date -o1 -l14)");
+            Assert.fail("expected ParseException");
+        } catch (final ParseException e)
+        {
+            Assert.assertEquals("file not found: noteverread ", e.getMessage());
+        }
     }
 
     @Test

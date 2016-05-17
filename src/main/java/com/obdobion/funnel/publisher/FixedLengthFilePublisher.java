@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.text.ParseException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.obdobion.funnel.parameters.FunnelContext;
 
@@ -15,7 +16,7 @@ import com.obdobion.funnel.parameters.FunnelContext;
  */
 public class FixedLengthFilePublisher extends FixedLengthPublisher
 {
-    static final private Logger logger = Logger.getLogger(FixedLengthFilePublisher.class);
+    static final private Logger logger = LoggerFactory.getLogger(FixedLengthFilePublisher.class);
 
     public FixedLengthFilePublisher(final FunnelContext _context) throws ParseException, IOException
     {

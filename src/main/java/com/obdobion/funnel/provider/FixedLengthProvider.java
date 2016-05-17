@@ -3,7 +3,8 @@ package com.obdobion.funnel.provider;
 import java.io.IOException;
 import java.text.ParseException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.obdobion.funnel.App;
 import com.obdobion.funnel.Funnel;
@@ -22,7 +23,7 @@ import com.obdobion.funnel.segment.SourceProxyRecord;
  */
 public class FixedLengthProvider implements FunnelDataProvider
 {
-    static final Logger logger = Logger.getLogger(FixedLengthProvider.class);
+    static final Logger logger = LoggerFactory.getLogger(FixedLengthProvider.class);
 
     final FunnelContext context;
     InputReader         reader;
@@ -214,7 +215,7 @@ public class FixedLengthProvider implements FunnelDataProvider
             }
         } catch (final Exception e)
         {
-            logger.fatal(e.getMessage(), e);
+            logger.error(e.getMessage(), e);
             throw new IOException(e.getMessage(), e);
         }
         if (byteCount == -1 || earlyEnd)

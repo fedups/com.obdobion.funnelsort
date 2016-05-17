@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.text.ParseException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.obdobion.funnel.parameters.FunnelContext;
 
@@ -16,7 +17,7 @@ import com.obdobion.funnel.parameters.FunnelContext;
  */
 public class VariableLengthFilePublisher extends VariableLengthPublisher
 {
-    static final private Logger logger = Logger.getLogger(VariableLengthFilePublisher.class);
+    static final private Logger logger = LoggerFactory.getLogger(VariableLengthFilePublisher.class);
 
     File                        sortedTempFile;
 

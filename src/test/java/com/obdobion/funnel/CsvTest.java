@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
-import com.obdobion.funnel.provider.VariableLengthCsvProvider;
+import com.obdobion.funnel.provider.CsvProvider;
 
 /**
  * @author Chris DeGreef
@@ -264,7 +264,7 @@ public class CsvTest
 
         final byte[] csvData = "field1,field2".getBytes();
 
-        final VariableLengthCsvProvider csv = new VariableLengthCsvProvider(new boolean[]
+        final CsvProvider csv = new CsvProvider(new boolean[]
         {
             true,
             false
@@ -283,7 +283,7 @@ public class CsvTest
         Helper.initializeFor(testName);
 
         final byte[] csvData = "\" \tfield1\t , \",field2".getBytes();
-        final VariableLengthCsvProvider csv = new VariableLengthCsvProvider(new boolean[]
+        final CsvProvider csv = new CsvProvider(new boolean[]
         {
             true,
             false
@@ -301,7 +301,7 @@ public class CsvTest
         Helper.initializeFor(testName);
 
         final byte[] csvData = "\"field1,\",field2".getBytes();
-        final VariableLengthCsvProvider csv = new VariableLengthCsvProvider(new boolean[]
+        final CsvProvider csv = new CsvProvider(new boolean[]
         {
             true,
             false
@@ -319,7 +319,7 @@ public class CsvTest
         Helper.initializeFor(testName);
 
         final byte[] csvData = "field1,field2".getBytes();
-        final VariableLengthCsvProvider csv = new VariableLengthCsvProvider(new boolean[]
+        final CsvProvider csv = new CsvProvider(new boolean[]
         {
             false,
             true
@@ -337,7 +337,7 @@ public class CsvTest
         Helper.initializeFor(testName);
 
         final byte[] csvData = "\"field1,\",field2".getBytes();
-        final VariableLengthCsvProvider csv = new VariableLengthCsvProvider(new boolean[]
+        final CsvProvider csv = new CsvProvider(new boolean[]
         {
             false,
             true
@@ -610,7 +610,7 @@ public class CsvTest
         Helper.initializeFor(testName);
 
         final byte[] csvData = "\" \tfield1\t , \",field2".getBytes();
-        final VariableLengthCsvProvider csv = new VariableLengthCsvProvider(new boolean[]
+        final CsvProvider csv = new CsvProvider(new boolean[]
         {
             true,
             true

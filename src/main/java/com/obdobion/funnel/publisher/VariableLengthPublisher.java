@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.ParseException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.obdobion.funnel.App;
 import com.obdobion.funnel.Funnel;
@@ -22,7 +23,7 @@ import com.obdobion.funnel.segment.SourceProxyRecord;
  */
 abstract public class VariableLengthPublisher implements FunnelDataPublisher, ColumnWriter
 {
-    static final private Logger logger          = Logger.getLogger(VariableLengthPublisher.class);
+    static final private Logger logger          = LoggerFactory.getLogger(VariableLengthPublisher.class);
     static final int            WriteBufferSize = 1 << 15;
 
     final FunnelContext         context;
@@ -162,7 +163,7 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher, Co
         }
         /*
          * Get original data and write it to the output file.
-         * 
+         *
          * Self-healing code. Expand the size of the work buffer if a row is
          * found to exceed the current buffer size. Get a bit extra so that we
          * aren't back to this trough too often. Garbage in memory is something

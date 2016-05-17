@@ -5,15 +5,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class DateKey extends KeyPart
 {
-    static final private Logger logger           = Logger.getLogger(DateKey.class);
+    static final private Logger logger           = LoggerFactory.getLogger(DateKey.class);
 
     SimpleDateFormat            sdf;
     public long                 dateFormatErrors = 0;
@@ -23,7 +24,7 @@ public class DateKey extends KeyPart
         super();
     }
 
-    private void formatObjectIntoKey (final KeyContext context, Long _longValue)
+    private void formatObjectIntoKey (final KeyContext context, final Long _longValue)
     {
         Long longValue = _longValue;
         if (longValue < 0)
@@ -45,7 +46,7 @@ public class DateKey extends KeyPart
     @Override
     public void pack (final KeyContext context) throws Exception
     {
-        Calendar cal = (Calendar) parseObjectFromRawData(context);
+        final Calendar cal = (Calendar) parseObjectFromRawData(context);
         formatObjectIntoKey(context, cal.getTimeInMillis());
 
         if (nextPart != null)
@@ -53,9 +54,9 @@ public class DateKey extends KeyPart
     }
 
     @Override
-    public Object parseObjectFromRawData (KeyContext context)
+    public Object parseObjectFromRawData (final KeyContext context)
     {
-        Calendar calendar = Calendar.getInstance();
+        final Calendar calendar = Calendar.getInstance();
 
         final byte[] rawBytes = rawBytes(context);
 

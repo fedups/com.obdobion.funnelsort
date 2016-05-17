@@ -67,7 +67,7 @@ public class WhereTest
 
         try
         {
-            Funnel.sort(Helper.config(), "*.notFound"
+            Funnel.sort(Helper.config(), "*"
                 + " --col(int -o0 -l5 -n field1)"
                 + " --col(int -o5 -l5 -n field2)"
                 + " --where '(field1 != field2)'"

@@ -4,7 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.obdobion.algebrain.Equ;
 import com.obdobion.funnel.orderby.KeyContext;
@@ -17,7 +18,7 @@ import com.obdobion.funnel.segment.SourceProxyRecord;
  */
 public class OutputFormatHelper
 {
-    final private static Logger logger          = Logger.getLogger(OutputFormatHelper.class);
+    final private static Logger logger          = LoggerFactory.getLogger(OutputFormatHelper.class);
 
     public static final int     MAX_OUTPUT_SIZE = 4096;
 
