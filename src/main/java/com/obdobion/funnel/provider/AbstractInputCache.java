@@ -17,9 +17,9 @@ import com.obdobion.funnel.publisher.RandomAccessInputSource;
  * @author Chris DeGreef
  *
  */
-public class InputCache implements RandomAccessInputSource
+abstract public class AbstractInputCache implements RandomAccessInputSource
 {
-    static final private Logger logger     = LoggerFactory.getLogger(InputCache.class);
+    static final private Logger logger     = LoggerFactory.getLogger(AbstractInputCache.class);
 
     static final int            BufferSize = 1 << 15;
 
@@ -71,7 +71,7 @@ public class InputCache implements RandomAccessInputSource
 
     long                   length;
 
-    public InputCache(
+    public AbstractInputCache(
             final FunnelContext _context, final InputStream _source)
             throws IOException
     {
@@ -88,6 +88,8 @@ public class InputCache implements RandomAccessInputSource
 
         logger.debug(sourceBuffersSize + " buffers loaded into memory");
         logger.debug(length() + " bytes total in all buffers");
+
+        postOpenVerification();
 
         currentFilePosition = 0L;
         currentBufferIndex = 0;
@@ -173,6 +175,8 @@ public class InputCache implements RandomAccessInputSource
     {
         return currentFilePosition;
     }
+
+    abstract void postOpenVerification () throws IOException;
 
     /**
      * This method should not be called if there are no bytes available. Use

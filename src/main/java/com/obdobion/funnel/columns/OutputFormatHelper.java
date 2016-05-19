@@ -53,7 +53,7 @@ public class OutputFormatHelper
 
     public OutputFormatHelper(final ColumnHelper _columnHelper, final int maxsize)
     {
-        logger.debug("maximum output record length is " + MAX_OUTPUT_SIZE);
+        logger.debug("maximum output record length is {}", MAX_OUTPUT_SIZE);
 
         maxRecordBytes = maxsize;
         context = new KeyContext();
@@ -125,12 +125,13 @@ public class OutputFormatHelper
     public void format (
         final ColumnWriter writer,
         final byte[] originalData,
+        final int dataSize,
         final SourceProxyRecord proxyRecord,
         final boolean rightTrim) throws Exception
     {
         if (formatter == null)
         {
-            final int lengthToWrite = lengthToWrite(originalData, 0, proxyRecord.originalSize, rightTrim);
+            final int lengthToWrite = lengthToWrite(originalData, 0, dataSize, rightTrim);
             writer.write(originalData, 0, lengthToWrite);
             return;
         }

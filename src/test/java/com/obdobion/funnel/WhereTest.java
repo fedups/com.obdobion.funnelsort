@@ -29,7 +29,7 @@ public class WhereTest
         in1.add("07/09/2010 10:59:47 07/09/2010 00:00:00 0080                                    "
             + "10B0000001023080400000QQO       Tumber Hull L lc            1519     M0000033333");
 
-        final File file = Helper.createUnsortedFile(testName, in1);
+        final File file = Helper.createUnsortedFile(testName, in1, false);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
             + " --fixedIn 80"

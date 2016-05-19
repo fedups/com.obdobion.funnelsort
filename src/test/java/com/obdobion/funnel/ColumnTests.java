@@ -79,7 +79,8 @@ public class ColumnTests
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
             + " --col(string -o2 -l5 -n level)"
-            + " --where \"(rtrim(level) = 'INFO')\"");
+            + " --where \"(rtrim(level) = 'INFO')\""
+                );
 
         Assert.assertEquals("records", 1L, context.getWriteCount());
 

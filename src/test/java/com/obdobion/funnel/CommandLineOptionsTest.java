@@ -22,13 +22,13 @@ public class CommandLineOptionsTest
         Helper.initializeFor(testName);
 
         ctx = new FunnelContext(Helper.config());
-        Assert.assertFalse("default cacheInput", ctx.cacheInput);
+        Assert.assertFalse("default cacheInput", ctx.noCacheInput);
 
-        ctx = new FunnelContext(Helper.config(), "--cacheI");
-        Assert.assertTrue("cacheInput", ctx.cacheInput);
+        ctx = new FunnelContext(Helper.config(), "--nocache");
+        Assert.assertTrue("cacheInput", ctx.noCacheInput);
 
-        ctx = new FunnelContext(Helper.config(), "-!cacheI");
-        Assert.assertFalse("cacheInput", ctx.cacheInput);
+        ctx = new FunnelContext(Helper.config(), "-!nocache");
+        Assert.assertFalse("cacheInput", ctx.noCacheInput);
     }
 
     @Test

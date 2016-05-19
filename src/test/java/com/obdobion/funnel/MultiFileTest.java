@@ -44,6 +44,7 @@ public class MultiFileTest
         final File file2 = Helper.createUnsortedFile(testName, in2);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getParent() + "/" + testName + "*"
+            + " --nocacheinput"
             + " -o " + output.getAbsolutePath()
             + " --max 4 --variableIn CR LF --variableOut LF");
 

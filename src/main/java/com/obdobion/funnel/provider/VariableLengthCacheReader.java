@@ -43,7 +43,7 @@ public class VariableLengthCacheReader implements InputReader
     void loadDataToCache () throws IOException, ParseException
     {
         final FileInputStream inputStream = new FileInputStream(context.getInputFile(context.inputFileIndex()));
-        context.inputCache = new InputCache(context, inputStream);
+        context.inputCache = new VariableLengthInputCache(context, inputStream);
         inputStream.close();
         logger.debug("loaded " + context.getInputFile(context.inputFileIndex()).getAbsolutePath());
     }
@@ -65,6 +65,11 @@ public class VariableLengthCacheReader implements InputReader
     {
         if (context.inputCache.eof())
             return -1;
+        /*
+         * Clear the row before reading.
+         */
+        for (int b = 0; b < row.length; b++)
+            row[b] = 0x00;
 
         int rowNextPointer = 0;
         int sepNextPointer = 0;

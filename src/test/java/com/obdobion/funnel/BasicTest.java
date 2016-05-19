@@ -69,6 +69,7 @@ public class BasicTest
         final File file2 = Helper.createUnsortedFile(testName + "2", in1);
         final FunnelContext context = Funnel.sort(Helper.config(),
             file1.getAbsolutePath() + " " + file2.getAbsolutePath()
+                + " --nocacheinput"
                 + " --col(int -o0 -l3 -n col1)"
                 + " --orderby(col1 desc)"
                 + " --pow 2"
@@ -111,6 +112,7 @@ public class BasicTest
         final File file2 = Helper.createUnsortedFile(testName + "2", in1);
         final FunnelContext context = Funnel.sort(Helper.config(),
             file1.getAbsolutePath() + " " + file2.getAbsolutePath()
+                + " --nocacheinput"
                 + " --col(String -o0 -l3 -n col1)"
                 + " --orderby(col1 desc)"
                 + " --pow 2"

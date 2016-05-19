@@ -8,6 +8,7 @@
 		<param name="File" value="!{APPDATA}/Obdobion/Funnel/funnel.log"/>
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d %-5p (%x) %m%n" />
+            <!-- param name="ConversionPattern" value="%d %-5p (%x) %m [%C{1}:%L]%n" /-->
 		</layout>
 	</appender>
 

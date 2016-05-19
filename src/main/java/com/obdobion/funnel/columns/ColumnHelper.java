@@ -32,7 +32,7 @@ public class ColumnHelper
 
     public ColumnHelper(final int maxsize)
     {
-        logger.debug("maximum column length is " + MAX_COLUMN_SIZE);
+        logger.debug("maximum column length is {}", MAX_COLUMN_SIZE);
 
         maxKeyBytes = maxsize;
         context = new KeyContext();
@@ -150,8 +150,11 @@ public class ColumnHelper
 
             } catch (final Exception e)
             {
-                logger.warn(e.getClass().getSimpleName() + " " + e.getMessage() + " on record number "
-                    + (recordNumber + 1));
+                logger.warn("\"{}\" {} {} on record number {}",
+                    col.columnName,
+                    e.getClass().getSimpleName(),
+                    e.getMessage(),
+                    (recordNumber + 1));
             }
         }
         final Long rn = new Long(recordNumber + 1);

@@ -29,7 +29,7 @@ import com.obdobion.funnel.orderby.KeyDirection;
 import com.obdobion.funnel.orderby.KeyHelper;
 import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.orderby.KeyType;
-import com.obdobion.funnel.provider.InputCache;
+import com.obdobion.funnel.provider.AbstractInputCache;
 import com.obdobion.funnel.provider.ProviderFactory;
 import com.obdobion.funnel.publisher.PublisherFactory;
 
@@ -44,7 +44,7 @@ public class FunnelContext
     static private void defineCacheInput (
         final List<String> def)
     {
-        def.add("-tBoolean -k cacheInput --var cacheInput --def false -h 'Read the input file into memory.  This saves reading it again on multipass sorts.  The amount of memory required to hold the input file in core is equal to the size of the file.'");
+        def.add("-tBoolean -k noCacheInput --var noCacheInput --def false -h 'Caching the input file into memory is faster.  This will turn off the feature.'");
     }
 
     static private void defineCacheWork (
@@ -372,7 +372,9 @@ public class FunnelContext
     static private void defineWorkDirectory (
         final ArrayList<String> def)
     {
-        def.add("-tFile -k workDirectory --var workDirectory --case --def /tmp -h 'The directory where temp files will be handled.'");
+        def.add("-tFile -k workDirectory --var workDirectory --case --def "
+            + System.getProperty("java.io.tmpdir")
+            + " -h 'The directory where temp files will be handled.'");
     }
 
     static private void showSystemParameters ()
@@ -395,17 +397,17 @@ public class FunnelContext
             {
                 final byte[] ls = System.getProperties().getProperty(name).getBytes();
                 if (ls.length == 1)
-                    logger.debug("JVM: " + name + "=" + ls[0]);
+                    logger.debug("JVM: {}={}", name, ls[0]);
                 else
-                    logger.debug("JVM: " + name + "=" + ls[0] + " " + ls[1]);
+                    logger.debug("JVM: {}={} {}", name, ls[0], ls[1]);
                 continue;
             }
             if ("java.version".equalsIgnoreCase(name))
             {
-                logger.debug("Java version: " + System.getProperties().getProperty(name));
+                logger.debug("Java version: {}", System.getProperties().getProperty(name));
                 continue;
             }
-            logger.trace("JVM: " + name + "=" + System.getProperties().getProperty(name));
+            logger.trace("JVM: {}={}", name, System.getProperties().getProperty(name));
         }
     }
 
@@ -438,8 +440,8 @@ public class FunnelContext
     public boolean              version;
     public FunnelDataProvider   provider;
     public FunnelDataPublisher  publisher;
-    public InputCache           inputCache;
-    public boolean              cacheInput;
+    public AbstractInputCache           inputCache;
+    public boolean              noCacheInput;
     public boolean              diskWork;
     public KeyHelper            keyHelper;
     public OutputFormatHelper   formatOutHelper;
@@ -507,7 +509,7 @@ public class FunnelContext
             return;
         if (version)
         {
-            logger.info("version " + cfg.version);
+            logger.info("version {}", cfg.version);
             System.out.println("Funnel " + cfg.version);
             return;
         }
@@ -590,7 +592,7 @@ public class FunnelContext
 
     public boolean isCacheInput ()
     {
-        return cacheInput;
+        return !noCacheInput;
     }
 
     public boolean isCacheWork ()
@@ -981,8 +983,7 @@ public class FunnelContext
                 logger.info("inputFilename = {}", file.getAbsolutePath());
 
         if (isCacheInput())
-            if (logger.isDebugEnabled())
-                logger.info("input caching enabled");
+            logger.debug("input caching enabled");
 
         if (isSysout())
             logger.info("output is SYSOUT");
@@ -1057,12 +1058,14 @@ public class FunnelContext
         {
             final KeyPart col = columnHelper.get(colName);
             if (csv == null)
-                logger.debug("col \"{}\" {} offset {} length {} {}", col.columnName, col.typeName, col.offset, col.length,
+                logger.debug("col \"{}\" {} offset {} length {} {}",
+                    col.columnName, col.typeName, col.offset, col.length,
                     (col.parseFormat == null
                             ? ""
                             : " format " + col.parseFormat));
             else
-                logger.debug("col {} {} csvField {} {}", col.columnName, col.typeName, col.csvFieldNumber,
+                logger.debug("col {} {} csvField {} {}",
+                    col.columnName, col.typeName, col.csvFieldNumber,
                     (col.parseFormat == null
                             ? ""
                             : " format " + col.parseFormat));

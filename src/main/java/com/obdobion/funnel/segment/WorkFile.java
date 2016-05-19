@@ -18,7 +18,7 @@ import com.obdobion.funnel.parameters.FunnelContext;
 public class WorkFile implements WorkRepository
 {
     static final private Logger logger           = LoggerFactory.getLogger(WorkFile.class);
-    static final int            RecordHeaderSize = 24;
+    static final int            RecordHeaderSize = 28;
     static final int            WriteBufferSize  = 32768;
 
     final FunnelContext         context;

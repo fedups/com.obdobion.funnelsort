@@ -1,6 +1,7 @@
 package com.obdobion.funnel.orderby;
 
 import java.nio.ByteBuffer;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,10 +15,9 @@ import org.slf4j.LoggerFactory;
  */
 public class DateKey extends KeyPart
 {
-    static final private Logger logger           = LoggerFactory.getLogger(DateKey.class);
+    static final private Logger logger = LoggerFactory.getLogger(DateKey.class);
 
     SimpleDateFormat            sdf;
-    public long                 dateFormatErrors = 0;
 
     public DateKey()
     {
@@ -54,7 +54,7 @@ public class DateKey extends KeyPart
     }
 
     @Override
-    public Object parseObjectFromRawData (final KeyContext context)
+    public Object parseObjectFromRawData (final KeyContext context) throws ParseException
     {
         final Calendar calendar = Calendar.getInstance();
 
@@ -69,18 +69,10 @@ public class DateKey extends KeyPart
 
         if (trimmed.length() > 0)
         {
-            try
-            {
-                if (sdf == null)
-                    sdf = new SimpleDateFormat(parseFormat);
-                final Date date = sdf.parse(trimmed);
-                longValue = date.getTime();
-            } catch (final Exception e)
-            {
-                if (dateFormatErrors == 0)
-                    logger.warn("date format errors: " + trimmed);
-                dateFormatErrors++;
-            }
+            if (sdf == null)
+                sdf = new SimpleDateFormat(parseFormat);
+            final Date date = sdf.parse(trimmed);
+            longValue = date.getTime();
         }
         calendar.setTimeInMillis(longValue);
         return calendar;

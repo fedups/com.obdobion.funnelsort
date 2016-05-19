@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>obdobion</groupId>
 	<artifactId>funnel</artifactId>
-	<version>1.5.14</version>
+	<version>1.5.15</version>
 	<name>funnel</name>
 	<url>https://github.com/fedup41/funnelsort</url>
 	<organization>
@@ -145,13 +145,13 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j.version}</version>
-			<scope>runtime</scope>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
-			<scope>runtime</scope>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>

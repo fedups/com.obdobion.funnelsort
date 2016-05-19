@@ -46,6 +46,7 @@ public class BigTest
 
         final FunnelContext context = Funnel.sort(Helper.config(),
             file.getParentFile().getAbsolutePath() + "/multipleInputFiles* "
+                + " --nocacheinput"
                 + " --col(int -o0 -l7 -n col1)"
                 + " --orderby(col1 desc)"
                 + " -o " + output.getAbsolutePath()

@@ -41,18 +41,26 @@ public class FormatTests
         key.direction = KeyDirection.ASC;
         key.parseFormat = "yyyy-MM-dd";
         final KeyContext kx = Helper.dummyKeyContext(" 1960-04-a");
-        key.pack(kx);
-        verifyFormatted(new byte[]
+        try
         {
-            -128,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-        }, kx);
+            key.pack(kx);
+            verifyFormatted(new byte[]
+            {
+                -128,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            }, kx);
+            Assert.fail("ParseException was expected");
+        } catch (final Exception e)
+        {
+            Assert.assertEquals("Unparseable date: \"1960-04-a\"", e.getMessage());
+        }
+
     }
 
     @Test

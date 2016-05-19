@@ -25,7 +25,7 @@ public class FixedLengthSysinReader extends FixedLengthCacheReader
     @Override
     void loadDataToCache () throws IOException
     {
-        context.inputCache = new InputCache(context, System.in);
+        context.inputCache = new FixedLengthInputCache(context, System.in);
         System.in.close();
         _logger.debug("loaded SYSIN");
     }

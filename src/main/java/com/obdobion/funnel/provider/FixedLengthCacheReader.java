@@ -44,7 +44,7 @@ public class FixedLengthCacheReader implements InputReader
     void loadDataToCache () throws IOException, ParseException
     {
         final FileInputStream inputStream = new FileInputStream(context.getInputFile(context.inputFileIndex()));
-        context.inputCache = new InputCache(context, inputStream);
+        context.inputCache = new FixedLengthInputCache(context, inputStream);
         inputStream.close();
         logger.debug("loaded " + context.getInputFile(context.inputFileIndex()).getAbsolutePath());
     }

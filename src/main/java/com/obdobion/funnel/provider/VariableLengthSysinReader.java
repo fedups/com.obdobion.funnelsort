@@ -25,7 +25,7 @@ public class VariableLengthSysinReader extends VariableLengthCacheReader
     @Override
     void loadDataToCache () throws IOException
     {
-        context.inputCache = new InputCache(context, System.in);
+        context.inputCache = new VariableLengthInputCache(context, System.in);
         System.in.close();
         _logger.debug("loaded SYSIN");
     }

@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
-import com.obdobion.funnel.provider.InputCache;
+import com.obdobion.funnel.provider.AbstractInputCache;
 
 /**
  * @author Chris DeGreef
@@ -45,9 +45,9 @@ public class InputCacheTests
             32768
         };
 
-        Assert.assertEquals(0, InputCache.findBufferIndexForPosition(32767, bufStarts));
-        Assert.assertEquals(1, InputCache.findBufferIndexForPosition(32768, bufStarts));
-        Assert.assertEquals(1, InputCache.findBufferIndexForPosition(32846, bufStarts));
+        Assert.assertEquals(0, AbstractInputCache.findBufferIndexForPosition(32767, bufStarts));
+        Assert.assertEquals(1, AbstractInputCache.findBufferIndexForPosition(32768, bufStarts));
+        Assert.assertEquals(1, AbstractInputCache.findBufferIndexForPosition(32846, bufStarts));
     }
 
     @Test
@@ -65,13 +65,13 @@ public class InputCacheTests
             30
         };
 
-        Assert.assertEquals(0, InputCache.findBufferIndexForPosition(0, bufStarts));
-        Assert.assertEquals(0, InputCache.findBufferIndexForPosition(9, bufStarts));
-        Assert.assertEquals(1, InputCache.findBufferIndexForPosition(10, bufStarts));
-        Assert.assertEquals(1, InputCache.findBufferIndexForPosition(19, bufStarts));
-        Assert.assertEquals(2, InputCache.findBufferIndexForPosition(20, bufStarts));
-        Assert.assertEquals(2, InputCache.findBufferIndexForPosition(29, bufStarts));
-        Assert.assertEquals(3, InputCache.findBufferIndexForPosition(30, bufStarts));
+        Assert.assertEquals(0, AbstractInputCache.findBufferIndexForPosition(0, bufStarts));
+        Assert.assertEquals(0, AbstractInputCache.findBufferIndexForPosition(9, bufStarts));
+        Assert.assertEquals(1, AbstractInputCache.findBufferIndexForPosition(10, bufStarts));
+        Assert.assertEquals(1, AbstractInputCache.findBufferIndexForPosition(19, bufStarts));
+        Assert.assertEquals(2, AbstractInputCache.findBufferIndexForPosition(20, bufStarts));
+        Assert.assertEquals(2, AbstractInputCache.findBufferIndexForPosition(29, bufStarts));
+        Assert.assertEquals(3, AbstractInputCache.findBufferIndexForPosition(30, bufStarts));
     }
 
     @Test
@@ -87,13 +87,13 @@ public class InputCacheTests
             10
         };
 
-        Assert.assertEquals(0, InputCache.findBufferIndexForPosition(0, bufStarts));
-        Assert.assertEquals(0, InputCache.findBufferIndexForPosition(9, bufStarts));
-        Assert.assertEquals(1, InputCache.findBufferIndexForPosition(10, bufStarts));
-        Assert.assertEquals(1, InputCache.findBufferIndexForPosition(19, bufStarts));
-        Assert.assertEquals(1, InputCache.findBufferIndexForPosition(20, bufStarts));
-        Assert.assertEquals(1, InputCache.findBufferIndexForPosition(29, bufStarts));
-        Assert.assertEquals(1, InputCache.findBufferIndexForPosition(30, bufStarts));
+        Assert.assertEquals(0, AbstractInputCache.findBufferIndexForPosition(0, bufStarts));
+        Assert.assertEquals(0, AbstractInputCache.findBufferIndexForPosition(9, bufStarts));
+        Assert.assertEquals(1, AbstractInputCache.findBufferIndexForPosition(10, bufStarts));
+        Assert.assertEquals(1, AbstractInputCache.findBufferIndexForPosition(19, bufStarts));
+        Assert.assertEquals(1, AbstractInputCache.findBufferIndexForPosition(20, bufStarts));
+        Assert.assertEquals(1, AbstractInputCache.findBufferIndexForPosition(29, bufStarts));
+        Assert.assertEquals(1, AbstractInputCache.findBufferIndexForPosition(30, bufStarts));
     }
 
     @Test
@@ -177,7 +177,7 @@ public class InputCacheTests
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
-        Funnel.sort(Helper.config(), "--cacheInput");
+        Funnel.sort(Helper.config());
 
         outputStream.flush();
         outputStream.close();

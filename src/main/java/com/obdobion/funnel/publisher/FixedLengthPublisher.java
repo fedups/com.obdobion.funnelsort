@@ -40,7 +40,7 @@ abstract public class FixedLengthPublisher implements FunnelDataPublisher, Colum
     public FixedLengthPublisher(final FunnelContext _context) throws ParseException, IOException
     {
         this.context = _context;
-        this.originalBytes = new byte[_context.fixedRecordLengthOut];
+        this.originalBytes = new byte[Math.max(_context.fixedRecordLengthOut, _context.fixedRecordLengthIn)];
 
         initialize();
 
@@ -162,7 +162,8 @@ abstract public class FixedLengthPublisher implements FunnelDataPublisher, Colum
             originalBytes[b] = ' ';
 
         originalFile.read(originalFileNumber, originalBytes, item.originalLocation, item.originalSize);
-        context.formatOutHelper.format(this, originalBytes, item, false);
+        context.formatOutHelper
+                .format(this, originalBytes, context.fixedRecordLengthOut, item, false);
         writeCount++;
         /*
          * Return the instance for reuse.
@@ -188,12 +189,10 @@ abstract public class FixedLengthPublisher implements FunnelDataPublisher, Colum
         final int length)
         throws IOException
     {
-        final int sizeThisTime = length;
-
-        if (sizeThisTime + bb.position() >= WriteBufferSize)
+        if (length + bb.position() >= WriteBufferSize)
         {
             flushWritesToDisk();
         }
-        bb.put(_originalBytes);
+        bb.put(_originalBytes, offset, length);
     }
 }

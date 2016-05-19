@@ -32,21 +32,22 @@ public class FixedLengthFilePublisher extends FixedLengthPublisher
         ((RandomAccessFile) writer).close();
 
         if (context.outputFile.delete())
-            logger.debug("deleted " + context.outputFile.getAbsolutePath());
+            logger.debug("deleted {}", context.outputFile.getAbsolutePath());
 
         if (!sortedTempFile.renameTo(context.outputFile))
             throw new IOException("failed to rename " + sortedTempFile.getAbsolutePath() + " to "
                 + context.outputFile.getAbsolutePath());
 
-        logger.debug("renamed " + sortedTempFile.getAbsolutePath() + " to " + context.outputFile.getAbsolutePath());
+        logger.debug("renamed {} to {}", sortedTempFile.getAbsolutePath(), context.outputFile.getAbsolutePath());
     }
 
     @Override
     void openOutput (final FunnelContext context2) throws IOException
     {
-        sortedTempFile = File.createTempFile("Sorted.", ".tmp", context.outputFile.getParentFile());
+        sortedTempFile = File.createTempFile("Sorted.", ".tmp", context.outputFile.getAbsoluteFile().getParentFile());
+        sortedTempFile.deleteOnExit();
         this.writer = new RandomAccessFile(sortedTempFile, "rw");
 
-        logger.debug("writing " + sortedTempFile.getAbsolutePath());
+        logger.debug("writing {}", sortedTempFile.getAbsolutePath());
     }
 }
