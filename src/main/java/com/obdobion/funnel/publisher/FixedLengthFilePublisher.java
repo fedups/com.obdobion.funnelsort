@@ -18,6 +18,8 @@ public class FixedLengthFilePublisher extends FixedLengthPublisher
 {
     static final private Logger logger = LoggerFactory.getLogger(FixedLengthFilePublisher.class);
 
+    File                        sortedTempFile;
+
     public FixedLengthFilePublisher(final FunnelContext _context) throws ParseException, IOException
     {
         super(_context);
@@ -25,7 +27,7 @@ public class FixedLengthFilePublisher extends FixedLengthPublisher
     }
 
     @Override
-    public void close () throws IOException, ParseException
+    public void close () throws Exception
     {
         super.close();
 
@@ -35,7 +37,9 @@ public class FixedLengthFilePublisher extends FixedLengthPublisher
             logger.debug("deleted {}", context.outputFile.getAbsolutePath());
 
         if (!sortedTempFile.renameTo(context.outputFile))
-            throw new IOException("failed to rename " + sortedTempFile.getAbsolutePath() + " to "
+            throw new IOException("failed to rename "
+                + sortedTempFile.getAbsolutePath()
+                + " to "
                 + context.outputFile.getAbsolutePath());
 
         logger.debug("renamed {} to {}", sortedTempFile.getAbsolutePath(), context.outputFile.getAbsolutePath());

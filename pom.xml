@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>obdobion</groupId>
 	<artifactId>funnel</artifactId>
-	<version>1.5.16</version>
+	<version>1.5.17</version>
 	<name>funnel</name>
 	<url>https://github.com/fedup41/funnelsort</url>
 	<organization>

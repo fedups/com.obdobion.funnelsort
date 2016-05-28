@@ -25,7 +25,7 @@ public class FixedLengthSysoutPublisher extends FixedLengthPublisher
     }
 
     @Override
-    public void close () throws IOException, ParseException
+    public void close () throws Exception
     {
         super.close();
         ((DataOutputStream) writer).close();
