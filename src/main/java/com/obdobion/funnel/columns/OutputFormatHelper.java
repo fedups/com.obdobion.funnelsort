@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.obdobion.algebrain.Equ;
+import com.obdobion.funnel.aggregation.Aggregate;
 import com.obdobion.funnel.orderby.KeyContext;
 import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.segment.SourceProxyRecord;
@@ -44,7 +45,7 @@ public class OutputFormatHelper
 
     List<FormatPart>   columns;
 
-    Equ[]              referencesToallOutputFormatEquations;
+    Equ[]              referencesToAllOutputFormatEquations;
 
     public OutputFormatHelper(final ColumnHelper _columnHelper)
     {
@@ -146,8 +147,11 @@ public class OutputFormatHelper
         /*
          * Cache the variable values into all related equations ahead of need.
          */
-        if (referencesToallOutputFormatEquations == null)
+        if (referencesToAllOutputFormatEquations == null)
         {
+            /*
+             * First count all of the equations so we can make an array.
+             */
             int equationCount = 0;
             FormatPart formatPart = formatter;
             while (formatPart != null)
@@ -156,29 +160,59 @@ public class OutputFormatHelper
                     equationCount++;
                 formatPart = formatPart.nextPart;
             }
-            referencesToallOutputFormatEquations = new Equ[equationCount];
+            if (proxyRecord.getFunnelContext().isAggregating())
+            {
+                /*
+                 * Also count all of the aggregate equations because they are
+                 * considered to be output functions.
+                 */
+                for (final Aggregate agg : proxyRecord.getFunnelContext().aggregates)
+                {
+                    if (agg.equation != null)
+                        equationCount++;
+                }
+            }
+            referencesToAllOutputFormatEquations = new Equ[equationCount];
             equationCount = 0;
             formatPart = formatter;
             while (formatPart != null)
             {
                 if (formatPart.equation != null)
                 {
-                    referencesToallOutputFormatEquations[equationCount] = formatPart.equation;
+                    referencesToAllOutputFormatEquations[equationCount] = formatPart.equation;
                     equationCount++;
                 }
                 formatPart = formatPart.nextPart;
             }
+            if (proxyRecord.getFunnelContext().isAggregating())
+            {
+                /*
+                 * Also include all of the aggregate equations because they are
+                 * considered to be output functions.
+                 */
+                for (final Aggregate agg : proxyRecord.getFunnelContext().aggregates)
+                {
+                    if (agg.equation != null)
+                        referencesToAllOutputFormatEquations[equationCount++] = agg.equation;
+                }
+            }
         }
         /*
          * Just to get the variables in the equation loaded from the original
-         * record
+         * record. This loading the column values into the aggregate equations
+         * too.
          */
         proxyRecord.getFunnelContext().columnHelper.extract(
             proxyRecord.getFunnelContext(),
             context.rawRecordBytes[0],
             context.recordNumber,
             context.rawRecordBytes[0].length,
-            referencesToallOutputFormatEquations);
+            referencesToAllOutputFormatEquations);
+        /*
+         * In order to get the aggregate values into the format equations they
+         * will also be needlessly loaded back into the aggregate equations too.
+         */
+        Aggregate.loadValues(proxyRecord.getFunnelContext(), referencesToAllOutputFormatEquations);
     }
 
 }

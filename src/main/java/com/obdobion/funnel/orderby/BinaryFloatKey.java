@@ -8,6 +8,8 @@ import java.nio.ByteBuffer;
  */
 public class BinaryFloatKey extends KeyPart
 {
+    Double contents;
+
     public BinaryFloatKey()
     {
         super();
@@ -62,10 +64,34 @@ public class BinaryFloatKey extends KeyPart
     }
 
     @Override
+    public Object getContents ()
+    {
+        return contents;
+    }
+
+    @Override
+    public double getContentsAsDouble ()
+    {
+        return contents;
+    }
+
+    @Override
+    public boolean isFloat ()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isNumeric ()
+    {
+        return true;
+    }
+
+    @Override
     public void pack (final KeyContext _context) throws Exception
     {
-        final Double _doubleValue = (Double) parseObjectFromRawData(_context);
-        formatObjectIntoKey(_context, _doubleValue);
+        parseObjectFromRawData(_context);
+        formatObjectIntoKey(_context, contents);
 
         if (nextPart != null)
             nextPart.pack(_context);
@@ -73,7 +99,7 @@ public class BinaryFloatKey extends KeyPart
 
     @SuppressWarnings("incomplete-switch")
     @Override
-    public Object parseObjectFromRawData (final KeyContext context) throws Exception
+    public void parseObjectFromRawData (final KeyContext context) throws Exception
     {
         final byte[] rawBytes = rawBytes(context);
 
@@ -85,9 +111,11 @@ public class BinaryFloatKey extends KeyPart
         switch (length)
         {
             case 4:
-                return new Double(bb.getFloat());
+                contents = new Double(bb.getFloat());
+                return;
             case 8:
-                return bb.getDouble();
+                contents = bb.getDouble();
+                return;
         }
         throw new Exception("invalid length for a binary floating point field: " + length);
     }

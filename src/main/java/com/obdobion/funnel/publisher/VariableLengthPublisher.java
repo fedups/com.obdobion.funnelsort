@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.ParseException;
+import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.obdobion.funnel.App;
 import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.FunnelDataPublisher;
+import com.obdobion.funnel.aggregation.Aggregate;
 import com.obdobion.funnel.columns.ColumnWriter;
 import com.obdobion.funnel.parameters.DuplicateDisposition;
 import com.obdobion.funnel.parameters.FunnelContext;
@@ -28,7 +30,8 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher, Co
 
     final FunnelContext         context;
     DataOutput                  writer;
-    SourceProxyRecord           previousData;
+    SourceProxyRecord           previousItem;
+    byte[]                      previousOriginalBytes;
     RandomAccessInputSource     originalFile;
     byte[]                      originalBytes;
     final byte[]                writeBuffer;
@@ -51,6 +54,14 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher, Co
 
     public void close () throws Exception
     {
+        if (context.isAggregating() && previousItem != null)
+        {
+            /*
+             * Write last aggregation to disk
+             */
+            formatOutputAndWrite(previousItem, previousOriginalBytes);
+        }
+
         if (bb.position() != 0)
             flushWritesToDisk();
         originalFile.close();
@@ -67,6 +78,18 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher, Co
     {
         writer.write(bb.array(), 0, bb.position());
         bb.position(0);
+    }
+
+    private void formatOutputAndWrite (final SourceProxyRecord item, final byte[] rawData)
+        throws IOException, Exception
+    {
+        context.formatOutHelper.format(this, rawData, item.originalSize, item, true);
+        write(context.endOfRecordDelimiterOut, 0, context.endOfRecordDelimiterOut.length);
+        writeCount++;
+        /*
+         * Prepare the aggregations for the next set of data.
+         */
+        Aggregate.reset(context);
     }
 
     public long getDuplicateCount ()
@@ -94,6 +117,20 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher, Co
             App.abort(-1, e);
         }
         writeCount = duplicateCount = 0;
+    }
+
+    private void loadOriginalBytes (final int originalFileNumber, final SourceProxyRecord item)
+        throws IOException
+    {
+        if (item.originalSize > originalBytes.length)
+        {
+            originalBytes = new byte[item.originalSize + 1024];
+        }
+        /*
+         * Make sure to delimit the current record length in the input buffer.
+         */
+        originalBytes[item.originalSize] = 0x00;
+        originalFile.read(originalFileNumber, originalBytes, item.originalLocation, item.originalSize);
     }
 
     public void openInput () throws ParseException
@@ -133,9 +170,16 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher, Co
         item.originalInputFileIndex = 0;
 
         int comparison = 0;
-        if (previousData != null)
+
+        loadOriginalBytes(originalFileNumber, item);
+        item.getFunnelContext().columnHelper.loadColumnsFromBytes(
+            originalBytes,
+            item.originalSize,
+            item.originalRecordNumber);
+
+        if (previousItem != null)
         {
-            comparison = ((Comparable<SourceProxyRecord>) previousData).compareTo(item);
+            comparison = ((Comparable<SourceProxyRecord>) previousItem).compareTo(item);
             if (comparison > 0)
                 return false;
             /*
@@ -143,9 +187,24 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher, Co
              */
             if (comparison == 0)
             {
+                if (context.isAggregating())
+                {
+                    /*
+                     * Rather than write anything during an aggregation run we
+                     * just aggregate until the key changes.
+                     */
+                    Aggregate.aggregate(context);
+                    return true;
+                }
                 duplicateCount++;
                 if (DuplicateDisposition.FirstOnly == context.duplicateDisposition
                     || DuplicateDisposition.LastOnly == context.duplicateDisposition)
+                    /*
+                     * Since the file is sorted so that the duplicate we want to
+                     * retain is first, and because it was not a duplicate until
+                     * after it has been seen, we can easily ignore all
+                     * duplicates.
+                     */
                     return true;
             }
         } else
@@ -160,35 +219,49 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher, Co
                 write(context.csv.headerContents, 0, context.csv.headerContents.length);
                 write(context.endOfRecordDelimiterOut, 0, context.endOfRecordDelimiterOut.length);
             }
+            if (context.isAggregating())
+            {
+                /*
+                 * Never write the first record when aggregating. Wait until the
+                 * key changes.
+                 */
+                Aggregate.aggregate(context);
+                previousOriginalBytes = Arrays.copyOf(originalBytes, item.originalSize);
+                previousItem = item;
+                return true;
+            }
         }
-        /*
-         * Get original data and write it to the output file.
-         * 
-         * Self-healing code. Expand the size of the work buffer if a row is
-         * found to exceed the current buffer size. Get a bit extra so that we
-         * aren't back to this trough too often. Garbage in memory is something
-         * we want to stay away from.
-         */
-        if (item.originalSize > originalBytes.length)
-        {
-            originalBytes = new byte[item.originalSize + 1024];
-        }
-        /*
-         * Make sure to delimit the current record length in the input buffer.
-         */
-        originalBytes[item.originalSize] = 0x00;
 
-        originalFile.read(originalFileNumber, originalBytes, item.originalLocation, item.originalSize);
-        context.formatOutHelper.format(this, originalBytes, item.originalSize, item, true);
-        write(context.endOfRecordDelimiterOut, 0, context.endOfRecordDelimiterOut.length);
-        writeCount++;
+        if (context.isAggregating())
+        {
+            /*
+             * We must reload the previous values into the columns since the new
+             * set of records has already started.
+             */
+            item.getFunnelContext().columnHelper.loadColumnsFromBytes(
+                previousOriginalBytes,
+                previousItem.originalSize,
+                previousItem.originalRecordNumber);
+            formatOutputAndWrite(previousItem, previousOriginalBytes);
+            /*
+             * Now reload the newest record into the columns for processing.
+             */
+            item.getFunnelContext().columnHelper.loadColumnsFromBytes(
+                originalBytes,
+                item.originalSize,
+                item.originalRecordNumber);
+            Aggregate.aggregate(context);
+
+        } else
+            formatOutputAndWrite(item, originalBytes);
         /*
          * Return the instance for reuse.
          */
-        if (previousData != null)
-            previousData.release();
+        if (previousItem != null)
+            previousItem.release();
 
-        previousData = item;
+        previousItem = item;
+        previousOriginalBytes = Arrays.copyOf(originalBytes, item.originalSize);
         return true;
     }
 
@@ -196,10 +269,10 @@ abstract public class VariableLengthPublisher implements FunnelDataPublisher, Co
     public void reset () throws IOException, ParseException
     {
         initialize();
-        if (previousData != null)
+        if (previousItem != null)
         {
-            previousData.release();
-            previousData = null;
+            previousItem.release();
+            previousItem = null;
         }
     }
 

@@ -7,6 +7,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses(
 {
+    AggregateTest.class,
     BasicTest.class,
     BigTest.class,
     BinaryTest.class,

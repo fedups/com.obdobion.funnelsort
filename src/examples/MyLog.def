@@ -3,4 +3,4 @@
   (--name severity String --offset 24 --length 5)
   (--name message String --offset 34)
   
---maxRows 100 
+--rowmax 100 

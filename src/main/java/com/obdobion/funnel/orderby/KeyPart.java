@@ -6,7 +6,7 @@ import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 abstract public class KeyPart
 {
@@ -40,10 +40,10 @@ abstract public class KeyPart
      * Copy everything exception the key specific things like direction and
      * nextPart. Even if this is the key that caused the column to be defined we
      * can still copy the values since they would be the same.
-     * 
+     *
      * @param colDef
      */
-    public void defineFrom (KeyPart colDef)
+    public void defineFrom (final KeyPart colDef)
     {
         csvFieldNumber = colDef.csvFieldNumber;
         offset = colDef.offset;
@@ -53,10 +53,31 @@ abstract public class KeyPart
         columnName = colDef.columnName;
     }
 
+    abstract public Object getContents ();
+
+    abstract public double getContentsAsDouble ();
+
     public boolean isCsv ()
     {
         return csvFieldNumber >= 0;
     }
+
+    public boolean isDate ()
+    {
+        return false;
+    }
+
+    public boolean isFloat ()
+    {
+        return false;
+    }
+
+    public boolean isInteger ()
+    {
+        return false;
+    }
+
+    abstract public boolean isNumeric ();
 
     public KeyPart newCopy ()
     {
@@ -79,7 +100,8 @@ abstract public class KeyPart
         return myCopy;
     }
 
-    public void originalData (final KeyContext context, SourceProxyRecord proxyRecord, ByteArrayOutputStream outputBytes)
+    public void originalData (final KeyContext context, final SourceProxyRecord proxyRecord,
+        final ByteArrayOutputStream outputBytes)
     {
         final byte[] rawBytes = rawBytes(context);
 
@@ -100,7 +122,7 @@ abstract public class KeyPart
 
     abstract public void pack (KeyContext context) throws Exception;
 
-    abstract public Object parseObjectFromRawData (final KeyContext context) throws Exception;
+    abstract public void parseObjectFromRawData (final KeyContext context) throws Exception;
 
     byte[] rawBytes (final KeyContext context)
     {

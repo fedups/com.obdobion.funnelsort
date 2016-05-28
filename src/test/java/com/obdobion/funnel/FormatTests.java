@@ -1,6 +1,7 @@
 package com.obdobion.funnel;
 
 import java.io.File;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -542,7 +543,7 @@ public class FormatTests
         final File file = Helper.createUnsortedFile(testName, in);
 
         final FunnelContext context = Funnel.sort(Helper.config(),
-            file.getAbsolutePath() + " -r --max 130 --fixedIn 10 "
+            file.getAbsolutePath() + " -r --row 130 --fixedIn 10 "
                 + "--col(-n col1 string -o0)"
                 + "--orderby(col1)");
         Assert.assertEquals("key length", 255, context.keys.get(0).length);
@@ -560,7 +561,7 @@ public class FormatTests
         final File file = Helper.createUnsortedFile(testName, in);
 
         final FunnelContext context = Funnel.sort(Helper.config(),
-            file.getAbsolutePath() + " -r --max 130 --fixedIn 10"
+            file.getAbsolutePath() + " -r --row 130 --fixedIn 10"
                 + " --col(--name col1 integer -o4 -l4 --format '###')"
                 + " --orderby(col1)");
         Assert.assertEquals("key length", 4, context.keys.get(0).length);
@@ -578,10 +579,45 @@ public class FormatTests
         final File file = Helper.createUnsortedFile(testName, in);
 
         final FunnelContext context = Funnel.sort(Helper.config(),
-            file.getAbsolutePath() + " -r --max 130 --fixedIn 10"
+            file.getAbsolutePath() + " -r --row 130 --fixedIn 10"
                 + " --col(-n col1 integer -o4 --format '###')"
                 + "--orderby(col1)");
         Assert.assertEquals("key length", 3, context.keys.get(0).length);
+        Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
+    }
+
+    @Test
+    public void misspelledCol () throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+        try
+        {
+            Funnel.sort(Helper.config(), " --col(-n col1 string) --format(colone)");
+            Assert.fail("Expected an exception");
+        } catch (final ParseException e)
+        {
+            Assert.assertEquals("--formatOut must be a defined column: colone", e.getMessage());
+        }
+    }
+
+    @Test
+    public void misspelledEqu () throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+        final List<String> in = new ArrayList<>();
+        in.add("row 1000");
+        final File file = Helper.createUnsortedFile(testName, in);
+        try
+        {
+            Funnel.sort(Helper.config(), file.getAbsolutePath()
+                + " --col(-n col1 string) --format(-ecolone -l1 -d '%03d')");
+            Assert.fail("Expected an exception");
+        } catch (final Exception e)
+        {
+            Assert.assertEquals("invalid equation result for --format(colone)", e.getMessage());
+        }
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
@@ -599,13 +635,13 @@ public class FormatTests
 
         final File file = Helper.createUnsortedFile(testName, in);
         FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " -r --max 130 --fixedIn 10"
+            + " -r --row 130 --fixedIn 10"
             + " --col(-n col1 string)"
             + " --orderby(col1)");
         Assert.assertEquals("key offset", 0, context.keys.get(0).offset);
 
         context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " -r --max 130 --fixedIn 10"
+            + " -r --row 130 --fixedIn 10"
             + " --col(-n col1 -o1 string)"
             + " --orderby(col1)");
         Assert.assertEquals("key offset", 1, context.keys.get(0).offset);

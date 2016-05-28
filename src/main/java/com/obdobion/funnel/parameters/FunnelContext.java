@@ -22,6 +22,8 @@ import com.obdobion.argument.input.IParserInput;
 import com.obdobion.funnel.AppContext;
 import com.obdobion.funnel.FunnelDataProvider;
 import com.obdobion.funnel.FunnelDataPublisher;
+import com.obdobion.funnel.aggregation.Aggregate;
+import com.obdobion.funnel.aggregation.AggregateCount;
 import com.obdobion.funnel.columns.ColumnHelper;
 import com.obdobion.funnel.columns.FormatPart;
 import com.obdobion.funnel.columns.OutputFormatHelper;
@@ -40,6 +42,84 @@ import com.obdobion.funnel.publisher.PublisherFactory;
 public class FunnelContext
 {
     static final private Logger logger = LoggerFactory.getLogger(FunnelContext.class);
+
+    static private void defineAggregateAverageSubParser (
+        final ArrayList<String> def)
+    {
+        def.add("-tBegin -k avg -m1 --var aggregates "
+            + " --factorym " + Aggregate.class.getName() + ".newAvg"
+            + " -h 'A list of columns that will be analyzed for their respective maximum values per unique sort key'");
+
+        defineKeyNamePositional(def, false);
+        defineAggregateName(def);
+        defineAggregateEqu(def);
+
+        def.add("-tEnd -k avg");
+    }
+
+    static private void defineAggregateCountSubParser (
+        final ArrayList<String> def)
+    {
+        def.add("-tBegin -k count -m1 --var aggregates "
+            + " --factorym " + Aggregate.class.getName() + ".newCount"
+            + " -h 'Count the number of records per unique sort key'");
+        defineAggregateName(def);
+        def.add("-tEnd -k count");
+    }
+
+    static private void defineAggregateEqu (
+        final ArrayList<String> def)
+    {
+        def.add("-tString -k e equation --var equationInput -h'Used instead of a column name.'");
+    }
+
+    static private void defineAggregateMaxSubParser (
+        final ArrayList<String> def)
+    {
+        def.add("-tBegin -k max -m1 --var aggregates "
+            + " --factorym " + Aggregate.class.getName() + ".newMax"
+            + " -h 'A list of columns that will be analyzed for their respective maximum values per unique sort key'");
+
+        defineKeyNamePositional(def, false);
+        defineAggregateName(def);
+        defineAggregateEqu(def);
+
+        def.add("-tEnd -k max");
+    }
+
+    static private void defineAggregateMinSubParser (
+        final ArrayList<String> def)
+    {
+        def.add("-tBegin -k min -m1 --var aggregates "
+            + " --factorym " + Aggregate.class.getName() + ".newMin"
+            + " -h 'A list of columns that will be analyzed for their respective minimum values per unique sort key'");
+
+        defineKeyNamePositional(def, false);
+        defineAggregateName(def);
+        defineAggregateEqu(def);
+
+        def.add("-tEnd -k min");
+    }
+
+    static private void defineAggregateName (
+        final ArrayList<String> def)
+    {
+        def.add("-tString -k n name -r --var name -h'A name for this aggregate so that it can be referenced.'");
+    }
+
+    static private void defineAggregateSumSubParser (
+        final ArrayList<String> def)
+    {
+        def.add("-tBegin -k sum -m1 --var aggregates "
+            + " --factorym " + Aggregate.class.getName() + ".newSum"
+            + " -h 'A list of columns that will be individually summed per unique sort key'");
+
+        defineKeyNamePositional(def, false);
+        defineAggregateName(def);
+        defineAggregateEqu(def);
+
+        def.add("-tEnd -k sum");
+    }
 
     static private void defineCacheInput (
         final List<String> def)
@@ -285,7 +365,7 @@ public class FunnelContext
     static private void defineKeyNamePositional (
         final ArrayList<String> def, final boolean required)
     {
-        def.add("-tString -k n name --var columnName --pos -h'A previously defined column name.'" + (required
+        def.add("-tString -k columnName --var columnName --pos -h'A previously defined column name.'" + (required
                 ? " --req "
                 : ""));
     }
@@ -293,7 +373,7 @@ public class FunnelContext
     static private void defineMaxRows (
         final ArrayList<String> def)
     {
-        def.add("-tLong -kmaxrows --var maximumNumberOfRows --range 2 --def "
+        def.add("-tLong -krowmax --var maximumNumberOfRows --range 2 --def "
             + Long.MAX_VALUE
             + " -h 'Used for variable length input, estimate the number of rows.  Too low could cause problems.'");
     }
@@ -440,7 +520,7 @@ public class FunnelContext
     public boolean              version;
     public FunnelDataProvider   provider;
     public FunnelDataPublisher  publisher;
-    public AbstractInputCache           inputCache;
+    public AbstractInputCache   inputCache;
     public boolean              noCacheInput;
     public boolean              diskWork;
     public KeyHelper            keyHelper;
@@ -450,6 +530,8 @@ public class FunnelContext
     public byte[]               endOfRecordDelimiterOut;
     public CSVDef               csv;
     public boolean              syntaxOnly;
+
+    public Aggregate[]          aggregates;
 
     public long                 comparisonCounter;
     private long                duplicateCount;
@@ -493,6 +575,11 @@ public class FunnelContext
         defineCopyOrder(def);
         defineMaxRows(def);
         defineOrderBySubParser(def);
+        defineAggregateCountSubParser(def);
+        defineAggregateAverageSubParser(def);
+        defineAggregateMaxSubParser(def);
+        defineAggregateMinSubParser(def);
+        defineAggregateSumSubParser(def);
         defineCSVInSubParser(def);
         defineWorkDirectory(def);
         defineCacheInput(def);
@@ -534,6 +621,15 @@ public class FunnelContext
             pe.fillInStackTrace();
             throw pe;
         }
+    }
+
+    public Aggregate getAggregateByName (final String name)
+    {
+        if (aggregates != null)
+            for (final Aggregate agg : aggregates)
+                if (agg.name.equalsIgnoreCase(name))
+                    return agg;
+        return null;
     }
 
     public long getDuplicateCount ()
@@ -590,6 +686,11 @@ public class FunnelContext
         return inputFileIndex;
     }
 
+    public boolean isAggregating ()
+    {
+        return aggregates != null && aggregates.length > 0;
+    }
+
     public boolean isCacheInput ()
     {
         return !noCacheInput;
@@ -643,6 +744,69 @@ public class FunnelContext
         writeCount += p_writeCount;
     }
 
+    private void postParseAggregation () throws ParseException
+    {
+        if (aggregates != null)
+        {
+            final List<String> aggregateNamesFoundSoFar = new ArrayList<>();
+
+            for (final Aggregate agg : aggregates)
+            {
+                if (aggregateNamesFoundSoFar.contains(agg.name))
+                    throw new ParseException("aggregate \"" + agg.name + "\" must have a unique name", 0);
+                aggregateNamesFoundSoFar.add(agg.name);
+
+                if (agg instanceof AggregateCount)
+                    continue;
+
+                final String aggType = agg.getClass().getSimpleName();
+
+                if (columnHelper.exists(agg.name))
+                    throw new ParseException("aggregate \"" + agg.name + "\" is already defined as a column", 0);
+
+                if (agg.columnName != null)
+                {
+                    if (!columnHelper.exists(agg.columnName))
+                        throw new ParseException("aggregate \""
+                            + agg.name
+                            + "\" must reference a defined column: "
+                            + agg.columnName, 0);
+
+                    final KeyPart col = columnHelper.get(agg.columnName);
+                    if ((col.isNumeric() && !agg.supportsNumber())
+                        || (col.isDate() && !agg.supportsDate())
+                        || (!col.isNumeric() && !col.isDate()))
+                        throw new ParseException("aggregate \""
+                            + agg.name
+                            + "\" must reference a numeric or date column: "
+                            + agg.columnName
+                            + " ("
+                            + col.typeName
+                            + ")", 0);
+
+                    if (agg.equationInput != null)
+                        throw new ParseException("aggregate \""
+                            + agg.name
+                            + "\" columnName and --equ are mutually exclusive", 0);
+                }
+
+                if (agg.equationInput != null)
+                {
+                    try
+                    {
+                        agg.equation = Equ.getInstance(true);
+                        agg.equation.compile(agg.equationInput);
+
+                    } catch (final Exception e)
+                    {
+                        throw new ParseException(e.getMessage(), 0);
+                    }
+                }
+
+            }
+        }
+    }
+
     private void postParseAnalysis () throws ParseException, IOException
     {
         columnHelper = new ColumnHelper();
@@ -652,6 +816,7 @@ public class FunnelContext
         postParseInputFile();
         postParseInputColumns();
         postParseOrderBy();
+        postParseAggregation();
         postParseFormatOut();
         postParseOutputFile();
         postParseEolOut();
@@ -722,11 +887,17 @@ public class FunnelContext
                     if (kdef.offset == -1) // unspecified
                         kdef.offset = 0;
 
-                    // if (kdef.columnName == null && kdef.equationInput ==
-                    // null)
-                    // throw new
-                    // ParseException("--formatOut columnName or --equ must be specified",
-                    // 0);
+                    if (kdef.columnName != null)
+                        if (!columnHelper.exists(kdef.columnName))
+                            if (getAggregateByName(kdef.columnName) == null)
+                                throw new ParseException(
+                                    "--formatOut must be a defined column: "
+                                        + kdef.columnName, 0);
+                            else
+                                throw new ParseException(
+                                    "--formatOut must be a defined column, aggregates can only be used within --equ: "
+                                        + kdef.columnName, 0);
+
                     if (kdef.columnName != null && kdef.equationInput != null)
                         throw new ParseException("--formatOut columnName and --equ are mutually exclusive", 0);
                     if (kdef.format != null && kdef.equationInput == null)
@@ -1070,6 +1241,19 @@ public class FunnelContext
                             ? ""
                             : " format " + col.parseFormat));
         }
+
+        if (aggregates != null)
+            for (final Aggregate agg : aggregates)
+            {
+                if (agg instanceof AggregateCount)
+                    logger.debug("aggregate \"count\"");
+                else
+                    logger.debug("aggregate \"{}\" {}",
+                        agg.name,
+                        (agg.columnName == null
+                                ? agg.equationInput
+                                : agg.columnName));
+            }
 
         if (getWhereEqu() != null)
         {

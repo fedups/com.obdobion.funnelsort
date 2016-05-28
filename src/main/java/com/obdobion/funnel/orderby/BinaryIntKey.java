@@ -8,6 +8,8 @@ import java.nio.ByteBuffer;
  */
 public class BinaryIntKey extends KeyPart
 {
+    Long contents;
+
     public BinaryIntKey()
     {
         super();
@@ -53,10 +55,34 @@ public class BinaryIntKey extends KeyPart
     }
 
     @Override
+    public Object getContents ()
+    {
+        return contents;
+    }
+
+    @Override
+    public double getContentsAsDouble ()
+    {
+        return contents;
+    }
+
+    @Override
+    public boolean isInteger ()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isNumeric ()
+    {
+        return true;
+    }
+
+    @Override
     public void pack (final KeyContext context) throws Exception
     {
-        final Long _longValue = (Long) parseObjectFromRawData(context);
-        formatObjectIntoKey(context, _longValue);
+        parseObjectFromRawData(context);
+        formatObjectIntoKey(context, contents);
 
         if (nextPart != null)
             nextPart.pack(context);
@@ -64,7 +90,7 @@ public class BinaryIntKey extends KeyPart
 
     @SuppressWarnings("incomplete-switch")
     @Override
-    public Object parseObjectFromRawData (final KeyContext context) throws Exception
+    public void parseObjectFromRawData (final KeyContext context) throws Exception
     {
         final byte[] rawBytes = rawBytes(context);
 
@@ -75,13 +101,17 @@ public class BinaryIntKey extends KeyPart
         switch (length)
         {
             case 1:
-                return new Long(bb.get());
+                contents = new Long(bb.get());
+                return;
             case 2:
-                return new Long(bb.getShort());
+                contents = new Long(bb.getShort());
+                return;
             case 4:
-                return new Long(bb.getInt());
+                contents = new Long(bb.getInt());
+                return;
             case 8:
-                return new Long(bb.getLong());
+                contents = new Long(bb.getLong());
+                return;
         }
         throw new Exception("invalid length for a binary integer field: " + length);
     }

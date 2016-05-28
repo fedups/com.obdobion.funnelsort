@@ -41,7 +41,7 @@ public class InputTest
         final File file = Helper.createUnsortedFile(testName, out);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --replace --max 2 -c original --variableIn CR LF --variableOut LF");
+            + " --replace --row 2 -c original --variableIn CR LF --variableOut LF");
 
         Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compare(file, out);
@@ -63,7 +63,7 @@ public class InputTest
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
-        final FunnelContext context = Funnel.sort(Helper.config(), "--fixedIn 10 --max 2 ");
+        final FunnelContext context = Funnel.sort(Helper.config(), "--fixedIn 10 --row 2 ");
         Assert.assertEquals("records", 0L, context.getRecordCount());
         outputStream.close();
         try
@@ -146,7 +146,7 @@ public class InputTest
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
-        final FunnelContext context = Funnel.sort(Helper.config(), "--fixedIn 6--max 2 -c original");
+        final FunnelContext context = Funnel.sort(Helper.config(), "--fixedIn 6--row 2 -c original");
         Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compareFixed(file, out);
         try
@@ -272,7 +272,7 @@ public class InputTest
 
         try
         {
-            Funnel.sort(Helper.config(), "--replace --fixedIn 6--max 2 --col(S -nS) --o(S)");
+            Funnel.sort(Helper.config(), "--replace --fixedIn 6--row 2 --col(S -nS) --o(S)");
             Assert.fail("Expected error");
         } catch (final ParseException e)
         {
@@ -311,7 +311,7 @@ public class InputTest
         final File file = Helper.createUnsortedFile(testName, out);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --replace --max 2 -c original --variableIn CR LF");
+            + " --replace --row 2 -c original --variableIn CR LF");
 
         Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compare(file, out);
@@ -335,7 +335,7 @@ public class InputTest
 
         try
         {
-            Funnel.sort(Helper.config(), "--replace --fixedIn 6--max 2 --col(-nc String) --o(c)");
+            Funnel.sort(Helper.config(), "--replace --fixedIn 6--row 2 --col(-nc String) --o(c)");
             Assert.fail("Expected error");
         } catch (final ParseException e)
         {
@@ -377,7 +377,7 @@ public class InputTest
         final File file = Helper.outFileWhenInIsSysin();
 
         final FunnelContext context = Funnel.sort(Helper.config(), "-o" + file.getAbsolutePath()
-            + " --max 2 -c original --variableIn CR,LF");
+            + " --row 2 -c original --variableIn CR,LF");
 
         Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compare(file, out);
@@ -406,7 +406,7 @@ public class InputTest
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
-        final FunnelContext context = Funnel.sort(Helper.config(), "--max 2 -c original --variableIn cr,lf ");
+        final FunnelContext context = Funnel.sort(Helper.config(), "--row 2 -c original --variableIn cr,lf ");
 
         Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compare(file, out);
@@ -435,7 +435,7 @@ public class InputTest
         final File file = Helper.createUnsortedFile(testName, out, false);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + "--max 2 -c original --variableIn cr,lf -r ");
+            + "--row 2 -c original --variableIn cr,lf -r ");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Helper.compare(file, out);

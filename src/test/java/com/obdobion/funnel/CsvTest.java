@@ -67,7 +67,7 @@ public class CsvTest
         System.setOut(outputStream);
 
         final FunnelContext context = Funnel.sort(Helper.config(),
-            "--csv() --max 2 "
+            "--csv() --row 2 "
                 + "--col(I, --fi 2 -n field1)(S --fi 1 -n field0) "
                 + "--orderBy (field1)(field0)");
 
@@ -102,7 +102,7 @@ public class CsvTest
         final FunnelContext context = Funnel.sort(Helper.config(),
             "--csv() "
                 + "--col(String -f1 -nA)(Int -f2 -nB)"
-                + "--orderBy(A desc) --max 2 ");
+                + "--orderBy(A desc) --row 2 ");
 
         Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compare(file, out);
@@ -136,7 +136,7 @@ public class CsvTest
 
         final FunnelContext context = Funnel.sort(Helper.config(), "--csv(-h) "
             + "--col(String -f1 -nletters)(Int -f2 -nnumbers) "
-            + "--orderBy(numbers) --max 2 ");
+            + "--orderBy(numbers) --row 2 ");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Helper.compare(file, out);

@@ -33,7 +33,7 @@ public class DuplicateTest
 
         final File file = Helper.createUnsortedFile(testName, in);
         final FunnelContext context = Funnel.sort(Helper.config(),
-            file.getAbsolutePath() + " -r --max 130 --fixedIn 10"
+            file.getAbsolutePath() + " -r --row 130 --fixedIn 10"
                 + "--col(String -o0,-l3 -n col1)"
                 + "--orderby(col1) "
                 + "--dup firstonly");
@@ -62,7 +62,7 @@ public class DuplicateTest
 
         final File file = Helper.createUnsortedFile(testName, in);
         final FunnelContext context = Funnel.sort(Helper.config(),
-            file.getAbsolutePath() + " -r --max 130 --fixedIn 10"
+            file.getAbsolutePath() + " -r --row 130 --fixedIn 10"
                 + "--col(String -o0,-l3 -n col1)"
                 + "--orderby(col1) "
                 + "--dup lastonly");
@@ -95,7 +95,7 @@ public class DuplicateTest
 
         final File file = Helper.createUnsortedFile(testName, in);
         final FunnelContext context = Funnel.sort(Helper.config(),
-            file.getAbsolutePath() + " -r --max 130 --fixedIn 10 "
+            file.getAbsolutePath() + " -r --row 130 --fixedIn 10 "
                 + "--col(String -o0,-l3 -n col1)"
                 + "--orderby(col1) "
                 + "--dup reverse");

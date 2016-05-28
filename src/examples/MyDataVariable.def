@@ -8,5 +8,5 @@
 	(-n medianHouseholdIncome --length 7 int)
 	(-n stateName --length 21 string)
 
---maxRows 52
+--rowmax 52
 --variableInput CR LF

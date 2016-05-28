@@ -4,10 +4,11 @@ import java.nio.ByteBuffer;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class DisplayFloatKey extends KeyPart
 {
+    Double contents;
     byte[] trimmed;
 
     public DisplayFloatKey()
@@ -15,7 +16,7 @@ public class DisplayFloatKey extends KeyPart
         super();
     }
 
-    private void formatObjectIntoKey (final KeyContext context, Double _doubleValue)
+    private void formatObjectIntoKey (final KeyContext context, final Double _doubleValue)
     {
         Double doubleValue = _doubleValue;
 
@@ -42,17 +43,41 @@ public class DisplayFloatKey extends KeyPart
     }
 
     @Override
+    public Object getContents ()
+    {
+        return contents;
+    }
+
+    @Override
+    public double getContentsAsDouble ()
+    {
+        return contents;
+    }
+
+    @Override
+    public boolean isFloat ()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isNumeric ()
+    {
+        return true;
+    }
+
+    @Override
     public void pack (final KeyContext context) throws Exception
     {
-        Double doubleValue = (Double) parseObjectFromRawData(context);
-        formatObjectIntoKey(context, doubleValue);
+        parseObjectFromRawData(context);
+        formatObjectIntoKey(context, contents);
 
         if (nextPart != null)
             nextPart.pack(context);
     }
 
     @Override
-    public Object parseObjectFromRawData (KeyContext context)
+    public void parseObjectFromRawData (final KeyContext context)
     {
         if (trimmed == null)
             trimmed = new byte[length];
@@ -92,9 +117,8 @@ public class DisplayFloatKey extends KeyPart
                 break;
         }
 
-        double doubleValue = Double.parseDouble(new String(trimmed, 0, t));
+        contents = Double.parseDouble(new String(trimmed, 0, t));
         if (minusSignFound)
-            doubleValue = -doubleValue;
-        return doubleValue;
+            contents = -contents;
     }
 }

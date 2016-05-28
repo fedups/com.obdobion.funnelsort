@@ -8,6 +8,7 @@ import java.nio.ByteBuffer;
  */
 public class DisplayIntKey extends KeyPart
 {
+    Long   contents;
     byte[] trimmed;
 
     public DisplayIntKey()
@@ -16,10 +17,34 @@ public class DisplayIntKey extends KeyPart
     }
 
     @Override
+    public Object getContents ()
+    {
+        return contents;
+    }
+
+    @Override
+    public double getContentsAsDouble ()
+    {
+        return contents;
+    }
+
+    @Override
+    public boolean isInteger ()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isNumeric ()
+    {
+        return true;
+    }
+
+    @Override
     public void pack (final KeyContext context) throws Exception
     {
-        final Long longValue = (Long) parseObjectFromRawData(context);
-        packObjectIntoKey(context, longValue);
+        parseObjectFromRawData(context);
+        packObjectIntoKey(context, contents);
 
         if (nextPart != null)
             nextPart.pack(context);
@@ -47,7 +72,7 @@ public class DisplayIntKey extends KeyPart
 
     @SuppressWarnings("null")
     @Override
-    public Object parseObjectFromRawData (final KeyContext context)
+    public void parseObjectFromRawData (final KeyContext context)
     {
         if (trimmed == null)
             trimmed = new byte[length];
@@ -87,11 +112,13 @@ public class DisplayIntKey extends KeyPart
         }
 
         if (trimmed[0] == 0x00)
-            return new Long(0);
+        {
+            contents = new Long(0);
+            return;
+        }
 
-        Long longValue = Long.parseLong(new String(trimmed, 0, t));
+        contents = Long.parseLong(new String(trimmed, 0, t));
         if (minusSignFound)
-            longValue = -longValue;
-        return longValue;
+            contents = -contents;
     }
 }

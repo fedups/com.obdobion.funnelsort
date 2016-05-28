@@ -36,7 +36,7 @@ public class BasicTest
             + " --col(int -o0 -l7 -n col1)"
             + " --orderby(col1 asc)"
             + " --pow 2"
-            + " --max 3");
+            + " --row 3");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 3L, context.getWriteCount());
@@ -73,7 +73,7 @@ public class BasicTest
                 + " --col(int -o0 -l3 -n col1)"
                 + " --orderby(col1 desc)"
                 + " --pow 2"
-                + " --max 6"
+                + " --row 6"
                 + " -o " + output.getAbsolutePath()
                 );
 
@@ -116,7 +116,7 @@ public class BasicTest
                 + " --col(String -o0 -l3 -n col1)"
                 + " --orderby(col1 desc)"
                 + " --pow 2"
-                + " --max 6"
+                + " --row 6"
                 + " -o " + output.getAbsolutePath()
                 );
 

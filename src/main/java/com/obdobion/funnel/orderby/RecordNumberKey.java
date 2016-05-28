@@ -4,10 +4,12 @@ import java.nio.ByteBuffer;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public class RecordNumberKey extends KeyPart
 {
+    Long contents;
+
     /**
      * @param dir
      * @param _parseFormat
@@ -23,7 +25,7 @@ public class RecordNumberKey extends KeyPart
         // "\"  is not expected for \"RecordNumber\"";
     }
 
-    private void formatObjectIntoKey (final KeyContext context, Long _longValue)
+    private void formatObjectIntoKey (final KeyContext context, final Long _longValue)
     {
         Long longValue = _longValue;
 
@@ -36,18 +38,42 @@ public class RecordNumberKey extends KeyPart
     }
 
     @Override
+    public Object getContents ()
+    {
+        return contents;
+    }
+
+    @Override
+    public double getContentsAsDouble ()
+    {
+        return contents;
+    }
+
+    @Override
+    public boolean isInteger ()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isNumeric ()
+    {
+        return true;
+    }
+
+    @Override
     public void pack (final KeyContext context) throws Exception
     {
-        Long longValue = (Long) parseObjectFromRawData(context);
-        formatObjectIntoKey(context, longValue);
+        parseObjectFromRawData(context);
+        formatObjectIntoKey(context, contents);
 
         if (nextPart != null)
             nextPart.pack(context);
     }
 
     @Override
-    public Object parseObjectFromRawData (KeyContext context)
+    public void parseObjectFromRawData (final KeyContext context)
     {
-        return context.recordNumber;
+        contents = context.recordNumber;
     }
 }

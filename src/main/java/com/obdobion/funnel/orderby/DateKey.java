@@ -6,18 +6,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * @author Chris DeGreef
  *
  */
 public class DateKey extends KeyPart
 {
-    static final private Logger logger = LoggerFactory.getLogger(DateKey.class);
-
-    SimpleDateFormat            sdf;
+    Calendar         contents;
+    SimpleDateFormat sdf;
 
     public DateKey()
     {
@@ -44,19 +40,43 @@ public class DateKey extends KeyPart
     }
 
     @Override
+    public Object getContents ()
+    {
+        return contents;
+    }
+
+    @Override
+    public double getContentsAsDouble ()
+    {
+        return contents.getTimeInMillis();
+    }
+
+    @Override
+    public boolean isDate ()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isNumeric ()
+    {
+        return false;
+    }
+
+    @Override
     public void pack (final KeyContext context) throws Exception
     {
-        final Calendar cal = (Calendar) parseObjectFromRawData(context);
-        formatObjectIntoKey(context, cal.getTimeInMillis());
+        parseObjectFromRawData(context);
+        formatObjectIntoKey(context, contents.getTimeInMillis());
 
         if (nextPart != null)
             nextPart.pack(context);
     }
 
     @Override
-    public Object parseObjectFromRawData (final KeyContext context) throws ParseException
+    public void parseObjectFromRawData (final KeyContext context) throws ParseException
     {
-        final Calendar calendar = Calendar.getInstance();
+        contents = Calendar.getInstance();
 
         final byte[] rawBytes = rawBytes(context);
 
@@ -74,7 +94,6 @@ public class DateKey extends KeyPart
             final Date date = sdf.parse(trimmed);
             longValue = date.getTime();
         }
-        calendar.setTimeInMillis(longValue);
-        return calendar;
+        contents.setTimeInMillis(longValue);
     }
 }

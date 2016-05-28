@@ -50,7 +50,7 @@ public class BigTest
                 + " --col(int -o0 -l7 -n col1)"
                 + " --orderby(col1 desc)"
                 + " -o " + output.getAbsolutePath()
-                + " --max 5000000 "
+                + " --row 5000000 "
                 + " --pow 16");
 
         Assert.assertEquals("records", 3000000L, context.getRecordCount());

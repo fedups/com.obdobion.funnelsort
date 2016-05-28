@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.Formatter;
 
 import com.obdobion.algebrain.Equ;
+import com.obdobion.algebrain.TokVariable;
 import com.obdobion.funnel.orderby.KeyContext;
 import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.orderby.KeyType;
@@ -61,6 +62,9 @@ public class FormatPart
             if (equation != null)
             {
                 final Object result = equation.evaluate();
+                if (result instanceof TokVariable)
+                    throw new Exception("invalid equation result for --format(" + equationInput + ")");
+
                 if (typeName == null || KeyType.String == typeName)
                 {
                     if (result instanceof String)

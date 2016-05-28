@@ -12,6 +12,8 @@ public class AlphaKey extends KeyPart
     static final private byte LowerZ       = (byte) 'z';
     static final private byte LowerToUpper = (byte) ((byte) 'A' - LowerA);
 
+    String                    contents;
+
     public AlphaKey()
     {
         super();
@@ -39,7 +41,7 @@ public class AlphaKey extends KeyPart
          * Delimiters at the end of strings are necessary so that unequal length
          * comparisons stop comparing rather than continue to compare into the
          * next part of the key.
-         *
+         * 
          * If the direction is DESC it is necessary to put an extra high-value
          * byte at the end of the keys so that the comparison of the generated
          * keys sorts shorter records to the end.
@@ -64,18 +66,36 @@ public class AlphaKey extends KeyPart
     }
 
     @Override
+    public Object getContents ()
+    {
+        return contents;
+    }
+
+    @Override
+    public double getContentsAsDouble ()
+    {
+        return 0;
+    }
+
+    @Override
+    public boolean isNumeric ()
+    {
+        return false;
+    }
+
+    @Override
     public void pack (final KeyContext context) throws Exception
     {
-        final byte[] rawBytes = ((String) parseObjectFromRawData(context)).getBytes();
+        parseObjectFromRawData(context);
 
-        formatObjectIntoKey(context, rawBytes);
+        formatObjectIntoKey(context, contents.getBytes());
 
         if (nextPart != null)
             nextPart.pack(context);
     }
 
     @Override
-    public Object parseObjectFromRawData (final KeyContext context) throws Exception
+    public void parseObjectFromRawData (final KeyContext context) throws Exception
     {
         final byte[] bytes = rawBytes(context);
 
@@ -86,6 +106,6 @@ public class AlphaKey extends KeyPart
 
         final int rightTrimmedLength = OutputFormatHelper
                 .lengthToWrite(bytes, this.offset, endOffset - this.offset, true);
-        return new String(bytes, this.offset, rightTrimmedLength);
+        contents = new String(bytes, this.offset, rightTrimmedLength);
     }
 }

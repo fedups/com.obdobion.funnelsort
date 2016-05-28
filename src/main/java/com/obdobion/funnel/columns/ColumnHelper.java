@@ -141,11 +141,11 @@ public class ColumnHelper
         {
             try
             {
-                final Object rawData = col.parseObjectFromRawData(context);
+                col.parseObjectFromRawData(context);
                 for (int e = 0; e < equations.length; e++)
                 {
                     if (equations[e] != null)
-                        equations[e].getSupport().assignVariable(col.columnName, rawData);
+                        equations[e].getSupport().assignVariable(col.columnName, col.getContents());
                 }
 
             } catch (final Exception e)
@@ -188,6 +188,11 @@ public class ColumnHelper
         return null;
     }
 
+    public List<KeyPart> getColumns ()
+    {
+        return columns;
+    }
+
     public List<String> getNames ()
     {
         final List<String> allNames = new ArrayList<>();
@@ -196,5 +201,33 @@ public class ColumnHelper
             allNames.add(col.columnName);
         }
         return allNames;
+    }
+
+    /**
+     * @param dataLength
+     */
+    public void loadColumnsFromBytes (final byte[] data, final long dataLength, final long recordNumber)
+    {
+        context.key = null;
+        context.keyLength = 0;
+        context.rawRecordBytes = new byte[1][];
+        context.rawRecordBytes[0] = data;
+        context.recordNumber = recordNumber;
+
+        for (final KeyPart col : columns)
+        {
+            try
+            {
+                col.parseObjectFromRawData(context);
+
+            } catch (final Exception e)
+            {
+                logger.warn("\"{}\" {} {} on record number {}",
+                    col.columnName,
+                    e.getClass().getSimpleName(),
+                    e.getMessage(),
+                    (recordNumber + 1));
+            }
+        }
     }
 }
