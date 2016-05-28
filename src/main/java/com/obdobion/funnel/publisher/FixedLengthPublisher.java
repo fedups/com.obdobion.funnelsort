@@ -15,6 +15,8 @@ import com.obdobion.funnel.FunnelDataPublisher;
 import com.obdobion.funnel.columns.ColumnWriter;
 import com.obdobion.funnel.parameters.DuplicateDisposition;
 import com.obdobion.funnel.parameters.FunnelContext;
+import com.obdobion.funnel.provider.FileSource;
+import com.obdobion.funnel.provider.RandomAccessInputSource;
 import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**

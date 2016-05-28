@@ -1,4 +1,4 @@
-package com.obdobion.funnel.publisher;
+package com.obdobion.funnel.provider;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
