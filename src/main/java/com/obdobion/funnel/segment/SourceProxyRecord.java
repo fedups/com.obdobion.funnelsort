@@ -15,7 +15,7 @@ import com.obdobion.funnel.parameters.FunnelContext;
  * @author Chris DeGreef
  *
  */
-public class SourceProxyRecord implements Comparable<SourceProxyRecord>
+public class SourceProxyRecord
 {
     /**
      * A cache of instances that are not in use at this time. Rather than make
@@ -50,8 +50,12 @@ public class SourceProxyRecord implements Comparable<SourceProxyRecord>
         context = _context;
     }
 
-    public int compareTo (
-        final SourceProxyRecord o)
+    public int compareTo (final SourceProxyRecord o)
+    {
+        return compareTo(o, true);
+    }
+
+    public int compareTo (final SourceProxyRecord o, final boolean resolveDuplicates)
     {
         if (context != null)
             context.comparisonCounter++;
@@ -79,6 +83,9 @@ public class SourceProxyRecord implements Comparable<SourceProxyRecord>
         final int sizes = size - oSize;
         if (sizes != 0)
             return sizes;
+
+        if (!resolveDuplicates)
+            return 0;
         /*
          * The keys were identical in content and size, true dups, so return the
          * first we saw as the winner. If they are both from the same file then

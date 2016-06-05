@@ -77,6 +77,11 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
         bb.position(0);
     }
 
+    /**
+     * @param item
+     * @param rawData
+     * @throws IOException
+     */
     void formatOutputAndWrite (final SourceProxyRecord item, final byte[] rawData)
         throws IOException, Exception
     {
@@ -141,13 +146,6 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
             throws Exception
     {
         /*
-         * check to see if this item is in order, return false if not. The
-         * originalRecordNumber is only used to order duplicates. At this point
-         * it should not be used for comparisons since we want to make sure we
-         * know a duplicate has been found.
-         */
-        item.originalRecordNumber = 0;
-        /*
          * The same goes for the original file number. But it is important not
          * to loose this information because it is needed to get the original
          * data.
@@ -163,14 +161,21 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
 
         if (previousItem != null)
         {
-            comparison = ((Comparable<SourceProxyRecord>) previousItem).compareTo(item);
+            /*
+             * check to see if this item is in order, return false if not. The
+             * originalRecordNumber is only used to order duplicates. At this
+             * point it should not be used for comparisons since we want to make
+             * sure we know a duplicate has been found.
+             */
+            comparison = previousItem.compareTo(item, false);
+
             if (comparison > 0)
                 return false;
-            /*
-             * A duplicate record has been found.
-             */
             if (comparison == 0)
             {
+                /*
+                 * A duplicate record has been found.
+                 */
                 if (context.isAggregating())
                 {
                     /*
@@ -190,7 +195,16 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
                      * duplicates.
                      */
                     return true;
+            } else if (context.isUserSpecifiedOrder() && context.isAggregating())
+            {
+                /*
+                 * If there is no orderBy then there is no key to be changed. So
+                 * aggregates operate on the entire file.
+                 */
+                Aggregate.aggregate(context);
+                return true;
             }
+
         } else
         {
             publishHeader();

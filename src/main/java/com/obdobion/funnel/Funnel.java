@@ -377,6 +377,7 @@ public class Funnel
      *
      * @throws Exception
      */
+    @SuppressWarnings("null")
     void process () throws Exception
     {
         assert context.provider != null : "provider must not be null";

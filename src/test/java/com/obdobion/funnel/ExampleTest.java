@@ -15,6 +15,32 @@ import com.obdobion.funnel.parameters.FunnelContext;
 public class ExampleTest
 {
     @Test
+    public void aggregates () throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
+
+        Assert.assertEquals("records in ", 52L, context.getRecordCount());
+        Assert.assertEquals("records out", 6L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
+    }
+
+    @Test
+    public void averageRowsPerSecond () throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
+
+        Assert.assertEquals("records in ", 23L, context.getRecordCount());
+        Assert.assertEquals("records out", 1L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
+    }
+
+    @Test
     public void convertFixedToVariable () throws Throwable
     {
         final String testName = Helper.testName();
@@ -76,6 +102,19 @@ public class ExampleTest
 
         Assert.assertEquals("records in ", 52L, context.getRecordCount());
         Assert.assertEquals("records out", 52L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
+    }
+
+    @Test
+    public void countJobs () throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
+
+        Assert.assertEquals("records in ", 23L, context.getRecordCount());
+        Assert.assertEquals("records out", 1L, context.getWriteCount());
         Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 

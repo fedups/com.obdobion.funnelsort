@@ -122,7 +122,7 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
          * check to see if this item is in order, return false if not.
          */
         if (previousData != null)
-            if (((Comparable<SourceProxyRecord>) previousData).compareTo(data) > 0)
+            if (previousData.compareTo(data) > 0)
             {
                 segment(data, phase);
             } else if (writingSegment == null)

@@ -1045,7 +1045,7 @@ public class AggregateTest
             + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
             + " --orderby(key asc)"
             + " --sum(myNumber -n sum)"
-            + " --format(key)(-s1)(-esum -l5 -d '%03.0f')");
+            + " --format(key)(-s1)(-esum -l5 -d '%03d')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -1109,7 +1109,7 @@ public class AggregateTest
             + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
             + " --orderby(key asc)"
             + " --sum(-emyNumber -n sum)"
-            + " --format(key)(-s1)(-esum -l5 -d '%03.0f')");
+            + " --format(key)(-s1)(-esum -l5 -d '%03d')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());

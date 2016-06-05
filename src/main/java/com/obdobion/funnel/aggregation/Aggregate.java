@@ -79,8 +79,8 @@ abstract public class Aggregate
 
     public String name;
     public String columnName;
-    public String equationInput;
     public Equ    equation;
+    AggType       aggType;
 
     abstract Object getValueForEquations ();
 

@@ -9,21 +9,12 @@ import com.obdobion.funnel.parameters.FunnelContext;
 
 public class AggregateAvg extends Aggregate
 {
-    static private enum AggType
-    {
-            FLOAT,
-            INT,
-            CAL
-    }
+    double totalDouble;
+    long   totalLong;
+    long   occurrences;
+    long   totalCalendar;
 
-    AggType aggType;
-
-    double  totalDouble;
-    long    totalLong;
-    long    occurrences;
-    long    totalCalendar;
-
-    long    overflowCount;
+    long   overflowCount;
 
     public AggregateAvg()
     {

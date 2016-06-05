@@ -22,7 +22,6 @@ public class FormatPart
     public FormatPart nextPart;
     public String     columnName;
     public byte       filler;
-    public String     equationInput;
     public Equ        equation;
     public KeyType    typeName;
     public String     format;
@@ -63,7 +62,7 @@ public class FormatPart
             {
                 final Object result = equation.evaluate();
                 if (result instanceof TokVariable)
-                    throw new Exception("invalid equation result for --format(" + equationInput + ")");
+                    throw new Exception("invalid equation result for --format(" + equation.toString() + ")");
 
                 if (typeName == null || KeyType.String == typeName)
                 {

@@ -5,43 +5,70 @@ import com.obdobion.funnel.parameters.FunnelContext;
 
 public class AggregateSum extends Aggregate
 {
-    double sum;
+    double sumDouble;
+    long   sumLong;
+
+    public AggregateSum()
+    {
+        reset();
+    }
 
     @Override
     Object getValueForEquations ()
     {
-        return new Double(sum);
+        if (AggType.FLOAT == aggType)
+            return new Double(sumDouble);
+        if (AggType.INT == aggType)
+            return new Long(sumLong);
+        return new Double(0);
     }
 
     @Override
     void reset ()
     {
-        sum = 0;
-    }
-
-    @Override
-    public boolean supportsDate ()
-    {
-        return false;
+        sumDouble = 0D;
+        sumLong = 0L;
     }
 
     @Override
     void update (final FunnelContext context) throws Exception
     {
-        double currentValue = 0;
         if (equation != null)
         {
             final Object unknownType = equation.evaluate();
             if (unknownType instanceof Double)
-                currentValue = ((Double) unknownType).doubleValue();
-            else
-                currentValue = ((Long) unknownType).doubleValue();
+            {
+                aggType = AggType.FLOAT;
+                final double currentValue = ((Double) unknownType).doubleValue();
+                sumDouble += currentValue;
+                return;
+            }
+            if (unknownType instanceof Long)
+            {
+                aggType = AggType.INT;
+                final long currentValue = ((Long) unknownType).longValue();
+                sumLong += currentValue;
+                return;
+            }
+            return;
         }
         if (columnName != null)
         {
             final KeyPart col = context.columnHelper.get(columnName);
-            currentValue = col.getContentsAsDouble();
+            if (col.isFloat())
+            {
+                aggType = AggType.FLOAT;
+                final double currentValue = col.getContentsAsDouble();
+                sumDouble += currentValue;
+                return;
+            }
+            if (col.isInteger())
+            {
+                aggType = AggType.INT;
+                final long currentValue = (Long) col.getContents();
+                sumLong += currentValue;
+                return;
+            }
         }
-        sum += currentValue;
     }
 }

@@ -48,7 +48,7 @@ public class FunnelContext
     {
         def.add("-tBegin -k avg -m1 --var aggregates "
             + " --factorym " + Aggregate.class.getName() + ".newAvg"
-            + " -h 'A list of columns that will be analyzed for their respective maximum values per unique sort key'");
+            + " -h 'A list of columns that will be analyzed for their respective average values per unique sort key'");
 
         defineKeyNamePositional(def, false);
         defineAggregateName(def);
@@ -70,7 +70,7 @@ public class FunnelContext
     static private void defineAggregateEqu (
         final ArrayList<String> def)
     {
-        def.add("-tString -k e equation --var equationInput -h'Used instead of a column name.'");
+        def.add("-tequ -k e equation --var equation -h'Used instead of a column name.'");
     }
 
     static private void defineAggregateMaxSubParser (
@@ -292,7 +292,7 @@ public class FunnelContext
     static private void defineFormatEqu (
         final ArrayList<String> def)
     {
-        def.add("-tString -k e equation --var equationInput -h'Used instead of a column name, this will be evaluated with the result written to the output.'");
+        def.add("-tequ -k e equation --var equation -h'Used instead of a column name, this will be evaluated with the result written to the output.'");
     }
 
     static private void defineFormatFiller (
@@ -408,7 +408,7 @@ public class FunnelContext
     static private void defineStopWhen (
         final ArrayList<String> def)
     {
-        def.add("-tString -k s stopWhen --var stopClause -m1 -h 'The sort will stop reading input when this equation returns TRUE.  See \"Algebrain\" for details.  Columns are used as variables in this Algebrain equation.'");
+        def.add("-tequ -k s stopWhen --var stopEqu -m1 -h 'The sort will stop reading input when this equation returns TRUE.  See \"Algebrain\" for details.  Columns are used as variables in this Algebrain equation.'");
     }
 
     static private void defineSyntaxOnly (
@@ -446,7 +446,7 @@ public class FunnelContext
     static private void defineWhere (
         final ArrayList<String> def)
     {
-        def.add("-tString -k w where --var whereClause -m1 -h 'Rows that evaluate to TRUE are selected for Output.  See \"Algebrain\" for details.  Columns are used as variables in this Algebrain equation.'");
+        def.add("-tequ -k w where --var whereEqu -m1 -h 'Rows that evaluate to TRUE are selected for Output.  See \"Algebrain\" for details.  Columns are used as variables in this Algebrain equation.'");
     }
 
     static private void defineWorkDirectory (
@@ -500,10 +500,8 @@ public class FunnelContext
     public List<KeyPart>        inputColumnDefs;
     public List<FormatPart>     formatOutDefs;
 
-    public String[]             whereClause;
-    private Equ                 whereEqu;
-    public String[]             stopClause;
-    private Equ                 stopEqu;
+    public Equ[]                whereEqu;
+    public Equ[]                stopEqu;
 
     private int                 inputFileIndex;
     public WildFiles            inputFiles;
@@ -647,19 +645,9 @@ public class FunnelContext
         return recordCount;
     }
 
-    public Equ getStopEqu ()
-    {
-        return stopEqu;
-    }
-
     public long getUnselectedCount ()
     {
         return unselectedCount;
-    }
-
-    public Equ getWhereEqu ()
-    {
-        return whereEqu;
     }
 
     public long getWriteCount ()
@@ -728,6 +716,11 @@ public class FunnelContext
         return outputFile == null;
     }
 
+    public boolean isUserSpecifiedOrder ()
+    {
+        return orderBys == null || orderBys.length == 0;
+    }
+
     public boolean isVariableLengthInput ()
     {
         return parser.arg("--variableIn").isParsed() || !(parser.arg("--fixedIn").isParsed());
@@ -759,8 +752,6 @@ public class FunnelContext
                 if (agg instanceof AggregateCount)
                     continue;
 
-                final String aggType = agg.getClass().getSimpleName();
-
                 if (columnHelper.exists(agg.name))
                     throw new ParseException("aggregate \"" + agg.name + "\" is already defined as a column", 0);
 
@@ -784,25 +775,11 @@ public class FunnelContext
                             + col.typeName
                             + ")", 0);
 
-                    if (agg.equationInput != null)
+                    if (agg.equation != null)
                         throw new ParseException("aggregate \""
                             + agg.name
                             + "\" columnName and --equ are mutually exclusive", 0);
                 }
-
-                if (agg.equationInput != null)
-                {
-                    try
-                    {
-                        agg.equation = Equ.getInstance(true);
-                        agg.equation.compile(agg.equationInput);
-
-                    } catch (final Exception e)
-                    {
-                        throw new ParseException(e.getMessage(), 0);
-                    }
-                }
-
             }
         }
     }
@@ -820,8 +797,6 @@ public class FunnelContext
         postParseFormatOut();
         postParseOutputFile();
         postParseEolOut();
-        postParseWhere();
-        postParseStop();
         postParseCSV();
         postParseFixed();
     }
@@ -889,26 +864,24 @@ public class FunnelContext
 
                     if (kdef.columnName != null)
                         if (!columnHelper.exists(kdef.columnName))
+                        {
                             if (getAggregateByName(kdef.columnName) == null)
                                 throw new ParseException(
                                     "--formatOut must be a defined column: "
                                         + kdef.columnName, 0);
-                            else
-                                throw new ParseException(
-                                    "--formatOut must be a defined column, aggregates can only be used within --equ: "
-                                        + kdef.columnName, 0);
-
-                    if (kdef.columnName != null && kdef.equationInput != null)
+                            throw new ParseException(
+                                "--formatOut must be a defined column, aggregates can only be used within --equ: "
+                                    + kdef.columnName, 0);
+                        }
+                    if (kdef.columnName != null && kdef.equation != null)
                         throw new ParseException("--formatOut columnName and --equ are mutually exclusive", 0);
-                    if (kdef.format != null && kdef.equationInput == null)
+                    if (kdef.format != null && kdef.equation == null)
                         throw new ParseException("--formatOut --format is only valid with --equ", 0);
 
-                    if (kdef.equationInput != null)
+                    if (kdef.equation != null)
                     {
                         if (kdef.length == 255)
                             throw new ParseException("--formatOut --length is required when --equ is specified", 0);
-                        kdef.equation = Equ.getInstance(true);
-                        kdef.equation.compile(kdef.equationInput);
                     }
 
                     formatOutHelper.add(kdef);
@@ -1080,60 +1053,6 @@ public class FunnelContext
             outputFile = getInputFile(0);
     }
 
-    private void postParseStop () throws ParseException
-    {
-        if (stopClause != null)
-            try
-            {
-                stopEqu = Equ.getInstance(true);
-                final StringBuilder sb = new StringBuilder();
-                String connector = "";
-                for (final String partialClause : stopClause)
-                {
-                    if (partialClause != null && partialClause.trim().length() > 0)
-                    {
-                        sb.append(connector);
-                        sb.append(" ( ");
-                        sb.append(partialClause);
-                        sb.append(" ) ");
-                        connector = " && ";
-                    }
-                }
-                stopEqu.compile(sb.toString());
-
-            } catch (final Exception e)
-            {
-                throw new ParseException(e.getMessage(), 0);
-            }
-    }
-
-    private void postParseWhere () throws ParseException
-    {
-        if (whereClause != null)
-            try
-            {
-                whereEqu = Equ.getInstance(true);
-                final StringBuilder sb = new StringBuilder();
-                String connector = "";
-                for (final String partialClause : whereClause)
-                {
-                    if (partialClause != null && partialClause.trim().length() > 0)
-                    {
-                        sb.append(connector);
-                        sb.append(" ( ");
-                        sb.append(partialClause);
-                        sb.append(" ) ");
-                        connector = " && ";
-                    }
-                }
-                whereEqu.compile(sb.toString());
-
-            } catch (final Exception e)
-            {
-                throw new ParseException(e.getMessage(), 0);
-            }
-    }
-
     public void reset () throws IOException, ParseException
     {
         if (provider != null)
@@ -1200,7 +1119,7 @@ public class FunnelContext
                 }
             }
 
-            logger.debug("End of line delimeter {}", bytes.toString());
+            logger.info("End of line delimeter {}", bytes.toString());
 
             if (csv != null)
             {
@@ -1210,14 +1129,14 @@ public class FunnelContext
                     csvMsg.append("has header");
                 else
                     csvMsg.append("no header");
-                logger.debug(csvMsg.toString());
+                logger.info(csvMsg.toString());
             }
         }
         if (fixedRecordLengthOut > 0)
         {
             final StringBuilder sb = new StringBuilder();
             sb.append("FixedOut = ").append(fixedRecordLengthOut);
-            logger.debug(sb.toString());
+            logger.info(sb.toString());
         }
 
         logger.debug("power   = {}", depth);
@@ -1229,13 +1148,13 @@ public class FunnelContext
         {
             final KeyPart col = columnHelper.get(colName);
             if (csv == null)
-                logger.debug("col \"{}\" {} offset {} length {} {}",
+                logger.info("col \"{}\" {} offset {} length {} {}",
                     col.columnName, col.typeName, col.offset, col.length,
                     (col.parseFormat == null
                             ? ""
                             : " format " + col.parseFormat));
             else
-                logger.debug("col {} {} csvField {} {}",
+                logger.info("col {} {} csvField {} {}",
                     col.columnName, col.typeName, col.csvFieldNumber,
                     (col.parseFormat == null
                             ? ""
@@ -1246,41 +1165,33 @@ public class FunnelContext
             for (final Aggregate agg : aggregates)
             {
                 if (agg instanceof AggregateCount)
-                    logger.debug("aggregate \"count\"");
+                    logger.info("aggregate \"count\"");
                 else
-                    logger.debug("aggregate \"{}\" {}",
+                    logger.info("aggregate \"{}\" {}",
                         agg.name,
                         (agg.columnName == null
-                                ? agg.equationInput
+                                ? agg.equation.toString()
                                 : agg.columnName));
             }
 
-        if (getWhereEqu() != null)
+        if (whereEqu != null)
         {
-            logger.info("where \"{}\"", getWhereEqu().toString());
-            try
+            for (final Equ equ : whereEqu)
             {
-                logger.trace("\n{}", getWhereEqu().showRPN());
-            } catch (final Exception e)
-            {
-                logger.warn("algebrain", e);
+                logger.info("where \"{}\"", equ.toString());
             }
         }
 
-        if (getStopEqu() != null)
+        if (stopEqu != null)
         {
-            logger.info("stopWhen \"{}\"", getStopEqu().toString());
-            try
+            for (final Equ equ : stopEqu)
             {
-                logger.trace("\n{}", getStopEqu().showRPN());
-            } catch (final Exception e)
-            {
-                logger.warn("algebrain", e);
+                logger.info("stopWhen \"{}\"", equ.toString());
             }
         }
 
         if (keys == null)
-            logger.info("process = {} order", copyOrder.name());
+            logger.debug("process = {} order", copyOrder.name());
         else
             for (final KeyPart def : keys)
             {
@@ -1294,8 +1205,8 @@ public class FunnelContext
                 sb.append("format ");
                 if (outDef.columnName != null)
                     sb.append("\"").append(outDef.columnName).append("\"");
-                if (outDef.equationInput != null)
-                    sb.append("\"").append(outDef.equationInput).append("\"");
+                if (outDef.equation != null)
+                    sb.append("\"").append(outDef.equation.toString()).append("\"");
                 if (outDef.typeName != null)
                     sb.append(" ").append(outDef.typeName.name());
                 if (outDef.format != null)
@@ -1311,7 +1222,7 @@ public class FunnelContext
 
                 logger.info(sb.toString());
 
-                if (outDef.equationInput != null)
+                if (outDef.equation != null)
                 {
                     try
                     {
@@ -1337,28 +1248,44 @@ public class FunnelContext
 
     public boolean stopIsTrue () throws Exception
     {
-        if (getStopEqu() == null)
+        if (stopEqu == null)
             return false;
 
-        final Object result = getStopEqu().evaluate();
-        if (result == null)
-            return false;
-        if (!(result instanceof Boolean))
-            throw new Exception("--stopWhen clause must evaluate to true or false");
-        return ((Boolean) result).booleanValue();
+        for (final Equ equ : stopEqu)
+        {
+            /*
+             * All of the stop equations must be true.
+             */
+            final Object result = equ.evaluate();
+            if (result == null)
+                return false;
+            if (!(result instanceof Boolean))
+                throw new Exception("--stopWhen clause must evaluate to true or false");
+            if (!((Boolean) result).booleanValue())
+                return false;
+        }
+        return true;
     }
 
     public boolean whereIsTrue () throws Exception
     {
-        if (getWhereEqu() == null)
+        if (whereEqu == null)
             return true;
 
-        final Object result = getWhereEqu().evaluate();
-        if (result == null)
-            return true;
-        if (!(result instanceof Boolean))
-            throw new Exception("--where clause must evaluate to true or false");
-        return ((Boolean) result).booleanValue();
+        for (final Equ equ : whereEqu)
+        {
+            /*
+             * All of the where equations must be true.
+             */
+            final Object result = equ.evaluate();
+            if (result == null)
+                return false;
+            if (!(result instanceof Boolean))
+                throw new Exception("--where clause must evaluate to true or false");
+            if (!((Boolean) result).booleanValue())
+                return false;
+        }
+        return true;
     }
 
 }

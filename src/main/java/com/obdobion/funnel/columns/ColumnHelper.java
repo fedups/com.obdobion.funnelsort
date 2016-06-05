@@ -154,7 +154,7 @@ public class ColumnHelper
                     col.columnName,
                     e.getClass().getSimpleName(),
                     e.getMessage(),
-                    (recordNumber + 1));
+                    (recordNumber));
             }
         }
         final Long rn = new Long(recordNumber + 1);

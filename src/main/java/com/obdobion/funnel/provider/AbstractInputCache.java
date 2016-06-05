@@ -226,7 +226,7 @@ abstract public class AbstractInputCache implements RandomAccessInputSource
             currentBuffer.get(bytes, 0, _length);
         }
 
-        currentFilePosition = bbPosition + _length;
+        currentFilePosition = begBufPos + bbPosition + _length;
         return _length;
     }
 
