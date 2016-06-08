@@ -22,7 +22,7 @@ public class VariableLengthProvider extends AbstractProvider
 
     public long actualNumberOfRows ()
     {
-        return recordNumber;
+        return getContinuousRecordNumber();
     }
 
     void assignReaderInstance () throws IOException, ParseException
@@ -58,7 +58,7 @@ public class VariableLengthProvider extends AbstractProvider
             context.depth = optimalFunnelDepth;
         }
 
-        recordNumber = unselectedCount = 0;
+        setThisFileRecordNumber(unselectedCount = 0);
 
         assignReaderInstance();
     }

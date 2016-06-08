@@ -38,7 +38,7 @@ public class SourceProxyRecord
 
     private FunnelContext context;
     public int            originalInputFileIndex;
-    public long           originalRecordNumber;
+    private long          originalRecordNumber;
     public long           originalLocation;
     public int            originalSize;
     public int            size;
@@ -92,7 +92,7 @@ public class SourceProxyRecord
          * return the record number comparison.
          */
         if (originalInputFileIndex == o.originalInputFileIndex)
-            return (int) (originalRecordNumber - o.originalRecordNumber);
+            return (int) (getOriginalRecordNumber() - o.getOriginalRecordNumber());
         /*
          * Otherwise, finally, compare the file index.
          */
@@ -112,7 +112,7 @@ public class SourceProxyRecord
         final SourceProxyRecord other = (SourceProxyRecord) obj;
         if (originalInputFileIndex != other.originalInputFileIndex)
             return false;
-        if (originalRecordNumber != other.originalRecordNumber)
+        if (getOriginalRecordNumber() != other.getOriginalRecordNumber())
             return false;
         return true;
     }
@@ -122,13 +122,18 @@ public class SourceProxyRecord
         return context;
     }
 
+    public long getOriginalRecordNumber ()
+    {
+        return originalRecordNumber;
+    }
+
     @Override
     public int hashCode ()
     {
         final int prime = 31;
         int result = 1;
         result = prime * result + originalInputFileIndex;
-        result = prime * result + (int) (originalRecordNumber ^ (originalRecordNumber >>> 32));
+        result = prime * result + (int) (getOriginalRecordNumber() ^ (getOriginalRecordNumber() >>> 32));
         return result;
     }
 
@@ -140,11 +145,16 @@ public class SourceProxyRecord
         }
     }
 
+    public void setOriginalRecordNumber (final long p_originalRecordNumber)
+    {
+        this.originalRecordNumber = p_originalRecordNumber;
+    }
+
     @Override
     public String toString ()
     {
         final StringBuilder sb = new StringBuilder();
-        sb.append("originalRecordNumber=").append(originalRecordNumber);
+        sb.append("originalRecordNumber=").append(getOriginalRecordNumber());
         sb.append(" originalLocation=").append(originalLocation);
         sb.append(" originalSize=").append(originalSize);
         sb.append(" sortKey=").append(new String(sortKey).substring(0, size));

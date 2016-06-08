@@ -143,7 +143,7 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
     public boolean publish (
         final SourceProxyRecord item,
         final long phase)
-            throws Exception
+        throws Exception
     {
         /*
          * The same goes for the original file number. But it is important not
@@ -157,7 +157,7 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
 
         loadOriginalBytes(originalFileNumber, item);
         item.getFunnelContext().columnHelper
-                .loadColumnsFromBytes(originalBytes, item.originalSize, item.originalRecordNumber);
+                .loadColumnsFromBytes(originalBytes, item.originalSize, item.getOriginalRecordNumber());
 
         if (previousItem != null)
         {
@@ -182,7 +182,7 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
                      * Rather than write anything during an aggregation run we
                      * just aggregate until the key changes.
                      */
-                    Aggregate.aggregate(context);
+                    Aggregate.aggregate(context, item.originalSize, item.getOriginalRecordNumber());
                     return true;
                 }
                 duplicateCount++;
@@ -201,7 +201,7 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
                  * If there is no orderBy then there is no key to be changed. So
                  * aggregates operate on the entire file.
                  */
-                Aggregate.aggregate(context);
+                Aggregate.aggregate(context, item.originalSize, item.getOriginalRecordNumber());
                 return true;
             }
 
@@ -214,7 +214,7 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
                  * Never write the first record when aggregating. Wait until the
                  * key changes.
                  */
-                Aggregate.aggregate(context);
+                Aggregate.aggregate(context, item.originalSize, item.getOriginalRecordNumber());
                 previousOriginalBytes = Arrays.copyOf(originalBytes, item.originalSize);
                 previousItem = item;
                 return true;
@@ -228,17 +228,20 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
              * set of records has already started.
              */
             item.getFunnelContext().columnHelper
-                    .loadColumnsFromBytes(previousOriginalBytes, previousItem.originalSize, previousItem.originalRecordNumber);
+                    .loadColumnsFromBytes(previousOriginalBytes, previousItem.originalSize, previousItem
+                            .getOriginalRecordNumber());
             formatOutputAndWrite(previousItem, previousOriginalBytes);
             /*
              * Now reload the newest record into the columns for processing.
              */
             item.getFunnelContext().columnHelper
-                    .loadColumnsFromBytes(originalBytes, item.originalSize, item.originalRecordNumber);
-            Aggregate.aggregate(context);
+                    .loadColumnsFromBytes(originalBytes, item.originalSize, item.getOriginalRecordNumber());
+            Aggregate.aggregate(context, item.originalSize, item.getOriginalRecordNumber());
 
         } else
+        {
             formatOutputAndWrite(item, originalBytes);
+        }
         /*
          * Return the instance for reuse.
          */

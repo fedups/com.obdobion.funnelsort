@@ -55,6 +55,11 @@ abstract public class KeyPart
 
     abstract public Object getContents ();
 
+    public byte[] getContentsAsByteArray ()
+    {
+        return new byte[0];
+    }
+
     abstract public double getContentsAsDouble ();
 
     public boolean isCsv ()

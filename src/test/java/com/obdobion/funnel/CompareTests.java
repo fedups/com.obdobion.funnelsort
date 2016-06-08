@@ -21,7 +21,7 @@ public class CompareTests
 
         final SourceProxyRecord spr1 = SourceProxyRecord.getInstance(null);
         spr1.originalLocation = 0;
-        spr1.originalRecordNumber = 0;
+        spr1.setOriginalRecordNumber(0);
         spr1.originalSize = 0;
         spr1.size = keySize;
         spr1.sortKey = kx1.key;

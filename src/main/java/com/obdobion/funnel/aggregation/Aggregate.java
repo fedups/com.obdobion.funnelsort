@@ -6,11 +6,12 @@ import com.obdobion.funnel.parameters.FunnelContext;
 
 abstract public class Aggregate
 {
-    public static void aggregate (final FunnelContext context) throws Exception
+    public static void aggregate (final FunnelContext context, final int originalRecordSize,
+        final long originalRecordNumber) throws Exception
     {
         if (context.isAggregating())
         {
-            loadColumnsIntoAggregateEquations(context);
+            loadColumnsIntoAggregateEquations(context, originalRecordSize, originalRecordNumber);
             for (final Aggregate agg : context.aggregates)
             {
                 agg.update(context);
@@ -18,7 +19,8 @@ abstract public class Aggregate
         }
     }
 
-    private static void loadColumnsIntoAggregateEquations (final FunnelContext context) throws Exception
+    private static void loadColumnsIntoAggregateEquations (final FunnelContext context, final int originalRecordSize,
+        final long originalRecordNumber) throws Exception
     {
         for (final Aggregate agg : context.aggregates)
         {
@@ -26,6 +28,9 @@ abstract public class Aggregate
             {
                 for (final KeyPart col : context.columnHelper.getColumns())
                     agg.equation.getSupport().assignVariable(col.columnName, col.getContents());
+
+                agg.equation.getSupport().assignVariable("recordnumber", new Long(originalRecordNumber));
+                agg.equation.getSupport().assignVariable("recordsize", new Long(originalRecordSize));
             }
         }
     }

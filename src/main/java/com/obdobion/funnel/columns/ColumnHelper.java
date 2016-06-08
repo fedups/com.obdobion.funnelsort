@@ -157,7 +157,7 @@ public class ColumnHelper
                     (recordNumber));
             }
         }
-        final Long rn = new Long(recordNumber + 1);
+        final Long rn = new Long(recordNumber);
         final Integer rs = new Integer(dataLength);
 
         for (int e = 0; e < equations.length; e++)
@@ -226,7 +226,7 @@ public class ColumnHelper
                     col.columnName,
                     e.getClass().getSimpleName(),
                     e.getMessage(),
-                    (recordNumber + 1));
+                    recordNumber);
             }
         }
     }

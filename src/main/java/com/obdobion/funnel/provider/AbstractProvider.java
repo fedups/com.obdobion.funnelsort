@@ -21,7 +21,8 @@ public abstract class AbstractProvider implements FunnelDataProvider
 
     final FunnelContext context;
     InputReader         reader;
-    long                recordNumber;
+    private long        thisFileRecordNumber;
+    private long        continuousRecordNumber;
     byte                row[];
     int                 unselectedCount;
 
@@ -55,6 +56,16 @@ public abstract class AbstractProvider implements FunnelDataProvider
         reader = null;
     }
 
+    long getContinuousRecordNumber ()
+    {
+        return continuousRecordNumber;
+    }
+
+    long getThisFileRecordNumber ()
+    {
+        return thisFileRecordNumber;
+    }
+
     abstract void initialize () throws IOException, ParseException;
 
     boolean isRowSelected (@SuppressWarnings("unused")
@@ -67,7 +78,7 @@ public abstract class AbstractProvider implements FunnelDataProvider
     {
         final StringBuilder sb = new StringBuilder();
 
-        sb.append(Funnel.ByteFormatter.format(recordNumber));
+        sb.append(Funnel.ByteFormatter.format(getThisFileRecordNumber()));
         sb.append(" rows obtained from ");
         if (context.isSysin())
             sb.append("SYSIN");
@@ -80,7 +91,7 @@ public abstract class AbstractProvider implements FunnelDataProvider
             sb.append(" filtered out by where clause");
         }
 
-        context.inputCounters(unselectedCount, recordNumber);
+        context.inputCounters(unselectedCount, getThisFileRecordNumber());
 
         logger.debug(sb.toString());
     }
@@ -115,20 +126,28 @@ public abstract class AbstractProvider implements FunnelDataProvider
                     if (context.startNextInput())
                     {
                         logStatistics(context.inputFileIndex() - 1);
-                        recordNumber = unselectedCount = 0;
+                        if (context.inPlaceSort)
+                            setContinuousRecordNumber(0);
+                        setThisFileRecordNumber(0);
+                        unselectedCount = 0;
                         reader.close();
                         reader.open(context.getInputFile(context.inputFileIndex()));
                         continue;
                     }
                     break;
                 }
+                /*
+                 * Putting this incrementer here causes the record number to be
+                 * 1 relative.
+                 */
+                setThisFileRecordNumber(getThisFileRecordNumber() + 1);
+                setContinuousRecordNumber(getContinuousRecordNumber() + 1);
 
                 if (!recordLengthOK(byteCount))
                     continue;
 
                 if (!isRowSelected(byteCount))
                 {
-                    recordNumber++;
                     continue;
                 }
 
@@ -138,17 +157,17 @@ public abstract class AbstractProvider implements FunnelDataProvider
                 {
                     earlyEnd = true;
                     /*
-                     * The record number should be display as 1 relative while
-                     * it is actually 0 relative. The EQU processing gets the 1
-                     * relative version to use.
+                     * Uncount the termination record.
                      */
-                    logger.debug("stopWhen triggered at row " + (recordNumber + 1));
+                    setThisFileRecordNumber(getThisFileRecordNumber() - 1);
+                    setContinuousRecordNumber(getContinuousRecordNumber() - 1);
+
+                    logger.debug("stopWhen triggered at row " + getContinuousRecordNumber());
                     break;
                 }
 
                 if (!context.whereIsTrue())
                 {
-                    recordNumber++;
                     unselectedCount++;
                     continue;
                 }
@@ -173,12 +192,6 @@ public abstract class AbstractProvider implements FunnelDataProvider
             }
             return false;
         }
-        /*
-         * Putting this incrementer here causes the record number to be 1
-         * relative. Move it to the end of this method if we want it to be 0
-         * relative.
-         */
-        recordNumber++;
 
         final KeyContext kContext = postReadKeyProcessing(byteCount);
 
@@ -192,9 +205,9 @@ public abstract class AbstractProvider implements FunnelDataProvider
 
         if (DuplicateDisposition.LastOnly == context.duplicateDisposition
             || DuplicateDisposition.Reverse == context.duplicateDisposition)
-            wrapped.originalRecordNumber = -recordNumber;
+            wrapped.setOriginalRecordNumber(-getContinuousRecordNumber());
         else
-            wrapped.originalRecordNumber = recordNumber;
+            wrapped.setOriginalRecordNumber(getContinuousRecordNumber());
 
         item.setData(wrapped);
         return true;
@@ -212,7 +225,7 @@ public abstract class AbstractProvider implements FunnelDataProvider
         KeyContext kContext = null;
         try
         {
-            kContext = context.keyHelper.extractKey(row, recordNumber);
+            kContext = context.keyHelper.extractKey(row, getContinuousRecordNumber());
         } catch (final Exception e)
         {
             throw new IOException(e);
@@ -239,7 +252,7 @@ public abstract class AbstractProvider implements FunnelDataProvider
                 for (final Equ equ : context.stopEqu)
                     cachedEquations[ce++] = equ;
         }
-        context.columnHelper.extract(context, row, recordNumber, byteCount, cachedEquations);
+        context.columnHelper.extract(context, row, getContinuousRecordNumber(), byteCount, cachedEquations);
     }
 
     boolean recordLengthOK (@SuppressWarnings("unused")
@@ -251,5 +264,15 @@ public abstract class AbstractProvider implements FunnelDataProvider
     public void reset () throws IOException, ParseException
     {
         initialize();
+    }
+
+    void setContinuousRecordNumber (final long p_continuousRecordNumber)
+    {
+        this.continuousRecordNumber = p_continuousRecordNumber;
+    }
+
+    void setThisFileRecordNumber (final long p_thisFileRecordNumber)
+    {
+        this.thisFileRecordNumber = p_thisFileRecordNumber;
     }
 }

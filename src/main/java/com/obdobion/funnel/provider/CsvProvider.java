@@ -135,7 +135,7 @@ public class CsvProvider extends VariableLengthProvider
         try
         {
             final byte[][] data = decodeCsv(row, byteCount, context.csv.format);
-            kContext = context.keyHelper.extractKey(data, recordNumber);
+            kContext = context.keyHelper.extractKey(data, getContinuousRecordNumber());
 
         } catch (final Exception e)
         {
@@ -148,7 +148,7 @@ public class CsvProvider extends VariableLengthProvider
     void preSelectionExtract (final int byteCount) throws Exception
     {
         final byte[][] data = decodeCsv(row, byteCount, context.csv.format);
-        context.columnHelper.extract(context, data, recordNumber, byteCount);
+        context.columnHelper.extract(context, data, getContinuousRecordNumber(), byteCount);
     }
 
     byte[] unquote (final byte[] input, final int _start, final int _end, final byte quoteByte)

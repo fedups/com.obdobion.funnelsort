@@ -525,7 +525,7 @@ public class AggregateTest
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
             + " -o " + output.getAbsolutePath()
-            + " --stopWhen 'recordNumber > 0'"
+            + " --stopWhen 'recordNumber = 1'"
             + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n col1)"
             + " --orderby(key asc)"
             + " --count(-n count)"

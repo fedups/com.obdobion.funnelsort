@@ -93,7 +93,7 @@ public class WorkFile implements WorkRepository
         raf.seek(position);
 
         rec.originalInputFileIndex = raf.readInt();
-        rec.originalRecordNumber = raf.readLong();
+        rec.setOriginalRecordNumber(raf.readLong());
         rec.originalLocation = raf.readLong();
         rec.originalSize = raf.readInt();
         rec.size = raf.readInt();
@@ -111,7 +111,7 @@ public class WorkFile implements WorkRepository
             flushWritesToDisk();
 
         bb.putInt(rec.originalInputFileIndex);
-        bb.putLong(rec.originalRecordNumber);
+        bb.putLong(rec.getOriginalRecordNumber());
         bb.putLong(rec.originalLocation);
         bb.putInt(rec.originalSize);
         bb.putInt(rec.size);

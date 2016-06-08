@@ -20,9 +20,11 @@ import org.junit.runners.Suite.SuiteClasses;
     FormatOutputTest.class,
     FormatTests.class,
     FunnelTest.class,
+    HexDumpTest.class,
     InputCacheTests.class,
     InputTest.class,
     MultiFileTest.class,
+    RecordNumberTest.class,
     StopWhenTest.class,
     StringTest.class,
     WhereTest.class

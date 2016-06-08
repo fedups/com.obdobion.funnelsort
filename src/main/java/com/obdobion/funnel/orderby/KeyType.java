@@ -2,7 +2,7 @@ package com.obdobion.funnel.orderby;
 
 /**
  * @author Chris DeGreef
- * 
+ *
  */
 public enum KeyType
 {
@@ -11,7 +11,8 @@ public enum KeyType
         Float(DisplayFloatKey.class),
         BInteger(BinaryIntKey.class),
         BFloat(BinaryFloatKey.class),
-        Date(DateKey.class);
+        Date(DateKey.class),
+        Byte(ByteKey.class);
 
     static public KeyPart create (final String keyType) throws Exception
     {

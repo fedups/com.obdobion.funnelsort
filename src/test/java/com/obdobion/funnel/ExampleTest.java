@@ -76,7 +76,7 @@ public class ExampleTest
 
         Assert.assertEquals("records in ", 104L, context.getRecordCount());
         Assert.assertEquals("records out", 104L, context.getWriteCount());
-        Assert.assertEquals("records dup", 52L, context.getDuplicateCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
     }
 
     @Test

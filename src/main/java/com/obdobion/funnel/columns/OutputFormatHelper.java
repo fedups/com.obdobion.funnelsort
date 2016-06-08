@@ -103,7 +103,7 @@ public class OutputFormatHelper
         context.keyLength = 0;
         context.rawRecordBytes = new byte[1][];
         context.rawRecordBytes[0] = data;
-        context.recordNumber = proxyRecord.originalRecordNumber;
+        context.recordNumber = proxyRecord.getOriginalRecordNumber();
 
         final ByteArrayOutputStream output = new ByteArrayOutputStream(maxRecordBytes);
         /*

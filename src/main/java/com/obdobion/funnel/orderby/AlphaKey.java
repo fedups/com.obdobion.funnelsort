@@ -41,7 +41,7 @@ public class AlphaKey extends KeyPart
          * Delimiters at the end of strings are necessary so that unequal length
          * comparisons stop comparing rather than continue to compare into the
          * next part of the key.
-         * 
+         *
          * If the direction is DESC it is necessary to put an extra high-value
          * byte at the end of the keys so that the comparison of the generated
          * keys sorts shorter records to the end.
@@ -69,6 +69,12 @@ public class AlphaKey extends KeyPart
     public Object getContents ()
     {
         return contents;
+    }
+
+    @Override
+    public byte[] getContentsAsByteArray ()
+    {
+        return contents.getBytes();
     }
 
     @Override

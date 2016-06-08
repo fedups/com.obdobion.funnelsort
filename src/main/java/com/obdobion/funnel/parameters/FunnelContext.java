@@ -337,6 +337,19 @@ public class FunnelContext
             + KeyType.class.getName());
     }
 
+    /**
+     * This only allows references to previously defined column names.
+     *
+     * @param def
+     */
+    static private void defineHexDumpSubParser (
+        final ArrayList<String> def)
+    {
+        def.add("-tBegin -k hexDump -m1 --var hexDumps -h 'Columns that will be shown in hex format.'");
+        defineKeyNamePositional(def, false);
+        def.add("-tEnd -k hexDump");
+    }
+
     static private void defineInPlaceSort (
         final ArrayList<String> def)
     {
@@ -379,8 +392,7 @@ public class FunnelContext
     }
 
     /**
-     * This is an alternative to --keys. This only allows references to
-     * previously defined column names.
+     * This only allows references to previously defined column names.
      *
      * @param def
      */
@@ -500,6 +512,8 @@ public class FunnelContext
     public List<KeyPart>        inputColumnDefs;
     public List<FormatPart>     formatOutDefs;
 
+    public HexDump[]            hexDumps;
+
     public Equ[]                whereEqu;
     public Equ[]                stopEqu;
 
@@ -573,6 +587,7 @@ public class FunnelContext
         defineCopyOrder(def);
         defineMaxRows(def);
         defineOrderBySubParser(def);
+        defineHexDumpSubParser(def);
         defineAggregateCountSubParser(def);
         defineAggregateAverageSubParser(def);
         defineAggregateMaxSubParser(def);
@@ -689,6 +704,11 @@ public class FunnelContext
         return !diskWork;
     }
 
+    public boolean isHexDumping ()
+    {
+        return hexDumps != null;
+    }
+
     public boolean isInPlaceSort ()
     {
         return inPlaceSort;
@@ -793,6 +813,7 @@ public class FunnelContext
         postParseInputFile();
         postParseInputColumns();
         postParseOrderBy();
+        postParseHexDumps();
         postParseAggregation();
         postParseFormatOut();
         postParseOutputFile();
@@ -889,6 +910,41 @@ public class FunnelContext
                 {
                     throw new ParseException(e.getMessage(), 0);
                 }
+            }
+        }
+    }
+
+    private void postParseHexDumps () throws ParseException
+    {
+        /*
+         * Convert OrderBys into sort keys
+         */
+        if (hexDumps != null && hexDumps.length > 0)
+        {
+            if (hexDumps.length == 1 && hexDumps[0].columnName == null)
+                /*
+                 * Full record dump
+                 */
+                return;
+
+            if (aggregates != null)
+                throw new ParseException("HexDump with aggregate processing is not supported", 0);
+            if (!isVariableLengthOutput() && (fixedRecordLengthIn > 0 || fixedRecordLengthOut > 0))
+                throw new ParseException("HexDump is only valid with variableOutput", 0);
+            if (isInPlaceSort())
+                throw new ParseException("HexDump is not valid with --replace", 0);
+
+            for (final HexDump hexDump : hexDumps)
+            {
+                if (!columnHelper.exists(hexDump.columnName))
+                    throw new ParseException("HexDump must be a defined column: " + hexDump.columnName, 0);
+                final KeyPart column = columnHelper.get(hexDump.columnName);
+                if (KeyType.String.name().equalsIgnoreCase(column.typeName)
+                    || KeyType.Byte.name().equalsIgnoreCase(column.typeName))
+                {
+                    // ok
+                } else
+                    throw new ParseException("HexDump can only be on String or Byte columns: " + hexDump.columnName, 0);
             }
         }
     }

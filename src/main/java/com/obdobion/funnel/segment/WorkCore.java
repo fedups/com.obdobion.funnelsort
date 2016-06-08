@@ -104,7 +104,7 @@ public class WorkCore implements WorkRepository
         currentBuffer.position((int) (position - begBufPos));
 
         rec.originalInputFileIndex = currentBuffer.getInt();
-        rec.originalRecordNumber = currentBuffer.getLong();
+        rec.setOriginalRecordNumber(currentBuffer.getLong());
         rec.originalLocation = currentBuffer.getLong();
         rec.originalSize = currentBuffer.getInt();
         rec.size = currentBuffer.getInt();
@@ -155,7 +155,7 @@ public class WorkCore implements WorkRepository
         }
 
         currentBuffer.putInt(rec.originalInputFileIndex);
-        currentBuffer.putLong(rec.originalRecordNumber);
+        currentBuffer.putLong(rec.getOriginalRecordNumber());
         currentBuffer.putLong(rec.originalLocation);
         currentBuffer.putInt(rec.originalSize);
         currentBuffer.putInt(rec.size);
