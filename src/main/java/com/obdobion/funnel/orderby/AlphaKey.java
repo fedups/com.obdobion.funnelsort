@@ -41,7 +41,7 @@ public class AlphaKey extends KeyPart
          * Delimiters at the end of strings are necessary so that unequal length
          * comparisons stop comparing rather than continue to compare into the
          * next part of the key.
-         *
+         * 
          * If the direction is DESC it is necessary to put an extra high-value
          * byte at the end of the keys so that the comparison of the generated
          * keys sorts shorter records to the end.
@@ -92,7 +92,7 @@ public class AlphaKey extends KeyPart
     @Override
     public void pack (final KeyContext context) throws Exception
     {
-        parseObjectFromRawData(context);
+        parseObject(context);
 
         formatObjectIntoKey(context, contents.getBytes());
 
@@ -101,10 +101,8 @@ public class AlphaKey extends KeyPart
     }
 
     @Override
-    public void parseObjectFromRawData (final KeyContext context) throws Exception
+    public void parseObjectFromRawData (final byte[] bytes) throws Exception
     {
-        final byte[] bytes = rawBytes(context);
-
         int endOffset = this.offset;
         for (; endOffset < this.offset + this.length; endOffset++)
             if (bytes.length <= endOffset || bytes[endOffset] == 0)
@@ -113,5 +111,6 @@ public class AlphaKey extends KeyPart
         final int rightTrimmedLength = OutputFormatHelper
                 .lengthToWrite(bytes, this.offset, endOffset - this.offset, true);
         contents = new String(bytes, this.offset, rightTrimmedLength);
+        unformattedContents = contents.getBytes();
     }
 }

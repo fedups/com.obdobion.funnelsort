@@ -26,7 +26,10 @@ import com.obdobion.funnel.aggregation.Aggregate;
 import com.obdobion.funnel.aggregation.AggregateCount;
 import com.obdobion.funnel.columns.ColumnHelper;
 import com.obdobion.funnel.columns.FormatPart;
+import com.obdobion.funnel.columns.HeaderHelper;
+import com.obdobion.funnel.columns.HeaderOutHelper;
 import com.obdobion.funnel.columns.OutputFormatHelper;
+import com.obdobion.funnel.orderby.Filler;
 import com.obdobion.funnel.orderby.KeyDirection;
 import com.obdobion.funnel.orderby.KeyHelper;
 import com.obdobion.funnel.orderby.KeyPart;
@@ -337,6 +340,34 @@ public class FunnelContext
             + KeyType.class.getName());
     }
 
+    static private void defineHeaderInSubParser (
+        final ArrayList<String> def)
+    {
+        def.add("-tBegin -k headerIn -m1 --var headerInDefs --factoryMethod "
+            + KeyType.class.getName()
+            + ".create --factoryA '--type' -h 'Column definitions defining the file header layout.'");
+        defineColumnName(def);
+        defineColumnType(def);
+        defineColumnOffset(def);
+        defineColumnLength(def);
+        defineColumnFormat(def);
+        def.add("-tEnd -k headerIn");
+    }
+
+    static private void defineHeaderOutSubParser (final ArrayList<String> def)
+    {
+        def.add("-tBegin -k headerOut -m1 --var headerOutDefs --class com.obdobion.funnel.columns.FormatPart -h 'Column references defining the output file header layout.'");
+        defineKeyNamePositional(def, false);
+        defineFormatEqu(def);
+        defineFormatType(def);
+        defineFormatFormat(def);
+        defineColumnLength(def);
+        defineFormatSize(def);
+        defineColumnOffset(def);
+        defineFormatFiller(def);
+        def.add("-tEnd -k headerOut");
+    }
+
     /**
      * This only allows references to previously defined column names.
      *
@@ -512,6 +543,9 @@ public class FunnelContext
     public List<KeyPart>        inputColumnDefs;
     public List<FormatPart>     formatOutDefs;
 
+    public List<KeyPart>        headerInDefs;
+    public List<FormatPart>     headerOutDefs;
+
     public HexDump[]            hexDumps;
 
     public Equ[]                whereEqu;
@@ -537,7 +571,9 @@ public class FunnelContext
     public boolean              diskWork;
     public KeyHelper            keyHelper;
     public OutputFormatHelper   formatOutHelper;
+    public HeaderOutHelper      headerOutHelper;
     public ColumnHelper         columnHelper;
+    public HeaderHelper         headerHelper;
     public byte[]               endOfRecordDelimiterIn;
     public byte[]               endOfRecordDelimiterOut;
     public CSVDef               csv;
@@ -574,6 +610,8 @@ public class FunnelContext
 
         defineInputFile(def);
         defineOutputFile(def);
+        defineHeaderInSubParser(def);
+        defineHeaderOutSubParser(def);
         defineFixedLengthIn(def);
         defineFixedLengthOut(def);
         defineInPlaceSort(def);
@@ -808,9 +846,13 @@ public class FunnelContext
     {
         columnHelper = new ColumnHelper();
         keyHelper = new KeyHelper();
-        formatOutHelper = new OutputFormatHelper(columnHelper);
+        formatOutHelper = new OutputFormatHelper(columnHelper, headerHelper);
+        headerHelper = new HeaderHelper();
+        headerOutHelper = new HeaderOutHelper(headerHelper);
 
         postParseInputFile();
+        postParseHeaderIn();
+        postParseHeaderOut();
         postParseInputColumns();
         postParseOrderBy();
         postParseHexDumps();
@@ -886,13 +928,16 @@ public class FunnelContext
                     if (kdef.columnName != null)
                         if (!columnHelper.exists(kdef.columnName))
                         {
-                            if (getAggregateByName(kdef.columnName) == null)
+                            if (!headerHelper.exists(kdef.columnName))
+                            {
+                                if (getAggregateByName(kdef.columnName) == null)
+                                    throw new ParseException(
+                                        "--formatOut must be a defined column or header: "
+                                            + kdef.columnName, 0);
                                 throw new ParseException(
-                                    "--formatOut must be a defined column: "
+                                    "--formatOut must be a defined column, aggregates can only be used within --equ: "
                                         + kdef.columnName, 0);
-                            throw new ParseException(
-                                "--formatOut must be a defined column, aggregates can only be used within --equ: "
-                                    + kdef.columnName, 0);
+                            }
                         }
                     if (kdef.columnName != null && kdef.equation != null)
                         throw new ParseException("--formatOut columnName and --equ are mutually exclusive", 0);
@@ -906,6 +951,105 @@ public class FunnelContext
                     }
 
                     formatOutHelper.add(kdef);
+                } catch (final Exception e)
+                {
+                    throw new ParseException(e.getMessage(), 0);
+                }
+            }
+        }
+    }
+
+    private void postParseHeaderIn () throws ParseException
+    {
+        if (headerInDefs != null)
+        {
+            /*
+             * This may be overridden in the postParseHeaderOut method.
+             */
+            headerOutHelper.setWaitingToWrite(true);
+
+            KeyPart previousColDef = null;
+            for (final KeyPart colDef : headerInDefs)
+            {
+                try
+                {
+                    /*
+                     * Provide a default length when the format is specified and
+                     * the length is not.
+                     */
+                    if (colDef.length == KeyHelper.MAX_KEY_SIZE && colDef.parseFormat != null
+                        && colDef.parseFormat.length() > 0)
+                    {
+                        colDef.length = colDef.parseFormat.length();
+                        logger.debug("column \"{}\" length set to {} because of format", colDef.columnName, colDef.length);
+                    }
+                    if (csv != null)
+                        throw new ParseException("headerIn not supported for csv files", 0);
+
+                    if (colDef.offset == -1) // unspecified
+                    {
+                        if (previousColDef != null)
+                            colDef.offset = previousColDef.offset + previousColDef.length;
+                        else
+                            colDef.offset = 0;
+                    }
+
+                    if (!(colDef instanceof Filler))
+                    {
+                        if (headerHelper.exists(colDef.columnName))
+                            throw new ParseException("headerIn must be unique: " + colDef.columnName, 0);
+                        headerHelper.add(colDef);
+                    }
+                    previousColDef = colDef;
+
+                } catch (final Exception e)
+                {
+                    throw new ParseException(e.getMessage(), 0);
+                }
+            }
+        }
+    }
+
+    private void postParseHeaderOut () throws ParseException
+    {
+        if (headerOutDefs != null)
+        {
+            if (csv != null)
+            {
+                throw new ParseException("--csv and --headerOut are mutually exclusive parameters", 0);
+            }
+            /*
+             * --headerOut(), no args, means to suppress the headerIn from being
+             * written.
+             */
+            headerOutHelper.setWaitingToWrite(
+                    headerOutDefs.size() > 1
+                        || (headerOutDefs.get(0).columnName != null || headerOutDefs.get(0).equation != null));
+
+            for (final FormatPart kdef : headerOutDefs)
+            {
+                try
+                {
+                    if (kdef.offset == -1) // unspecified
+                        kdef.offset = 0;
+
+                    if (kdef.columnName != null)
+                        if (!headerHelper.exists(kdef.columnName))
+                        {
+                            throw new ParseException("--headerOut must be a defined headerIn: " + kdef.columnName, 0);
+                        }
+                    if (kdef.columnName != null && kdef.equation != null)
+                        throw new ParseException("--headerOut columnName and --equ are mutually exclusive", 0);
+                    if (kdef.format != null && kdef.equation == null)
+                        throw new ParseException("--headerOut --format is only valid with --equ", 0);
+
+                    if (kdef.equation != null)
+                    {
+                        if (kdef.length == 255)
+                            throw new ParseException("--headerOut --length is required when --equ is specified", 0);
+                    }
+
+                    headerOutHelper.add(kdef);
                 } catch (final Exception e)
                 {
                     throw new ParseException(e.getMessage(), 0);
@@ -992,7 +1136,12 @@ public class FunnelContext
                         colDef.offset = 0;
                     }
 
-                    columnHelper.add(colDef);
+                    if (!(colDef instanceof Filler))
+                    {
+                        if (headerHelper.exists(colDef.columnName))
+                            throw new ParseException("columnsIn must be unique from headerIn: " + colDef.columnName, 0);
+                        columnHelper.add(colDef);
+                    }
                     previousColDef = colDef;
 
                 } catch (final Exception e)
@@ -1217,6 +1366,16 @@ public class FunnelContext
                             : " format " + col.parseFormat));
         }
 
+        for (final String colName : headerHelper.getNames())
+        {
+            final KeyPart col = headerHelper.get(colName);
+            logger.info("headerIn \"{}\" {} offset {} length {} {}",
+                col.columnName, col.typeName, col.offset, col.length,
+                (col.parseFormat == null
+                        ? ""
+                        : " format " + col.parseFormat));
+        }
+
         if (aggregates != null)
             for (final Aggregate agg : aggregates)
             {
@@ -1259,6 +1418,42 @@ public class FunnelContext
             {
                 final StringBuilder sb = new StringBuilder();
                 sb.append("format ");
+                if (outDef.columnName != null)
+                    sb.append("\"").append(outDef.columnName).append("\"");
+                if (outDef.equation != null)
+                    sb.append("\"").append(outDef.equation.toString()).append("\"");
+                if (outDef.typeName != null)
+                    sb.append(" ").append(outDef.typeName.name());
+                if (outDef.format != null)
+                    sb.append(" format \"").append(outDef.format).append("\"");
+                if (outDef.filler != 0x00)
+                    sb.append(" fill=").append(ByteCLA.asLiteral(outDef.filler));
+                if (outDef.length != 255)
+                    sb.append(" length ").append(outDef.length);
+                if (outDef.offset != 0)
+                    sb.append(" offset ").append(outDef.offset);
+                if (outDef.size != 255)
+                    sb.append(" size ").append(outDef.size);
+
+                logger.info(sb.toString());
+
+                if (outDef.equation != null)
+                {
+                    try
+                    {
+                        logger.trace("\n{}", outDef.equation.showRPN());
+                    } catch (final Exception e)
+                    {
+                        logger.warn("algebrain", e);
+                    }
+                }
+            }
+
+        if (headerOutDefs != null)
+            for (final FormatPart outDef : headerOutDefs)
+            {
+                final StringBuilder sb = new StringBuilder();
+                sb.append("headerOut ");
                 if (outDef.columnName != null)
                     sb.append("\"").append(outDef.columnName).append("\"");
                 if (outDef.equation != null)

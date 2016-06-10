@@ -1,8 +1,8 @@
 package com.obdobion.funnel.orderby;
 
 import java.nio.ByteBuffer;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -66,7 +66,7 @@ public class DateKey extends KeyPart
     @Override
     public void pack (final KeyContext context) throws Exception
     {
-        parseObjectFromRawData(context);
+        parseObject(context);
         formatObjectIntoKey(context, contents.getTimeInMillis());
 
         if (nextPart != null)
@@ -74,17 +74,17 @@ public class DateKey extends KeyPart
     }
 
     @Override
-    public void parseObjectFromRawData (final KeyContext context) throws ParseException
+    public void parseObjectFromRawData (final byte[] rawBytes) throws Exception
     {
         contents = Calendar.getInstance();
-
-        final byte[] rawBytes = rawBytes(context);
 
         int lengthThisTime = length;
         if (rawBytes.length < offset + length)
             lengthThisTime = rawBytes.length - offset;
 
         final String trimmed = new String(rawBytes, offset, lengthThisTime).trim();
+        unformattedContents = Arrays.copyOfRange(rawBytes, offset, offset + lengthThisTime);
+
         long longValue = 0;
 
         if (trimmed.length() > 0)

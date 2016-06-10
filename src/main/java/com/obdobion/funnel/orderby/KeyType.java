@@ -12,7 +12,8 @@ public enum KeyType
         BInteger(BinaryIntKey.class),
         BFloat(BinaryFloatKey.class),
         Date(DateKey.class),
-        Byte(ByteKey.class);
+        Byte(ByteKey.class),
+        Filler(Filler.class);
 
     static public KeyPart create (final String keyType) throws Exception
     {
@@ -22,7 +23,7 @@ public enum KeyType
         return (KeyPart) kt.instanceClass.newInstance();
     }
 
-    Class<?> instanceClass;
+    public Class<?> instanceClass;
 
     private KeyType(final Class<?> _instanceClass)
     {

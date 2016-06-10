@@ -37,10 +37,4 @@ abstract public class FixedLengthPublisher extends AbstractPublisher
             originalBytes[b] = ' ';
         super.loadOriginalBytes(originalFileNumber, item);
     }
-
-    @Override
-    void publishHeader () throws IOException
-    {
-        // nothing to do since fixed length CSV files are not supported
-    }
 }

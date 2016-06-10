@@ -31,6 +31,7 @@ public class BinaryIntKey extends KeyPart
             longValue = 0 - longValue;
 
         final ByteBuffer bb = ByteBuffer.wrap(context.key, context.keyLength, 8);
+        unformattedContents = bb.array();
 
         /*
          * Flip the sign bit so negatives are before positives in ascending
@@ -81,7 +82,7 @@ public class BinaryIntKey extends KeyPart
     @Override
     public void pack (final KeyContext context) throws Exception
     {
-        parseObjectFromRawData(context);
+        parseObject(context);
         formatObjectIntoKey(context, contents);
 
         if (nextPart != null)
@@ -90,10 +91,8 @@ public class BinaryIntKey extends KeyPart
 
     @SuppressWarnings("incomplete-switch")
     @Override
-    public void parseObjectFromRawData (final KeyContext context) throws Exception
+    public void parseObjectFromRawData (final byte[] rawBytes) throws Exception
     {
-        final byte[] rawBytes = rawBytes(context);
-
         if (rawBytes.length < offset + length)
             throw new Exception("index out of bounds: " + (offset + length));
 

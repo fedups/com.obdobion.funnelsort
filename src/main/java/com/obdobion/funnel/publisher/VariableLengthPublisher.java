@@ -44,6 +44,7 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
         StringBuilder sb;
         final Formatter fmt = new Formatter(sb = new StringBuilder());
         fmt.format("%04d", value);
+        fmt.close();
 
         final byte[] ba = sb.toString().getBytes();
 
@@ -71,35 +72,6 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
         chars[offset++] = HEX_CHARS[byteAsInt & 0x0F];
         return offset;
 
-    }
-
-    /**
-     * Appends the hexadecimal representation of a 4 byte integer to a character
-     * array at a given location. It is assumed the char array is large enough
-     * to fit the 8 hex chars that are added.
-     *
-     * @param i - the byte value to convert to a hex character representation
-     * @param chars - A char array. The hex representation of the int value will
-     * be added to this array beginning starting at the startOffset.
-     * @param startOffset - The array index at which hex chars will be added.
-     * @return offset after the hex chars that were added (startOffset + 4).
-     */
-    private static int appendHexChars (final int i, final byte[] chars, final int startOffset)
-    {
-        int offset;
-        int value;
-
-        offset = startOffset;
-        value = i;
-        // chars[offset++] = HEX_CHARS[value >> 28 & 0x0F];
-        // chars[offset++] = HEX_CHARS[value >> 24 & 0x0F];
-        // chars[offset++] = HEX_CHARS[value >> 20 & 0x0F];
-        // chars[offset++] = HEX_CHARS[value >> 16 & 0x0F];
-        chars[offset++] = HEX_CHARS[value >> 12 & 0x0F];
-        chars[offset++] = HEX_CHARS[value >> 8 & 0x0F];
-        chars[offset++] = HEX_CHARS[value >> 4 & 0x0F];
-        chars[offset++] = HEX_CHARS[value & 0x0F];
-        return offset;
     }
 
     private static final int dumpBuffSize (final int p_charsPerRow)
@@ -292,7 +264,8 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
         super.loadOriginalBytes(originalFileNumber, item);
     }
 
-    private void newLine () throws IOException
+    @Override
+    void newLine () throws IOException
     {
         write(context.endOfRecordDelimiterOut, 0, context.endOfRecordDelimiterOut.length);
     }
@@ -300,6 +273,7 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
     @Override
     void publishHeader () throws IOException
     {
+        super.publishHeader();
         /*
          * This is the first time publishing to this file. So lets see if there
          * is a header tucked away in the csv context area. We will write that

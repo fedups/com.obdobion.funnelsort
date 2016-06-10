@@ -90,7 +90,7 @@ public class BinaryFloatKey extends KeyPart
     @Override
     public void pack (final KeyContext _context) throws Exception
     {
-        parseObjectFromRawData(_context);
+        parseObject(_context);
         formatObjectIntoKey(_context, contents);
 
         if (nextPart != null)
@@ -99,14 +99,13 @@ public class BinaryFloatKey extends KeyPart
 
     @SuppressWarnings("incomplete-switch")
     @Override
-    public void parseObjectFromRawData (final KeyContext context) throws Exception
+    public void parseObjectFromRawData (final byte[] rawBytes) throws Exception
     {
-        final byte[] rawBytes = rawBytes(context);
-
         if (rawBytes.length < offset + length)
             throw new Exception("index out of bounds: " + (offset + length));
 
         final ByteBuffer bb = ByteBuffer.wrap(rawBytes, offset, 8);
+        unformattedContents = bb.array();
 
         switch (length)
         {

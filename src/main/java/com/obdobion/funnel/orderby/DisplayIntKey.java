@@ -1,6 +1,7 @@
 package com.obdobion.funnel.orderby;
 
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 /**
  * @author Chris DeGreef
@@ -43,7 +44,7 @@ public class DisplayIntKey extends KeyPart
     @Override
     public void pack (final KeyContext context) throws Exception
     {
-        parseObjectFromRawData(context);
+        parseObject(context);
         packObjectIntoKey(context, contents);
 
         if (nextPart != null)
@@ -72,18 +73,18 @@ public class DisplayIntKey extends KeyPart
 
     @SuppressWarnings("null")
     @Override
-    public void parseObjectFromRawData (final KeyContext context)
+    public void parseObjectFromRawData (final byte[] rawBytes) throws Exception
     {
         if (trimmed == null)
             trimmed = new byte[length];
-
-        final byte[] rawBytes = rawBytes(context);
 
         int lengthThisTime = length;
         if (rawBytes == null)
             lengthThisTime = 0;
         else if (rawBytes.length < offset + length)
             lengthThisTime = rawBytes.length - offset;
+
+        unformattedContents = Arrays.copyOfRange(rawBytes, offset, offset + lengthThisTime);
 
         int t = 0;
         boolean minusSignFound = false;

@@ -64,7 +64,7 @@ public class RecordNumberKey extends KeyPart
     @Override
     public void pack (final KeyContext context) throws Exception
     {
-        parseObjectFromRawData(context);
+        parseObject(context);
         formatObjectIntoKey(context, contents);
 
         if (nextPart != null)
@@ -72,8 +72,14 @@ public class RecordNumberKey extends KeyPart
     }
 
     @Override
-    public void parseObjectFromRawData (final KeyContext context)
+    public void parseObject (final KeyContext context)
     {
         contents = context.recordNumber;
+    }
+
+    @Override
+    public void parseObjectFromRawData (final byte[] rawBytes) throws Exception
+    {
+        // not used since this is a system variable
     }
 }

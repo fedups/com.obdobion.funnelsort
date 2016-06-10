@@ -60,7 +60,7 @@ public class ByteKey extends KeyPart
     @Override
     public void pack (final KeyContext context) throws Exception
     {
-        parseObjectFromRawData(context);
+        parseObject(context);
 
         formatObjectIntoKey(context, contents);
 
@@ -69,8 +69,9 @@ public class ByteKey extends KeyPart
     }
 
     @Override
-    public void parseObjectFromRawData (final KeyContext context) throws Exception
+    public void parseObjectFromRawData (final byte[] rawBytes) throws Exception
     {
-        contents = Arrays.copyOfRange(rawBytes(context), this.offset, this.offset + this.length);
+        contents = Arrays.copyOfRange(rawBytes, this.offset, this.offset + this.length);
+        unformattedContents = contents;
     }
 }

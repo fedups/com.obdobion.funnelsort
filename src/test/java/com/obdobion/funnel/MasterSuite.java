@@ -20,6 +20,7 @@ import org.junit.runners.Suite.SuiteClasses;
     FormatOutputTest.class,
     FormatTests.class,
     FunnelTest.class,
+    HeaderTests.class,
     HexDumpTest.class,
     InputCacheTests.class,
     InputTest.class,

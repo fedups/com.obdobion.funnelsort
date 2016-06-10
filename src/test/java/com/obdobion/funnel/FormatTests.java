@@ -597,7 +597,7 @@ public class FormatTests
             Assert.fail("Expected an exception");
         } catch (final ParseException e)
         {
-            Assert.assertEquals("--formatOut must be a defined column: colone", e.getMessage());
+            Assert.assertEquals("--formatOut must be a defined column or header: colone", e.getMessage());
         }
     }
 

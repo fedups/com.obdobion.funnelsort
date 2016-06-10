@@ -26,7 +26,7 @@ public abstract class AbstractProvider implements FunnelDataProvider
     byte                row[];
     int                 unselectedCount;
 
-    Equ[]               cachedEquations;
+    private Equ[]       cachedEquations;
 
     public AbstractProvider(final FunnelContext _context) throws IOException, ParseException
     {
@@ -54,6 +54,28 @@ public abstract class AbstractProvider implements FunnelDataProvider
             return;
         reader.close();
         reader = null;
+    }
+
+    Equ[] getCachedEquations ()
+    {
+        if (cachedEquations == null)
+        {
+            int ceSize = 0;
+            if (context.whereEqu != null)
+                ceSize += context.whereEqu.length;
+            if (context.stopEqu != null)
+                ceSize += context.stopEqu.length;
+            cachedEquations = new Equ[ceSize];
+
+            int ce = 0;
+            if (context.whereEqu != null)
+                for (final Equ equ : context.whereEqu)
+                    cachedEquations[ce++] = equ;
+            if (context.stopEqu != null)
+                for (final Equ equ : context.stopEqu)
+                    cachedEquations[ce++] = equ;
+        }
+        return cachedEquations;
     }
 
     long getContinuousRecordNumber ()
@@ -135,6 +157,12 @@ public abstract class AbstractProvider implements FunnelDataProvider
                         continue;
                     }
                     break;
+                }
+                if (context.headerHelper.isWaitingForInput())
+                {
+                    context.headerHelper
+                            .extract(context, row, getContinuousRecordNumber(), byteCount, getCachedEquations());
+                    continue;
                 }
                 /*
                  * Putting this incrementer here causes the record number to be
@@ -235,24 +263,7 @@ public abstract class AbstractProvider implements FunnelDataProvider
 
     void preSelectionExtract (final int byteCount) throws Exception
     {
-        if (cachedEquations == null)
-        {
-            int ceSize = 0;
-            if (context.whereEqu != null)
-                ceSize += context.whereEqu.length;
-            if (context.stopEqu != null)
-                ceSize += context.stopEqu.length;
-            cachedEquations = new Equ[ceSize];
-
-            int ce = 0;
-            if (context.whereEqu != null)
-                for (final Equ equ : context.whereEqu)
-                    cachedEquations[ce++] = equ;
-            if (context.stopEqu != null)
-                for (final Equ equ : context.stopEqu)
-                    cachedEquations[ce++] = equ;
-        }
-        context.columnHelper.extract(context, row, getContinuousRecordNumber(), byteCount, cachedEquations);
+        context.columnHelper.extract(context, row, getContinuousRecordNumber(), byteCount, getCachedEquations());
     }
 
     boolean recordLengthOK (@SuppressWarnings("unused")

@@ -18,6 +18,7 @@ abstract public class KeyPart
     public KeyPart      nextPart;
     public String       typeName;
     public String       columnName;
+    byte[]              unformattedContents;
 
     public KeyPart()
     {
@@ -57,7 +58,7 @@ abstract public class KeyPart
 
     public byte[] getContentsAsByteArray ()
     {
-        return new byte[0];
+        return unformattedContents;
     }
 
     abstract public double getContentsAsDouble ();
@@ -127,7 +128,12 @@ abstract public class KeyPart
 
     abstract public void pack (KeyContext context) throws Exception;
 
-    abstract public void parseObjectFromRawData (final KeyContext context) throws Exception;
+    public void parseObject (final KeyContext context) throws Exception
+    {
+        parseObjectFromRawData(rawBytes(context));
+    }
+
+    public abstract void parseObjectFromRawData (byte[] rawData) throws Exception;
 
     byte[] rawBytes (final KeyContext context)
     {

@@ -8,7 +8,7 @@ import com.obdobion.algebrain.TokVariable;
 import com.obdobion.funnel.orderby.KeyContext;
 import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.orderby.KeyType;
-import com.obdobion.funnel.segment.SourceProxyRecord;
+import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
  * @author Chris DeGreef
@@ -49,13 +49,14 @@ public class FormatPart
     }
 
     public void originalData (
-        final KeyContext context,
-        final SourceProxyRecord proxyRecord,
+        final KeyContext keyContext,
+        final FunnelContext funnelContext,
+        final int originalSize,
         final ByteArrayOutputStream outputBytes) throws Exception
     {
         if (column != null)
         {
-            writeToOutput(outputBytes, context.rawRecordBytes[0], column.offset, column.length, proxyRecord.originalSize);
+            writeToOutput(outputBytes, keyContext.rawRecordBytes[0], column.offset, column.length, originalSize);
         } else
         {
             if (equation != null)
@@ -85,14 +86,21 @@ public class FormatPart
                 }
             } else
             {
-                /*
-                 * filler only
-                 */
-                writeToOutput(outputBytes, null, 0, 0, 0);
+                if (funnelContext.headerHelper.exists(columnName))
+                {
+                    final KeyPart headerCol = funnelContext.headerHelper.get(columnName);
+                    final byte[] result = funnelContext.headerHelper.getContents(headerCol);
+                    writeToOutput(outputBytes, result, offset, result.length, result.length);
+
+                } else
+                    /*
+                     * filler only
+                     */
+                    writeToOutput(outputBytes, null, 0, 0, 0);
             }
         }
         if (nextPart != null)
-            nextPart.originalData(context, proxyRecord, outputBytes);
+            nextPart.originalData(keyContext, funnelContext, originalSize, outputBytes);
     }
 
     private void writeToOutput (

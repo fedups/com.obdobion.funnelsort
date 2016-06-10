@@ -141,7 +141,7 @@ public class ColumnHelper
         {
             try
             {
-                col.parseObjectFromRawData(context);
+                col.parseObject(context);
                 for (int e = 0; e < equations.length; e++)
                 {
                     if (equations[e] != null)
@@ -158,7 +158,7 @@ public class ColumnHelper
             }
         }
         final Long rn = new Long(recordNumber);
-        final Integer rs = new Integer(dataLength);
+        final Long rs = new Long(dataLength);
 
         for (int e = 0; e < equations.length; e++)
         {
@@ -218,7 +218,7 @@ public class ColumnHelper
         {
             try
             {
-                col.parseObjectFromRawData(context);
+                col.parseObject(context);
 
             } catch (final Exception e)
             {

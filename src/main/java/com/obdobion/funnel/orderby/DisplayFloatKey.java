@@ -28,6 +28,7 @@ public class DisplayFloatKey extends KeyPart
             doubleValue = 0 - doubleValue;
 
         final ByteBuffer bb = ByteBuffer.wrap(context.key, context.keyLength, 8);
+        unformattedContents = bb.array();
 
         long longbits = Double.doubleToRawLongBits(doubleValue);
         if (doubleValue < 0)
@@ -69,7 +70,7 @@ public class DisplayFloatKey extends KeyPart
     @Override
     public void pack (final KeyContext context) throws Exception
     {
-        parseObjectFromRawData(context);
+        parseObject(context);
         formatObjectIntoKey(context, contents);
 
         if (nextPart != null)
@@ -77,12 +78,10 @@ public class DisplayFloatKey extends KeyPart
     }
 
     @Override
-    public void parseObjectFromRawData (final KeyContext context)
+    public void parseObjectFromRawData (final byte[] rawBytes) throws Exception
     {
         if (trimmed == null)
             trimmed = new byte[length];
-
-        final byte[] rawBytes = rawBytes(context);
 
         int lengthThisTime = length;
         if (rawBytes.length < offset + length)

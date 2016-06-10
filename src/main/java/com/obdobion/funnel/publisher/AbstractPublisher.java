@@ -126,6 +126,14 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
         originalFile.read(originalFileNumber, originalBytes, item.originalLocation, item.originalSize);
     }
 
+    /**
+     * @throws IOException
+     */
+    void newLine () throws IOException
+    {
+        // new lines mean nothing at the abstract level.
+    }
+
     @Override
     public void openInput () throws ParseException
     {
@@ -253,7 +261,14 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
         return true;
     }
 
-    abstract void publishHeader () throws IOException;
+    void publishHeader () throws IOException
+    {
+        if (context.headerOutHelper.isWaitingToWrite())
+        {
+            context.headerOutHelper.format(context, this);
+            newLine();
+        }
+    }
 
     public void reset () throws IOException, ParseException
     {

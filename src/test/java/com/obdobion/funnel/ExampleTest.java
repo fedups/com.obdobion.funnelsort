@@ -251,6 +251,32 @@ public class ExampleTest
     }
 
     @Test
+    public void hexDumpColumns () throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
+
+        Assert.assertEquals("records in ", 52L, context.getRecordCount());
+        Assert.assertEquals("records out", 7L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
+    }
+
+    @Test
+    public void hexDumpRow () throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        final FunnelContext context = Funnel.sort(Helper.config(), "@" + testName + ".fun");
+
+        Assert.assertEquals("records in ", 52L, context.getRecordCount());
+        Assert.assertEquals("records out", 7L, context.getWriteCount());
+        Assert.assertEquals("records dup", 0L, context.getDuplicateCount());
+    }
+
+    @Test
     public void multiKey () throws Throwable
     {
         final String testName = Helper.testName();
