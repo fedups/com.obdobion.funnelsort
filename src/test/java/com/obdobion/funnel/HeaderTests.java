@@ -18,6 +18,37 @@ import com.obdobion.funnel.parameters.FunnelContext;
 public class HeaderTests
 {
     @Test
+    public void addHeaderToFile ()
+        throws Throwable
+    {
+        final String testName = Helper.testName();
+        Helper.initializeFor(testName);
+
+        final List<String> logFile = new ArrayList<>();
+        logFile.add("TEST20160608 1");
+        logFile.add("TEST20160608 2");
+
+        final File file = Helper.createUnsortedFile(testName, logFile);
+
+        final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
+            + " --replace"
+            + " --col(string -l4 -n TYPE)"
+            + "      (date   -l8 -n DATE -d'yyyyMMdd')"
+            + "      (int    -l2 -n SEQ)"
+            + " --orderBy(seq desc)"
+            + " --headerOut(-e'date(\"20160609\", \"yyyyMMdd\")' -l 28 -d '%tc')");
+
+        Assert.assertEquals("records", 2L, context.getWriteCount());
+
+        final List<String> expectedLines = new ArrayList<>();
+        expectedLines.add("Thu Jun 09 00:00:00 CDT 2016");
+        expectedLines.add("TEST20160608 2");
+        expectedLines.add("TEST20160608 1");
+        Helper.compare(file, expectedLines);
+        Assert.assertTrue(file.delete());
+    }
+
+    @Test
     public void consumeHeader ()
         throws Throwable
     {
@@ -339,13 +370,14 @@ public class HeaderTests
     }
 
     @Test
-    public void writeHeaderOutWithEquButNoHeaderIn ()
+    public void writeMinimalHeaderToOutput ()
         throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
 
         final List<String> logFile = new ArrayList<>();
+        logFile.add("20160608TEST");
         logFile.add("TEST20160608 1");
         logFile.add("TEST20160608 2");
 
@@ -357,12 +389,12 @@ public class HeaderTests
             + "      (date   -l8 -n DATE -d'yyyyMMdd')"
             + "      (int    -l2 -n SEQ)"
             + " --orderBy(seq desc)"
-            + " --headerOut(-e'date(\"20160609\", \"yyyyMMdd\")' -l 28 -d '%tc')");
+            + " --headerIn(filler)");
 
         Assert.assertEquals("records", 2L, context.getWriteCount());
 
         final List<String> expectedLines = new ArrayList<>();
-        expectedLines.add("Thu Jun 09 00:00:00 CDT 2016");
+        expectedLines.add("20160608TEST");
         expectedLines.add("TEST20160608 2");
         expectedLines.add("TEST20160608 1");
         Helper.compare(file, expectedLines);

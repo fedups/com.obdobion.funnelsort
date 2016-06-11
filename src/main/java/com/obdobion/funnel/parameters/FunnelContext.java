@@ -961,8 +961,15 @@ public class FunnelContext
 
     private void postParseHeaderIn () throws ParseException
     {
+        headerHelper.setWaitingForInput(false);
         if (headerInDefs != null)
         {
+            headerHelper.setWaitingForInput(true);
+
+            // headerInDefs.size() > 1
+            // || (headerInDefs.get(0).columnName != null ||
+            // headerInDefs.get(0).equation != null)
+
             /*
              * This may be overridden in the postParseHeaderOut method.
              */
@@ -1272,28 +1279,28 @@ public class FunnelContext
     void showParameters () throws IOException, ParseException
     {
         if (isSysin())
-            logger.info("input is SYSIN");
+            showParametersLog(true, "input is SYSIN");
         else
             for (final File file : inputFiles.files())
-                logger.info("inputFilename = {}", file.getAbsolutePath());
+                showParametersLog(true, "inputFilename = {}", file.getAbsolutePath());
 
         if (isCacheInput())
-            logger.debug("input caching enabled");
+            showParametersLog(false, "input caching enabled");
 
         if (isSysout())
-            logger.info("output is SYSOUT");
+            showParametersLog(true, "output is SYSOUT");
         else if (isInPlaceSort())
-            logger.info("outputFilename= input file name");
+            showParametersLog(true, "outputFilename= input file name");
         else
-            logger.info("outputFilename= {}", outputFile.getAbsolutePath());
+            showParametersLog(true, "outputFilename= {}", outputFile.getAbsolutePath());
 
         if (isCacheWork())
-            logger.debug("work files are cached in memory");
+            showParametersLog(false, "work files are cached in memory");
         else
-            logger.debug("work directory= {}", workDirectory.getAbsolutePath());
+            showParametersLog(false, "work directory= {}", workDirectory.getAbsolutePath());
 
         if (specDirectory != null)
-            logger.debug("specification include path is {}", specDirectory);
+            showParametersLog(false, "specification include path is {}", specDirectory);
 
         if (fixedRecordLengthIn > 0)
         {
@@ -1301,11 +1308,11 @@ public class FunnelContext
             sb.append("FixedIn  = ").append(fixedRecordLengthIn);
             if (isVariableLengthOutput())
                 sb.append(" adding VLR delimiters on output");
-            logger.info(sb.toString());
+            showParametersLog(false, sb.toString());
         } else
         {
             if (maximumNumberOfRows != Long.MAX_VALUE)
-                logger.debug("max rows= {}", maximumNumberOfRows);
+                showParametersLog(false, "max rows= {}", maximumNumberOfRows);
 
             final StringBuilder bytes = new StringBuilder();
             bytes.append("in:");
@@ -1324,7 +1331,7 @@ public class FunnelContext
                 }
             }
 
-            logger.info("End of line delimeter {}", bytes.toString());
+            showParametersLog(false, "End of line delimeter {}", bytes.toString());
 
             if (csv != null)
             {
@@ -1334,32 +1341,32 @@ public class FunnelContext
                     csvMsg.append("has header");
                 else
                     csvMsg.append("no header");
-                logger.info(csvMsg.toString());
+                showParametersLog(false, csvMsg.toString());
             }
         }
         if (fixedRecordLengthOut > 0)
         {
             final StringBuilder sb = new StringBuilder();
             sb.append("FixedOut = ").append(fixedRecordLengthOut);
-            logger.info(sb.toString());
+            showParametersLog(false, sb.toString());
         }
 
-        logger.debug("power   = {}", depth);
+        showParametersLog(false, "power   = {}", depth);
 
         if (duplicateDisposition != DuplicateDisposition.Original)
-            logger.info("dups    = {}", duplicateDisposition.name());
+            showParametersLog(false, "dups    = {}", duplicateDisposition.name());
 
         for (final String colName : columnHelper.getNames())
         {
             final KeyPart col = columnHelper.get(colName);
             if (csv == null)
-                logger.info("col \"{}\" {} offset {} length {} {}",
+                showParametersLog(false, "col \"{}\" {} offset {} length {} {}",
                     col.columnName, col.typeName, col.offset, col.length,
                     (col.parseFormat == null
                             ? ""
                             : " format " + col.parseFormat));
             else
-                logger.info("col {} {} csvField {} {}",
+                showParametersLog(false, "col {} {} csvField {} {}",
                     col.columnName, col.typeName, col.csvFieldNumber,
                     (col.parseFormat == null
                             ? ""
@@ -1369,7 +1376,7 @@ public class FunnelContext
         for (final String colName : headerHelper.getNames())
         {
             final KeyPart col = headerHelper.get(colName);
-            logger.info("headerIn \"{}\" {} offset {} length {} {}",
+            showParametersLog(false, "headerIn \"{}\" {} offset {} length {} {}",
                 col.columnName, col.typeName, col.offset, col.length,
                 (col.parseFormat == null
                         ? ""
@@ -1380,9 +1387,9 @@ public class FunnelContext
             for (final Aggregate agg : aggregates)
             {
                 if (agg instanceof AggregateCount)
-                    logger.info("aggregate \"count\"");
+                    showParametersLog(false, "aggregate \"count\"");
                 else
-                    logger.info("aggregate \"{}\" {}",
+                    showParametersLog(false, "aggregate \"{}\" {}",
                         agg.name,
                         (agg.columnName == null
                                 ? agg.equation.toString()
@@ -1393,7 +1400,7 @@ public class FunnelContext
         {
             for (final Equ equ : whereEqu)
             {
-                logger.info("where \"{}\"", equ.toString());
+                showParametersLog(true, "where \"{}\"", equ.toString());
             }
         }
 
@@ -1401,7 +1408,7 @@ public class FunnelContext
         {
             for (final Equ equ : stopEqu)
             {
-                logger.info("stopWhen \"{}\"", equ.toString());
+                showParametersLog(true, "stopWhen \"{}\"", equ.toString());
             }
         }
 
@@ -1410,7 +1417,7 @@ public class FunnelContext
         else
             for (final KeyPart def : keys)
             {
-                logger.info("orderBy {} {}", def.columnName, def.direction.name());
+                showParametersLog(false, "orderBy {} {}", def.columnName, def.direction.name());
             }
 
         if (formatOutDefs != null)
@@ -1435,7 +1442,7 @@ public class FunnelContext
                 if (outDef.size != 255)
                     sb.append(" size ").append(outDef.size);
 
-                logger.info(sb.toString());
+                showParametersLog(false, sb.toString());
 
                 if (outDef.equation != null)
                 {
@@ -1471,7 +1478,7 @@ public class FunnelContext
                 if (outDef.size != 255)
                     sb.append(" size ").append(outDef.size);
 
-                logger.info(sb.toString());
+                showParametersLog(false, sb.toString());
 
                 if (outDef.equation != null)
                 {
@@ -1484,6 +1491,14 @@ public class FunnelContext
                     }
                 }
             }
+    }
+
+    private void showParametersLog (final boolean forceInfo, final String message, final Object... parms)
+    {
+        if (forceInfo || isSyntaxOnly())
+            logger.info(message, parms);
+        else
+            logger.debug(message, parms);
     }
 
     public boolean startNextInput () throws ParseException, IOException

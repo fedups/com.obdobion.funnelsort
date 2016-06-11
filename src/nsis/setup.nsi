@@ -92,23 +92,8 @@ Section "FunnelSort"
     SetOutPath $INSTDIR\examples\data
     SetOverwrite on
     
-    File ..\..\src\examples\data\MyDataCSV.in
-    SetFileAttributes MyDataCSV.in READONLY
-    
-    File ..\..\src\examples\data\MyDataFixed.in
-    SetFileAttributes MyDataFixed.in READONLY
-    
-    File ..\..\src\examples\data\MyDataVariable.in
-    SetFileAttributes MyDataVariable.in READONLY
-    
-    File ..\..\src\examples\data\MyDataVariable1.in
-    SetFileAttributes MyDataVariable1.in READONLY
-    
-    File ..\..\src\examples\data\MyDataVariable2.in
-    SetFileAttributes MyDataVariable2.in READONLY
-    
-    File ..\..\src\examples\data\MyLog.in
-    SetFileAttributes MyLog.in READONLY
+    File ..\..\src\examples\data\*.in
+    SetFileAttributes * READONLY
     
     SetOutPath $INSTDIR\examples
     SetOverwrite on

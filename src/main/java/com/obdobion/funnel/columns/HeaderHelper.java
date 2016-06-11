@@ -64,9 +64,14 @@ public class HeaderHelper extends ColumnHelper
         if (waitingForInput)
         {
             waitingForInput = false;
-            if (columns != null && columns.size() > 0)
-                return true;
+            // if (columns != null && columns.size() > 0)
+            return true;
         }
         return false;
+    }
+
+    public void setWaitingForInput (final boolean shouldReadHeader)
+    {
+        waitingForInput = shouldReadHeader;
     }
 }

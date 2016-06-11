@@ -1,0 +1,6 @@
+@MyDataVariable.def
+
+ --headerIn
+  (date   -l8 -n RUNDATE -d'yyyyMMdd')
+  (filler -l1)
+  (string -l4 -n RUNTYPE)

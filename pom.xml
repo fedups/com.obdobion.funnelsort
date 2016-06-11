@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>obdobion</groupId>
 	<artifactId>funnel</artifactId>
-	<version>1.5.22</version>
+	<version>1.5.23</version>
 	<name>funnel</name>
 	<url>https://github.com/fedup41/funnelsort</url>
 	<organization>
@@ -17,8 +17,8 @@
 		<junit.version>4.8.1</junit.version>
 		<log4j.version>1.2.17</log4j.version>
 		<slf4j.version>1.7.13</slf4j.version>
-		<argument.version>2.3.46</argument.version>
-		<algebrain.version>1.3.7</algebrain.version>
+		<argument.version>2.3.47</argument.version>
+		<algebrain.version>1.3.8</algebrain.version>
 		<commons-codec.version>1.9</commons-codec.version>
 		<project.build.sourceEncoding>Cp1252</project.build.sourceEncoding>
 	</properties>
