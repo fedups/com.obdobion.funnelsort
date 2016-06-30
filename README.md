@@ -211,3 +211,24 @@ Funnel is a sort / copy / merge utility.
 
     [--version]
         Display the version of Funnel
+        
+Running commands in Docker
+
+	Install Docker, https://docs.docker.com/engine/installation/
+	
+	To build image:
+	
+	`docker build -t java .`
+	
+	To test to prove it works:
+	
+	`docker run java bash java -version`
+	
+	To use:
+	
+	You will need to expose your filesystem to the java container so it can see your java files. 
+	Make sure the -v [path on host]:[path inside container] matches your filesystem and container commands.
+		
+	`docker run -v ~/workspace/java-project:/java-project java bash javac /java-project/MyClass.java`
+	
+	`docker run -v ~/workspace/java-project:/java-project java bash java -cp /java-project MyClass`
