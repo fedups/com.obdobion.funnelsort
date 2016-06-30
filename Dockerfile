@@ -1,5 +1,5 @@
 #
-# OpenJDK Java 7 JRE Dockerfile
+# Oracle Java 8 Dockerfile
 #
 
 # Pull base image.
