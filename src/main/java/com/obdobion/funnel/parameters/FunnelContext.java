@@ -127,13 +127,13 @@ public class FunnelContext
     static private void defineCacheInput (
         final List<String> def)
     {
-        def.add("-tBoolean -k noCacheInput --var noCacheInput --def false -h 'Caching the input file into memory is faster.  This will turn off the feature.'");
+        def.add("-tBoolean -k noCacheInput --camelCaps --var noCacheInput --def false -h 'Caching the input file into memory is faster.  This will turn off the feature.'");
     }
 
     static private void defineCacheWork (
         final List<String> def)
     {
-        def.add("-tBoolean -k diskWork --var diskWork --def false -h 'Work files are stored on disk.  The amount of memory required to hold work areas in memory is about (2 * (keySize + 24)).'");
+        def.add("-tBoolean -k diskWork --camelCaps  --var diskWork --def false -h 'Work files are stored on disk.  The amount of memory required to hold work areas in memory is about (2 * (keySize + 24)).'");
     }
 
     static private void defineColumnCSVField (
@@ -175,7 +175,7 @@ public class FunnelContext
     static private void defineColumnsInSubParser (
         final ArrayList<String> def)
     {
-        def.add("-tBegin -k columnsIn -m1 --var inputColumnDefs --factoryMethod "
+        def.add("-tBegin -k columnsIn --camelCaps  -m1 --var inputColumnDefs --factoryMethod "
             + KeyType.class.getName()
             + ".create --factoryA '--type' -h 'Column definitions defining the input file layout.'");
         defineColumnName(def);
@@ -205,33 +205,33 @@ public class FunnelContext
 
     static private void defineCsvCommentMarker (final ArrayList<String> def)
     {
-        def.add("-tByte -k c commentMarker --var commentMarker -h 'Sets the comment start marker of the format to the specified character. Note that the comment start character is only recognized at the start of a line.'");
+        def.add("-tByte -k c commentMarker --camelCaps  --var commentMarker -h 'Sets the comment start marker of the format to the specified character. Note that the comment start character is only recognized at the start of a line.'");
     }
 
     static private void defineCsvEscape (final ArrayList<String> def)
     {
-        def.add("-tByte -k x escape --var escape -h 'Sets the escape character of the format to the specified character.'");
+        def.add("-tByte -k x escape  --var escape -h 'Sets the escape character of the format to the specified character.'");
     }
 
     static private void defineCsvFieldDelimiter (final ArrayList<String> def)
     {
-        def.add("-tByte -k d delimiter --var delimiter -h 'Sets the delimiter of the format to the specified character.'");
+        def.add("-tByte -k d delimiter  --var delimiter -h 'Sets the delimiter of the format to the specified character.'");
     }
 
     static private void defineCsvHeader (
         final ArrayList<String> def)
     {
-        def.add("-tBoolean -k h header --var header -h'Skip over the first line for sorting and just write it to the beginning of the output file.'");
+        def.add("-tBoolean -k h header  --var header -h'Skip over the first line for sorting and just write it to the beginning of the output file.'");
     }
 
     static private void defineCsvIgnoreEmptyLines (final ArrayList<String> def)
     {
-        def.add("-tBoolean -k e ignoreEmptyLines --var ignoreEmptyLines -h 'Sets the empty line skipping behavior of the format to true.'");
+        def.add("-tBoolean -k e ignoreEmptyLines --camelCaps  --var ignoreEmptyLines -h 'Sets the empty line skipping behavior of the format to true.'");
     }
 
     static private void defineCsvIgnoreSurroundingSpaces (final ArrayList<String> def)
     {
-        def.add("-tBoolean -k s ignoreSurroundingSpaces --var ignoreSurroundingSpaces -h 'Sets the trimming behavior of the format to true.'");
+        def.add("-tBoolean -k s ignoreSurroundingSpaces --camelCaps  --var ignoreSurroundingSpaces -h 'Sets the trimming behavior of the format to true.'");
     }
 
     static private void defineCSVInSubParser (
@@ -254,7 +254,7 @@ public class FunnelContext
 
     static private void defineCsvNullString (final ArrayList<String> def)
     {
-        def.add("-tString -k n nullString --var nullString -h 'Converts strings equal to the given nullString to null when reading records.'");
+        def.add("-tString -k n nullString --camelCaps  --var nullString -h 'Converts strings equal to the given nullString to null when reading records.'");
     }
 
     static private void defineCsvPredefinedFormat (final ArrayList<String> def)
@@ -274,7 +274,7 @@ public class FunnelContext
     static private void defineDuplicateHandling (
         final ArrayList<String> def)
     {
-        def.add("-tEnum -k d duplicate --var duplicateDisposition --def "
+        def.add("-tEnum -k d duplicate  --var duplicateDisposition --def "
             + DuplicateDisposition.Original.name()
             + " -h 'Special handling of duplicate keyed rows.' --case --enumlist "
             + DuplicateDisposition.class.getName());
@@ -283,19 +283,19 @@ public class FunnelContext
     static private void defineFixedLengthIn (
         final ArrayList<String> def)
     {
-        def.add("-tInteger -k fixedIn --var fixedRecordLengthIn -h 'The record length in a fixed record length file.' --ran 1 4096");
+        def.add("-tInteger -k fixedIn --camelCaps --var fixedRecordLengthIn -h 'The record length in a fixed record length file.' --ran 1 4096");
     }
 
     static private void defineFixedLengthOut (
         final ArrayList<String> def)
     {
-        def.add("-tInteger -k fixedOut --var fixedRecordLengthOut -h 'The record length in a fixed record length file.  This is used to change an output file into a fixed format.  It is not necessary if --fixedIn is specified.' --ran 1 4096");
+        def.add("-tInteger -k fixedOut --camelCaps --var fixedRecordLengthOut -h 'The record length in a fixed record length file.  This is used to change an output file into a fixed format.  It is not necessary if --fixedIn is specified.' --ran 1 4096");
     }
 
     static private void defineFormatEqu (
         final ArrayList<String> def)
     {
-        def.add("-tequ -k e equation --var equation -h'Used instead of a column name, this will be evaluated with the result written to the output.'");
+        def.add("-tequ -k e equation  --var equation -h'Used instead of a column name, this will be evaluated with the result written to the output.'");
     }
 
     static private void defineFormatFiller (
@@ -312,7 +312,7 @@ public class FunnelContext
 
     static private void defineFormatOutSubParser (final ArrayList<String> def)
     {
-        def.add("-tBegin -k formatOut -m1 --var formatOutDefs --class com.obdobion.funnel.columns.FormatPart -h 'Column references defining the output file layout.'");
+        def.add("-tBegin -k formatOut --camelCaps  -m1 --var formatOutDefs --class com.obdobion.funnel.columns.FormatPart -h 'Column references defining the output file layout.'");
         defineKeyNamePositional(def, false);
         defineFormatEqu(def);
         defineFormatType(def);
@@ -343,7 +343,7 @@ public class FunnelContext
     static private void defineHeaderInSubParser (
         final ArrayList<String> def)
     {
-        def.add("-tBegin -k headerIn -m1 --var headerInDefs --factoryMethod "
+        def.add("-tBegin -k headerIn --camelCaps  -m1 --var headerInDefs --factoryMethod "
             + KeyType.class.getName()
             + ".create --factoryA '--type' -h 'Column definitions defining the file header layout.'");
         defineColumnName(def);
@@ -356,7 +356,7 @@ public class FunnelContext
 
     static private void defineHeaderOutSubParser (final ArrayList<String> def)
     {
-        def.add("-tBegin -k headerOut -m1 --var headerOutDefs --class com.obdobion.funnel.columns.FormatPart -h 'Column references defining the output file header layout.'");
+        def.add("-tBegin -k headerOut --camelCaps  -m1 --var headerOutDefs --class com.obdobion.funnel.columns.FormatPart -h 'Column references defining the output file header layout.'");
         defineKeyNamePositional(def, false);
         defineFormatEqu(def);
         defineFormatType(def);
@@ -376,7 +376,7 @@ public class FunnelContext
     static private void defineHexDumpSubParser (
         final ArrayList<String> def)
     {
-        def.add("-tBegin -k hexDump -m1 --var hexDumps -h 'Columns that will be shown in hex format.'");
+        def.add("-tBegin -k hexDump --camelCaps  -m1 --var hexDumps -h 'Columns that will be shown in hex format.'");
         defineKeyNamePositional(def, false);
         def.add("-tEnd -k hexDump");
     }
@@ -390,13 +390,13 @@ public class FunnelContext
     static private void defineInputFile (
         final ArrayList<String> def)
     {
-        def.add("-tWildFile -k inputfilename --var inputFiles -m1 -ph 'The input file or files to be processed.  Wild cards are allowed in the filename only and the path (** indicates multiple path segments).  Sysin is assumed if this parameter is not provided.' --case");
+        def.add("-tWildFile -k inputFileName --camelCaps  --var inputFiles -m1 -ph 'The input file or files to be processed.  Wild cards are allowed in the filename only and the path (** indicates multiple path segments).  Sysin is assumed if this parameter is not provided.' --case");
     }
 
     static private void defineKeyDirection (
         final ArrayList<String> def)
     {
-        def.add("-tEnum -k d direction --var direction -p --def "
+        def.add("-tEnum -k d direction  --var direction -p --def "
             + KeyDirection.ASC.name()
             + " -h'The direction of the sort for this key. AASC and ADESC are absolute values of the key - the case of letters would not matter and the sign of numbers would not matter.' "
             + " --case --enumList "
@@ -409,15 +409,16 @@ public class FunnelContext
     static private void defineKeyNamePositional (
         final ArrayList<String> def, final boolean required)
     {
-        def.add("-tString -k columnName --var columnName --pos -h'A previously defined column name.'" + (required
-                ? " --req "
-                : ""));
+        def.add("-tString -k columnName --camelCaps  --var columnName --pos -h'A previously defined column name.'"
+            + (required
+                    ? " --req "
+                    : ""));
     }
 
     static private void defineMaxRows (
         final ArrayList<String> def)
     {
-        def.add("-tLong -krowmax --var maximumNumberOfRows --range 2 --def "
+        def.add("-tLong -krowMax --camelCaps  --var maximumNumberOfRows --range 2 --def "
             + Long.MAX_VALUE
             + " -h 'Used for variable length input, estimate the number of rows.  Too low could cause problems.'");
     }
@@ -430,34 +431,34 @@ public class FunnelContext
     static private void defineOrderBySubParser (
         final ArrayList<String> def)
     {
-        def.add("-tBegin -k orderby -m1 --var orderBys -h 'The sort keys defined from columns.'");
+        def.add("-tBegin -k orderBy --camelCaps  -m1 --var orderBys -h 'The sort keys defined from columns.'");
         defineKeyNamePositional(def, true);
         defineKeyDirection(def);
-        def.add("-tEnd -k orderby");
+        def.add("-tEnd -k orderBy");
     }
 
     static private void defineOutputFile (
         final ArrayList<String> def)
     {
-        def.add("-tFile -ko outputfilename --var outputFile --case -h 'The output file to be written.  Sysout is assumed if this parameter is not provided.  The same name as the input file is allowed.'");
+        def.add("-tFile -ko outputFileName --camelCaps  --var outputFile --case -h 'The output file to be written.  Sysout is assumed if this parameter is not provided.  The same name as the input file is allowed.'");
     }
 
     static private void definePower (
         final ArrayList<String> def)
     {
-        def.add("-tInteger -kpower --var depth --def 16 --range 2 16 -h 'The depth of the funnel.  The bigger this number is, the more memory will be used.  This is computed when --max or -f is specified.'");
+        def.add("-tInteger -kpower  --var depth --def 16 --range 2 16 -h 'The depth of the funnel.  The bigger this number is, the more memory will be used.  This is computed when --max or -f is specified.'");
     }
 
     static private void defineStopWhen (
         final ArrayList<String> def)
     {
-        def.add("-tequ -k s stopWhen --var stopEqu -m1 -h 'The sort will stop reading input when this equation returns TRUE.  See \"Algebrain\" for details.  Columns are used as variables in this Algebrain equation.'");
+        def.add("-tequ -k s stopWhen --camelCaps  --var stopEqu -m1 -h 'The sort will stop reading input when this equation returns TRUE.  See \"Algebrain\" for details.  Columns are used as variables in this Algebrain equation.'");
     }
 
     static private void defineSyntaxOnly (
         final ArrayList<String> def)
     {
-        def.add("-tBoolean -k syntaxOnly --var syntaxOnly -h 'Check the command - will not run'");
+        def.add("-tBoolean -k syntaxOnly --camelCaps  --var syntaxOnly -h 'Check the command - will not run'");
     }
 
     static private void defineVariableLengthIn (
@@ -470,32 +471,32 @@ public class FunnelContext
             bytes.append(ByteCLA.ByteLiteral[System.getProperty("line.separator").getBytes()[b]]);
         }
 
-        def.add("-tByte -k variableInput --var endOfRecordDelimiterIn -m1 -h 'The byte(s) that end each line in a variable length record file.' --def "
+        def.add("-tByte -k variableInput --camelCaps --var endOfRecordDelimiterIn -m1 -h 'The byte(s) that end each line in a variable length record file.' --def "
             + bytes.toString());
     }
 
     static private void defineVariableLengthOut (
         final ArrayList<String> def)
     {
-        def.add("-tByte -k variableOutput --var endOfRecordDelimiterOut -m1 -h 'The byte(s) that end each line in a variable length record file.  This will be used to write the output file as a variable length file.  If this is not specified then the --variableInput value will be used.'");
+        def.add("-tByte -k variableOutput --camelCaps --var endOfRecordDelimiterOut -m1 -h 'The byte(s) that end each line in a variable length record file.  This will be used to write the output file as a variable length file.  If this is not specified then the --variableInput value will be used.'");
     }
 
     static private void defineVersion (
         final ArrayList<String> def)
     {
-        def.add("-tBoolean -kversion --var version -h 'Display the version of Funnel'");
+        def.add("-tBoolean -kv version  --var version -h 'Display the version of Funnel'");
     }
 
     static private void defineWhere (
         final ArrayList<String> def)
     {
-        def.add("-tequ -k w where --var whereEqu -m1 -h 'Rows that evaluate to TRUE are selected for Output.  See \"Algebrain\" for details.  Columns are used as variables in this Algebrain equation.'");
+        def.add("-tequ -k w where  --var whereEqu -m1 -h 'Rows that evaluate to TRUE are selected for Output.  See \"Algebrain\" for details.  Columns are used as variables in this Algebrain equation.'");
     }
 
     static private void defineWorkDirectory (
         final ArrayList<String> def)
     {
-        def.add("-tFile -k workDirectory --var workDirectory --case --def "
+        def.add("-tFile -k workDirectory --camelCaps  --var workDirectory --case --def "
             + System.getProperty("java.io.tmpdir")
             + " -h 'The directory where temp files will be handled.'");
     }

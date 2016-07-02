@@ -5,7 +5,7 @@
 
   !include MUI.nsh
   !include Sections.nsh
-  !include ..\..\funnel.nsh
+  !include ..\..\target\project.nsh
   !include envvarupdate.nsh
   !include ReplaceInFile.nsh
 
@@ -79,10 +79,8 @@ Section "FunnelSort"
     !insertmacro _ReplaceInFile funnel.cfg !{VERSION} ${PROJECT_VERSION}
     !insertmacro _ReplaceInFile funnel.cfg !{INSTDIR} $INSTDIR
 
+    File ..\..\target\mavenDependenciesForNSIS\*.jar
     File /x *source* ..\..\target\funnel-${PROJECT_VERSION}.jar
-    File ..\..\..\argument\target\argument-${ARGUMENT_VERSION}.jar
-    File ..\..\..\algebrain\target\algebrain-${ALGEBRAIN_VERSION}.jar
-    File ..\..\..\calendar\target\calendar-${CALENDAR_VERSION}.jar
      
     FileOpen $9 funnel.bat w
     FileWrite $9 "@echo off$\r$\n"

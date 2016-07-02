@@ -1,6 +1,7 @@
 package com.obdobion.funnel.aggregation;
 
 import com.obdobion.algebrain.Equ;
+import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
 
@@ -29,8 +30,8 @@ abstract public class Aggregate
                 for (final KeyPart col : context.columnHelper.getColumns())
                     agg.equation.getSupport().assignVariable(col.columnName, col.getContents());
 
-                agg.equation.getSupport().assignVariable("recordnumber", new Long(originalRecordNumber));
-                agg.equation.getSupport().assignVariable("recordsize", new Long(originalRecordSize));
+                agg.equation.getSupport().assignVariable(Funnel.SYS_RECORDNUMBER, new Long(originalRecordNumber));
+                agg.equation.getSupport().assignVariable(Funnel.SYS_RECORDSIZE, new Long(originalRecordSize));
             }
         }
     }

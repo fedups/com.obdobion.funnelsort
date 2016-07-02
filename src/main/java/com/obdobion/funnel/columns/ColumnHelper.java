@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.obdobion.algebrain.Equ;
+import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.orderby.KeyContext;
 import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
@@ -164,8 +165,8 @@ public class ColumnHelper
         {
             if (equations[e] != null)
             {
-                equations[e].getSupport().assignVariable("recordnumber", rn);
-                equations[e].getSupport().assignVariable("recordsize", rs);
+                equations[e].getSupport().assignVariable(Funnel.SYS_RECORDNUMBER, rn);
+                equations[e].getSupport().assignVariable(Funnel.SYS_RECORDSIZE, rs);
             }
         }
     }

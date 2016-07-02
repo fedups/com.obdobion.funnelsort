@@ -65,18 +65,21 @@ import com.obdobion.funnel.segment.SourceProxyRecord;
  */
 public class Funnel
 {
-    static Logger                     logger        = LoggerFactory.getLogger(Funnel.class.getName());
-    static final public DecimalFormat ByteFormatter = new DecimalFormat("###,###,###,###");
+    public static final String        SYS_RECORDSIZE   = "recordsize";
+    public static final String        SYS_RECORDNUMBER = "recordnumber";
+
+    static Logger                     logger           = LoggerFactory.getLogger(Funnel.class.getName());
+    static final public DecimalFormat ByteFormatter    = new DecimalFormat("###,###,###,###");
     /**
      * The maximum depth is the highest (number of levels) the funnel can be.
      * This is somewhat arbitrary and can be increased if there is sufficient
      * memory.
      */
-    static final public int           MAXIMUM_DEPTH = 16;
+    static final public int           MAXIMUM_DEPTH    = 16;
     /**
      * the depth that will be used if none is provided on the constructor.
      */
-    static final public int           DEFAULT_DEPTH = 6;
+    static final public int           DEFAULT_DEPTH    = 6;
 
     /**
      * Sort an input stream into an output stream according to the command line
