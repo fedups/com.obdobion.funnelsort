@@ -2,3 +2,5 @@
 /.myeclipse/
 .classpath
 .project
+.idea
+*.jar
