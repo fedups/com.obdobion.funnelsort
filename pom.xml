@@ -5,10 +5,10 @@
 	<artifactId>funnel</artifactId>
 	<version>1.6.0</version>
 	<name>funnel</name>
-	<url>https://github.com/fedup41/funnelsort</url>
+	<url>https://github.com/fedups/funnelsort</url>
 	<organization>
 		<name>Obdobion</name>
-		<url>https://github.com/fedup41</url>
+		<url>https://github.com/fedups</url>
 	</organization>
 
 	<properties>
@@ -24,19 +24,6 @@
 		<commons-csv.version>1.2</commons-csv.version>
 		<project.build.sourceEncoding>Cp1252</project.build.sourceEncoding>
 	</properties>
-
-	<distributionManagement>
-		<repository>
-			<id>central</id>
-			<name>artifactory-obdobion-releases</name>
-			<url>http://artifactory.obdobion.com/artifactory/private-internal-repository</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<name>artifactory-obdobion-snapshots</name>
-			<url>http://artifactory.obdobion.com/artifactory/private-internal-repository</url>
-		</snapshotRepository>
-	</distributionManagement>
 
 	<build>
 
