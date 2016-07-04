@@ -3,7 +3,6 @@ package com.obdobion.funnel;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.util.Comparator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,17 +16,16 @@ import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
  * This class provides the controller of the funnel (sort / merge) processing.
- * The main loop (
- * {@link Funnel#sort(FunnelContext,FunnelDataProvider,FunnelDataPublisher,Comparator)}
- * ) is located in this class but most of the processing is encapsulated in the
- * classes related to the providers and publishers.
+ * The main loop (Funnel#sort ) is located in this class but most of the
+ * processing is encapsulated in the classes related to the providers and
+ * publishers.
  * <p>
  * A {@link FunnelDataProvider} provides rows in an unsorted order. These rows
- * are deposited into the top of the funnel. The funnel is
- * {@link Funnel#shake()} and the rows drip out the bottom, one at a time, in
- * sorted order. As they exit the bottom of the funnel the rows are handed off
- * to a {@link FunnelDataPublisher}. The publisher is responsible for writing
- * the sorted rows to the output destination.
+ * are deposited into the top of the funnel. The funnel is funnel#shake and the
+ * rows drip out the bottom, one at a time, in sorted order. As they exit the
+ * bottom of the funnel the rows are handed off to a {@link FunnelDataPublisher}
+ * . The publisher is responsible for writing the sorted rows to the output
+ * destination.
  * <p>
  * The funnel tip is index 0 in the array. The largest row has the largest
  * indexes decreasing from left to right.
@@ -87,9 +85,7 @@ public class Funnel
      * line and encapsulates all of the sorting requirements. A
      * {@link KeyHelper} is created for handling the creation of keys from each
      * row that is provided. Finally, a set of {@link FunnelDataProvider} /
-     * {@link FunnelDataPublisher} instances are created and the
-     * {@link Funnel#sort(FunnelContext,FunnelDataProvider,FunnelDataPublisher,Comparator)
-     * }
+     * {@link FunnelDataPublisher} instances are created and the Funnel#sort
      * process is started.
      *
      * @param args
@@ -148,20 +144,18 @@ public class Funnel
                  */
                 funnel.process();
 
-            logger.info("Counters input({}) selected({}) duplicates({}) output({})",
-                context.getRecordCount(),
-                context.getRecordCount() - context.getUnselectedCount(),
-                context.getDuplicateCount(),
-                context.getWriteCount());
+            logger.info("Counters input({}) selected({}) duplicates({}) output({})", context
+                    .getRecordCount(), context.getRecordCount() - context.getUnselectedCount(), context
+                            .getDuplicateCount(), context.getWriteCount());
 
             logger.debug("{} funnel nodes, {} rows per phase", funnel.items.length, funnel.maxSorted);
             logger.debug("{} source proxies cached in core", SourceProxyRecord.AvailableInstances.size());
             logger.debug("{} available processors", Runtime.getRuntime().availableProcessors());
-            logger.debug("memory used({}) free({}) total({}) max({})",
-                ByteFormatter.format(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()).trim(),
-                ByteFormatter.format(Runtime.getRuntime().freeMemory()).trim(),
-                ByteFormatter.format(Runtime.getRuntime().totalMemory()).trim(),
-                ByteFormatter.format(Runtime.getRuntime().maxMemory()).trim());
+            logger.debug("memory used({}) free({}) total({}) max({})", ByteFormatter
+                    .format(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())
+                    .trim(), ByteFormatter.format(Runtime.getRuntime().freeMemory()).trim(), ByteFormatter
+                            .format(Runtime.getRuntime().totalMemory())
+                            .trim(), ByteFormatter.format(Runtime.getRuntime().maxMemory()).trim());
 
         } catch (final Exception e)
         {
@@ -209,10 +203,9 @@ public class Funnel
      * and store them so that time is not wasted in powerful math functions
      * while the sort is in progress.
      *
-     * @param depth
+     * @param _context
      */
-    public Funnel(
-            final FunnelContext _context)
+    public Funnel(final FunnelContext _context)
     {
         assert _context.depth <= MAXIMUM_DEPTH : "depth can not exceed " + MAXIMUM_DEPTH;
         assert _context.depth > 0 : "depth must be > 0";
@@ -231,8 +224,7 @@ public class Funnel
      * @param winnersCircle
      * @return
      */
-    FunnelItem contestantOne (
-        final int winnersCircle)
+    FunnelItem contestantOne (final int winnersCircle)
     {
         final int c = winnersCircle * 2 + 2;
         if (c > entryRowStart)
@@ -461,7 +453,10 @@ public class Funnel
                 if (!inorder && passPublisher == context.publisher)
                 {
                     throw new Exception("Sort failure. Check provider max rows ("
-                        + context.provider.maximumNumberOfRows() + ") and power (" + context.depth + ").");
+                        + context.provider.maximumNumberOfRows()
+                        + ") and power ("
+                        + context.depth
+                        + ").");
                 }
             }
             passProvider.close();
@@ -473,15 +468,10 @@ public class Funnel
             if (passOneRowCount == 0)
                 passOneRowCount = passProvider.actualNumberOfRows();
 
-            logger.debug("pass({}) init({}ms) io({}ms) {}({}) phases({})",
-                passCount,
-                passInitializedMS - passStartMS,
-                passEndMS - passInitializedMS,
-                (passCount == 1
+            logger.debug("pass({}) init({}ms) io({}ms) {}({}) phases({})", passCount, passInitializedMS
+                - passStartMS, passEndMS - passInitializedMS, (passCount == 1
                         ? "rows"
-                        : "segments"),
-                passProvider.actualNumberOfRows(),
-                phase - 1);
+                        : "segments"), passProvider.actualNumberOfRows(), phase - 1);
         }
         if (passOneRowCount > 0)
         {
@@ -494,9 +484,8 @@ public class Funnel
                 logger.debug("perRow({} nano)  rowsPerSecond({})", perRowNano, 1000000000L / perRowNano);
 
             if (context.comparisonCounter > 0)
-                logger.debug("Average comparison count per input row: {}.  Total comparisons = {}",
-                    context.comparisonCounter / passOneRowCount,
-                    context.comparisonCounter);
+                logger.debug("Average comparison count per input row: {}.  Total comparisons = {}", context.comparisonCounter
+                    / passOneRowCount, context.comparisonCounter);
         }
     }
 
