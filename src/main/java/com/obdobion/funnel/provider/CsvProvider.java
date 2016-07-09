@@ -42,7 +42,7 @@ public class CsvProvider extends VariableLengthProvider
     {
         super(_context);
         logger.debug("CSV file provider activated");
-        if (_context == null || _context.inputColumnDefs == null)
+        if (_context == null || _context.getInputColumnDefs() == null)
             return;
         /*
          * Find out which fields we really care about. No sense in moving around
@@ -50,13 +50,13 @@ public class CsvProvider extends VariableLengthProvider
          */
         int highestKeyedColumnNumber = -1;
 
-        for (final KeyPart kdef : _context.inputColumnDefs)
+        for (final KeyPart kdef : _context.getInputColumnDefs())
         {
             if (kdef.csvFieldNumber > highestKeyedColumnNumber)
                 highestKeyedColumnNumber = kdef.csvFieldNumber;
         }
         includeColumn = new boolean[highestKeyedColumnNumber + 1];
-        for (final KeyPart kdef : _context.inputColumnDefs)
+        for (final KeyPart kdef : _context.getInputColumnDefs())
             includeColumn[kdef.csvFieldNumber] = true;
     }
 
@@ -64,7 +64,7 @@ public class CsvProvider extends VariableLengthProvider
     public long actualNumberOfRows ()
     {
         return super.actualNumberOfRows()
-            - (context.csv.header
+            - (context.getCsv().header
                     ? 1
                     : 0);
     }
@@ -119,10 +119,10 @@ public class CsvProvider extends VariableLengthProvider
     @Override
     boolean isRowSelected (final int byteCount)
     {
-        if (context.csv.header && context.csv.headerContents == null)
+        if (context.getCsv().header && context.getCsv().headerContents == null)
         {
-            context.csv.headerContents = new byte[byteCount];
-            System.arraycopy(row, 0, context.csv.headerContents, 0, byteCount);
+            context.getCsv().headerContents = new byte[byteCount];
+            System.arraycopy(row, 0, context.getCsv().headerContents, 0, byteCount);
             return false;
         }
         return true;
@@ -134,7 +134,7 @@ public class CsvProvider extends VariableLengthProvider
         KeyContext kContext = null;
         try
         {
-            final byte[][] data = decodeCsv(row, byteCount, context.csv.format);
+            final byte[][] data = decodeCsv(row, byteCount, context.getCsv().format);
             kContext = context.keyHelper.extractKey(data, getContinuousRecordNumber());
 
         } catch (final Exception e)
@@ -147,7 +147,7 @@ public class CsvProvider extends VariableLengthProvider
     @Override
     void preSelectionExtract (final int byteCount) throws Exception
     {
-        final byte[][] data = decodeCsv(row, byteCount, context.csv.format);
+        final byte[][] data = decodeCsv(row, byteCount, context.getCsv().format);
         context.columnHelper.extract(context, data, getContinuousRecordNumber(), byteCount);
     }
 

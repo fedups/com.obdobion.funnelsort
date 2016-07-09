@@ -13,7 +13,7 @@ abstract public class Aggregate
         if (context.isAggregating())
         {
             loadColumnsIntoAggregateEquations(context, originalRecordSize, originalRecordNumber);
-            for (final Aggregate agg : context.aggregates)
+            for (final Aggregate agg : context.getAggregates())
             {
                 agg.update(context);
             }
@@ -23,7 +23,7 @@ abstract public class Aggregate
     private static void loadColumnsIntoAggregateEquations (final FunnelContext context, final int originalRecordSize,
         final long originalRecordNumber) throws Exception
     {
-        for (final Aggregate agg : context.aggregates)
+        for (final Aggregate agg : context.getAggregates())
         {
             if (agg.equation != null)
             {
@@ -40,7 +40,7 @@ abstract public class Aggregate
         throws Exception
     {
         if (context.isAggregating())
-            for (final Aggregate agg : context.aggregates)
+            for (final Aggregate agg : context.getAggregates())
             {
                 for (final Equ equ : referencesToAllOutputFormatEquations)
                 {
@@ -77,7 +77,7 @@ abstract public class Aggregate
     public static void reset (final FunnelContext context)
     {
         if (context.isAggregating())
-            for (final Aggregate agg : context.aggregates)
+            for (final Aggregate agg : context.getAggregates())
             {
                 agg.reset();
             }

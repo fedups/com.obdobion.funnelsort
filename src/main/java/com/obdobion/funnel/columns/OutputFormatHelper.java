@@ -165,23 +165,23 @@ public class OutputFormatHelper
                  * Also count all of the aggregate equations because they are
                  * considered to be output functions.
                  */
-                for (final Aggregate agg : funnelContext.aggregates)
+                for (final Aggregate agg : funnelContext.getAggregates())
                 {
                     if (agg.equation != null)
                         equationCount++;
                 }
             }
-            if (funnelContext.formatOutDefs != null)
+            if (funnelContext.getFormatOutDefs() != null)
             {
-                for (final FormatPart def : funnelContext.formatOutDefs)
+                for (final FormatPart def : funnelContext.getFormatOutDefs())
                 {
                     if (def.equation != null)
                         equationCount++;
                 }
             }
-            if (funnelContext.headerOutDefs != null)
+            if (funnelContext.getHeaderOutDefs() != null)
             {
-                for (final FormatPart def : funnelContext.headerOutDefs)
+                for (final FormatPart def : funnelContext.getHeaderOutDefs())
                 {
                     if (def.equation != null)
                         equationCount++;
@@ -196,23 +196,23 @@ public class OutputFormatHelper
                  * Also include all of the aggregate equations because they are
                  * considered to be output functions.
                  */
-                for (final Aggregate agg : funnelContext.aggregates)
+                for (final Aggregate agg : funnelContext.getAggregates())
                 {
                     if (agg.equation != null)
                         referencesToAllOutputFormatEquations[equationCount++] = agg.equation;
                 }
             }
-            if (funnelContext.formatOutDefs != null)
+            if (funnelContext.getFormatOutDefs() != null)
             {
-                for (final FormatPart def : funnelContext.formatOutDefs)
+                for (final FormatPart def : funnelContext.getFormatOutDefs())
                 {
                     if (def.equation != null)
                         referencesToAllOutputFormatEquations[equationCount++] = def.equation;
                 }
             }
-            if (funnelContext.headerOutDefs != null)
+            if (funnelContext.getHeaderOutDefs() != null)
             {
-                for (final FormatPart def : funnelContext.headerOutDefs)
+                for (final FormatPart def : funnelContext.getHeaderOutDefs())
                 {
                     if (def.equation != null)
                         referencesToAllOutputFormatEquations[equationCount++] = def.equation;
@@ -233,12 +233,8 @@ public class OutputFormatHelper
          * record. This loading the column values into the aggregate equations
          * too.
          */
-        funnelContext.columnHelper.extract(
-            funnelContext,
-            context.rawRecordBytes[0],
-            context.recordNumber,
-            context.rawRecordBytes[0].length,
-            referencesToAllOutputFormatEquations);
+        funnelContext.columnHelper
+                .extract(funnelContext, context.rawRecordBytes[0], context.recordNumber, context.rawRecordBytes[0].length, referencesToAllOutputFormatEquations);
         /*
          * In order to get the aggregate values into the format equations they
          * will also be needlessly loaded back into the aggregate equations too.

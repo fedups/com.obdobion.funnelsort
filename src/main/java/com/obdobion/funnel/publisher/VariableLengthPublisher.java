@@ -98,13 +98,12 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
         String line;
 
         pw = new PrintWriter(sw = new StringWriter());
-        pw.printf("# %d @ %d for %d",
-            item.getOriginalRecordNumber(), item.originalLocation, item.originalSize);
+        pw.printf("# %d @ %d for %d", item.getOriginalRecordNumber(), item.originalLocation, item.originalSize);
         line = sw.toString();
         write(line.getBytes(), 0, line.length());
         newLine();
 
-        for (final HexDump dumpee : context.hexDumps)
+        for (final HexDump dumpee : context.getHexDumps())
         {
             final KeyPart column = context.columnHelper.get(dumpee.columnName);
             if (column != null)
@@ -135,7 +134,7 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
     void formatOutputAndWrite (final SourceProxyRecord item, final byte[] rawData)
         throws IOException, Exception
     {
-        if (context.hexDumps == null || context.formatOutDefs != null)
+        if (context.getHexDumps() == null || context.getFormatOutDefs() != null)
         {
             /*
              * The --format can be empty, causing the entire row to be written,
@@ -148,7 +147,7 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
 
         super.formatOutputAndWrite(item, rawData);
 
-        if (context.hexDumps != null)
+        if (context.getHexDumps() != null)
             formatHexDumpAndWrite(item, rawData);
     }
 
@@ -159,9 +158,7 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
 
     private void hexDump (final byte[] bytesToDump, final int fieldOffsetInRow, final int length) throws IOException
     {
-        hexDump(bytesToDump, fieldOffsetInRow, length,
-            16,
-            new byte[dumpBuffSize(16)]);
+        hexDump(bytesToDump, fieldOffsetInRow, length, 16, new byte[dumpBuffSize(16)]);
     }
 
     private void hexDump (final byte[] p_array,
@@ -267,7 +264,7 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
     @Override
     void newLine () throws IOException
     {
-        write(context.endOfRecordDelimiterOut, 0, context.endOfRecordDelimiterOut.length);
+        write(context.getEndOfRecordDelimiterOut(), 0, context.getEndOfRecordDelimiterOut().length);
     }
 
     @Override
@@ -279,9 +276,9 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
          * is a header tucked away in the csv context area. We will write that
          * out first.
          */
-        if (context.csv != null && context.csv.header && context.csv.headerContents != null)
+        if (context.getCsv() != null && context.getCsv().header && context.getCsv().headerContents != null)
         {
-            write(context.csv.headerContents, 0, context.csv.headerContents.length);
+            write(context.getCsv().headerContents, 0, context.getCsv().headerContents.length);
             newLine();
         }
     }

@@ -15,14 +15,14 @@ abstract public class FixedLengthPublisher extends AbstractPublisher
     public FixedLengthPublisher(final FunnelContext _context) throws ParseException, IOException
     {
         super(_context);
-        this.originalBytes = new byte[Math.max(_context.fixedRecordLengthOut, _context.fixedRecordLengthIn)];
+        this.originalBytes = new byte[Math.max(_context.getFixedRecordLengthOut(), _context.getFixedRecordLengthIn())];
     }
 
     @Override
     void formatOutputAndWrite (final SourceProxyRecord item, final byte[] rawData)
         throws IOException, Exception
     {
-        context.formatOutHelper.format(this, originalBytes, context.fixedRecordLengthOut, item, false);
+        context.formatOutHelper.format(this, originalBytes, context.getFixedRecordLengthOut(), item, false);
         super.formatOutputAndWrite(item, rawData);
     }
 

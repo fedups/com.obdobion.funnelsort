@@ -33,12 +33,12 @@ public class FixedLengthProvider extends AbstractProvider
         initializeReader();
         try
         {
-            this.size = reader.length() / context.fixedRecordLengthIn;
+            this.size = reader.length() / context.getFixedRecordLengthIn();
         } catch (final IOException e)
         {
             App.abort(-1, e);
         }
-        this.row = new byte[context.fixedRecordLengthIn];
+        this.row = new byte[context.getFixedRecordLengthIn()];
 
         int optimalFunnelDepth = 2;
         long pow2 = size;
@@ -48,8 +48,8 @@ public class FixedLengthProvider extends AbstractProvider
          * It might be the case that there are more than this single file being
          * sorted. And at this point we only know about the first one.
          */
-        if (context.maximumNumberOfRows > 0)
-            pow2 = context.maximumNumberOfRows;
+        if (context.getMaximumNumberOfRows() > 0)
+            pow2 = context.getMaximumNumberOfRows();
 
         while (true)
         {
@@ -58,10 +58,10 @@ public class FixedLengthProvider extends AbstractProvider
             pow2 /= 2;
             optimalFunnelDepth++;
         }
-        if (context.depth > optimalFunnelDepth)
+        if (context.getDepth() > optimalFunnelDepth)
         {
-            logger.debug("overriding power from " + context.depth + " to " + optimalFunnelDepth);
-            context.depth = optimalFunnelDepth;
+            logger.debug("overriding power from " + context.getDepth() + " to " + optimalFunnelDepth);
+            context.setDepth(optimalFunnelDepth);
         }
     }
 
@@ -72,9 +72,8 @@ public class FixedLengthProvider extends AbstractProvider
         else if (context.isCacheInput())
             this.reader = new FixedLengthCacheReader(context);
         else
-            this.reader =
-                    new FixedLengthFileReader(context.getInputFile(context.inputFileIndex()),
-                        context.endOfRecordDelimiterIn);
+            this.reader = new FixedLengthFileReader(context
+                    .getInputFile(context.inputFileIndex()), context.getEndOfRecordDelimiterIn());
     }
 
     public long maximumNumberOfRows ()
@@ -85,10 +84,12 @@ public class FixedLengthProvider extends AbstractProvider
     @Override
     boolean recordLengthOK (final int byteCount)
     {
-        if (byteCount != -1 && byteCount != context.fixedRecordLengthIn)
+        if (byteCount != -1 && byteCount != context.getFixedRecordLengthIn())
         {
-            logger.warn("Record truncated at EOF, bytes read = " + byteCount + ", bytes expected = "
-                + context.fixedRecordLengthIn);
+            logger.warn("Record truncated at EOF, bytes read = "
+                + byteCount
+                + ", bytes expected = "
+                + context.getFixedRecordLengthIn());
             return false;
         }
         return true;

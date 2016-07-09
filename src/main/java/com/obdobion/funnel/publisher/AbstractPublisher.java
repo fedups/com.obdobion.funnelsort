@@ -151,7 +151,7 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
     public boolean publish (
         final SourceProxyRecord item,
         final long phase)
-        throws Exception
+            throws Exception
     {
         /*
          * The same goes for the original file number. But it is important not
@@ -194,8 +194,8 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
                     return true;
                 }
                 duplicateCount++;
-                if (DuplicateDisposition.FirstOnly == context.duplicateDisposition
-                    || DuplicateDisposition.LastOnly == context.duplicateDisposition)
+                if (DuplicateDisposition.FirstOnly == context.getDuplicateDisposition()
+                    || DuplicateDisposition.LastOnly == context.getDuplicateDisposition())
                     /*
                      * Since the file is sorted so that the duplicate we want to
                      * retain is first, and because it was not a duplicate until

@@ -35,7 +35,7 @@ public class WorkFile implements WorkRepository
     public WorkFile(final FunnelContext _context) throws IOException
     {
         this.context = _context;
-        file = File.createTempFile("funnel.", ".tmp", _context.workDirectory);
+        file = File.createTempFile("funnel.", ".tmp", _context.getWorkDirectory());
         file.deleteOnExit();
         writeBuffer = new byte[WriteBufferSize];
         bb = ByteBuffer.wrap(writeBuffer, 0, WriteBufferSize);

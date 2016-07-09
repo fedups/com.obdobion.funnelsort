@@ -43,7 +43,7 @@ public class VariableLengthProvider extends AbstractProvider
         logger.debug(this.row.length + " byte array size for rows.  This is an arbitrary upper limit.");
 
         int optimalFunnelDepth = 2;
-        long pow2 = context.maximumNumberOfRows;
+        long pow2 = context.getMaximumNumberOfRows();
         while (true)
         {
             if (pow2 < 2)
@@ -51,11 +51,11 @@ public class VariableLengthProvider extends AbstractProvider
             pow2 /= 2;
             optimalFunnelDepth++;
         }
-        if (context.depth > optimalFunnelDepth)
+        if (context.getDepth() > optimalFunnelDepth)
         {
-            logger.debug("overriding power from " + context.depth + " to " + optimalFunnelDepth);
+            logger.debug("overriding power from " + context.getDepth() + " to " + optimalFunnelDepth);
 
-            context.depth = optimalFunnelDepth;
+            context.setDepth(optimalFunnelDepth);
         }
 
         setThisFileRecordNumber(unselectedCount = 0);
@@ -65,7 +65,7 @@ public class VariableLengthProvider extends AbstractProvider
 
     public long maximumNumberOfRows ()
     {
-        return context.maximumNumberOfRows;
+        return context.getMaximumNumberOfRows();
     }
 
 }

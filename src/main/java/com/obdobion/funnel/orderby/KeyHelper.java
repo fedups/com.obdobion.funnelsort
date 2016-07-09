@@ -127,11 +127,11 @@ public class KeyHelper
     @SuppressWarnings("incomplete-switch")
     public void setUpAsCopy (final FunnelContext funnelContext)
     {
-        switch (funnelContext.copyOrder)
+        switch (funnelContext.getCopyOrder())
         {
             case ByKey:
                 AlphaKey ak;
-                if (funnelContext.csv == null)
+                if (funnelContext.getCsv() == null)
                 {
                     add(ak = new AlphaKey(), null);
                     ak.offset = 0;

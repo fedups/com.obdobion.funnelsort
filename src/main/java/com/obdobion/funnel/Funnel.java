@@ -99,12 +99,12 @@ public class Funnel
         try
         {
             context = new FunnelContext(cfg, args);
-            if (context.parser.isUsageRun())
+            if (context.isUsageRun())
             {
                 logger.info("usage only");
                 return context;
             }
-            if (context.version)
+            if (context.isVersion())
             {
                 logger.info("version check only");
                 return context;
@@ -124,10 +124,10 @@ public class Funnel
                  * The replace option with multiple input files causes each file
                  * to be sorted on its own.
                  */
-                final WildFiles inputFiles = context.inputFiles;
+                final WildFiles inputFiles = context.getInputFiles();
                 for (int fIdx = 0; fIdx < inputFiles.files().size(); fIdx++)
                 {
-                    context.inputFiles = new WildFiles(inputFiles.files().get(fIdx));
+                    context.setInputFiles(new WildFiles(inputFiles.files().get(fIdx)));
                     if (fIdx != 0)
                         /*
                          * All subsequent processing after the first must issue
@@ -207,14 +207,14 @@ public class Funnel
      */
     public Funnel(final FunnelContext _context)
     {
-        assert _context.depth <= MAXIMUM_DEPTH : "depth can not exceed " + MAXIMUM_DEPTH;
-        assert _context.depth > 0 : "depth must be > 0";
+        assert _context.getDepth() <= MAXIMUM_DEPTH : "depth can not exceed " + MAXIMUM_DEPTH;
+        assert _context.getDepth() > 0 : "depth must be > 0";
 
         this.context = _context;
-        this.items = new FunnelItem[(1 << _context.depth) - 1];
-        this.entryRowStart = (1 << _context.depth) - 2;
-        this.entryRowEnd = (1 << (_context.depth - 1)) - 1;
-        this.maxSorted = 1 << (_context.depth - 1);
+        this.items = new FunnelItem[(1 << _context.getDepth()) - 1];
+        this.entryRowStart = (1 << _context.getDepth()) - 2;
+        this.entryRowEnd = (1 << (_context.getDepth() - 1)) - 1;
+        this.maxSorted = 1 << (_context.getDepth() - 1);
     }
 
     /**
@@ -455,7 +455,7 @@ public class Funnel
                     throw new Exception("Sort failure. Check provider max rows ("
                         + context.provider.maximumNumberOfRows()
                         + ") and power ("
-                        + context.depth
+                        + context.getDepth()
                         + ").");
                 }
             }
@@ -500,7 +500,7 @@ public class Funnel
          * the --replace option. As of this time that is the only reason so
          * there is no checking done here.
          */
-        context.outputFile = context.getInputFile(context.inputFileIndex());
+        context.setOutputFile(context.getInputFile(context.inputFileIndex()));
         context.reset();
     }
 

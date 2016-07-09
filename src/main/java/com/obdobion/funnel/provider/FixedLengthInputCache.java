@@ -15,11 +15,11 @@ public class FixedLengthInputCache extends AbstractInputCache
     @Override
     void postOpenVerification () throws IOException
     {
-        if (length() % context.fixedRecordLengthIn != 0)
+        if (length() % context.getFixedRecordLengthIn() != 0)
             throw new IOException("file size ("
                 + length()
                 + ") not even multiple of record size ("
-                + context.fixedRecordLengthIn
+                + context.getFixedRecordLengthIn()
                 + ")");
     }
 }

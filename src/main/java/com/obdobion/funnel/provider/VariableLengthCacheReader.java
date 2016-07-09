@@ -61,7 +61,7 @@ public class VariableLengthCacheReader implements InputReader
 
     public int read (
         final byte[] row)
-        throws IOException
+            throws IOException
     {
         if (context.inputCache.eof())
             return -1;
@@ -80,9 +80,9 @@ public class VariableLengthCacheReader implements InputReader
              * Then see of this character is the next expected character in the
              * end of row sequence.
              */
-            if (b == context.endOfRecordDelimiterIn[sepNextPointer])
+            if (b == context.getEndOfRecordDelimiterIn()[sepNextPointer])
             {
-                if (sepNextPointer == context.endOfRecordDelimiterIn.length - 1)
+                if (sepNextPointer == context.getEndOfRecordDelimiterIn().length - 1)
                 {
                     return rowNextPointer;
                 }
@@ -96,7 +96,7 @@ public class VariableLengthCacheReader implements InputReader
             if (sepNextPointer > 0)
             {
                 for (int sp = 0; sp < sepNextPointer; sp++)
-                    row[rowNextPointer++] = context.endOfRecordDelimiterIn[sp];
+                    row[rowNextPointer++] = context.getEndOfRecordDelimiterIn()[sp];
                 sepNextPointer = 0;
             }
             /*
@@ -116,7 +116,8 @@ public class VariableLengthCacheReader implements InputReader
          * We have hit the end of the file and did not find an end of line for
          * the last bytes we did find. Return the row for what is there.
          */
-        logger.warn("assuming a line terminator at end of file where " + rowNextPointer
+        logger.warn("assuming a line terminator at end of file where "
+            + rowNextPointer
             + " unterminated bytes were found");
         return rowNextPointer;
     }

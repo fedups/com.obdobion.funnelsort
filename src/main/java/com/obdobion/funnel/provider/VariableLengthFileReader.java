@@ -40,7 +40,7 @@ public class VariableLengthFileReader implements InputReader
         assert sz > 0 : "Buffer size <= 0";
         this.context = _context;
         bb = new byte[sz];
-        this.separator = context.endOfRecordDelimiterIn;
+        this.separator = context.getEndOfRecordDelimiterIn();
 
         open(_context.getInputFile(context.inputFileIndex()));
     }
@@ -117,7 +117,8 @@ public class VariableLengthFileReader implements InputReader
                      * of line for the last bytes we did find. Return the row
                      * for what is there.
                      */
-                    logger.warn("assuming a line terminator at end of file where " + rowNextPointer
+                    logger.warn("assuming a line terminator at end of file where "
+                        + rowNextPointer
                         + " unterminated bytes were found");
                     return rowNextPointer;
                 }

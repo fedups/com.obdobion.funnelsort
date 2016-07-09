@@ -22,13 +22,13 @@ public class CommandLineOptionsTest
         Helper.initializeFor(testName);
 
         ctx = new FunnelContext(Helper.config());
-        Assert.assertFalse("default cacheInput", ctx.noCacheInput);
+        Assert.assertFalse("default cacheInput", ctx.isNoCacheInput());
 
         ctx = new FunnelContext(Helper.config(), "--nocache");
-        Assert.assertTrue("cacheInput", ctx.noCacheInput);
+        Assert.assertTrue("cacheInput", ctx.isNoCacheInput());
 
         ctx = new FunnelContext(Helper.config(), "-!nocache");
-        Assert.assertFalse("cacheInput", ctx.noCacheInput);
+        Assert.assertFalse("cacheInput", ctx.isNoCacheInput());
     }
 
     @Test
@@ -38,15 +38,15 @@ public class CommandLineOptionsTest
         Helper.initializeFor(testName);
 
         ctx = new FunnelContext(Helper.config());
-        Assert.assertFalse("default diskWork", ctx.diskWork);
+        Assert.assertFalse("default diskWork", ctx.isDiskWork());
         Assert.assertTrue("default isCacheWork", ctx.isCacheWork());
 
         ctx = new FunnelContext(Helper.config(), "--diskWork");
-        Assert.assertTrue("diskWork", ctx.diskWork);
+        Assert.assertTrue("diskWork", ctx.isDiskWork());
         Assert.assertFalse("isCacheWork", ctx.isCacheWork());
 
         ctx = new FunnelContext(Helper.config(), "-!diskWork");
-        Assert.assertFalse("diskWork", ctx.diskWork);
+        Assert.assertFalse("diskWork", ctx.isDiskWork());
         Assert.assertTrue("isCacheWork", ctx.isCacheWork());
     }
 
@@ -64,7 +64,7 @@ public class CommandLineOptionsTest
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
 
-        ctx = new FunnelContext(Helper.config(), "--col(string)");
+        ctx = new FunnelContext(Helper.config(), "--col(String)");
         Assert.assertEquals("columns", 1, ctx.columnHelper.getNames().size());
         Assert.assertNull("column name", ctx.columnHelper.getNames().get(0));
         Assert.assertEquals("column type", "String", ctx.columnHelper.get(null).typeName);
@@ -79,36 +79,36 @@ public class CommandLineOptionsTest
         {
             Assert.assertEquals("Column already defined: null", e.getMessage());
         }
-        ctx = new FunnelContext(Helper.config(), "--col(string)(-n myInt int)");
+        ctx = new FunnelContext(Helper.config(), "--col(String)(-n myInt int)");
         Assert.assertEquals("columns", 2, ctx.columnHelper.getNames().size());
         Assert.assertNull("column name", ctx.columnHelper.getNames().get(0));
         Assert.assertEquals("column name", "myInt", ctx.columnHelper.getNames().get(1));
         Assert.assertEquals("column type", "String", ctx.columnHelper.get(null).typeName);
-        Assert.assertEquals("column type", "Integer", ctx.columnHelper.get("myInt").typeName);
+        Assert.assertEquals("column type", "int", ctx.columnHelper.get("myInt").typeName);
         /*
          * More verbose
          */
-        ctx = new FunnelContext(Helper.config(), "--col(string) --col(-n myInt int)");
+        ctx = new FunnelContext(Helper.config(), "--col(String) --col(-n myInt int)");
         Assert.assertEquals("columns", 2, ctx.columnHelper.getNames().size());
         Assert.assertNull("column name", ctx.columnHelper.getNames().get(0));
         Assert.assertEquals("column name", "myInt", ctx.columnHelper.getNames().get(1));
         Assert.assertEquals("column type", "String", ctx.columnHelper.get(null).typeName);
-        Assert.assertEquals("column type", "Integer", ctx.columnHelper.get("myInt").typeName);
+        Assert.assertEquals("column type", "int", ctx.columnHelper.get("myInt").typeName);
         /*
          * Binary Integer type
          */
         ctx = new FunnelContext(Helper.config(), "--col(bI)");
-        Assert.assertEquals("column type", "BInteger", ctx.columnHelper.get(null).typeName);
+        Assert.assertEquals("column type", "bI", ctx.columnHelper.get(null).typeName);
         /*
          * Display Float type
          */
         ctx = new FunnelContext(Helper.config(), "--col(float)");
-        Assert.assertEquals("column type", "Float", ctx.columnHelper.get(null).typeName);
+        Assert.assertEquals("column type", "float", ctx.columnHelper.get(null).typeName);
         /*
          * Binary Float type
          */
         ctx = new FunnelContext(Helper.config(), "--col(bfloat)");
-        Assert.assertEquals("column type", "BFloat", ctx.columnHelper.get(null).typeName);
+        Assert.assertEquals("column type", "bfloat", ctx.columnHelper.get(null).typeName);
         /*
          * Date
          */
@@ -151,12 +151,12 @@ public class CommandLineOptionsTest
          * This will change if the number of class files changes.
          */
         ctx = new FunnelContext(Helper.config(), "**/main/**/funnel/*.java");
-        Assert.assertEquals("file count", 6, ctx.inputFiles.files().size());
+        Assert.assertEquals("file count", 6, ctx.getInputFiles().files().size());
         /*
          * This will change if the number of class files changes.
          */
         ctx = new FunnelContext(Helper.config(), "**/main/**/funnel/*.java", "**/main/**/segment/*.java");
-        Assert.assertEquals("file count", 12, ctx.inputFiles.files().size());
+        Assert.assertEquals("file count", 12, ctx.getInputFiles().files().size());
     }
 
     @Test

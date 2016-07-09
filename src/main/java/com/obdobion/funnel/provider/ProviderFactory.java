@@ -14,9 +14,9 @@ public class ProviderFactory
 {
     static public FunnelDataProvider create (final FunnelContext context) throws IOException, ParseException
     {
-        if (context.fixedRecordLengthIn > 0)
+        if (context.getFixedRecordLengthIn() > 0)
             return new FixedLengthProvider(context);
-        if (context.csv == null)
+        if (context.getCsv() == null)
             return new VariableLengthProvider(context);
         return new CsvProvider(context);
     }

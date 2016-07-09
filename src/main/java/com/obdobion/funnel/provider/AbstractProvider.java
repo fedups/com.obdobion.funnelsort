@@ -61,18 +61,18 @@ public abstract class AbstractProvider implements FunnelDataProvider
         if (cachedEquations == null)
         {
             int ceSize = 0;
-            if (context.whereEqu != null)
-                ceSize += context.whereEqu.length;
-            if (context.stopEqu != null)
-                ceSize += context.stopEqu.length;
+            if (context.getWhereEqu() != null)
+                ceSize += context.getWhereEqu().size();
+            if (context.getStopEqu() != null)
+                ceSize += context.getStopEqu().size();
             cachedEquations = new Equ[ceSize];
 
             int ce = 0;
-            if (context.whereEqu != null)
-                for (final Equ equ : context.whereEqu)
+            if (context.getWhereEqu() != null)
+                for (final Equ equ : context.getWhereEqu())
                     cachedEquations[ce++] = equ;
-            if (context.stopEqu != null)
-                for (final Equ equ : context.stopEqu)
+            if (context.getStopEqu() != null)
+                for (final Equ equ : context.getStopEqu())
                     cachedEquations[ce++] = equ;
         }
         return cachedEquations;
@@ -148,7 +148,7 @@ public abstract class AbstractProvider implements FunnelDataProvider
                     if (context.startNextInput())
                     {
                         logStatistics(context.inputFileIndex() - 1);
-                        if (context.inPlaceSort)
+                        if (context.isInPlaceSort())
                             setContinuousRecordNumber(0);
                         setThisFileRecordNumber(0);
                         unselectedCount = 0;
@@ -231,8 +231,8 @@ public abstract class AbstractProvider implements FunnelDataProvider
         wrapped.originalSize = byteCount;
         wrapped.originalLocation = startPosition;
 
-        if (DuplicateDisposition.LastOnly == context.duplicateDisposition
-            || DuplicateDisposition.Reverse == context.duplicateDisposition)
+        if (DuplicateDisposition.LastOnly == context.getDuplicateDisposition()
+            || DuplicateDisposition.Reverse == context.getDuplicateDisposition())
             wrapped.setOriginalRecordNumber(-getContinuousRecordNumber());
         else
             wrapped.setOriginalRecordNumber(getContinuousRecordNumber());
@@ -248,7 +248,7 @@ public abstract class AbstractProvider implements FunnelDataProvider
      */
     KeyContext postReadKeyProcessing (
         final int byteCount)
-        throws IOException
+            throws IOException
     {
         KeyContext kContext = null;
         try

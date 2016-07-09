@@ -542,11 +542,12 @@ public class FormatTests
         in.add("row 1000");
         final File file = Helper.createUnsortedFile(testName, in);
 
-        final FunnelContext context = Funnel.sort(Helper.config(),
-            file.getAbsolutePath() + " -r --row 130 --fixedIn 10 "
-                + "--col(-n col1 string -o0)"
-                + "--orderby(col1)");
-        Assert.assertEquals("key length", 255, context.keys.get(0).length);
+        final FunnelContext context = Funnel
+                .sort(Helper.config(), file.getAbsolutePath()
+                    + " -r --row 130 --fixedIn 10 "
+                    + "--col(-n col1 string -o0)"
+                    + "--orderby(col1)");
+        Assert.assertEquals("key length", 255, context.getKeys().get(0).length);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
@@ -560,11 +561,11 @@ public class FormatTests
         in.add("row 1000");
         final File file = Helper.createUnsortedFile(testName, in);
 
-        final FunnelContext context = Funnel.sort(Helper.config(),
-            file.getAbsolutePath() + " -r --row 130 --fixedIn 10"
-                + " --col(--name col1 integer -o4 -l4 --format '###')"
-                + " --orderby(col1)");
-        Assert.assertEquals("key length", 4, context.keys.get(0).length);
+        final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
+            + " -r --row 130 --fixedIn 10"
+            + " --col(--name col1 integer -o4 -l4 --format '###')"
+            + " --orderby(col1)");
+        Assert.assertEquals("key length", 4, context.getKeys().get(0).length);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
@@ -578,11 +579,11 @@ public class FormatTests
         in.add("row 1000");
         final File file = Helper.createUnsortedFile(testName, in);
 
-        final FunnelContext context = Funnel.sort(Helper.config(),
-            file.getAbsolutePath() + " -r --row 130 --fixedIn 10"
-                + " --col(-n col1 integer -o4 --format '###')"
-                + "--orderby(col1)");
-        Assert.assertEquals("key length", 3, context.keys.get(0).length);
+        final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
+            + " -r --row 130 --fixedIn 10"
+            + " --col(-n col1 integer -o4 --format '###')"
+            + "--orderby(col1)");
+        Assert.assertEquals("key length", 3, context.getKeys().get(0).length);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
@@ -638,13 +639,13 @@ public class FormatTests
             + " -r --row 130 --fixedIn 10"
             + " --col(-n col1 string)"
             + " --orderby(col1)");
-        Assert.assertEquals("key offset", 0, context.keys.get(0).offset);
+        Assert.assertEquals("key offset", 0, context.getKeys().get(0).offset);
 
         context = Funnel.sort(Helper.config(), file.getAbsolutePath()
             + " -r --row 130 --fixedIn 10"
             + " --col(-n col1 -o1 string)"
             + " --orderby(col1)");
-        Assert.assertEquals("key offset", 1, context.keys.get(0).offset);
+        Assert.assertEquals("key offset", 1, context.getKeys().get(0).offset);
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 }

@@ -14,7 +14,7 @@ public class PublisherFactory
 {
     static public FunnelDataPublisher create (final FunnelContext context) throws ParseException, IOException
     {
-        if (context.fixedRecordLengthOut == 0)
+        if (context.getFixedRecordLengthOut() == 0)
         {
             if (context.isSysout())
                 return new VariableLengthSysoutPublisher(context);
