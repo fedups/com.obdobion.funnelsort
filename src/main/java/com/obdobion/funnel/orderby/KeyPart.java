@@ -16,7 +16,7 @@ abstract public class KeyPart
     public KeyDirection direction;
     public String       parseFormat;
     public KeyPart      nextPart;
-    public String       typeName;
+    public KeyType      typeName;
     public String       columnName;
     byte[]              unformattedContents;
 
@@ -29,7 +29,7 @@ abstract public class KeyPart
         offset = -1;
     }
 
-    public void add (final KeyPart anotherFormatter)
+    public void add(final KeyPart anotherFormatter)
     {
         if (nextPart == null)
             nextPart = anotherFormatter;
@@ -44,7 +44,7 @@ abstract public class KeyPart
      *
      * @param colDef
      */
-    public void defineFrom (final KeyPart colDef)
+    public void defineFrom(final KeyPart colDef)
     {
         csvFieldNumber = colDef.csvFieldNumber;
         offset = colDef.offset;
@@ -54,38 +54,38 @@ abstract public class KeyPart
         columnName = colDef.columnName;
     }
 
-    abstract public Object getContents ();
+    abstract public Object getContents();
 
-    public byte[] getContentsAsByteArray ()
+    public byte[] getContentsAsByteArray()
     {
         return unformattedContents;
     }
 
-    abstract public double getContentsAsDouble ();
+    abstract public double getContentsAsDouble();
 
-    public boolean isCsv ()
+    public boolean isCsv()
     {
         return csvFieldNumber >= 0;
     }
 
-    public boolean isDate ()
+    public boolean isDate()
     {
         return false;
     }
 
-    public boolean isFloat ()
+    public boolean isFloat()
     {
         return false;
     }
 
-    public boolean isInteger ()
+    public boolean isInteger()
     {
         return false;
     }
 
-    abstract public boolean isNumeric ();
+    abstract public boolean isNumeric();
 
-    public KeyPart newCopy ()
+    public KeyPart newCopy()
     {
         KeyPart myCopy;
         try
@@ -106,8 +106,8 @@ abstract public class KeyPart
         return myCopy;
     }
 
-    public void originalData (final KeyContext context, final SourceProxyRecord proxyRecord,
-        final ByteArrayOutputStream outputBytes)
+    public void originalData(final KeyContext context, final SourceProxyRecord proxyRecord,
+            final ByteArrayOutputStream outputBytes)
     {
         final byte[] rawBytes = rawBytes(context);
 
@@ -126,16 +126,16 @@ abstract public class KeyPart
             nextPart.originalData(context, proxyRecord, outputBytes);
     }
 
-    abstract public void pack (KeyContext context) throws Exception;
+    abstract public void pack(KeyContext context) throws Exception;
 
-    public void parseObject (final KeyContext context) throws Exception
+    public void parseObject(final KeyContext context) throws Exception
     {
         parseObjectFromRawData(rawBytes(context));
     }
 
-    public abstract void parseObjectFromRawData (byte[] rawData) throws Exception;
+    public abstract void parseObjectFromRawData(byte[] rawData) throws Exception;
 
-    byte[] rawBytes (final KeyContext context)
+    byte[] rawBytes(final KeyContext context)
     {
         if (csvFieldNumber >= 0)
             return context.rawRecordBytes[csvFieldNumber];
