@@ -1,4 +1,4 @@
-'c:/Program Files/funnel/examples/data/MyDataVariable.in' 
+'c:/Program Files/Obdobion/funnelsort/examples/data/MyDataVariable.in' 
 --columnsIn
   (int --offset  0 --length 1 --name digit) 
   (int --offset 19 --length 7 --name medianHouseholdIncome)

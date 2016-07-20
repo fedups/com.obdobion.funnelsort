@@ -1,1 +1,1 @@
-'c:/Program Files/funnel/examples/data/MyDataVariable.in' --copy ORIGINAL
+'c:/Program Files/Obdobion/funnelsort/examples/data/MyDataVariable.in' --copy ORIGINAL

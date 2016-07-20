@@ -1,4 +1,4 @@
-'c:/Program Files/funnel/examples/data/MyDataWithHeader.in'  
+'c:/Program Files/Obdobion/funnelsort/examples/data/MyDataWithHeader.in'  
  --columnsIn(--name medianHouseholdIncome --offset 19 --length 7 int) 
  --orderBy(medianHouseholdIncome)
  --headerIn

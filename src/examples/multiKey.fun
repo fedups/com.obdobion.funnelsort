@@ -1,4 +1,4 @@
-'c:/Program Files/funnel/examples/data/MyDataVariable.in'  
+'c:/Program Files/Obdobion/funnelsort/examples/data/MyDataVariable.in'  
  --columnsIn
     (--name FIPS2 Int --offset 1 --length 1)
     (--name stateName String --offset 26 --length 20)

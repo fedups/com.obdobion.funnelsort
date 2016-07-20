@@ -1,3 +1,3 @@
-'c:/Program Files/funnel/examples/data/MyDataWithHeader.in'  
+'c:/Program Files/Obdobion/funnelsort/examples/data/MyDataWithHeader.in'  
  --headerIn(filler)
  --headerOut()

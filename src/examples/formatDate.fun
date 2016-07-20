@@ -1,4 +1,4 @@
-'c:/Program Files/funnel/examples/data/MyLog.in'
+'c:/Program Files/Obdobion/funnelsort/examples/data/MyLog.in'
 --copy original
 --columnsIn
   (--name logTime Date --format 'yyyy-MM-dd HH:mm:ss,SSS')

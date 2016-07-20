@@ -16,7 +16,7 @@
   SetCompressor /SOLID lzma
   XPStyle on
   CRCCheck on
-  InstallDir "C:\Program Files\${PROJECT_ARTIFACT_ID}\"
+  InstallDir "C:\Program Files\Obdobion\${PROJECT_ARTIFACT_ID}\"
   AutoCloseWindow false
   ShowInstDetails show
   Icon "${NSISDIR}\Contrib\Graphics\Icons\orange-install.ico"
@@ -80,11 +80,11 @@ Section "FunnelSort"
     !insertmacro _ReplaceInFile funnel.cfg !{INSTDIR} $INSTDIR
 
     File ..\..\target\mavenDependenciesForNSIS\*.jar
-    File /x *source* ..\..\target\funnel-${PROJECT_VERSION}.jar
+    File /x *source* ..\..\target\funnelsort-${PROJECT_VERSION}.jar
      
     FileOpen $9 funnel.bat w
     FileWrite $9 "@echo off$\r$\n"
-    FileWrite $9 "java -Dfunnel.config=$\"$INSTDIR\funnel.cfg$\" -jar $\"$INSTDIR\funnel-${PROJECT_VERSION}.jar$\" %*$\r$\n"
+    FileWrite $9 "java -Dfunnel.config=$\"$INSTDIR\funnel.cfg$\" -jar $\"$INSTDIR\funnelsort-${PROJECT_VERSION}.jar$\" %*$\r$\n"
     FileClose $9
     
     SetOutPath $INSTDIR\examples\data
@@ -101,11 +101,12 @@ Section "FunnelSort"
     
     ${EnvVarUpdate} $0 "PATH" "A" "HKLM" $INSTDIR
     
-    CreateDirectory "$SMPROGRAMS\Funnel"
-    CreateDirectory "$AppData\Obdobion\Funnel"
-    createShortCut "$SMPROGRAMS\Funnel\Log.lnk" "$AppData\Obdobion\Funnel\funnel.log" "" ""
-    createShortCut "$SMPROGRAMS\Funnel\Log Config.lnk" "$INSTDIR\log4j.xml" "" ""
-    createShortCut "$SMPROGRAMS\Funnel\Funnel Config.lnk" "$INSTDIR\funnel.cfg" "" ""
+    CreateDirectory "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}"
+    CreateDirectory "$AppData\Obdobion\${PROJECT_ARTIFACT_ID}"
+    createShortCut "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Log.lnk" "$AppData\Obdobion\Funnel\funnel.log" "" ""
+    createShortCut "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Log Config.lnk" "$INSTDIR\log4j.xml" "" ""
+    createShortCut "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Config.lnk" "$INSTDIR\funnel.cfg" "" ""
+    createShortCut "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\uninstall.lnk" "$INSTDIR\uninstall.exe" "" ""
     
     writeUninstaller "$INSTDIR\uninstall.exe"
 SectionEnd
@@ -117,9 +118,10 @@ FunctionEnd
 
 Section "uninstall"
     ${un.EnvVarUpdate} $0 "PATH" "R" "HKLM" $INSTDIR
-    delete "$SMPROGRAMS\Funnel\Log.lnk"
-    delete "$SMPROGRAMS\Funnel\Log Config.lnk"
-    delete "$SMPROGRAMS\Funnel\Funnel Config.lnk"
+    delete "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Log.lnk"
+    delete "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Log Config.lnk"
+    delete "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Config.lnk"
+    delete "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\uninstall.lnk"
     delete $INSTDIR\funnel.bat
     delete $INSTDIR\*.jar
     delete $INSTDIR\log4j.xml
