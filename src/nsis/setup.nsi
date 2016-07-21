@@ -103,10 +103,10 @@ Section "FunnelSort"
     
     CreateDirectory "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}"
     CreateDirectory "$AppData\Obdobion\${PROJECT_ARTIFACT_ID}"
-    createShortCut "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Log.lnk" "$AppData\Obdobion\Funnel\funnel.log" "" ""
-    createShortCut "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Log Config.lnk" "$INSTDIR\log4j.xml" "" ""
-    createShortCut "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Config.lnk" "$INSTDIR\funnel.cfg" "" ""
-    createShortCut "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\uninstall.lnk" "$INSTDIR\uninstall.exe" "" ""
+    createShortCut "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Funnelsort Log.lnk" "$AppData\Obdobion\Funnel\funnel.log" "" ""
+    createShortCut "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Funnelsort Log Config.lnk" "$INSTDIR\log4j.xml" "" ""
+    createShortCut "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Funnelsort Config.lnk" "$INSTDIR\funnel.cfg" "" ""
+    createShortCut "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Funnelsort uninstall.lnk" "$INSTDIR\uninstall.exe" "" ""
     
     writeUninstaller "$INSTDIR\uninstall.exe"
 SectionEnd
@@ -118,10 +118,10 @@ FunctionEnd
 
 Section "uninstall"
     ${un.EnvVarUpdate} $0 "PATH" "R" "HKLM" $INSTDIR
-    delete "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Log.lnk"
-    delete "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Log Config.lnk"
-    delete "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Config.lnk"
-    delete "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\uninstall.lnk"
+    delete "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Funnelsort Log.lnk"
+    delete "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Funnelsort Log Config.lnk"
+    delete "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Funnelsort Config.lnk"
+    delete "$SMPROGRAMS\Obdobion\${PROJECT_ARTIFACT_ID}\Funnelsort uninstall.lnk"
     delete $INSTDIR\funnel.bat
     delete $INSTDIR\*.jar
     delete $INSTDIR\log4j.xml
