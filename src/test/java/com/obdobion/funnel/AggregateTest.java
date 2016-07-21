@@ -19,27 +19,27 @@ public class AggregateTest
 {
 
     @Test
-    public void avgColAndEquError ()
-        throws Throwable
+    public void avgColAndEquError()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
         try
         {
             Funnel.sort(Helper.config(), " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
-                + " --orderby(key asc)"
-                + " --avg(myNumber -n avgNumber --equ 'myNumber')"
-                + " --format(key)(-s1)(avgNumber)");
+                    + " --orderby(key asc)"
+                    + " --avg(myNumber -n avgNumber --equ 'myNumber')"
+                    + " --format(key)(-s1)(avgNumber)");
             Assert.fail("Exception expected");
         } catch (final ParseException e)
         {
-            Assert.assertEquals("aggregate \"avgNumber\" columnName and --equ are mutually exclusive", e.getMessage());
+            Assert.assertEquals("aggregate \"avgnumber\" columnName and --equ are mutually exclusive", e.getMessage());
         }
     }
 
     @Test
-    public void avgColDate ()
-        throws Throwable
+    public void avgColDate()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -52,12 +52,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(date -o2 -l8 -n myDate -d 'yyyyMMdd')"
-            + " --orderby(key asc)"
-            + " --avg(myDate -n myMin)"
-            + " --format(key)(-s1)(-e myMin -l10 -d '%1$tm/%<td/%<tY')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(date -o2 -l8 -n myDate -d 'yyyyMMdd')"
+                + " --orderby(key asc)"
+                + " --avg(myDate -n myMin)"
+                + " --format(key)(-s1)(-e myMin -l10 -d '%1$tm/%<td/%<tY')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -71,8 +71,8 @@ public class AggregateTest
     }
 
     @Test
-    public void avgColFloat ()
-        throws Throwable
+    public void avgColFloat()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -85,12 +85,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(float -o2 -l3 -n myNumber)"
-            + " --orderby(key asc)"
-            + " --avg(myNumber -n avg)"
-            + " --format(key)(-s1)(-eavg -l3 -d '%03.0f')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(float -o2 -l3 -n myNumber)"
+                + " --orderby(key asc)"
+                + " --avg(myNumber -n avg)"
+                + " --format(key)(-s1)(-eavg -l3 -d '%03.0f')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -104,8 +104,8 @@ public class AggregateTest
     }
 
     @Test
-    public void avgColHugeFloats ()
-        throws Throwable
+    public void avgColHugeFloats()
+            throws Throwable
     {
         final int rows = 50;
         final String testName = Helper.testName();
@@ -118,12 +118,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(float -o2 -l20 -n myHugeNumber)"
-            + " --orderby(key asc)"
-            + " --avg(myHugeNumber -n myAvgHugeNumber)"
-            + " --format(key)(-s1)(-e myAvgHugeNumber -l20 -d '%020.0f')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(float -o2 -l20 -n myHugeNumber)"
+                + " --orderby(key asc)"
+                + " --avg(myHugeNumber -n myAvgHugeNumber)"
+                + " --format(key)(-s1)(-e myAvgHugeNumber -l20 -d '%020.0f')");
 
         Assert.assertEquals("records", rows, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -137,8 +137,8 @@ public class AggregateTest
     }
 
     @Test
-    public void avgColHugeIntegers ()
-        throws Throwable
+    public void avgColHugeIntegers()
+            throws Throwable
     {
         final int rows = 50;
         final String testName = Helper.testName();
@@ -151,12 +151,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(int -o2 -l20 -n myHugeNumber)"
-            + " --orderby(key asc)"
-            + " --avg(myHugeNumber -n myAvgHugeNumber)"
-            + " --format(key)(-s1)(-e myAvgHugeNumber -l20 -d '%020d')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(int -o2 -l20 -n myHugeNumber)"
+                + " --orderby(key asc)"
+                + " --avg(myHugeNumber -n myAvgHugeNumber)"
+                + " --format(key)(-s1)(-e myAvgHugeNumber -l20 -d '%020d')");
 
         Assert.assertEquals("records", rows, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -170,8 +170,8 @@ public class AggregateTest
     }
 
     @Test
-    public void avgColInt ()
-        throws Throwable
+    public void avgColInt()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -184,12 +184,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
-            + " --orderby(key asc)"
-            + " --avg(myNumber -n avg)"
-            + " --format(key)(-s1)(-eavg -l3 -d '%03d')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
+                + " --orderby(key asc)"
+                + " --avg(myNumber -n avg)"
+                + " --format(key)(-s1)(-eavg -l3 -d '%03d')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -203,8 +203,8 @@ public class AggregateTest
     }
 
     @Test
-    public void avgColIntWithAllNegatives ()
-        throws Throwable
+    public void avgColIntWithAllNegatives()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -217,12 +217,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(int -o2 -l4 -n myNumber)"
-            + " --orderby(key asc)"
-            + " --avg(myNumber -n avg)"
-            + " --format(key)(-s1)(-eavg -l3 -d '%03d')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(int -o2 -l4 -n myNumber)"
+                + " --orderby(key asc)"
+                + " --avg(myNumber -n avg)"
+                + " --format(key)(-s1)(-eavg -l3 -d '%03d')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -236,8 +236,8 @@ public class AggregateTest
     }
 
     @Test
-    public void avgColIntWithHugeNegatives ()
-        throws Throwable
+    public void avgColIntWithHugeNegatives()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -250,12 +250,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(int -o2 -l20 -n myNumber)"
-            + " --orderby(key asc)"
-            + " --avg(myNumber -n avg)"
-            + " --format(key)(-s1)(-eavg -l20 -d '%020d')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(int -o2 -l20 -n myNumber)"
+                + " --orderby(key asc)"
+                + " --avg(myNumber -n avg)"
+                + " --format(key)(-s1)(-eavg -l20 -d '%020d')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -269,8 +269,8 @@ public class AggregateTest
     }
 
     @Test
-    public void avgColIntWithMixedSigns ()
-        throws Throwable
+    public void avgColIntWithMixedSigns()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -283,12 +283,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(int -o2 -l20 -n myNumber)"
-            + " --orderby(key asc)"
-            + " --avg(myNumber -n avg)"
-            + " --format(key)(-s1)(-eavg -l20 -d '%020d')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(int -o2 -l20 -n myNumber)"
+                + " --orderby(key asc)"
+                + " --avg(myNumber -n avg)"
+                + " --format(key)(-s1)(-eavg -l20 -d '%020d')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -302,8 +302,8 @@ public class AggregateTest
     }
 
     @Test
-    public void avgEquDate ()
-        throws Throwable
+    public void avgEquDate()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -316,12 +316,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(date -o2 -l8 -n myDate -d 'yyyyMMdd')"
-            + " --orderby(key asc)"
-            + " --avg(-emyDate -n myMin)"
-            + " --format(key)(-s1)(-e myMin -l10 -d '%1$tm/%<td/%<tY')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(date -o2 -l8 -n myDate -d 'yyyyMMdd')"
+                + " --orderby(key asc)"
+                + " --avg(-emyDate -n myMin)"
+                + " --format(key)(-s1)(-e myMin -l10 -d '%1$tm/%<td/%<tY')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -335,8 +335,8 @@ public class AggregateTest
     }
 
     @Test
-    public void avgEquFloat ()
-        throws Throwable
+    public void avgEquFloat()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -349,12 +349,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(float -o2 -l3 -n myNumber)"
-            + " --orderby(key asc)"
-            + " --avg(-emyNumber -n avg)"
-            + " --format(key)(-s1)(-eavg -l3 -d '%03.0f')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(float -o2 -l3 -n myNumber)"
+                + " --orderby(key asc)"
+                + " --avg(-emyNumber -n avg)"
+                + " --format(key)(-s1)(-eavg -l3 -d '%03.0f')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -368,8 +368,8 @@ public class AggregateTest
     }
 
     @Test
-    public void avgEquHugeFloats ()
-        throws Throwable
+    public void avgEquHugeFloats()
+            throws Throwable
     {
         final int rows = 50;
         final String testName = Helper.testName();
@@ -382,12 +382,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(float -o2 -l20 -n myHugeNumber)"
-            + " --orderby(key asc)"
-            + " --avg(-emyHugeNumber -n myAvgHugeNumber)"
-            + " --format(key)(-s1)(-e myAvgHugeNumber -l20 -d '%020.0f')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(float -o2 -l20 -n myHugeNumber)"
+                + " --orderby(key asc)"
+                + " --avg(-emyHugeNumber -n myAvgHugeNumber)"
+                + " --format(key)(-s1)(-e myAvgHugeNumber -l20 -d '%020.0f')");
 
         Assert.assertEquals("records", rows, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -401,8 +401,8 @@ public class AggregateTest
     }
 
     @Test
-    public void avgEquHugeIntegers ()
-        throws Throwable
+    public void avgEquHugeIntegers()
+            throws Throwable
     {
         final int rows = 50;
         final String testName = Helper.testName();
@@ -415,12 +415,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(int -o2 -l20 -n myHugeNumber)"
-            + " --orderby(key asc)"
-            + " --avg(-emyHugeNumber -n myAvgHugeNumber)"
-            + " --format(key)(-s1)(-e myAvgHugeNumber -l20 -d '%020d')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(int -o2 -l20 -n myHugeNumber)"
+                + " --orderby(key asc)"
+                + " --avg(-emyHugeNumber -n myAvgHugeNumber)"
+                + " --format(key)(-s1)(-e myAvgHugeNumber -l20 -d '%020d')");
 
         Assert.assertEquals("records", rows, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -434,8 +434,8 @@ public class AggregateTest
     }
 
     @Test
-    public void avgEquInt ()
-        throws Throwable
+    public void avgEquInt()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -448,12 +448,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
-            + " --orderby(key asc)"
-            + " --avg(-emyNumber -n avg)"
-            + " --format(key)(-s1)(-eavg -l3 -d '%03d')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
+                + " --orderby(key asc)"
+                + " --avg(-emyNumber -n avg)"
+                + " --format(key)(-s1)(-eavg -l3 -d '%03d')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -467,28 +467,28 @@ public class AggregateTest
     }
 
     @Test
-    public void avgStringError ()
-        throws Throwable
+    public void avgStringError()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
         try
         {
             Funnel.sort(Helper.config(), " --col(String -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
-                + " --orderby(key asc)"
-                + " --avg(key -n avgNumber)"
-                + " --format(key)(-s1)(avgNumber)");
+                    + " --orderby(key asc)"
+                    + " --avg(key -n avgNumber)"
+                    + " --format(key)(-s1)(avgNumber)");
             Assert.fail("Exception expected");
         } catch (final ParseException e)
         {
-            Assert.assertEquals("aggregate \"avgNumber\" must reference a numeric or date column: key (String)", e
+            Assert.assertEquals("aggregate \"avgnumber\" must reference a numeric or date column: key (String)", e
                     .getMessage());
         }
     }
 
     @Test
-    public void counter ()
-        throws Throwable
+    public void counter()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -502,12 +502,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n col1)"
-            + " --orderby(key asc)"
-            + " --count(-n count)"
-            + " --format(key)(-s1)(-ecount -l 2 -d '%02d')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n col1)"
+                + " --orderby(key asc)"
+                + " --count(-n count)"
+                + " --format(key)(-s1)(-ecount -l 2 -d '%02d')");
 
         Assert.assertEquals("records", 4L, context.getRecordCount());
         Assert.assertEquals("records", 2L, context.getWriteCount());
@@ -522,8 +522,8 @@ public class AggregateTest
     }
 
     @Test
-    public void counterOfNothing ()
-        throws Throwable
+    public void counterOfNothing()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -537,13 +537,13 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --stopWhen 'recordNumber = 1'"
-            + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n col1)"
-            + " --orderby(key asc)"
-            + " --count(-n count)"
-            + " --format(key)(-s1)(-ecount -l 2 -d '%02d')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --stopWhen 'recordNumber = 1'"
+                + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n col1)"
+                + " --orderby(key asc)"
+                + " --count(-n count)"
+                + " --format(key)(-s1)(-ecount -l 2 -d '%02d')");
 
         Assert.assertEquals("records", 0L, context.getRecordCount());
         Assert.assertEquals("records", 0L, context.getWriteCount());
@@ -553,28 +553,28 @@ public class AggregateTest
     }
 
     @Test
-    public void duplicateAggregateName ()
-        throws Throwable
+    public void duplicateAggregateName()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
         try
         {
             Funnel.sort(Helper.config(), " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
-                + " --orderby(key asc)"
-                + " --count(-n badName)"
-                + " --avg(myNumber -n badName)"
-                + " --format(key)(-s1)(badName)");
+                    + " --orderby(key asc)"
+                    + " --count(-n badName)"
+                    + " --avg(myNumber -n badName)"
+                    + " --format(key)(-s1)(badName)");
             Assert.fail("Exception expected");
         } catch (final ParseException e)
         {
-            Assert.assertEquals("aggregate \"badName\" must have a unique name", e.getMessage());
+            Assert.assertEquals("aggregate \"badname\" must have a unique name", e.getMessage());
         }
     }
 
     @Test
-    public void everythingVariable ()
-        throws Throwable
+    public void everythingVariable()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -594,22 +594,22 @@ public class AggregateTest
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel
                 .sort(Helper.config(), file1.getAbsolutePath()
-                    + " -o "
-                    + output.getAbsolutePath()
-                    + " --col(string -o0 -l1 -n key)(date -o2 -l8 -n myDate -d 'yyyyMMdd')(date -o11 -l8 -n myDate2 -d 'yyyyMMdd')"
-                    + " --orderby(key asc)"
-                    + " --avg(myDate -n myAvg)(myDate2 -n myAvg2)"
-                    + " --min(myDate -n myMin)(myDate2 -n myMin2)"
-                    + " --max(myDate -n myMax)(myDate2 -n myMax2)"
-                    + " --count(-n myCount)"
-                    + " --format(key)"
-                    + " (-s1)(-e myCount -l4 -d '%04d')"
-                    + " (-s1)(-e myMin  -l10 -d '%1$tm/%<td/%<tY')"
-                    + " (-s1)(-e myMin2 -l10 -d '%1$tm/%<td/%<tY')"
-                    + " (-s1)(-e myMax  -l10 -d '%1$tm/%<td/%<tY')"
-                    + " (-s1)(-e myMax2 -l10 -d '%1$tm/%<td/%<tY')"
-                    + " (-s1)(-e myAvg  -l10 -d '%1$tm/%<td/%<tY')"
-                    + " (-s1)(-e myAvg2 -l10 -d '%1$tm/%<td/%<tY')");
+                        + " -o "
+                        + output.getAbsolutePath()
+                        + " --col(string -o0 -l1 -n key)(date -o2 -l8 -n myDate -d 'yyyyMMdd')(date -o11 -l8 -n myDate2 -d 'yyyyMMdd')"
+                        + " --orderby(key asc)"
+                        + " --avg(myDate -n myAvg)(myDate2 -n myAvg2)"
+                        + " --min(myDate -n myMin)(myDate2 -n myMin2)"
+                        + " --max(myDate -n myMax)(myDate2 -n myMax2)"
+                        + " --count(-n myCount)"
+                        + " --format(key)"
+                        + " (-s1)(-e myCount -l4 -d '%04d')"
+                        + " (-s1)(-e myMin  -l10 -d '%1$tm/%<td/%<tY')"
+                        + " (-s1)(-e myMin2 -l10 -d '%1$tm/%<td/%<tY')"
+                        + " (-s1)(-e myMax  -l10 -d '%1$tm/%<td/%<tY')"
+                        + " (-s1)(-e myMax2 -l10 -d '%1$tm/%<td/%<tY')"
+                        + " (-s1)(-e myAvg  -l10 -d '%1$tm/%<td/%<tY')"
+                        + " (-s1)(-e myAvg2 -l10 -d '%1$tm/%<td/%<tY')");
 
         Assert.assertEquals("records", 9L, context.getRecordCount());
         Assert.assertEquals("records", 3L, context.getWriteCount());
@@ -625,8 +625,8 @@ public class AggregateTest
     }
 
     @Test
-    public void maxColDate ()
-        throws Throwable
+    public void maxColDate()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -639,12 +639,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(date -o2 -l8 -n myDate -d 'yyyyMMdd')"
-            + " --orderby(key asc)"
-            + " --max(myDate -n myMin)"
-            + " --format(key)(-s1)(-e myMin -l10 -d '%1$tm/%<td/%<tY')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(date -o2 -l8 -n myDate -d 'yyyyMMdd')"
+                + " --orderby(key asc)"
+                + " --max(myDate -n myMin)"
+                + " --format(key)(-s1)(-e myMin -l10 -d '%1$tm/%<td/%<tY')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -658,8 +658,8 @@ public class AggregateTest
     }
 
     @Test
-    public void maxColFloat ()
-        throws Throwable
+    public void maxColFloat()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -672,12 +672,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(float -o2 -l3 -n myNumber)"
-            + " --orderby(key asc)"
-            + " --max(myNumber -n myMin)"
-            + " --format(key)(-s1)(-e myMin -l3 -d '%3.0f')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(float -o2 -l3 -n myNumber)"
+                + " --orderby(key asc)"
+                + " --max(myNumber -n myMin)"
+                + " --format(key)(-s1)(-e myMin -l3 -d '%3.0f')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -691,8 +691,8 @@ public class AggregateTest
     }
 
     @Test
-    public void maxColInt ()
-        throws Throwable
+    public void maxColInt()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -705,12 +705,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
-            + " --orderby(key asc)"
-            + " --max(myNumber -n myMin)"
-            + " --format(key)(-s1)(-e myMin -l3 -d '%3d')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
+                + " --orderby(key asc)"
+                + " --max(myNumber -n myMin)"
+                + " --format(key)(-s1)(-e myMin -l3 -d '%3d')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -724,8 +724,8 @@ public class AggregateTest
     }
 
     @Test
-    public void maxEquDate ()
-        throws Throwable
+    public void maxEquDate()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -738,12 +738,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(date -o2 -l8 -n myDate -d 'yyyyMMdd')"
-            + " --orderby(key asc)"
-            + " --max(-emyDate -n myMin)"
-            + " --format(key)(-s1)(-e myMin -l10 -d '%1$tm/%<td/%<tY')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(date -o2 -l8 -n myDate -d 'yyyyMMdd')"
+                + " --orderby(key asc)"
+                + " --max(-emyDate -n myMin)"
+                + " --format(key)(-s1)(-e myMin -l10 -d '%1$tm/%<td/%<tY')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -757,8 +757,8 @@ public class AggregateTest
     }
 
     @Test
-    public void maxEquFloat ()
-        throws Throwable
+    public void maxEquFloat()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -771,12 +771,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(float -o2 -l3 -n myNumber)"
-            + " --orderby(key asc)"
-            + " --max(-emyNumber -n myMin)"
-            + " --format(key)(-s1)(-e myMin -l3 -d '%3.0f')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(float -o2 -l3 -n myNumber)"
+                + " --orderby(key asc)"
+                + " --max(-emyNumber -n myMin)"
+                + " --format(key)(-s1)(-e myMin -l3 -d '%3.0f')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -790,8 +790,8 @@ public class AggregateTest
     }
 
     @Test
-    public void maxEquInt ()
-        throws Throwable
+    public void maxEquInt()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -804,12 +804,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
-            + " --orderby(key asc)"
-            + " --max(-emyNumber -n myMin)"
-            + " --format(key)(-s1)(-e myMin -l3 -d '%3d')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
+                + " --orderby(key asc)"
+                + " --max(-emyNumber -n myMin)"
+                + " --format(key)(-s1)(-e myMin -l3 -d '%3d')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -823,8 +823,8 @@ public class AggregateTest
     }
 
     @Test
-    public void minColDate ()
-        throws Throwable
+    public void minColDate()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -837,12 +837,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(date -o2 -l8 -n myDate -d 'yyyyMMdd')"
-            + " --orderby(key asc)"
-            + " --min(myDate -n myMin)"
-            + " --format(key)(-s1)(-e myMin -l10 -d '%1$tm/%<td/%<tY')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(date -o2 -l8 -n myDate -d 'yyyyMMdd')"
+                + " --orderby(key asc)"
+                + " --min(myDate -n myMin)"
+                + " --format(key)(-s1)(-e myMin -l10 -d '%1$tm/%<td/%<tY')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -856,8 +856,8 @@ public class AggregateTest
     }
 
     @Test
-    public void minColFloat ()
-        throws Throwable
+    public void minColFloat()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -870,12 +870,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(float -o2 -l3 -n myNumber)"
-            + " --orderby(key asc)"
-            + " --min(myNumber -n myMin)"
-            + " --format(key)(-s1)(-e myMin -l3 -d '%3.0f')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(float -o2 -l3 -n myNumber)"
+                + " --orderby(key asc)"
+                + " --min(myNumber -n myMin)"
+                + " --format(key)(-s1)(-e myMin -l3 -d '%3.0f')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -889,8 +889,8 @@ public class AggregateTest
     }
 
     @Test
-    public void minColInt ()
-        throws Throwable
+    public void minColInt()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -903,12 +903,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
-            + " --orderby(key asc)"
-            + " --min(myNumber -n myMin)"
-            + " --format(key)(-s1)(-e myMin -l3 -d '%3d')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
+                + " --orderby(key asc)"
+                + " --min(myNumber -n myMin)"
+                + " --format(key)(-s1)(-e myMin -l3 -d '%3d')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -922,8 +922,8 @@ public class AggregateTest
     }
 
     @Test
-    public void minEquDate ()
-        throws Throwable
+    public void minEquDate()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -936,12 +936,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(date -o2 -l8 -n myDate -d 'yyyyMMdd')"
-            + " --orderby(key asc)"
-            + " --min(-emyDate -n myMin)"
-            + " --format(key)(-s1)(-e myMin -l10 -d '%1$tm/%<td/%<tY')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(date -o2 -l8 -n myDate -d 'yyyyMMdd')"
+                + " --orderby(key asc)"
+                + " --min(-emyDate -n myMin)"
+                + " --format(key)(-s1)(-e myMin -l10 -d '%1$tm/%<td/%<tY')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -955,8 +955,8 @@ public class AggregateTest
     }
 
     @Test
-    public void minEquFloat ()
-        throws Throwable
+    public void minEquFloat()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -969,12 +969,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(float -o2 -l3 -n myNumber)"
-            + " --orderby(key asc)"
-            + " --min(-emyNumber -n myMin)"
-            + " --format(key)(-s1)(-e myMin -l3 -d '%3.0f')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(float -o2 -l3 -n myNumber)"
+                + " --orderby(key asc)"
+                + " --min(-emyNumber -n myMin)"
+                + " --format(key)(-s1)(-e myMin -l3 -d '%3.0f')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -988,8 +988,8 @@ public class AggregateTest
     }
 
     @Test
-    public void minEquInt ()
-        throws Throwable
+    public void minEquInt()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -1002,12 +1002,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
-            + " --orderby(key asc)"
-            + " --min(-emyNumber -n myMin)"
-            + " --format(key)(-s1)(-e myMin -l3 -d '%3d')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
+                + " --orderby(key asc)"
+                + " --min(-emyNumber -n myMin)"
+                + " --format(key)(-s1)(-e myMin -l3 -d '%3d')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -1021,8 +1021,8 @@ public class AggregateTest
     }
 
     @Test
-    public void sumColFloat ()
-        throws Throwable
+    public void sumColFloat()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -1035,12 +1035,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(float -o2 -l5 -n myNumber)"
-            + " --orderby(key asc)"
-            + " --sum(myNumber -n sum)"
-            + " --format(key)(-s1)(-esum -l7 -d '%03.3f')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(float -o2 -l5 -n myNumber)"
+                + " --orderby(key asc)"
+                + " --sum(myNumber -n sum)"
+                + " --format(key)(-s1)(-esum -l7 -d '%03.3f')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -1054,8 +1054,8 @@ public class AggregateTest
     }
 
     @Test
-    public void sumColInt ()
-        throws Throwable
+    public void sumColInt()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -1068,12 +1068,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
-            + " --orderby(key asc)"
-            + " --sum(myNumber -n sum)"
-            + " --format(key)(-s1)(-esum -l5 -d '%03d')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
+                + " --orderby(key asc)"
+                + " --sum(myNumber -n sum)"
+                + " --format(key)(-s1)(-esum -l5 -d '%03d')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -1087,8 +1087,8 @@ public class AggregateTest
     }
 
     @Test
-    public void sumEquFloat ()
-        throws Throwable
+    public void sumEquFloat()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -1101,12 +1101,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(float -o2 -l5 -n myNumber)"
-            + " --orderby(key asc)"
-            + " --sum(-emyNumber -n sum)"
-            + " --format(key)(-s1)(-esum -l7 -d '%03.3f')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(float -o2 -l5 -n myNumber)"
+                + " --orderby(key asc)"
+                + " --sum(-emyNumber -n sum)"
+                + " --format(key)(-s1)(-esum -l7 -d '%03.3f')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -1120,8 +1120,8 @@ public class AggregateTest
     }
 
     @Test
-    public void sumEquInt ()
-        throws Throwable
+    public void sumEquInt()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -1134,12 +1134,12 @@ public class AggregateTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o "
-            + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
-            + " --orderby(key asc)"
-            + " --sum(-emyNumber -n sum)"
-            + " --format(key)(-s1)(-esum -l5 -d '%03d')");
+                + " -o "
+                + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
+                + " --orderby(key asc)"
+                + " --sum(-emyNumber -n sum)"
+                + " --format(key)(-s1)(-esum -l5 -d '%03d')");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());
@@ -1153,21 +1153,21 @@ public class AggregateTest
     }
 
     @Test
-    public void unknownColumn ()
-        throws Throwable
+    public void unknownColumn()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
         try
         {
             Funnel.sort(Helper.config(), " --col(string -o0 -l1 -n key)(int -o2 -l3 -n myNumber)"
-                + " --orderby(key asc)"
-                + " --avg(unknownColumnName -n avgNumber)"
-                + " --format(key)(-s1)(avgNumber)");
+                    + " --orderby(key asc)"
+                    + " --avg(unknownColumnName -n avgNumber)"
+                    + " --format(key)(-s1)(avgNumber)");
             Assert.fail("Exception expected");
         } catch (final ParseException e)
         {
-            Assert.assertEquals("aggregate \"avgNumber\" must reference a defined column: unknownColumnName", e
+            Assert.assertEquals("aggregate \"avgnumber\" must reference a defined column: unknowncolumnname", e
                     .getMessage());
         }
     }

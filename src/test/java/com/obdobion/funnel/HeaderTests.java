@@ -18,8 +18,8 @@ import com.obdobion.funnel.parameters.FunnelContext;
 public class HeaderTests
 {
     @Test
-    public void addHeaderToFile ()
-        throws Throwable
+    public void addHeaderToFile()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -31,12 +31,12 @@ public class HeaderTests
         final File file = Helper.createUnsortedFile(testName, logFile);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --replace"
-            + " --col(string -l4 -n TYPE)"
-            + "      (date   -l8 -n DATE -d'yyyyMMdd')"
-            + "      (int    -l2 -n SEQ)"
-            + " --orderBy(seq desc)"
-            + " --headerOut(-e'date(\"20160609\", \"yyyyMMdd\")' -l 28 -d '%tc')");
+                + " --replace"
+                + " --col(string -l4 -n TYPE)"
+                + "      (date   -l8 -n DATE -d'yyyyMMdd')"
+                + "      (int    -l2 -n SEQ)"
+                + " --orderBy(seq desc)"
+                + " --headerOut(-e'date(\"20160609\", \"yyyyMMdd\")' -l 28 -d '%tc')");
 
         Assert.assertEquals("records", 2L, context.getWriteCount());
 
@@ -49,8 +49,8 @@ public class HeaderTests
     }
 
     @Test
-    public void consumeHeader ()
-        throws Throwable
+    public void consumeHeader()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -63,13 +63,13 @@ public class HeaderTests
         final File file = Helper.createUnsortedFile(testName, logFile);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --col(string -l4 -n TYPE)"
-            + "      (date   -l8 -n DATE -d'yyyyMMdd')"
-            + "      (int    -l2 -n SEQ)"
-            + " --headerIn"
-            + "      (date   -l8 -n RUNDATE -d'yyyyMMdd')"
-            + "      (string -l4 -n RUNTYPE)"
-            + " --headerOut()");
+                + " --col(string -l4 -n TYPE)"
+                + "      (date   -l8 -n DATE -d'yyyyMMdd')"
+                + "      (int    -l2 -n SEQ)"
+                + " --headerIn"
+                + "      (date   -l8 -n RUNDATE -d'yyyyMMdd')"
+                + "      (string -l4 -n RUNTYPE)"
+                + " --headerOut()");
 
         Assert.assertEquals("records", 2L, context.getWriteCount());
 
@@ -77,8 +77,8 @@ public class HeaderTests
     }
 
     @Test
-    public void duplicateNameWithColumn ()
-        throws Throwable
+    public void duplicateNameWithColumn()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -86,13 +86,12 @@ public class HeaderTests
         try
         {
             Funnel.sort(Helper.config(), ""
-                + " --col(string -l4 -n TYPE)"
-                + "      (date   -l8 -n DATE -d'yyyyMMdd')"
-                + "      (int    -l2 -n SEQ)"
-                + " --headerIn"
-                + "      (date   -l8 -n DATE -d'yyyyMMdd')"
-                + "      (string -l4 -n TYPE)"
-                    );
+                    + " --col(string -l4 -n TYPE)"
+                    + "      (date   -l8 -n DATE -d'yyyyMMdd')"
+                    + "      (int    -l2 -n SEQ)"
+                    + " --headerIn"
+                    + "      (date   -l8 -n DATE -d'yyyyMMdd')"
+                    + "      (string -l4 -n TYPE)");
             Assert.fail("Expected exception");
         } catch (final ParseException e)
         {
@@ -101,8 +100,8 @@ public class HeaderTests
     }
 
     @Test
-    public void duplicateNameWithHeader ()
-        throws Throwable
+    public void duplicateNameWithHeader()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -110,23 +109,22 @@ public class HeaderTests
         try
         {
             Funnel.sort(Helper.config(), ""
-                + " --col(string -l4 -n TYPE)"
-                + "      (date   -l8 -n DATE -d'yyyyMMdd')"
-                + "      (int    -l2 -n SEQ)"
-                + " --headerIn"
-                + "      (date   -l8 -n TYPE -d'yyyyMMdd')"
-                + "      (string -l4 -n TYPE)"
-                    );
+                    + " --col(string -l4 -n TYPE)"
+                    + "      (date   -l8 -n DATE -d'yyyyMMdd')"
+                    + "      (int    -l2 -n SEQ)"
+                    + " --headerIn"
+                    + "      (date   -l8 -n TYPE -d'yyyyMMdd')"
+                    + "      (string -l4 -n TYPE)");
             Assert.fail("Expected exception");
         } catch (final ParseException e)
         {
-            Assert.assertEquals("headerIn must be unique: TYPE", e.getMessage());
+            Assert.assertEquals("headerIn must be unique: type", e.getMessage());
         }
     }
 
     @Test
-    public void filler ()
-        throws Throwable
+    public void filler()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -139,15 +137,14 @@ public class HeaderTests
         final File file = Helper.createUnsortedFile(testName, logFile);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --replace"
-            + " --headerIn "
-            + "      (Date -n RUNTIME -d'MM/dd/yyyy HH:mm:ss')"
-            + "      (filler -l 11)"
-            + "      (Date -n BUSDATE -d'MM/dd/yyyy HH:mm:ss')"
-            + "      (filler -l 1)"
-            + "      (Int  -n LRECL -l4)"
-            + " --headerOut(-eRUNTIME  -l 28 -d '%tc')"
-                );
+                + " --replace"
+                + " --headerIn "
+                + "      (Date -n RUNTIME -d'MM/dd/yyyy HH:mm:ss')"
+                + "      (filler -l 11)"
+                + "      (Date -n BUSDATE -d'MM/dd/yyyy HH:mm:ss')"
+                + "      (filler -l 1)"
+                + "      (Int  -n LRECL -l4)"
+                + " --headerOut(-eRUNTIME  -l 28 -d '%tc')");
 
         Assert.assertEquals("records", 2L, context.getWriteCount());
 
@@ -158,8 +155,8 @@ public class HeaderTests
     }
 
     @Test
-    public void notValidForCSV ()
-        throws Throwable
+    public void notValidForCSV()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -167,12 +164,11 @@ public class HeaderTests
         try
         {
             Funnel.sort(Helper.config(), "--csv()"
-                + " --col"
-                + "      (int    -l2 -n SEQ)"
-                + " --headerIn"
-                + "      (date   -l8 -n DATE -d'yyyyMMdd')"
-                + "      (string -l4 -n TYPE)"
-                    );
+                    + " --col"
+                    + "      (int    -l2 -n SEQ)"
+                    + " --headerIn"
+                    + "      (date   -l8 -n DATE -d'yyyyMMdd')"
+                    + "      (string -l4 -n TYPE)");
             Assert.fail("Expected exception");
         } catch (final ParseException e)
         {
@@ -181,8 +177,8 @@ public class HeaderTests
     }
 
     @Test
-    public void useHeaderForStop ()
-        throws Throwable
+    public void useHeaderForStop()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -195,14 +191,14 @@ public class HeaderTests
         final File file = Helper.createUnsortedFile(testName, logFile);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --col(string -l4 -n TYPE)"
-            + "      (date   -l8 -n DATE -d'yyyyMMdd')"
-            + "      (int    -l2 -n SEQ)"
-            + " --headerIn"
-            + "      (date   -l8 -n RUNDATE -d'yyyyMMdd')"
-            + "      (string -l4 -n RUNTYPE)"
-            + " --headerOut()"
-            + " --stop 'runtype = type'");
+                + " --col(string -l4 -n TYPE)"
+                + "      (date   -l8 -n DATE -d'yyyyMMdd')"
+                + "      (int    -l2 -n SEQ)"
+                + " --headerIn"
+                + "      (date   -l8 -n RUNDATE -d'yyyyMMdd')"
+                + "      (string -l4 -n RUNTYPE)"
+                + " --headerOut()"
+                + " --stop 'runtype = type'");
 
         Assert.assertEquals("records", 0L, context.getWriteCount());
 
@@ -210,8 +206,8 @@ public class HeaderTests
     }
 
     @Test
-    public void useHeaderForWhere ()
-        throws Throwable
+    public void useHeaderForWhere()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -224,14 +220,14 @@ public class HeaderTests
         final File file = Helper.createUnsortedFile(testName, logFile);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --col(string -l4 -n TYPE)"
-            + "      (date   -l8 -n DATE -d'yyyyMMdd')"
-            + "      (int    -l2 -n SEQ)"
-            + " --headerIn"
-            + "      (date   -l8 -n RUNDATE -d'yyyyMMdd')"
-            + "      (string -l4 -n RUNTYPE)"
-            + " --headerOut()"
-            + " --where 'runtype = type'");
+                + " --col(string -l4 -n TYPE)"
+                + "      (date   -l8 -n DATE -d'yyyyMMdd')"
+                + "      (int    -l2 -n SEQ)"
+                + " --headerIn"
+                + "      (date   -l8 -n RUNDATE -d'yyyyMMdd')"
+                + "      (string -l4 -n RUNTYPE)"
+                + " --headerOut()"
+                + " --where 'runtype = type'");
 
         Assert.assertEquals("records", 2L, context.getWriteCount());
 
@@ -239,8 +235,8 @@ public class HeaderTests
     }
 
     @Test
-    public void writeEntireHeaderToOutput ()
-        throws Throwable
+    public void writeEntireHeaderToOutput()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -253,14 +249,14 @@ public class HeaderTests
         final File file = Helper.createUnsortedFile(testName, logFile);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --replace"
-            + " --col(string -l4 -n TYPE)"
-            + "      (date   -l8 -n DATE -d'yyyyMMdd')"
-            + "      (int    -l2 -n SEQ)"
-            + " --orderBy(seq desc)"
-            + " --headerIn"
-            + "      (date   -l8 -n RUNDATE -d'yyyyMMdd')"
-            + "      (string -l4 -n RUNTYPE)");
+                + " --replace"
+                + " --col(string -l4 -n TYPE)"
+                + "      (date   -l8 -n DATE -d'yyyyMMdd')"
+                + "      (int    -l2 -n SEQ)"
+                + " --orderBy(seq desc)"
+                + " --headerIn"
+                + "      (date   -l8 -n RUNDATE -d'yyyyMMdd')"
+                + "      (string -l4 -n RUNTYPE)");
 
         Assert.assertEquals("records", 2L, context.getWriteCount());
 
@@ -273,8 +269,8 @@ public class HeaderTests
     }
 
     @Test
-    public void writeHeaderColumnToDetailRecordAsCol ()
-        throws Throwable
+    public void writeHeaderColumnToDetailRecordAsCol()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -287,14 +283,14 @@ public class HeaderTests
         final File file = Helper.createUnsortedFile(testName, logFile);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath() + " --replace"
-            + " --col(string -l4 -n TYPE)"
-            + "      (date   -l8 -n DATE -d'yyyyMMdd')"
-            + "      (int    -l2 -n SEQ)"
-            + " --headerIn"
-            + "      (date   -l8 -n RUNDATE -d'yyyyMMdd')"
-            + "      (string -l4 -n RUNTYPE)"
-            + " --headerOut()"
-            + " --formatOut(TYPE)(RUNTYPE)(DATE)(RUNDATE)(SEQ)");
+                + " --col(string -l4 -n TYPE)"
+                + "      (date   -l8 -n DATE -d'yyyyMMdd')"
+                + "      (int    -l2 -n SEQ)"
+                + " --headerIn"
+                + "      (date   -l8 -n RUNDATE -d'yyyyMMdd')"
+                + "      (string -l4 -n RUNTYPE)"
+                + " --headerOut()"
+                + " --formatOut(TYPE)(RUNTYPE)(DATE)(RUNDATE)(SEQ)");
 
         Assert.assertEquals("records", 2L, context.getWriteCount());
 
@@ -306,8 +302,8 @@ public class HeaderTests
     }
 
     @Test
-    public void writeHeaderColumnToDetailRecordAsEqu ()
-        throws Throwable
+    public void writeHeaderColumnToDetailRecordAsEqu()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -320,14 +316,14 @@ public class HeaderTests
         final File file = Helper.createUnsortedFile(testName, logFile);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --col(string -l4 -n TYPE)"
-            + "      (date   -l8 -n DATE -d'yyyyMMdd')"
-            + "      (int    -l2 -n SEQ)"
-            + " --headerIn"
-            + "      (date   -l8 -n RUNDATE -d'yyyyMMdd')"
-            + "      (string -l4 -n RUNTYPE)"
-            + " --headerOut()"
-            + " --formatOut(TYPE)(-eRUNTYPE -l4)(DATE)(-eRUNDATE -l8 -d'%tY%1$tm%1$td')(SEQ)");
+                + " --col(string -l4 -n TYPE)"
+                + "      (date   -l8 -n DATE -d'yyyyMMdd')"
+                + "      (int    -l2 -n SEQ)"
+                + " --headerIn"
+                + "      (date   -l8 -n RUNDATE -d'yyyyMMdd')"
+                + "      (string -l4 -n RUNTYPE)"
+                + " --headerOut()"
+                + " --formatOut(TYPE)(-eRUNTYPE -l4)(DATE)(-eRUNDATE -l8 -d'%tY%1$tm%1$td')(SEQ)");
 
         Assert.assertEquals("records", 2L, context.getWriteCount());
 
@@ -335,8 +331,8 @@ public class HeaderTests
     }
 
     @Test
-    public void writeHeaderOutWithEqu ()
-        throws Throwable
+    public void writeHeaderOutWithEqu()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -349,15 +345,15 @@ public class HeaderTests
         final File file = Helper.createUnsortedFile(testName, logFile);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --replace"
-            + " --col(string -l4 -n TYPE)"
-            + "      (date   -l8 -n DATE -d'yyyyMMdd')"
-            + "      (int    -l2 -n SEQ)"
-            + " --orderBy(seq desc)"
-            + " --headerIn"
-            + "      (date   -l8 -n RUNDATE -d'yyyyMMdd')"
-            + "      (string -l4 -n RUNTYPE)"
-            + " --headerOut(-eRUNDATE -l 28 -d '%tc')");
+                + " --replace"
+                + " --col(string -l4 -n TYPE)"
+                + "      (date   -l8 -n DATE -d'yyyyMMdd')"
+                + "      (int    -l2 -n SEQ)"
+                + " --orderBy(seq desc)"
+                + " --headerIn"
+                + "      (date   -l8 -n RUNDATE -d'yyyyMMdd')"
+                + "      (string -l4 -n RUNTYPE)"
+                + " --headerOut(-eRUNDATE -l 28 -d '%tc')");
 
         Assert.assertEquals("records", 2L, context.getWriteCount());
 
@@ -370,8 +366,8 @@ public class HeaderTests
     }
 
     @Test
-    public void writeMinimalHeaderToOutput ()
-        throws Throwable
+    public void writeMinimalHeaderToOutput()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -384,12 +380,12 @@ public class HeaderTests
         final File file = Helper.createUnsortedFile(testName, logFile);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --replace"
-            + " --col(string -l4 -n TYPE)"
-            + "      (date   -l8 -n DATE -d'yyyyMMdd')"
-            + "      (int    -l2 -n SEQ)"
-            + " --orderBy(seq desc)"
-            + " --headerIn(filler)");
+                + " --replace"
+                + " --col(string -l4 -n TYPE)"
+                + "      (date   -l8 -n DATE -d'yyyyMMdd')"
+                + "      (int    -l2 -n SEQ)"
+                + " --orderBy(seq desc)"
+                + " --headerIn(filler)");
 
         Assert.assertEquals("records", 2L, context.getWriteCount());
 
@@ -402,8 +398,8 @@ public class HeaderTests
     }
 
     @Test
-    public void writeSpecificColumnsToHeaderOutput ()
-        throws Throwable
+    public void writeSpecificColumnsToHeaderOutput()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -416,15 +412,15 @@ public class HeaderTests
         final File file = Helper.createUnsortedFile(testName, logFile);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --replace"
-            + " --col(string -l4 -n TYPE)"
-            + "      (date   -l8 -n DATE -d'yyyyMMdd')"
-            + "      (int    -l2 -n SEQ)"
-            + " --orderBy(seq desc)"
-            + " --headerIn"
-            + "      (date   -l8 -n RUNDATE -d'yyyyMMdd')"
-            + "      (string -l4 -n RUNTYPE)"
-            + " --headerOut(RUNTYPE)(RUNDATE)");
+                + " --replace"
+                + " --col(string -l4 -n TYPE)"
+                + "      (date   -l8 -n DATE -d'yyyyMMdd')"
+                + "      (int    -l2 -n SEQ)"
+                + " --orderBy(seq desc)"
+                + " --headerIn"
+                + "      (date   -l8 -n RUNDATE -d'yyyyMMdd')"
+                + "      (string -l4 -n RUNTYPE)"
+                + " --headerOut(RUNTYPE)(RUNDATE)");
 
         Assert.assertEquals("records", 2L, context.getWriteCount());
 
