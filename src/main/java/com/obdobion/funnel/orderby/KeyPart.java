@@ -2,6 +2,7 @@ package com.obdobion.funnel.orderby;
 
 import java.io.ByteArrayOutputStream;
 
+import com.obdobion.argument.annotation.Arg;
 import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
@@ -10,15 +11,45 @@ import com.obdobion.funnel.segment.SourceProxyRecord;
  */
 abstract public class KeyPart
 {
-    public int          csvFieldNumber;
-    public int          offset;
-    public int          length;
-    public KeyDirection direction;
-    public String       parseFormat;
     public KeyPart      nextPart;
-    public KeyType      typeName;
-    public String       columnName;
     byte[]              unformattedContents;
+
+    /*
+     * Not sure why this is here, OrderBy seems to define it where it needs to
+     * be.
+     */
+    @Deprecated
+    public KeyDirection direction;
+
+    @Arg(shortName = 'n', longName = "name", help = "The key name", caseSensitive = true)
+    public String       columnName;
+
+    @Arg(shortName = 't', longName = "type", positional = true, help = "The data type of the key", required = true)
+    public KeyType      typeName;
+
+    @Arg(shortName = 'f',
+            longName = "field",
+            range = { "1" },
+            help = "If this is a CSV file then use this instead of offset and length.  The first field is field #1 (not zero).")
+    public int          csvFieldNumber;
+
+    @Arg(shortName = 'o',
+            defaultValues = { "-1" },
+            range = { "0" },
+            help = "The zero relative offset from the beginning of a row.  This will be computed, if not specified, to be the location of the previous column plus the length of the previous column.  Most often this parameter is not needed.")
+    public int          offset;
+
+    @Arg(shortName = 'l',
+            defaultValues = { "255" },
+            range = { "1", "255" },
+            help = "The length of the key in bytes.")
+    public int          length;
+
+    @Arg(shortName = 'd',
+            longName = "format",
+            caseSensitive = true,
+            help = "The parsing format for converting the contents of the key in the file to an internal representation. Use Java SimpleDateFormat rules for making the format.")
+    public String       parseFormat;
 
     public KeyPart()
     {

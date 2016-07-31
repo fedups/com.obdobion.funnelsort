@@ -1,14 +1,15 @@
 package com.obdobion.funnel.aggregation;
 
 import com.obdobion.algebrain.Equ;
+import com.obdobion.argument.annotation.Arg;
 import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 abstract public class Aggregate
 {
-    public static void aggregate (final FunnelContext context, final int originalRecordSize,
-        final long originalRecordNumber) throws Exception
+    public static void aggregate(final FunnelContext context, final int originalRecordSize,
+            final long originalRecordNumber) throws Exception
     {
         if (context.isAggregating())
         {
@@ -20,8 +21,8 @@ abstract public class Aggregate
         }
     }
 
-    private static void loadColumnsIntoAggregateEquations (final FunnelContext context, final int originalRecordSize,
-        final long originalRecordNumber) throws Exception
+    private static void loadColumnsIntoAggregateEquations(final FunnelContext context, final int originalRecordSize,
+            final long originalRecordNumber) throws Exception
     {
         for (final Aggregate agg : context.getAggregates())
         {
@@ -36,8 +37,8 @@ abstract public class Aggregate
         }
     }
 
-    public static void loadValues (final FunnelContext context, final Equ[] referencesToAllOutputFormatEquations)
-        throws Exception
+    public static void loadValues(final FunnelContext context, final Equ[] referencesToAllOutputFormatEquations)
+            throws Exception
     {
         if (context.isAggregating())
             for (final Aggregate agg : context.getAggregates())
@@ -49,32 +50,32 @@ abstract public class Aggregate
             }
     }
 
-    static public Aggregate newAvg ()
+    static public Aggregate newAvg()
     {
         return new AggregateAvg();
     }
 
-    static public Aggregate newCount ()
+    static public Aggregate newCount()
     {
         return new AggregateCount();
     }
 
-    static public Aggregate newMax ()
+    static public Aggregate newMax()
     {
         return new AggregateMax();
     }
 
-    static public Aggregate newMin ()
+    static public Aggregate newMin()
     {
         return new AggregateMin();
     }
 
-    static public Aggregate newSum ()
+    static public Aggregate newSum()
     {
         return new AggregateSum();
     }
 
-    public static void reset (final FunnelContext context)
+    public static void reset(final FunnelContext context)
     {
         if (context.isAggregating())
             for (final Aggregate agg : context.getAggregates())
@@ -83,24 +84,30 @@ abstract public class Aggregate
             }
     }
 
-    public String name;
+    @Arg(positional = true, allowCamelCaps = true, help = "A previously defined column name.")
     public String columnName;
+
+    @Arg(shortName = 'n', required = true, help = "A name for this aggregate so that it can be referenced.")
+    public String name;
+
+    @Arg(shortName = 'e', allowMetaphone = true, help = "Used instead of a column name.")
     public Equ    equation;
+
     AggType       aggType;
 
-    abstract Object getValueForEquations ();
+    abstract Object getValueForEquations();
 
-    abstract void reset ();
+    abstract void reset();
 
-    public boolean supportsDate ()
+    public boolean supportsDate()
     {
         return true;
     }
 
-    public boolean supportsNumber ()
+    public boolean supportsNumber()
     {
         return true;
     }
 
-    abstract void update (FunnelContext context) throws Exception;
+    abstract void update(FunnelContext context) throws Exception;
 }

@@ -109,7 +109,7 @@ public class HeaderTests
         try
         {
             Funnel.sort(Helper.config(), ""
-                    + " --col(string -l4 -n TYPE)"
+                    + " --col(string -l4 -n type)"
                     + "      (date   -l8 -n DATE -d'yyyyMMdd')"
                     + "      (int    -l2 -n SEQ)"
                     + " --headerIn"
@@ -118,7 +118,7 @@ public class HeaderTests
             Assert.fail("Expected exception");
         } catch (final ParseException e)
         {
-            Assert.assertEquals("headerIn must be unique: type", e.getMessage());
+            Assert.assertEquals("headerIn must be unique: TYPE", e.getMessage());
         }
     }
 
