@@ -23,43 +23,39 @@ public class FixedLengthFileReader implements InputReader
      * @param lineSeparator
      * @throws IOException
      */
-    public FixedLengthFileReader(
-            final File _inputFile, final byte[] lineSeparator)
-            throws IOException
+    public FixedLengthFileReader(final File _inputFile, final byte[] lineSeparator) throws IOException
     {
         open(_inputFile);
     }
 
-    public void close ()
-        throws IOException
+    @Override
+    public void close() throws IOException
     {
         reader.close();
         logger.debug("loaded " + inputFile.getAbsolutePath());
     }
 
-    public long length ()
-        throws IOException
+    @Override
+    public long length() throws IOException
     {
         return reader.length();
     }
 
-    public void open (
-        final File _inputFile)
-        throws IOException
+    @Override
+    public void open(final File _inputFile) throws IOException
     {
-        this.inputFile = _inputFile;
-        this.reader = new RandomAccessFile(_inputFile, "r");
+        inputFile = _inputFile;
+        reader = new RandomAccessFile(_inputFile, "r");
     }
 
-    public long position ()
-        throws IOException
+    @Override
+    public long position() throws IOException
     {
         return reader.getFilePointer();
     }
 
-    public int read (
-        final byte[] row)
-        throws IOException
+    @Override
+    public int read(final byte[] row) throws IOException
     {
         return reader.read(row);
     }

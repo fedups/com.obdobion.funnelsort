@@ -27,7 +27,7 @@ public class FixedLengthFilePublisher extends FixedLengthPublisher
     }
 
     @Override
-    public void close () throws Exception
+    public void close() throws Exception
     {
         super.close();
 
@@ -38,20 +38,23 @@ public class FixedLengthFilePublisher extends FixedLengthPublisher
 
         if (!sortedTempFile.renameTo(context.getOutputFile()))
             throw new IOException("failed to rename "
-                + sortedTempFile.getAbsolutePath()
-                + " to "
-                + context.getOutputFile().getAbsolutePath());
+                    + sortedTempFile.getAbsolutePath()
+                    + " to "
+                    + context.getOutputFile().getAbsolutePath());
 
         logger.debug("renamed {} to {}", sortedTempFile.getAbsolutePath(), context.getOutputFile().getAbsolutePath());
     }
 
+    /**
+     * @param context2
+     */
     @Override
-    void openOutput (final FunnelContext context2) throws IOException
+    void openOutput(final FunnelContext context2) throws IOException
     {
         sortedTempFile = File
                 .createTempFile("Sorted.", ".tmp", context.getOutputFile().getAbsoluteFile().getParentFile());
         sortedTempFile.deleteOnExit();
-        this.writer = new RandomAccessFile(sortedTempFile, "rw");
+        writer = new RandomAccessFile(sortedTempFile, "rw");
 
         logger.debug("writing {}", sortedTempFile.getAbsolutePath());
     }

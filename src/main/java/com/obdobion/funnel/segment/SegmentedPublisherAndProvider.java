@@ -19,7 +19,6 @@ import com.obdobion.funnel.provider.EmptyProvider;
  */
 public class SegmentedPublisherAndProvider implements FunnelDataPublisher, FunnelDataProvider
 {
-
     static final private Logger logger   = LoggerFactory.getLogger(SegmentedPublisherAndProvider.class);
 
     SourceProxyRecord           previousData;
@@ -38,23 +37,25 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
          * choose core or file here
          */
         if (context.isCacheWork())
-            this.workRepository = new WorkCore(context);
+            workRepository = new WorkCore(context);
         else
-            this.workRepository = new WorkFile(context);
+            workRepository = new WorkFile(context);
     }
 
-    public void actAsProvider ()
+    public void actAsProvider()
     {
         provider = true;
         logger.trace("switched from publisher to provider");
     }
 
-    public long actualNumberOfRows ()
+    @Override
+    public long actualNumberOfRows()
     {
         return actualNumberOfRows;
     }
 
-    public void attachTo (final FunnelItem item)
+    @Override
+    public void attachTo(final FunnelItem item)
     {
         /*
          * Attach an empty data provider if there are no segments to attach.
@@ -72,31 +73,40 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
         segment.attachTo(item);
     }
 
-    public void close () throws IOException
+    @Override
+    public void close() throws IOException
     {
         workRepository.close();
         if (provider)
             workRepository.delete();
     }
 
-    public long getDuplicateCount ()
+    @Override
+    public long getDuplicateCount()
     {
         return duplicateCount;
     }
 
-    public long getWriteCount ()
+    @Override
+    public long getWriteCount()
     {
         return writeCount;
     }
 
-    public long maximumNumberOfRows ()
+    @Override
+    public long maximumNumberOfRows()
     {
         if (segments == null)
             return 0L;
         return segments.size();
     }
 
-    public boolean next (final FunnelItem item, final long phase)
+    /**
+     * @param item
+     * @param phase
+     */
+    @Override
+    public boolean next(final FunnelItem item, final long phase)
     {
         /*
          * segments handle this, see the attachTo method for details.
@@ -104,7 +114,8 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
         throw new RuntimeException("not to be called");
     }
 
-    public void openInput () throws IOException
+    @Override
+    public void openInput() throws IOException
     {
         if (!provider)
         {
@@ -114,7 +125,8 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
         workRepository.open();
     }
 
-    public boolean publish (final SourceProxyRecord data, final long phase) throws IOException
+    @Override
+    public boolean publish(final SourceProxyRecord data, final long phase) throws IOException
     {
         if (activePhase == -1)
             activePhase = phase;
@@ -123,14 +135,11 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
          */
         if (previousData != null)
             if (previousData.compareTo(data) > 0)
-            {
                 segment(data, phase);
-            } else if (writingSegment == null)
+            else if (writingSegment == null)
                 segment(data, phase);
         if (writingSegment == null)
-        {
             segment(data, phase);
-        }
 
         if (activePhase != phase)
         {
@@ -149,7 +158,8 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
         return true;
     }
 
-    public void reset ()
+    @Override
+    public void reset()
     {
         // intentionally empty
     }
@@ -159,7 +169,7 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
      * @param phase
      * @throws IOException
      */
-    public void segment (final SourceProxyRecord data, final long phase) throws IOException
+    public void segment(final SourceProxyRecord data, final long phase) throws IOException
     {
         activePhase = phase;
 
@@ -175,7 +185,7 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
     /**
      * @param comparator
      */
-    public void setComparator (final Comparator<SourceProxyRecord> comparator)
+    public void setComparator(final Comparator<SourceProxyRecord> comparator)
     {
         // intentionally empty
     }

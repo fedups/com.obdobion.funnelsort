@@ -4,7 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.Formatter;
 
 import com.obdobion.algebrain.Equ;
-import com.obdobion.algebrain.TokVariable;
+import com.obdobion.algebrain.token.TokVariable;
 import com.obdobion.argument.annotation.Arg;
 import com.obdobion.funnel.orderby.KeyContext;
 import com.obdobion.funnel.orderby.KeyPart;
@@ -85,50 +85,39 @@ public class FormatPart
             final ByteArrayOutputStream outputBytes) throws Exception
     {
         if (column != null)
-        {
             writeToOutput(outputBytes, keyContext.rawRecordBytes[0], column.offset, column.length, originalSize);
-        } else
+        else if (equation != null)
         {
-            if (equation != null)
-            {
-                final Object result = equation.evaluate();
-                if (result instanceof TokVariable)
-                    throw new Exception("invalid equation result for --format(" + equation.toString() + ")");
+            final Object result = equation.evaluate();
+            if (result instanceof TokVariable)
+                throw new Exception("invalid equation result for --format(" + equation.toString() + ")");
 
-                if (typeName == null || KeyType.String == typeName)
+            if (typeName == null || KeyType.String == typeName)
+                if (result instanceof String)
                 {
-                    if (result instanceof String)
-                    {
-                        final String sResult = (String) result;
-                        writeToOutput(outputBytes, sResult.getBytes(), offset, sResult.length(), sResult.length());
-                    } else if (format == null)
-                    {
-                        final String sResult = result.toString();
-                        writeToOutput(outputBytes, sResult.getBytes(), offset, sResult.length(), sResult.length());
-                    } else
-                    {
-                        try (Formatter formatter = new Formatter())
-                        {
-                            final String sResult = formatter.format(format, result).out().toString();
-                            writeToOutput(outputBytes, sResult.getBytes(), offset, sResult.length(), sResult.length());
-                        }
-                    }
-                }
-            } else
-            {
-                if (funnelContext.headerHelper.exists(columnName))
+                    final String sResult = (String) result;
+                    writeToOutput(outputBytes, sResult.getBytes(), offset, sResult.length(), sResult.length());
+                } else if (format == null)
                 {
-                    final KeyPart headerCol = funnelContext.headerHelper.get(columnName);
-                    final byte[] result = funnelContext.headerHelper.getContents(headerCol);
-                    writeToOutput(outputBytes, result, offset, result.length, result.length);
-
+                    final String sResult = result.toString();
+                    writeToOutput(outputBytes, sResult.getBytes(), offset, sResult.length(), sResult.length());
                 } else
-                    /*
-                     * filler only
-                     */
-                    writeToOutput(outputBytes, null, 0, 0, 0);
-            }
-        }
+                    try (Formatter formatter = new Formatter())
+                    {
+                        final String sResult = formatter.format(format, result).out().toString();
+                        writeToOutput(outputBytes, sResult.getBytes(), offset, sResult.length(), sResult.length());
+                    }
+        } else if (funnelContext.headerHelper.exists(columnName))
+        {
+            final KeyPart headerCol = funnelContext.headerHelper.get(columnName);
+            final byte[] result = funnelContext.headerHelper.getContents(headerCol);
+            writeToOutput(outputBytes, result, offset, result.length, result.length);
+
+        } else
+            /*
+             * filler only
+             */
+            writeToOutput(outputBytes, null, 0, 0, 0);
         if (nextPart != null)
             nextPart.originalData(keyContext, funnelContext, originalSize, outputBytes);
     }
@@ -158,9 +147,7 @@ public class FormatPart
         if (lengthWithFiller == 255)
             lengthWithFiller = dataLength;
         if (lengthWithFiller > dataLength)
-        {
             for (int x = 0; x < lengthWithFiller - dataLength; x++)
                 outputBytes.write(filler);
-        }
     }
 }

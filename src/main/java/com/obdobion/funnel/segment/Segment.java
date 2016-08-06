@@ -25,34 +25,39 @@ class Segment implements FunnelDataProvider
      */
     public Segment(final WorkRepository _workfile) throws IOException
     {
-        this.workfile = _workfile;
-        this.startingPosition = _workfile.outputPosition();
-        this.nextPosition = startingPosition;
-        this.rowsInSegment = 0;
-        this.nextRow = 0;
+        workfile = _workfile;
+        startingPosition = _workfile.outputPosition();
+        nextPosition = startingPosition;
+        rowsInSegment = 0;
+        nextRow = 0;
     }
 
-    public long actualNumberOfRows ()
+    @Override
+    public long actualNumberOfRows()
     {
         return rowsInSegment;
     }
 
-    public void attachTo (final FunnelItem item)
+    @Override
+    public void attachTo(final FunnelItem item)
     {
         item.setProvider(this);
     }
 
-    public void close () throws IOException
+    @Override
+    public void close() throws IOException
     {
         // intentionally empty
     }
 
-    public long maximumNumberOfRows ()
+    @Override
+    public long maximumNumberOfRows()
     {
         return rowsInSegment;
     }
 
-    public boolean next (final FunnelItem item, final long phase) throws IOException, ParseException
+    @Override
+    public boolean next(final FunnelItem item, final long phase) throws IOException, ParseException
     {
         if (nextRow >= rowsInSegment)
         {
@@ -82,17 +87,18 @@ class Segment implements FunnelDataProvider
         return true;
     }
 
-    public void reset ()
+    @Override
+    public void reset()
     {
         // intentionally empty
     }
 
-    public void setSegmentProvider (final SegmentedPublisherAndProvider _segmentProvider)
+    public void setSegmentProvider(final SegmentedPublisherAndProvider _segmentProvider)
     {
-        this.segmentProvider = _segmentProvider;
+        segmentProvider = _segmentProvider;
     }
 
-    public void write (final SourceProxyRecord item) throws IOException
+    public void write(final SourceProxyRecord item) throws IOException
     {
         workfile.write(item);
         rowsInSegment++;

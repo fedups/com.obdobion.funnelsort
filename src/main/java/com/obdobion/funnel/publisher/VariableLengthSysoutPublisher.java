@@ -25,15 +25,18 @@ public class VariableLengthSysoutPublisher extends VariableLengthPublisher
     }
 
     @Override
-    public void close () throws Exception
+    public void close() throws Exception
     {
         super.close();
         ((DataOutputStream) writer).close();
         logger.debug("closing SYSOUT");
     }
 
+    /**
+     * @param _context
+     */
     @Override
-    void openOutput (final FunnelContext _context) throws IOException, FileNotFoundException
+    void openOutput(final FunnelContext _context) throws IOException, FileNotFoundException
     {
         writer = new DataOutputStream(System.out);
         logger.debug("writing SYSOUT");

@@ -22,32 +22,37 @@ public class FunnelInternalNodeProvider implements FunnelDataProvider
             final FunnelItem leftContestantIndex,
             final FunnelItem rightContestantIndex)
     {
-        this.funnel = _funnel;
+        funnel = _funnel;
         left = leftContestantIndex;
         right = rightContestantIndex;
     }
 
-    public long actualNumberOfRows ()
+    @Override
+    public long actualNumberOfRows()
     {
         return maximumNumberOfRows();
     }
 
-    public void attachTo (final FunnelItem item)
+    @Override
+    public void attachTo(final FunnelItem item)
     {
         item.setProvider(this);
     }
 
-    public void close () throws IOException
+    @Override
+    public void close() throws IOException
     {
         // intentionally empty
     }
 
-    public long maximumNumberOfRows ()
+    @Override
+    public long maximumNumberOfRows()
     {
         return Long.MAX_VALUE;
     }
 
-    public boolean next (final FunnelItem item, final long phase) throws IOException, ParseException
+    @Override
+    public boolean next(final FunnelItem item, final long phase) throws IOException, ParseException
     {
         if (!left.isEndOfData() && left.getData() == null)
             left.next(phase);
@@ -90,7 +95,8 @@ public class FunnelInternalNodeProvider implements FunnelDataProvider
         return true;
     }
 
-    public void reset ()
+    @Override
+    public void reset()
     {
         // Intentionally empty
     }

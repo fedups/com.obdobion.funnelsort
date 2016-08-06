@@ -7,7 +7,7 @@ import java.text.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.obdobion.argument.WildFiles;
+import com.obdobion.argument.type.WildFiles;
 import com.obdobion.funnel.orderby.KeyHelper;
 import com.obdobion.funnel.parameters.FunnelContext;
 import com.obdobion.funnel.provider.FunnelInternalNodeProvider;
@@ -91,8 +91,8 @@ public class Funnel
      * @param args
      * @throws Exception
      */
-    static public FunnelContext sort (final AppContext cfg, final String... args)
-        throws Throwable
+    static public FunnelContext sort(final AppContext cfg, final String... args)
+            throws Throwable
     {
         FunnelContext context = null;
 
@@ -146,7 +146,8 @@ public class Funnel
 
             logger.info("Counters input({}) selected({}) duplicates({}) output({})", context
                     .getRecordCount(), context.getRecordCount() - context.getUnselectedCount(), context
-                            .getDuplicateCount(), context.getWriteCount());
+                            .getDuplicateCount(),
+                    context.getWriteCount());
 
             logger.debug("{} funnel nodes, {} rows per phase", funnel.items.length, funnel.maxSorted);
             logger.debug("{} source proxies cached in core", SourceProxyRecord.AvailableInstances.size());
@@ -155,7 +156,8 @@ public class Funnel
                     .format(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())
                     .trim(), ByteFormatter.format(Runtime.getRuntime().freeMemory()).trim(), ByteFormatter
                             .format(Runtime.getRuntime().totalMemory())
-                            .trim(), ByteFormatter.format(Runtime.getRuntime().maxMemory()).trim());
+                            .trim(),
+                    ByteFormatter.format(Runtime.getRuntime().maxMemory()).trim());
 
         } catch (final Exception e)
         {
@@ -224,7 +226,7 @@ public class Funnel
      * @param winnersCircle
      * @return
      */
-    FunnelItem contestantOne (final int winnersCircle)
+    FunnelItem contestantOne(final int winnersCircle)
     {
         final int c = winnersCircle * 2 + 2;
         if (c > entryRowStart)
@@ -239,8 +241,8 @@ public class Funnel
      * @param winnersCircle
      * @return
      */
-    FunnelItem contestantTwo (
-        final int winnersCircle)
+    FunnelItem contestantTwo(
+            final int winnersCircle)
     {
         final int c = winnersCircle * 2 + 1;
         if (c > entryRowStart)
@@ -248,17 +250,17 @@ public class Funnel
         return getItems()[c];
     }
 
-    public int entryRowEnd ()
+    public int entryRowEnd()
     {
         return entryRowEnd;
     }
 
-    public int entryRowStart ()
+    public int entryRowStart()
     {
         return entryRowStart;
     }
 
-    FunnelItem[] getItems ()
+    FunnelItem[] getItems()
     {
         return items;
     }
@@ -269,8 +271,8 @@ public class Funnel
      *
      * @param phase
      */
-    void initializePhase (
-        final long phase)
+    void initializePhase(
+            final long phase)
     {
         for (final FunnelItem item : getItems())
         {
@@ -289,7 +291,7 @@ public class Funnel
      *
      * @return
      */
-    public int maximumGuaranteedNumberOfSortableItems ()
+    public int maximumGuaranteedNumberOfSortableItems()
     {
         return maxSorted;
     }
@@ -309,8 +311,8 @@ public class Funnel
      *
      * @param provider
      */
-    void populateFunnel (
-        final FunnelDataProvider provider)
+    void populateFunnel(
+            final FunnelDataProvider provider)
     {
         /*
          * Apply data provider to the top of the funnel.
@@ -352,7 +354,7 @@ public class Funnel
      *
      * @throws ParseException
      */
-    void primeTopRow (final long phase) throws IOException, ParseException
+    void primeTopRow(final long phase) throws IOException, ParseException
     {
         for (int tr = entryRowStart(); tr >= entryRowEnd(); tr--)
         {
@@ -372,8 +374,7 @@ public class Funnel
      *
      * @throws Exception
      */
-    @SuppressWarnings("null")
-    void process () throws Exception
+    void process() throws Exception
     {
         assert context.provider != null : "provider must not be null";
         assert context.publisher != null : "publisher must not be null";
@@ -453,10 +454,10 @@ public class Funnel
                 if (!inorder && passPublisher == context.publisher)
                 {
                     throw new Exception("Sort failure. Check provider max rows ("
-                        + context.provider.maximumNumberOfRows()
-                        + ") and power ("
-                        + context.getDepth()
-                        + ").");
+                            + context.provider.maximumNumberOfRows()
+                            + ") and power ("
+                            + context.getDepth()
+                            + ").");
                 }
             }
             passProvider.close();
@@ -469,9 +470,10 @@ public class Funnel
                 passOneRowCount = passProvider.actualNumberOfRows();
 
             logger.debug("pass({}) init({}ms) io({}ms) {}({}) phases({})", passCount, passInitializedMS
-                - passStartMS, passEndMS - passInitializedMS, (passCount == 1
-                        ? "rows"
-                        : "segments"), passProvider.actualNumberOfRows(), phase - 1);
+                    - passStartMS, passEndMS - passInitializedMS, (passCount == 1
+                            ? "rows"
+                            : "segments"),
+                    passProvider.actualNumberOfRows(), phase - 1);
         }
         if (passOneRowCount > 0)
         {
@@ -484,12 +486,14 @@ public class Funnel
                 logger.debug("perRow({} nano)  rowsPerSecond({})", perRowNano, 1000000000L / perRowNano);
 
             if (context.comparisonCounter > 0)
-                logger.debug("Average comparison count per input row: {}.  Total comparisons = {}", context.comparisonCounter
-                    / passOneRowCount, context.comparisonCounter);
+                logger.debug("Average comparison count per input row: {}.  Total comparisons = {}",
+                        context.comparisonCounter
+                                / passOneRowCount,
+                        context.comparisonCounter);
         }
     }
 
-    private void reset () throws IOException, ParseException
+    private void reset() throws IOException, ParseException
     {
         for (final FunnelItem item : getItems())
         {
@@ -511,10 +515,10 @@ public class Funnel
      * funnel.
      *
      * @return the FunnelItem at the exit point of the funnel. Or null if the
-     * funnel is currently empty.
+     *         funnel is currently empty.
      * @throws ParseException
      */
-    FunnelItem shake (final long phase) throws IOException, ParseException
+    FunnelItem shake(final long phase) throws IOException, ParseException
     {
         if (!getItems()[0].next(phase))
             return null;

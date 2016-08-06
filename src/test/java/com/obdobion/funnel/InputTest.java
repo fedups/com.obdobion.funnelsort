@@ -23,7 +23,7 @@ import com.obdobion.funnel.parameters.FunnelContext;
 public class InputTest
 {
     @Test
-    public void dos2unix () throws Throwable
+    public void dos2unix() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -34,14 +34,12 @@ public class InputTest
 
         final StringBuilder sb = new StringBuilder();
         for (final String outline : out)
-        {
             sb.append(outline).append(System.getProperty("line.separator"));
-        }
 
         final File file = Helper.createUnsortedFile(testName, out);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --replace --row 2 -c original --variableIn CR LF --variableOut LF");
+                + " --replace --row 2 -c original --variableIn CR LF --variableOut LF");
 
         Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compare(file, out);
@@ -49,7 +47,7 @@ public class InputTest
     }
 
     @Test
-    public void emptySysin () throws Throwable
+    public void emptySysin() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -60,12 +58,13 @@ public class InputTest
         System.setIn(inputStream);
 
         final File file = Helper.outFileWhenInIsSysin();
-        final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
-        System.setOut(outputStream);
+        try (final PrintStream outputStream = new PrintStream(new FileOutputStream(file)))
+        {
+            System.setOut(outputStream);
 
-        final FunnelContext context = Funnel.sort(Helper.config(), "--fixedIn 10 --row 2 ");
-        Assert.assertEquals("records", 0L, context.getRecordCount());
-        outputStream.close();
+            final FunnelContext context = Funnel.sort(Helper.config(), "--fixedIn 10 --row 2 ");
+            Assert.assertEquals("records", 0L, context.getRecordCount());
+        }
         try
         {
             file.delete();
@@ -75,7 +74,7 @@ public class InputTest
     }
 
     @Test
-    public void emptySysinNoMax () throws Throwable
+    public void emptySysinNoMax() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -86,12 +85,13 @@ public class InputTest
         System.setIn(inputStream);
 
         final File file = Helper.outFileWhenInIsSysin();
-        final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
-        System.setOut(outputStream);
+        try (final PrintStream outputStream = new PrintStream(new FileOutputStream(file)))
+        {
+            System.setOut(outputStream);
 
-        final FunnelContext context = Funnel.sort(Helper.config(), "");
-        Assert.assertEquals("records", 0L, context.getRecordCount());
-        outputStream.close();
+            final FunnelContext context = Funnel.sort(Helper.config(), "");
+            Assert.assertEquals("records", 0L, context.getRecordCount());
+        }
         try
         {
             file.delete();
@@ -101,7 +101,7 @@ public class InputTest
     }
 
     @Test
-    public void everythingDefaults () throws Throwable
+    public void everythingDefaults() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -112,26 +112,23 @@ public class InputTest
 
         final StringBuilder sb = new StringBuilder();
         for (final String outline : out)
-        {
             sb.append(outline).append(System.getProperty("line.separator"));
-        }
         final InputStream inputStream = new StringBufferInputStream(sb.toString());
         System.setIn(inputStream);
 
         final File file = Helper.outFileWhenInIsSysin();
-        @SuppressWarnings("resource")
-        final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
-        System.setOut(outputStream);
-
-        final FunnelContext context = Funnel.sort(Helper.config());
-
-        Assert.assertEquals("records", 2L, context.getRecordCount());
+        try (final PrintStream outputStream = new PrintStream(new FileOutputStream(file)))
+        {
+            System.setOut(outputStream);
+            final FunnelContext context = Funnel.sort(Helper.config());
+            Assert.assertEquals("records", 2L, context.getRecordCount());
+        }
         Helper.compare(file, out);
         Assert.assertTrue(file.delete());
     }
 
     @Test
-    public void fixedSysinSysout () throws Throwable
+    public void fixedSysinSysout() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -159,7 +156,7 @@ public class InputTest
     }
 
     @Test
-    public void fixInFixOut () throws Throwable
+    public void fixInFixOut() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -172,7 +169,7 @@ public class InputTest
         final File file = Helper.createFixedUnsortedFile(testName, out, 10);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --fixedIn 10 -r -c original");
+                + " --fixedIn 10 -r -c original");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 3L, context.getWriteCount());
@@ -182,7 +179,7 @@ public class InputTest
     }
 
     @Test
-    public void fixInFixOutLong () throws Throwable
+    public void fixInFixOutLong() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -195,7 +192,7 @@ public class InputTest
         final File file = Helper.createFixedUnsortedFile(testName, out, 10);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --fixedIn 10 --fixedOut 20 -c original");
+                + " --fixedIn 10 --fixedOut 20 -c original");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 3L, context.getWriteCount());
@@ -205,7 +202,7 @@ public class InputTest
     }
 
     @Test
-    public void fixInFixOutShort () throws Throwable
+    public void fixInFixOutShort() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -223,7 +220,7 @@ public class InputTest
         out.add("8    ");
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --fixedIn 10 --fixedOut 5 -r -c original");
+                + " --fixedIn 10 --fixedOut 5 -r -c original");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 3L, context.getWriteCount());
@@ -233,7 +230,7 @@ public class InputTest
     }
 
     @Test
-    public void fixInVarOut () throws Throwable
+    public void fixInVarOut() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -246,7 +243,7 @@ public class InputTest
         final File file = Helper.createFixedUnsortedFile(testName, out, 10);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --fixedIn 10 --variableOut CR LF -r -c original");
+                + " --fixedIn 10 --variableOut CR LF -r -c original");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 3L, context.getWriteCount());
@@ -256,7 +253,7 @@ public class InputTest
     }
 
     @Test
-    public void replaceErrorOut () throws Throwable
+    public void replaceErrorOut() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -267,6 +264,7 @@ public class InputTest
         System.setIn(inputStream);
 
         final File file = Helper.outFileWhenInIsSysin();
+        @SuppressWarnings("resource")
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
@@ -277,9 +275,9 @@ public class InputTest
         } catch (final ParseException e)
         {
             Assert.assertEquals(
-                "error msg",
-                "--replace requires --inputFile, redirection or piped input is not allowed",
-                e.getMessage());
+                    "error msg",
+                    "--replace requires --inputFile, redirection or piped input is not allowed",
+                    e.getMessage());
         } finally
         {
             outputStream.close();
@@ -293,7 +291,7 @@ public class InputTest
     }
 
     @Test
-    public void replaceInput () throws Throwable
+    public void replaceInput() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -304,14 +302,12 @@ public class InputTest
 
         final StringBuilder sb = new StringBuilder();
         for (final String outline : out)
-        {
             sb.append(outline).append(System.getProperty("line.separator"));
-        }
 
         final File file = Helper.createUnsortedFile(testName, out);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --replace --row 2 -c original --variableIn CR LF");
+                + " --replace --row 2 -c original --variableIn CR LF");
 
         Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compare(file, out);
@@ -319,7 +315,7 @@ public class InputTest
     }
 
     @Test
-    public void replacePipedInputNotAllowed () throws Throwable
+    public void replacePipedInputNotAllowed() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -330,6 +326,7 @@ public class InputTest
         System.setIn(inputStream);
 
         final File file = Helper.outFileWhenInIsSysin();
+        @SuppressWarnings("resource")
         final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
         System.setOut(outputStream);
 
@@ -340,9 +337,9 @@ public class InputTest
         } catch (final ParseException e)
         {
             Assert.assertEquals(
-                "error msg",
-                "--replace requires --inputFile, redirection or piped input is not allowed",
-                e.getMessage());
+                    "error msg",
+                    "--replace requires --inputFile, redirection or piped input is not allowed",
+                    e.getMessage());
         } finally
         {
             outputStream.close();
@@ -357,7 +354,7 @@ public class InputTest
     }
 
     @Test
-    public void sysinFileout () throws Throwable
+    public void sysinFileout() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -368,16 +365,14 @@ public class InputTest
 
         final StringBuilder sb = new StringBuilder();
         for (final String outline : out)
-        {
             sb.append(outline).append(System.getProperty("line.separator"));
-        }
         final InputStream inputStream = new StringBufferInputStream(sb.toString());
         System.setIn(inputStream);
 
         final File file = Helper.outFileWhenInIsSysin();
 
         final FunnelContext context = Funnel.sort(Helper.config(), "-o" + file.getAbsolutePath()
-            + " --row 2 -c original --variableIn CR,LF");
+                + " --row 2 -c original --variableIn CR,LF");
 
         Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compare(file, out);
@@ -385,7 +380,7 @@ public class InputTest
     }
 
     @Test
-    public void variableSysinSysout () throws Throwable
+    public void variableSysinSysout() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -396,21 +391,18 @@ public class InputTest
 
         final StringBuilder sb = new StringBuilder();
         for (final String outline : out)
-        {
             sb.append(outline).append(System.getProperty("line.separator"));
-        }
         final InputStream inputStream = new StringBufferInputStream(sb.toString());
         System.setIn(inputStream);
 
         final File file = Helper.outFileWhenInIsSysin();
-        final PrintStream outputStream = new PrintStream(new FileOutputStream(file));
-        System.setOut(outputStream);
-
-        final FunnelContext context = Funnel.sort(Helper.config(), "--row 2 -c original --variableIn cr,lf ");
-
-        Assert.assertEquals("records", 2L, context.getRecordCount());
-        Helper.compare(file, out);
-        outputStream.close();
+        try (final PrintStream outputStream = new PrintStream(new FileOutputStream(file)))
+        {
+            System.setOut(outputStream);
+            final FunnelContext context = Funnel.sort(Helper.config(), "--row 2 -c original --variableIn cr,lf ");
+            Assert.assertEquals("records", 2L, context.getRecordCount());
+            Helper.compare(file, out);
+        }
         try
         {
             file.delete();
@@ -421,8 +413,8 @@ public class InputTest
     }
 
     @Test
-    public void variableUnterminatedLastLine ()
-        throws Throwable
+    public void variableUnterminatedLastLine()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -435,7 +427,7 @@ public class InputTest
         final File file = Helper.createUnsortedFile(testName, out, false);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + "--row 2 -c original --variableIn cr,lf -r ");
+                + "--row 2 -c original --variableIn cr,lf -r ");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Helper.compare(file, out);
@@ -443,7 +435,7 @@ public class InputTest
     }
 
     @Test
-    public void varInFixOut () throws Throwable
+    public void varInFixOut() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -456,7 +448,7 @@ public class InputTest
         final File file = Helper.createUnsortedFile(testName, out);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --fixedOut 10 -r -c original");
+                + " --fixedOut 10 -r -c original");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 3L, context.getWriteCount());
@@ -466,7 +458,7 @@ public class InputTest
     }
 
     @Test
-    public void varInVarOut () throws Throwable
+    public void varInVarOut() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -479,7 +471,7 @@ public class InputTest
         final File file = Helper.createUnsortedFile(testName, out, true);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " -r -c original");
+                + " -r -c original");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 3L, context.getWriteCount());

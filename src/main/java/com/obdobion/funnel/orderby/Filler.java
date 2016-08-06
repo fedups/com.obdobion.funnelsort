@@ -3,34 +3,39 @@ package com.obdobion.funnel.orderby;
 public class Filler extends KeyPart
 {
 
-    public Object getContents ()
+    @Override
+    public Object getContents()
     {
-        // TODO Auto-generated method stub
         return null;
     }
 
-    public double getContentsAsDouble ()
+    @Override
+    public double getContentsAsDouble()
     {
-        // TODO Auto-generated method stub
         return 0;
     }
 
-    public boolean isNumeric ()
+    @Override
+    public boolean isNumeric()
     {
-        // TODO Auto-generated method stub
         return false;
     }
 
-    public void pack (KeyContext context) throws Exception
+    /**
+     * @param context
+     */
+    @Override
+    public void pack(final KeyContext context) throws Exception
     {
-        // TODO Auto-generated method stub
-
+        // n/a
     }
 
-    public void parseObjectFromRawData (byte[] rawData) throws Exception
+    /**
+     * @param rawData
+     */
+    @Override
+    public void parseObjectFromRawData(final byte[] rawData) throws Exception
     {
-        // TODO Auto-generated method stub
-
+        // n/a
     }
-
 }

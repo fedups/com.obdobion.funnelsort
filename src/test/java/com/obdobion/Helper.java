@@ -25,110 +25,109 @@ public class Helper
     static final File          workDir = new File("target");
     public static final String DEBUG   = "ON";
 
-    static public void compare (final File file, final List<String> expectedLines)
-        throws IOException
+    static public void compare(final File file, final List<String> expectedLines)
+            throws IOException
     {
-        final BufferedReader sorted = new BufferedReader(new FileReader(file));
-        for (final String expected : expectedLines)
+        try (final BufferedReader sorted = new BufferedReader(new FileReader(file)))
         {
-            final String actual = sorted.readLine();
-            Assert.assertEquals(expected, actual);
+            for (final String expected : expectedLines)
+            {
+                final String actual = sorted.readLine();
+                Assert.assertEquals(expected, actual);
+            }
         }
-        sorted.close();
     }
 
-    static public void compareFixed (final File file, final List<String> expectedData)
-        throws IOException
+    static public void compareFixed(final File file, final List<String> expectedData)
+            throws IOException
     {
-        final BufferedReader sorted = new BufferedReader(new FileReader(file));
-        final char[] foundChar = new char[1];
-        for (final String aRow : expectedData)
+        try (final BufferedReader sorted = new BufferedReader(new FileReader(file)))
         {
-            for (final byte expected : aRow.getBytes())
+            final char[] foundChar = new char[1];
+            for (final String aRow : expectedData)
+                for (final byte expected : aRow.getBytes())
+                {
+                    Assert.assertEquals("characters read", 1, sorted.read(foundChar));
+                    Assert.assertEquals(expected, (byte) foundChar[0]);
+                }
+        }
+    }
+
+    static public void compareFixed(final File file, final String expectedData)
+            throws IOException
+    {
+        try (final BufferedReader sorted = new BufferedReader(new FileReader(file)))
+        {
+            final char[] foundChar = new char[1];
+            for (final byte expected : expectedData.getBytes())
             {
                 Assert.assertEquals("characters read", 1, sorted.read(foundChar));
                 Assert.assertEquals(expected, (byte) foundChar[0]);
             }
         }
-        sorted.close();
     }
 
-    static public void compareFixed (final File file, final String expectedData)
-        throws IOException
-    {
-        final BufferedReader sorted = new BufferedReader(new FileReader(file));
-        final char[] foundChar = new char[1];
-        for (final byte expected : expectedData.getBytes())
-        {
-            Assert.assertEquals("characters read", 1, sorted.read(foundChar));
-            Assert.assertEquals(expected, (byte) foundChar[0]);
-        }
-        sorted.close();
-    }
-
-    static public AppContext config () throws IOException, ParseException
+    static public AppContext config() throws IOException, ParseException
     {
         return new AppContext(System.getProperty("user.dir"));
     }
 
-    static public File createFixedUnsortedFile (
-        final String prefix,
-        final List<String> lines,
-        final int rowLength)
-        throws IOException
+    static public File createFixedUnsortedFile(
+            final String prefix,
+            final List<String> lines,
+            final int rowLength)
+                    throws IOException
     {
         final File file = File.createTempFile(prefix + ".", ".in", workDir);
-        final BufferedWriter out = new BufferedWriter(new FileWriter(file));
-        for (int idx = 0; idx < lines.size(); idx++)
+        try (final BufferedWriter out = new BufferedWriter(new FileWriter(file)))
         {
-            final String line = lines.get(idx);
-            out.write(line);
-            for (int fill = line.length(); fill < rowLength; fill++)
+            for (int idx = 0; idx < lines.size(); idx++)
             {
-                out.write(" ");
+                final String line = lines.get(idx);
+                out.write(line);
+                for (int fill = line.length(); fill < rowLength; fill++)
+                    out.write(" ");
             }
         }
-        out.close();
         return file;
     }
 
-    static public File createUnsortedFile (final List<String> lines)
-        throws IOException
+    static public File createUnsortedFile(final List<String> lines) throws IOException
     {
         return createUnsortedFile("funnel", lines, true);
     }
 
-    static public File createUnsortedFile (final String prefix, final List<String> lines)
-        throws IOException
+    static public File createUnsortedFile(final String prefix, final List<String> lines) throws IOException
     {
         return createUnsortedFile(prefix, lines, true);
     }
 
-    static public File createUnsortedFile (
-        final String prefix,
-        final List<String> lines,
-        final boolean includeTrailingLineTerminator)
-        throws IOException
+    static public File createUnsortedFile(
+            final String prefix,
+            final List<String> lines,
+            final boolean includeTrailingLineTerminator)
+                    throws IOException
     {
         final File file = File.createTempFile(prefix + ".", ".in", workDir);
-        final BufferedWriter out = new BufferedWriter(new FileWriter(file));
-        for (int idx = 0; idx < lines.size(); idx++)
+        try (final BufferedWriter out = new BufferedWriter(new FileWriter(file)))
         {
-            final int lengthToWrite =
-                    OutputFormatHelper.lengthToWrite(lines.get(idx).getBytes(), 0, lines.get(idx).length(), true);
+            for (int idx = 0; idx < lines.size(); idx++)
+            {
+                final int lengthToWrite = OutputFormatHelper.lengthToWrite(lines.get(idx).getBytes(), 0,
+                        lines.get(idx).length(), true);
 
-            final String line = lines.get(idx);
-            if (idx > 0)
+                final String line = lines.get(idx);
+                if (idx > 0)
+                    out.newLine();
+                out.write(line, 0, lengthToWrite);
+            }
+            if (includeTrailingLineTerminator)
                 out.newLine();
-            out.write(line, 0, lengthToWrite);
         }
-        if (includeTrailingLineTerminator)
-            out.newLine();
-        out.close();
         return file;
     }
 
-    static public KeyContext dummyKeyContext (final String rawBytes)
+    static public KeyContext dummyKeyContext(final String rawBytes)
     {
         final KeyContext kx = new KeyContext();
         kx.key = new byte[255];
@@ -139,34 +138,33 @@ public class Helper
         return kx;
     }
 
-    public static void initializeFor (final String testCaseName)
+    public static void initializeFor(final String testCaseName)
     {
         System.out.println();
         System.out.println(testCaseName);
     }
 
-    public static String myDataCSVFileName ()
+    public static String myDataCSVFileName()
     {
         return "./src/examples/data/MyDataCSV.in";
     }
 
-    public static File outFile (final String testName)
+    public static File outFile(final String testName)
     {
         return new File(outFileName(testName));
     }
 
-    public static String outFileName (final String jUnitTestName)
+    public static String outFileName(final String jUnitTestName)
     {
         return workDir + "\\" + jUnitTestName + ".out";
     }
 
-    static public File outFileWhenInIsSysin ()
-        throws IOException
+    static public File outFileWhenInIsSysin() throws IOException
     {
         return File.createTempFile("funnel.", ".out", workDir);
     }
 
-    static public String testName ()
+    static public String testName()
     {
         final StackTraceElement[] ste = Thread.currentThread().getStackTrace();
         return ste[2].getMethodName();

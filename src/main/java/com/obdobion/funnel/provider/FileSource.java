@@ -22,11 +22,12 @@ public class FileSource implements RandomAccessInputSource
 
     public FileSource(final FunnelContext _context) throws ParseException, IOException
     {
-        this.context = _context;
+        context = _context;
         raf = new RandomAccessFile[context.inputFileCount()];
     }
 
-    public void close () throws IOException, ParseException
+    @Override
+    public void close() throws IOException, ParseException
     {
         for (int i = 0; i < context.inputFileCount(); i++)
         {
@@ -35,7 +36,8 @@ public class FileSource implements RandomAccessInputSource
         }
     }
 
-    public void open () throws IOException, ParseException
+    @Override
+    public void open() throws IOException, ParseException
     {
         for (int i = 0; i < context.inputFileCount(); i++)
         {
@@ -44,12 +46,13 @@ public class FileSource implements RandomAccessInputSource
         }
     }
 
-    public int read (
-        final int originalInputFileIndex,
-        final byte[] originalBytes,
-        final long originalLocation,
-        final int originalSize)
-        throws IOException
+    @Override
+    public int read(
+            final int originalInputFileIndex,
+            final byte[] originalBytes,
+            final long originalLocation,
+            final int originalSize)
+                    throws IOException
     {
         raf[originalInputFileIndex].seek(originalLocation);
         int readSize = originalSize;

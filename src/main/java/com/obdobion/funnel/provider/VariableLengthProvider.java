@@ -20,27 +20,28 @@ public class VariableLengthProvider extends AbstractProvider
         super(_context);
     }
 
-    public long actualNumberOfRows ()
+    @Override
+    public long actualNumberOfRows()
     {
         return getContinuousRecordNumber();
     }
 
-    void assignReaderInstance () throws IOException, ParseException
+    void assignReaderInstance() throws IOException, ParseException
     {
         if (context.isSysin())
-            this.reader = new VariableLengthSysinReader(context);
+            reader = new VariableLengthSysinReader(context);
         else if (context.isCacheInput())
-            this.reader = new VariableLengthCacheReader(context);
+            reader = new VariableLengthCacheReader(context);
         else
-            this.reader = new VariableLengthFileReader(context);
+            reader = new VariableLengthFileReader(context);
     }
 
     @Override
-    void initialize () throws IOException, ParseException
+    void initialize() throws IOException, ParseException
     {
-        this.row = new byte[MAX_VARIABLE_LENGTH_RECORD_SIZE];
+        row = new byte[MAX_VARIABLE_LENGTH_RECORD_SIZE];
 
-        logger.debug(this.row.length + " byte array size for rows.  This is an arbitrary upper limit.");
+        logger.debug(row.length + " byte array size for rows.  This is an arbitrary upper limit.");
 
         int optimalFunnelDepth = 2;
         long pow2 = context.getMaximumNumberOfRows();
@@ -63,7 +64,8 @@ public class VariableLengthProvider extends AbstractProvider
         assignReaderInstance();
     }
 
-    public long maximumNumberOfRows ()
+    @Override
+    public long maximumNumberOfRows()
     {
         return context.getMaximumNumberOfRows();
     }

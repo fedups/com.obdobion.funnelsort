@@ -18,31 +18,31 @@ public class DisplayIntKey extends KeyPart
     }
 
     @Override
-    public Object getContents ()
+    public Object getContents()
     {
         return contents;
     }
 
     @Override
-    public double getContentsAsDouble ()
+    public double getContentsAsDouble()
     {
         return contents;
     }
 
     @Override
-    public boolean isInteger ()
+    public boolean isInteger()
     {
         return true;
     }
 
     @Override
-    public boolean isNumeric ()
+    public boolean isNumeric()
     {
         return true;
     }
 
     @Override
-    public void pack (final KeyContext context) throws Exception
+    public void pack(final KeyContext context) throws Exception
     {
         parseObject(context);
         packObjectIntoKey(context, contents);
@@ -51,7 +51,7 @@ public class DisplayIntKey extends KeyPart
             nextPart.pack(context);
     }
 
-    public void packObjectIntoKey (final KeyContext context, final Long _longValue)
+    public void packObjectIntoKey(final KeyContext context, final Long _longValue)
     {
         Long longValue = _longValue;
 
@@ -73,7 +73,7 @@ public class DisplayIntKey extends KeyPart
 
     @SuppressWarnings("null")
     @Override
-    public void parseObjectFromRawData (final byte[] rawBytes) throws Exception
+    public void parseObjectFromRawData(final byte[] rawBytes) throws Exception
     {
         if (trimmed == null)
             trimmed = new byte[length];
@@ -98,9 +98,7 @@ public class DisplayIntKey extends KeyPart
                     continue;
                 }
             if (bb == (byte) ',')
-            {
                 continue;
-            }
             if (bb == (byte) '-')
             {
                 minusSignFound = true;

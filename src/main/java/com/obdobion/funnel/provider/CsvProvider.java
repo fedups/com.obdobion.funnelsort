@@ -21,7 +21,6 @@ import com.obdobion.funnel.parameters.FunnelContext;
  */
 public class CsvProvider extends VariableLengthProvider
 {
-
     static final Logger _logger = LoggerFactory.getLogger(CsvProvider.class);
 
     boolean             includeColumn[];
@@ -35,7 +34,7 @@ public class CsvProvider extends VariableLengthProvider
     public CsvProvider(final boolean _includeColumn[]) throws Exception
     {
         this(new FunnelContext(new AppContext()));
-        this.includeColumn = _includeColumn;
+        includeColumn = _includeColumn;
     }
 
     public CsvProvider(final FunnelContext _context) throws IOException, ParseException
@@ -51,42 +50,39 @@ public class CsvProvider extends VariableLengthProvider
         int highestKeyedColumnNumber = -1;
 
         for (final KeyPart kdef : _context.getInputColumnDefs())
-        {
             if (kdef.csvFieldNumber > highestKeyedColumnNumber)
                 highestKeyedColumnNumber = kdef.csvFieldNumber;
-        }
         includeColumn = new boolean[highestKeyedColumnNumber + 1];
         for (final KeyPart kdef : _context.getInputColumnDefs())
             includeColumn[kdef.csvFieldNumber] = true;
     }
 
     @Override
-    public long actualNumberOfRows ()
+    public long actualNumberOfRows()
     {
         return super.actualNumberOfRows()
-            - (context.getCsv().header
-                    ? 1
-                    : 0);
+                - (context.getCsv().header
+                        ? 1
+                        : 0);
     }
 
     @Override
-    void assignReaderInstance () throws IOException, ParseException
+    void assignReaderInstance() throws IOException, ParseException
     {
         if (context.isSysin())
-            this.reader = new CsvSysinReader(context);
+            reader = new CsvSysinReader(context);
         else if (context.isCacheInput())
-            this.reader = new CsvCacheReader(context);
+            reader = new CsvCacheReader(context);
         else
-            this.reader = new CsvFileReader(context);
+            reader = new CsvFileReader(context);
     }
 
-    public byte[][] decodeCsv (final byte[] input, final int inputLength, final CSVFormat csvFormat)
-        throws IOException
+    public byte[][] decodeCsv(final byte[] input, final int inputLength, final CSVFormat csvFormat)
+            throws IOException
     {
         final byte[][] field = new byte[includeColumn.length][];
 
-        final CSVParser csvparser = CSVParser.parse(new String(input, 0, inputLength), csvFormat);
-        try
+        try (final CSVParser csvparser = CSVParser.parse(new String(input, 0, inputLength), csvFormat))
         {
             final CSVRecord csvrecord = csvparser.getRecords().get(0);
             final Iterator<String> fields = csvrecord.iterator();
@@ -101,11 +97,7 @@ public class CsvProvider extends VariableLengthProvider
                     if (includeColumn[fNum])
                         field[fNum] = fieldAsString.getBytes();
             }
-
             return field;
-        } finally
-        {
-            csvparser.close();
         }
     }
 
@@ -117,7 +109,7 @@ public class CsvProvider extends VariableLengthProvider
      *
      */
     @Override
-    boolean isRowSelected (final int byteCount)
+    boolean isRowSelected(final int byteCount)
     {
         if (context.getCsv().header && context.getCsv().headerContents == null)
         {
@@ -129,7 +121,7 @@ public class CsvProvider extends VariableLengthProvider
     }
 
     @Override
-    KeyContext postReadKeyProcessing (final int byteCount) throws IOException
+    KeyContext postReadKeyProcessing(final int byteCount) throws IOException
     {
         KeyContext kContext = null;
         try
@@ -145,13 +137,13 @@ public class CsvProvider extends VariableLengthProvider
     }
 
     @Override
-    void preSelectionExtract (final int byteCount) throws Exception
+    void preSelectionExtract(final int byteCount) throws Exception
     {
         final byte[][] data = decodeCsv(row, byteCount, context.getCsv().format);
         context.columnHelper.extract(context, data, getContinuousRecordNumber(), byteCount);
     }
 
-    byte[] unquote (final byte[] input, final int _start, final int _end, final byte quoteByte)
+    byte[] unquote(final byte[] input, final int _start, final int _end, final byte quoteByte)
     {
         int start = _start;
         int end = _end;

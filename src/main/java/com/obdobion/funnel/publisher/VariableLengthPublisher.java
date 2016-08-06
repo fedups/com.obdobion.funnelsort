@@ -24,16 +24,12 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
         byte b;
         int i = 0;
         for (b = '0'; b <= '9'; b++)
-        {
             HEX_CHARS[i++] = b;
-        }
         for (b = 'A'; b <= 'F'; b++)
-        {
             HEX_CHARS[i++] = b;
-        }
     }
 
-    private static int appendDecChars (final int i, final byte[] chars, final int startOffset)
+    private static int appendDecChars(final int i, final byte[] chars, final int startOffset)
     {
         int offset;
         int value;
@@ -42,9 +38,10 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
         value = i;
 
         StringBuilder sb;
-        final Formatter fmt = new Formatter(sb = new StringBuilder());
-        fmt.format("%04d", value);
-        fmt.close();
+        try (final Formatter fmt = new Formatter(sb = new StringBuilder()))
+        {
+            fmt.format("%04d", value);
+        }
 
         final byte[] ba = sb.toString().getBytes();
 
@@ -61,7 +58,7 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
         return offset;
     }
 
-    private static int appendHexChars (final byte b, final byte[] chars, final int startOffset)
+    private static int appendHexChars(final byte b, final byte[] chars, final int startOffset)
     {
         int byteAsInt, offset;
 
@@ -74,7 +71,7 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
 
     }
 
-    private static final int dumpBuffSize (final int p_charsPerRow)
+    private static final int dumpBuffSize(final int p_charsPerRow)
     {
         return (13 + (p_charsPerRow * 2) + (p_charsPerRow / 4) + p_charsPerRow);
     }
@@ -82,7 +79,7 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
     public VariableLengthPublisher(final FunnelContext _context) throws ParseException, IOException
     {
         super(_context);
-        this.originalBytes = new byte[1024];
+        originalBytes = new byte[1024];
     }
 
     /**
@@ -90,8 +87,8 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
      * @param rawData
      * @throws IOException
      */
-    void formatHexDumpAndWrite (final SourceProxyRecord item, final byte[] rawData)
-        throws IOException, Exception
+    void formatHexDumpAndWrite(final SourceProxyRecord item, final byte[] rawData)
+            throws IOException, Exception
     {
         StringWriter sw;
         PrintWriter pw;
@@ -131,8 +128,8 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
     }
 
     @Override
-    void formatOutputAndWrite (final SourceProxyRecord item, final byte[] rawData)
-        throws IOException, Exception
+    void formatOutputAndWrite(final SourceProxyRecord item, final byte[] rawData)
+            throws IOException, Exception
     {
         if (context.getHexDumps() == null || context.getFormatOutDefs() != null)
         {
@@ -151,21 +148,21 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
             formatHexDumpAndWrite(item, rawData);
     }
 
-    private void hexDump (final byte[] bytesToDump, final int fieldOffsetInRow) throws IOException
+    private void hexDump(final byte[] bytesToDump, final int fieldOffsetInRow) throws IOException
     {
         hexDump(bytesToDump, fieldOffsetInRow, bytesToDump.length);
     }
 
-    private void hexDump (final byte[] bytesToDump, final int fieldOffsetInRow, final int length) throws IOException
+    private void hexDump(final byte[] bytesToDump, final int fieldOffsetInRow, final int length) throws IOException
     {
         hexDump(bytesToDump, fieldOffsetInRow, length, 16, new byte[dumpBuffSize(16)]);
     }
 
-    private void hexDump (final byte[] p_array,
-        final int p_startPrintedOffset,
-        final int p_numBytes,
-        final int p_charsPerRow,
-        final byte[] byteBuffer) throws IOException
+    private void hexDump(final byte[] p_array,
+            final int p_startPrintedOffset,
+            final int p_numBytes,
+            final int p_charsPerRow,
+            final byte[] byteBuffer) throws IOException
     {
         byte asciiByteValue;
         int offset, i, relOffset, endOffset, outLen, printedOffset;
@@ -227,9 +224,7 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
                     if (asciiByteValue < ' ' || asciiByteValue > '~')
                         asciiByteValue = '.';
                 } else
-                {
                     asciiByteValue = ' ';
-                }
                 byteBuffer[outLen++] = asciiByteValue;
             }
             /*
@@ -247,13 +242,11 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
     }
 
     @Override
-    void loadOriginalBytes (final int originalFileNumber, final SourceProxyRecord item)
-        throws IOException
+    void loadOriginalBytes(final int originalFileNumber, final SourceProxyRecord item)
+            throws IOException
     {
         if (item.originalSize > originalBytes.length)
-        {
             originalBytes = new byte[item.originalSize + 1024];
-        }
         /*
          * Make sure to delimit the current record length in the input buffer.
          */
@@ -262,13 +255,13 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
     }
 
     @Override
-    void newLine () throws IOException
+    void newLine() throws IOException
     {
         write(context.getEndOfRecordDelimiterOut(), 0, context.getEndOfRecordDelimiterOut().length);
     }
 
     @Override
-    void publishHeader () throws IOException
+    void publishHeader() throws IOException
     {
         super.publishHeader();
         /*

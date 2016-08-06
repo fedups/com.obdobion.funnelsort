@@ -30,7 +30,7 @@ public abstract class AbstractProvider implements FunnelDataProvider
 
     public AbstractProvider(final FunnelContext _context) throws IOException, ParseException
     {
-        this.context = _context;
+        context = _context;
         /*
          * This is really to handle test cases. It should never be null.
          */
@@ -42,13 +42,14 @@ public abstract class AbstractProvider implements FunnelDataProvider
         initialize();
     }
 
-    public void attachTo (
-        final FunnelItem item)
+    @Override
+    public void attachTo(final FunnelItem item)
     {
         item.setProvider(this);
     }
 
-    public void close () throws IOException, ParseException
+    @Override
+    public void close() throws IOException, ParseException
     {
         if (reader == null)
             return;
@@ -56,7 +57,7 @@ public abstract class AbstractProvider implements FunnelDataProvider
         reader = null;
     }
 
-    Equ[] getCachedEquations ()
+    Equ[] getCachedEquations()
     {
         if (cachedEquations == null)
         {
@@ -78,25 +79,27 @@ public abstract class AbstractProvider implements FunnelDataProvider
         return cachedEquations;
     }
 
-    long getContinuousRecordNumber ()
+    long getContinuousRecordNumber()
     {
         return continuousRecordNumber;
     }
 
-    long getThisFileRecordNumber ()
+    long getThisFileRecordNumber()
     {
         return thisFileRecordNumber;
     }
 
-    abstract void initialize () throws IOException, ParseException;
+    abstract void initialize() throws IOException, ParseException;
 
-    boolean isRowSelected (@SuppressWarnings("unused")
-    final int byteCount)
+    /**
+     * @param byteCount
+     */
+    boolean isRowSelected(final int byteCount)
     {
         return true;
     }
 
-    void logStatistics (final int fileIndex) throws ParseException, IOException
+    void logStatistics(final int fileIndex) throws ParseException, IOException
     {
         final StringBuilder sb = new StringBuilder();
 
@@ -118,7 +121,8 @@ public abstract class AbstractProvider implements FunnelDataProvider
         logger.debug(sb.toString());
     }
 
-    public boolean next (final FunnelItem item, final long phase) throws IOException, ParseException
+    @Override
+    public boolean next(final FunnelItem item, final long phase) throws IOException, ParseException
     {
         /*
          * Only return 1 row per phase per item.
@@ -175,9 +179,7 @@ public abstract class AbstractProvider implements FunnelDataProvider
                     continue;
 
                 if (!isRowSelected(byteCount))
-                {
                     continue;
-                }
 
                 preSelectionExtract(byteCount);
 
@@ -232,7 +234,7 @@ public abstract class AbstractProvider implements FunnelDataProvider
         wrapped.originalLocation = startPosition;
 
         if (DuplicateDisposition.LastOnly == context.getDuplicateDisposition()
-            || DuplicateDisposition.Reverse == context.getDuplicateDisposition())
+                || DuplicateDisposition.Reverse == context.getDuplicateDisposition())
             wrapped.setOriginalRecordNumber(-getContinuousRecordNumber());
         else
             wrapped.setOriginalRecordNumber(getContinuousRecordNumber());
@@ -246,9 +248,7 @@ public abstract class AbstractProvider implements FunnelDataProvider
      * @return
      * @throws IOException
      */
-    KeyContext postReadKeyProcessing (
-        final int byteCount)
-            throws IOException
+    KeyContext postReadKeyProcessing(final int byteCount) throws IOException
     {
         KeyContext kContext = null;
         try
@@ -261,29 +261,32 @@ public abstract class AbstractProvider implements FunnelDataProvider
         return kContext;
     }
 
-    void preSelectionExtract (final int byteCount) throws Exception
+    void preSelectionExtract(final int byteCount) throws Exception
     {
         context.columnHelper.extract(context, row, getContinuousRecordNumber(), byteCount, getCachedEquations());
     }
 
-    boolean recordLengthOK (@SuppressWarnings("unused")
-    final int byteCount)
+    /**
+     * @param byteCount
+     */
+    boolean recordLengthOK(final int byteCount)
     {
         return true;
     }
 
-    public void reset () throws IOException, ParseException
+    @Override
+    public void reset() throws IOException, ParseException
     {
         initialize();
     }
 
-    void setContinuousRecordNumber (final long p_continuousRecordNumber)
+    void setContinuousRecordNumber(final long p_continuousRecordNumber)
     {
-        this.continuousRecordNumber = p_continuousRecordNumber;
+        continuousRecordNumber = p_continuousRecordNumber;
     }
 
-    void setThisFileRecordNumber (final long p_thisFileRecordNumber)
+    void setThisFileRecordNumber(final long p_thisFileRecordNumber)
     {
-        this.thisFileRecordNumber = p_thisFileRecordNumber;
+        thisFileRecordNumber = p_thisFileRecordNumber;
     }
 }

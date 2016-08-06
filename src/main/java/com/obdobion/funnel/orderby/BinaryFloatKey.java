@@ -14,13 +14,12 @@ public class BinaryFloatKey extends KeyPart
     {
         super();
         // assert parseFormat == null : "\"--format " + parseFormat +
-        // "\"  is not expected for \"BFloat\"";
+        // "\" is not expected for \"BFloat\"";
         // assert length == 4 || length == 8 :
         // "Binary Float lengths must be 4 or 8.";
     }
 
-    @SuppressWarnings("incomplete-switch")
-    private void formatObjectIntoKey (final KeyContext _context, final Double _doubleValue)
+    private void formatObjectIntoKey(final KeyContext _context, final Double _doubleValue)
     {
         Double doubleValue = _doubleValue;
 
@@ -35,60 +34,60 @@ public class BinaryFloatKey extends KeyPart
 
         switch (length)
         {
-            case 4:
-                int intbits = (int) Double.doubleToRawLongBits(doubleValue);
-                if (doubleValue < 0)
-                {
-                    intbits = intbits ^ 0xffffffff;
-                } else
-                {
-                    intbits = intbits ^ 0x80000000;
-                }
+        case 4:
+            int intbits = (int) Double.doubleToRawLongBits(doubleValue);
+            if (doubleValue < 0)
+            {
+                intbits = intbits ^ 0xffffffff;
+            } else
+            {
+                intbits = intbits ^ 0x80000000;
+            }
 
-                bb.putLong(intbits);
-                break;
-            case 8:
-                long longbits = Double.doubleToRawLongBits(doubleValue);
-                if (doubleValue < 0)
-                {
-                    longbits = longbits ^ 0xffffffffffffffffL;
-                } else
-                {
-                    longbits = longbits ^ 0x8000000000000000L;
-                }
+            bb.putLong(intbits);
+            break;
+        case 8:
+            long longbits = Double.doubleToRawLongBits(doubleValue);
+            if (doubleValue < 0)
+            {
+                longbits = longbits ^ 0xffffffffffffffffL;
+            } else
+            {
+                longbits = longbits ^ 0x8000000000000000L;
+            }
 
-                bb.putLong(longbits);
-                break;
+            bb.putLong(longbits);
+            break;
         }
         _context.keyLength += length;
     }
 
     @Override
-    public Object getContents ()
+    public Object getContents()
     {
         return contents;
     }
 
     @Override
-    public double getContentsAsDouble ()
+    public double getContentsAsDouble()
     {
         return contents;
     }
 
     @Override
-    public boolean isFloat ()
+    public boolean isFloat()
     {
         return true;
     }
 
     @Override
-    public boolean isNumeric ()
+    public boolean isNumeric()
     {
         return true;
     }
 
     @Override
-    public void pack (final KeyContext _context) throws Exception
+    public void pack(final KeyContext _context) throws Exception
     {
         parseObject(_context);
         formatObjectIntoKey(_context, contents);
@@ -97,9 +96,8 @@ public class BinaryFloatKey extends KeyPart
             nextPart.pack(_context);
     }
 
-    @SuppressWarnings("incomplete-switch")
     @Override
-    public void parseObjectFromRawData (final byte[] rawBytes) throws Exception
+    public void parseObjectFromRawData(final byte[] rawBytes) throws Exception
     {
         if (rawBytes.length < offset + length)
             throw new Exception("index out of bounds: " + (offset + length));
@@ -109,12 +107,12 @@ public class BinaryFloatKey extends KeyPart
 
         switch (length)
         {
-            case 4:
-                contents = new Double(bb.getFloat());
-                return;
-            case 8:
-                contents = bb.getDouble();
-                return;
+        case 4:
+            contents = new Double(bb.getFloat());
+            return;
+        case 8:
+            contents = bb.getDouble();
+            return;
         }
         throw new Exception("invalid length for a binary floating point field: " + length);
     }

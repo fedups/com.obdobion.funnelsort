@@ -34,7 +34,7 @@ public class WorkCore implements WorkRepository
      */
     public WorkCore(final FunnelContext _context) throws IOException
     {
-        this.context = _context;
+        context = _context;
         writeBuffers = new ArrayList<>();
         writeBufferLengths = new ArrayList<>();
         writeFilePointer = 0L;
@@ -43,7 +43,8 @@ public class WorkCore implements WorkRepository
         logger.debug("buffer size is " + WriteBufferIncrement + " bytes");
     }
 
-    public void close () throws IOException
+    @Override
+    public void close() throws IOException
     {
         if (currentBuffer.position() > 0)
         {
@@ -67,12 +68,13 @@ public class WorkCore implements WorkRepository
         }
     }
 
-    public void delete () throws IOException
+    @Override
+    public void delete() throws IOException
     {
         // intentionally empty
     }
 
-    private long findBufferIndexForPosition (final long position)
+    private long findBufferIndexForPosition(final long position)
     {
         int b = 0;
         int t = bufferStartingPosition.length;
@@ -99,7 +101,7 @@ public class WorkCore implements WorkRepository
         return b;
     }
 
-    private long formatRecord (final long position, final long begBufPos, final SourceProxyRecord rec)
+    private long formatRecord(final long position, final long begBufPos, final SourceProxyRecord rec)
     {
         currentBuffer.position((int) (position - begBufPos));
 
@@ -114,36 +116,41 @@ public class WorkCore implements WorkRepository
         return RecordHeaderSize + rec.size;
     }
 
-    public FunnelContext getContext ()
+    @Override
+    public FunnelContext getContext()
     {
         return context;
     }
 
-    public void open () throws IOException
+    @Override
+    public void open() throws IOException
     {
         logger.trace("setting cache pointer to beginning");
         writeFilePointer = 0;
     }
 
-    public long outputPosition ()
+    @Override
+    public long outputPosition()
     {
         return writeFilePointer;
     }
 
-    public long read (final long position, final SourceProxyRecord rec) throws IOException
+    @Override
+    public long read(final long position, final SourceProxyRecord rec) throws IOException
     {
         final long begBufPos = setCurrentBuffer(position);
         return formatRecord(position, begBufPos, rec);
     }
 
-    private long setCurrentBuffer (final long position)
+    private long setCurrentBuffer(final long position)
     {
         final int s = (int) findBufferIndexForPosition(position);
         currentBuffer = writeBuffers.get(s);
         return bufferStartingPosition[s];
     }
 
-    public long write (final SourceProxyRecord rec) throws IOException
+    @Override
+    public long write(final SourceProxyRecord rec) throws IOException
     {
         final int sizeThisTime = RecordHeaderSize + rec.size;
 

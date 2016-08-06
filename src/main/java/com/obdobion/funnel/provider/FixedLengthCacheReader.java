@@ -23,46 +23,50 @@ public class FixedLengthCacheReader implements InputReader
 
     public FixedLengthCacheReader(final FunnelContext _context) throws IOException, ParseException
     {
-        this.context = _context;
+        context = _context;
         logger.debug("fixed length cache provider activated");
         loadDataToCache();
         currentPosition = 0;
     }
 
-    public void close ()
-        throws IOException
+    @Override
+    public void close() throws IOException
     {
         // intentionally empty
     }
 
-    public long length ()
-        throws IOException
+    @Override
+    public long length() throws IOException
     {
         return context.inputCache.length();
     }
 
-    void loadDataToCache () throws IOException, ParseException
+    void loadDataToCache() throws IOException, ParseException
     {
-        final FileInputStream inputStream = new FileInputStream(context.getInputFile(context.inputFileIndex()));
-        context.inputCache = new FixedLengthInputCache(context, inputStream);
-        inputStream.close();
-        logger.debug("loaded " + context.getInputFile(context.inputFileIndex()).getAbsolutePath());
+        try (final FileInputStream inputStream = new FileInputStream(context.getInputFile(context.inputFileIndex())))
+        {
+            context.inputCache = new FixedLengthInputCache(context, inputStream);
+            logger.debug("loaded " + context.getInputFile(context.inputFileIndex()).getAbsolutePath());
+        }
     }
 
-    public void open (final File inputFile)
+    /**
+     * @param inputFile
+     */
+    @Override
+    public void open(final File inputFile)
     {
         // intentionally empty
     }
 
-    public long position ()
-        throws IOException
+    @Override
+    public long position() throws IOException
     {
         return context.inputCache.position();
     }
 
-    public int read (
-        final byte[] row)
-        throws IOException
+    @Override
+    public int read(final byte[] row) throws IOException
     {
         if (context.inputCache.eof())
             return -1;
@@ -72,7 +76,7 @@ public class FixedLengthCacheReader implements InputReader
         return count;
     }
 
-    public void reset ()
+    public void reset()
     {
         // Intentionally empty
     }

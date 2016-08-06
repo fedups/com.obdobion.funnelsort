@@ -22,23 +22,24 @@ public class FixedLengthProvider extends AbstractProvider
         logger.debug("fixed length file provider activated");
     }
 
-    public long actualNumberOfRows ()
+    @Override
+    public long actualNumberOfRows()
     {
         return maximumNumberOfRows();
     }
 
     @Override
-    void initialize () throws IOException, ParseException
+    void initialize() throws IOException, ParseException
     {
         initializeReader();
         try
         {
-            this.size = reader.length() / context.getFixedRecordLengthIn();
+            size = reader.length() / context.getFixedRecordLengthIn();
         } catch (final IOException e)
         {
             App.abort(-1, e);
         }
-        this.row = new byte[context.getFixedRecordLengthIn()];
+        row = new byte[context.getFixedRecordLengthIn()];
 
         int optimalFunnelDepth = 2;
         long pow2 = size;
@@ -65,38 +66,38 @@ public class FixedLengthProvider extends AbstractProvider
         }
     }
 
-    protected void initializeReader () throws IOException, ParseException
+    protected void initializeReader() throws IOException, ParseException
     {
         if (context.isSysin())
-            this.reader = new FixedLengthSysinReader(context);
+            reader = new FixedLengthSysinReader(context);
         else if (context.isCacheInput())
-            this.reader = new FixedLengthCacheReader(context);
+            reader = new FixedLengthCacheReader(context);
         else
-            this.reader = new FixedLengthFileReader(context
+            reader = new FixedLengthFileReader(context
                     .getInputFile(context.inputFileIndex()), context.getEndOfRecordDelimiterIn());
     }
 
-    public long maximumNumberOfRows ()
+    @Override
+    public long maximumNumberOfRows()
     {
         return size;
     }
 
     @Override
-    boolean recordLengthOK (final int byteCount)
+    boolean recordLengthOK(final int byteCount)
     {
         if (byteCount != -1 && byteCount != context.getFixedRecordLengthIn())
         {
             logger.warn("Record truncated at EOF, bytes read = "
-                + byteCount
-                + ", bytes expected = "
-                + context.getFixedRecordLengthIn());
+                    + byteCount
+                    + ", bytes expected = "
+                    + context.getFixedRecordLengthIn());
             return false;
         }
         return true;
     }
 
-    public void setMaximumNumberOfRows (
-        final long max)
+    public void setMaximumNumberOfRows(final long max)
     {
         size = max;
     }

@@ -18,8 +18,8 @@ public class BasicTest
 {
 
     @Test
-    public void integerSort ()
-        throws Throwable
+    public void integerSort()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -32,11 +32,11 @@ public class BasicTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o " + output.getAbsolutePath()
-            + " --col(int -o0 -l7 -n col1)"
-            + " --orderby(col1 asc)"
-            + " --pow 2"
-            + " --row 3");
+                + " -o " + output.getAbsolutePath()
+                + " --col(int -o0 -l7 -n col1)"
+                + " --orderby(col1 asc)"
+                + " --pow 2"
+                + " --row 3");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Assert.assertEquals("records", 3L, context.getWriteCount());
@@ -52,8 +52,8 @@ public class BasicTest
     }
 
     @Test
-    public void multifileInputIntegerSort ()
-        throws Throwable
+    public void multifileInputIntegerSort()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -68,14 +68,13 @@ public class BasicTest
         final File file1 = Helper.createUnsortedFile(testName + "1", in1);
         final File file2 = Helper.createUnsortedFile(testName + "2", in1);
         final FunnelContext context = Funnel.sort(Helper.config(),
-            file1.getAbsolutePath() + " " + file2.getAbsolutePath()
-                + " --nocacheinput"
-                + " --col(int -o0 -l3 -n col1)"
-                + " --orderby(col1 desc)"
-                + " --pow 2"
-                + " --row 6"
-                + " -o " + output.getAbsolutePath()
-                );
+                file1.getAbsolutePath() + " " + file2.getAbsolutePath()
+                        + " --nocacheinput"
+                        + " --col(int -o0 -l3 -n col1)"
+                        + " --orderby(col1 desc)"
+                        + " --pow 2"
+                        + " --row 6"
+                        + " -o " + output.getAbsolutePath());
 
         Assert.assertEquals("records", 6L, context.getRecordCount());
         Assert.assertEquals("records", 6L, context.getWriteCount());
@@ -95,8 +94,8 @@ public class BasicTest
     }
 
     @Test
-    public void multifileInputStringSort ()
-        throws Throwable
+    public void multifileInputStringSort()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -111,14 +110,13 @@ public class BasicTest
         final File file1 = Helper.createUnsortedFile(testName + "1", in1);
         final File file2 = Helper.createUnsortedFile(testName + "2", in1);
         final FunnelContext context = Funnel.sort(Helper.config(),
-            file1.getAbsolutePath() + " " + file2.getAbsolutePath()
-                + " --nocacheinput"
-                + " --col(String -o0 -l3 -n col1)"
-                + " --orderby(col1 desc)"
-                + " --pow 2"
-                + " --row 6"
-                + " -o " + output.getAbsolutePath()
-                );
+                file1.getAbsolutePath() + " " + file2.getAbsolutePath()
+                        + " --nocacheinput"
+                        + " --col(String -o0 -l3 -n col1)"
+                        + " --orderby(col1 desc)"
+                        + " --pow 2"
+                        + " --row 6"
+                        + " -o " + output.getAbsolutePath());
 
         Assert.assertEquals("records", 6L, context.getRecordCount());
         Assert.assertEquals("records", 6L, context.getWriteCount());

@@ -11,11 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.obdobion.algebrain.Equ;
-import com.obdobion.argument.ByteCLA;
 import com.obdobion.argument.CmdLine;
-import com.obdobion.argument.CmdLineCLA;
 import com.obdobion.argument.ICmdLine;
-import com.obdobion.argument.WildFiles;
+import com.obdobion.argument.type.ByteCLA;
+import com.obdobion.argument.type.CmdLineCLA;
+import com.obdobion.argument.type.WildFiles;
 import com.obdobion.funnel.AppContext;
 import com.obdobion.funnel.FunnelDataProvider;
 import com.obdobion.funnel.FunnelDataPublisher;

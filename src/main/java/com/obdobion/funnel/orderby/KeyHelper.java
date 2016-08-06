@@ -40,7 +40,7 @@ public class KeyHelper
      * @param _formatter
      * @param columnHelper
      */
-    public void add (final KeyPart _formatter, final ColumnHelper columnHelper)
+    public void add(final KeyPart _formatter, final ColumnHelper columnHelper)
     {
         if (columnHelper != null && columnHelper.exists(_formatter.columnName))
         {
@@ -62,7 +62,7 @@ public class KeyHelper
      * @return
      * @throws Exception
      */
-    public KeyContext extractKey (final byte[] data, final long recordNumber) throws Exception
+    public KeyContext extractKey(final byte[] data, final long recordNumber) throws Exception
     {
         /*
          * The extra byte is for a 0x00 character to be placed at the end of
@@ -91,7 +91,7 @@ public class KeyHelper
      * @return
      * @throws Exception
      */
-    public KeyContext extractKey (final byte[][] data, final long recordNumber) throws Exception
+    public KeyContext extractKey(final byte[][] data, final long recordNumber) throws Exception
     {
         /*
          * The extra byte is for a 0x00 character to be placed at the end of
@@ -110,7 +110,7 @@ public class KeyHelper
         return context;
     }
 
-    public KeyContext extractKey (final String data, final long recordNumber) throws Exception
+    public KeyContext extractKey(final String data, final long recordNumber) throws Exception
     {
         context.key = new byte[maxKeyBytes];
         context.keyLength = 0;
@@ -124,34 +124,33 @@ public class KeyHelper
         return context;
     }
 
-    @SuppressWarnings("incomplete-switch")
-    public void setUpAsCopy (final FunnelContext funnelContext)
+    public void setUpAsCopy(final FunnelContext funnelContext)
     {
         switch (funnelContext.getCopyOrder())
         {
-            case ByKey:
-                AlphaKey ak;
-                if (funnelContext.getCsv() == null)
-                {
-                    add(ak = new AlphaKey(), null);
-                    ak.offset = 0;
-                    ak.length = MAX_KEY_SIZE;
-                    ak.direction = KeyDirection.ASC;
-                } else
-                {
-                    add(ak = new AlphaKey(), null);
-                    ak.csvFieldNumber = 0;
-                    ak.offset = 0;
-                    ak.length = MAX_KEY_SIZE;
-                    ak.direction = KeyDirection.ASC;
-                }
-                break;
-            case Original:
-                add(new RecordNumberKey(KeyDirection.ASC, null), null);
-                break;
-            case Reverse:
-                add(new RecordNumberKey(KeyDirection.DESC, null), null);
-                break;
+        case ByKey:
+            AlphaKey ak;
+            if (funnelContext.getCsv() == null)
+            {
+                add(ak = new AlphaKey(), null);
+                ak.offset = 0;
+                ak.length = MAX_KEY_SIZE;
+                ak.direction = KeyDirection.ASC;
+            } else
+            {
+                add(ak = new AlphaKey(), null);
+                ak.csvFieldNumber = 0;
+                ak.offset = 0;
+                ak.length = MAX_KEY_SIZE;
+                ak.direction = KeyDirection.ASC;
+            }
+            break;
+        case Original:
+            add(new RecordNumberKey(KeyDirection.ASC, null), null);
+            break;
+        case Reverse:
+            add(new RecordNumberKey(KeyDirection.DESC, null), null);
+            break;
         }
     }
 

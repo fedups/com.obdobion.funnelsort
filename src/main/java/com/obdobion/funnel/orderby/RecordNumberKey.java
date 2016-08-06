@@ -22,10 +22,10 @@ public class RecordNumberKey extends KeyPart
         direction = dir;
 
         // assert parseFormat == null : "\"--format " + parseFormat +
-        // "\"  is not expected for \"RecordNumber\"";
+        // "\" is not expected for \"RecordNumber\"";
     }
 
-    private void formatObjectIntoKey (final KeyContext context, final Long _longValue)
+    private void formatObjectIntoKey(final KeyContext context, final Long _longValue)
     {
         Long longValue = _longValue;
 
@@ -38,31 +38,31 @@ public class RecordNumberKey extends KeyPart
     }
 
     @Override
-    public Object getContents ()
+    public Object getContents()
     {
         return contents;
     }
 
     @Override
-    public double getContentsAsDouble ()
+    public double getContentsAsDouble()
     {
         return contents;
     }
 
     @Override
-    public boolean isInteger ()
+    public boolean isInteger()
     {
         return true;
     }
 
     @Override
-    public boolean isNumeric ()
+    public boolean isNumeric()
     {
         return true;
     }
 
     @Override
-    public void pack (final KeyContext context) throws Exception
+    public void pack(final KeyContext context) throws Exception
     {
         parseObject(context);
         formatObjectIntoKey(context, contents);
@@ -72,13 +72,16 @@ public class RecordNumberKey extends KeyPart
     }
 
     @Override
-    public void parseObject (final KeyContext context)
+    public void parseObject(final KeyContext context)
     {
         contents = context.recordNumber;
     }
 
+    /**
+     * @param rawBytes
+     */
     @Override
-    public void parseObjectFromRawData (final byte[] rawBytes) throws Exception
+    public void parseObjectFromRawData(final byte[] rawBytes) throws Exception
     {
         // not used since this is a system variable
     }

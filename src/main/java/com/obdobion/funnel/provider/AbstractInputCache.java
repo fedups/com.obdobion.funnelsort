@@ -25,9 +25,9 @@ abstract public class AbstractInputCache implements RandomAccessInputSource
     /*
      * public for junit only
      */
-    static public int findBufferIndexForPosition (
-        final long position,
-        final long[] startingPositions)
+    static public int findBufferIndexForPosition(
+            final long position,
+            final long[] startingPositions)
     {
         int b = 0;
         int t = startingPositions.length;
@@ -72,12 +72,12 @@ abstract public class AbstractInputCache implements RandomAccessInputSource
 
     public AbstractInputCache(
             final FunnelContext _context, final InputStream _source)
-            throws IOException
+                    throws IOException
     {
         logger.debug("read buffer size is " + BufferSize + " bytes");
 
-        this.context = _context;
-        this.source = _source;
+        context = _context;
+        source = _source;
         sourceBuffers = new ArrayList<>();
 
         loadUntilSourceIsDepleted();
@@ -94,13 +94,13 @@ abstract public class AbstractInputCache implements RandomAccessInputSource
         currentBufferIndex = 0;
     }
 
-    public void close ()
-        throws IOException
+    @Override
+    public void close() throws IOException
     {
         // Intentionally empty
     }
 
-    void computeStartingPositionsOfTheBuffers ()
+    void computeStartingPositionsOfTheBuffers()
     {
         long runningTotal = 0;
         for (int b = 0; b < sourceBuffersSize; b++)
@@ -110,7 +110,7 @@ abstract public class AbstractInputCache implements RandomAccessInputSource
         }
     }
 
-    public boolean eof ()
+    public boolean eof()
     {
         if (currentBufferIndex + 1 < sourceBuffersSize)
             return false;
@@ -121,13 +121,12 @@ abstract public class AbstractInputCache implements RandomAccessInputSource
         return !currentBuffer.hasRemaining();
     }
 
-    public long length ()
+    public long length()
     {
         return length;
     }
 
-    void loadUntilSourceIsDepleted ()
-        throws IOException
+    void loadUntilSourceIsDepleted() throws IOException
     {
         /*
          * Checking available bytes here may inhibit command line typing of
@@ -164,30 +163,33 @@ abstract public class AbstractInputCache implements RandomAccessInputSource
         }
     }
 
-    public void open ()
-        throws IOException
+    @Override
+    public void open() throws IOException
     {
         // Intentionally empty
     }
 
-    public long position ()
+    public long position()
     {
         return currentFilePosition;
     }
 
-    abstract void postOpenVerification () throws IOException;
+    abstract void postOpenVerification() throws IOException;
 
     /**
      * This method should not be called if there are no bytes available. Use
      * !eof() first.
      *
+     * @param inputFileIndex
+     *
      * @return
      */
-    public int read (
-        final int inputFileIndex,
-        final byte[] bytes,
-        final long position,
-        final int _length)
+    @Override
+    public int read(
+            final int inputFileIndex,
+            final byte[] bytes,
+            final long position,
+            final int _length)
     {
         currentBufferIndex = findBufferIndexForPosition(position, bufferStartingPosition);
 
@@ -236,7 +238,7 @@ abstract public class AbstractInputCache implements RandomAccessInputSource
      *
      * @return
      */
-    public byte readNextByte ()
+    public byte readNextByte()
     {
         currentBuffer = sourceBuffers.get(currentBufferIndex);
 

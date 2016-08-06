@@ -38,21 +38,21 @@ public class VariableLengthFileReader implements InputReader
     public VariableLengthFileReader(final FunnelContext _context, final int sz) throws IOException, ParseException
     {
         assert sz > 0 : "Buffer size <= 0";
-        this.context = _context;
+        context = _context;
         bb = new byte[sz];
-        this.separator = context.getEndOfRecordDelimiterIn();
+        separator = context.getEndOfRecordDelimiterIn();
 
         open(_context.getInputFile(context.inputFileIndex()));
     }
 
-    public void close () throws IOException, ParseException
+    @Override
+    public void close() throws IOException, ParseException
     {
         raf.close();
         logger.debug("loaded " + inFile.getAbsolutePath());
     }
 
-    private int fillBB ()
-        throws IOException
+    private int fillBB() throws IOException
     {
         startPosition = raf.getFilePointer();
         bbInUse = raf.read(bb);
@@ -62,29 +62,33 @@ public class VariableLengthFileReader implements InputReader
         return bbInUse;
     }
 
-    public long length ()
-        throws IOException
+    @Override
+    public long length() throws IOException
     {
         return raf.length();
     }
 
-    public void open (final File inputFile) throws IOException, ParseException
+    /**
+     * @param inputFile
+     */
+    @Override
+    public void open(final File inputFile) throws IOException, ParseException
     {
         bbNextPointer = 0;
-        this.inFile = context.getInputFile(context.inputFileIndex());
-        this.raf = new RandomAccessFile(inFile, "r");
+        inFile = context.getInputFile(context.inputFileIndex());
+        raf = new RandomAccessFile(inFile, "r");
         eof = false;
         fillBB();
     }
 
-    public long position ()
-        throws IOException
+    @Override
+    public long position() throws IOException
     {
         return startPosition + bbNextPointer;
     }
 
-    public int read (final byte[] row)
-        throws IOException
+    @Override
+    public int read(final byte[] row) throws IOException
     {
         if (eof)
             return -1;
@@ -104,7 +108,6 @@ public class VariableLengthFileReader implements InputReader
              * First see of the buffer is empty - refill it.
              */
             if (bbNextPointer >= bbInUse)
-            {
                 if (fillBB() <= 0)
                 {
                     /*
@@ -118,11 +121,10 @@ public class VariableLengthFileReader implements InputReader
                      * for what is there.
                      */
                     logger.warn("assuming a line terminator at end of file where "
-                        + rowNextPointer
-                        + " unterminated bytes were found");
+                            + rowNextPointer
+                            + " unterminated bytes were found");
                     return rowNextPointer;
                 }
-            }
             /*
              * Then see of this character is the next expected character in the
              * end of row sequence.

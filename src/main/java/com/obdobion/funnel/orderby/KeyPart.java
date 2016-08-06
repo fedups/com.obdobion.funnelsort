@@ -15,10 +15,12 @@ abstract public class KeyPart
     byte[]              unformattedContents;
 
     /*
-     * Not sure why this is here, OrderBy seems to define it where it needs to
-     * be.
+     * KeyPart is used as an internal representation of orderby. This most a
+     * legacy issue. This direction is not used as an argument. Keytype is used
+     * as an argument for several things like headers, columns and the like,
+     * that have no direction associated with them. Bad design - but for now, it
+     * is what it is.
      */
-    @Deprecated
     public KeyDirection direction;
 
     @Arg(shortName = 'n', longName = "name", help = "The key name", caseSensitive = true)

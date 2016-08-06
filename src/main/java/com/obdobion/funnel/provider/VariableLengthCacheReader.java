@@ -22,46 +22,50 @@ public class VariableLengthCacheReader implements InputReader
 
     public VariableLengthCacheReader(final FunnelContext _context) throws IOException, ParseException
     {
-        this.context = _context;
+        context = _context;
         logger.debug("variable length cache reader activated");
         loadDataToCache();
     }
 
-    public void close ()
-        throws IOException
+    @Override
+    public void close() throws IOException
     {
         // intentionally. Cached input is opened and closed when the instance is
         // made.
     }
 
-    public long length ()
-        throws IOException
+    @Override
+    public long length() throws IOException
     {
         return context.inputCache.length();
     }
 
-    void loadDataToCache () throws IOException, ParseException
+    void loadDataToCache() throws IOException, ParseException
     {
-        final FileInputStream inputStream = new FileInputStream(context.getInputFile(context.inputFileIndex()));
-        context.inputCache = new VariableLengthInputCache(context, inputStream);
-        inputStream.close();
-        logger.debug("loaded " + context.getInputFile(context.inputFileIndex()).getAbsolutePath());
+        try (final FileInputStream inputStream = new FileInputStream(context.getInputFile(context.inputFileIndex())))
+        {
+            context.inputCache = new VariableLengthInputCache(context, inputStream);
+            logger.debug("loaded " + context.getInputFile(context.inputFileIndex()).getAbsolutePath());
+        }
     }
 
-    public void open (final File inputFile) throws IOException
+    /**
+     * @param inputFile
+     */
+    @Override
+    public void open(final File inputFile) throws IOException
     {
         throw new IOException("the cacheInput option is not allowed with multiple input files");
     }
 
-    public long position ()
-        throws IOException
+    @Override
+    public long position() throws IOException
     {
         return context.inputCache.position();
     }
 
-    public int read (
-        final byte[] row)
-            throws IOException
+    @Override
+    public int read(final byte[] row) throws IOException
     {
         if (context.inputCache.eof())
             return -1;
@@ -83,9 +87,7 @@ public class VariableLengthCacheReader implements InputReader
             if (b == context.getEndOfRecordDelimiterIn()[sepNextPointer])
             {
                 if (sepNextPointer == context.getEndOfRecordDelimiterIn().length - 1)
-                {
                     return rowNextPointer;
-                }
                 sepNextPointer++;
                 continue;
             }
@@ -105,20 +107,16 @@ public class VariableLengthCacheReader implements InputReader
             row[rowNextPointer++] = b;
         }
         if (context.inputCache.eof())
-        {
             /*
              * end of file without end of record, this is ok.
              */
             if (rowNextPointer == 0)
                 return -1;
-        }
         /*
          * We have hit the end of the file and did not find an end of line for
          * the last bytes we did find. Return the row for what is there.
          */
-        logger.warn("assuming a line terminator at end of file where "
-            + rowNextPointer
-            + " unterminated bytes were found");
+        logger.warn("assuming a line terminator at end of file where {} unterminated bytes were found", rowNextPointer);
         return rowNextPointer;
     }
 }

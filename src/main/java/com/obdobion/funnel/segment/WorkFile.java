@@ -34,7 +34,7 @@ public class WorkFile implements WorkRepository
      */
     public WorkFile(final FunnelContext _context) throws IOException
     {
-        this.context = _context;
+        context = _context;
         file = File.createTempFile("funnel.", ".tmp", _context.getWorkDirectory());
         file.deleteOnExit();
         writeBuffer = new byte[WriteBufferSize];
@@ -43,7 +43,8 @@ public class WorkFile implements WorkRepository
         logger.debug("buffer size is " + WriteBufferSize + " bytes");
     }
 
-    public void close () throws IOException
+    @Override
+    public void close() throws IOException
     {
         if (bb.position() != 0)
             flushWritesToDisk();
@@ -56,7 +57,8 @@ public class WorkFile implements WorkRepository
         logger.debug("closed " + file.getAbsolutePath());
     }
 
-    public void delete () throws IOException
+    @Override
+    public void delete() throws IOException
     {
         if (file.delete())
             logger.debug("deleted " + file.getAbsolutePath());
@@ -64,18 +66,20 @@ public class WorkFile implements WorkRepository
             logger.debug("not deleted, " + file.getAbsolutePath() + " not found");
     }
 
-    void flushWritesToDisk () throws IOException
+    void flushWritesToDisk() throws IOException
     {
         raf.write(bb.array(), 0, bb.position());
         bb.position(0);
     }
 
-    public FunnelContext getContext ()
+    @Override
+    public FunnelContext getContext()
     {
         return context;
     }
 
-    public void open () throws IOException
+    @Override
+    public void open() throws IOException
     {
         raf = new RandomAccessFile(file, "rw");
         bb.position(0);
@@ -83,12 +87,14 @@ public class WorkFile implements WorkRepository
         logger.debug("opened " + file.getAbsolutePath());
     }
 
-    public long outputPosition ()
+    @Override
+    public long outputPosition()
     {
         return writeFilePointer;
     }
 
-    public long read (final long position, final SourceProxyRecord rec) throws IOException
+    @Override
+    public long read(final long position, final SourceProxyRecord rec) throws IOException
     {
         raf.seek(position);
 
@@ -103,7 +109,8 @@ public class WorkFile implements WorkRepository
         return RecordHeaderSize + readSize;
     }
 
-    public long write (final SourceProxyRecord rec) throws IOException
+    @Override
+    public long write(final SourceProxyRecord rec) throws IOException
     {
         final int sizeThisTime = RecordHeaderSize + rec.size;
 

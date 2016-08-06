@@ -40,7 +40,7 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
 
     public AbstractPublisher(final FunnelContext _context) throws ParseException, IOException
     {
-        this.context = _context;
+        context = _context;
 
         initialize();
 
@@ -50,15 +50,14 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
         logger.debug("write buffer size is " + WriteBufferSize + " bytes");
     }
 
-    public void close () throws Exception
+    @Override
+    public void close() throws Exception
     {
         if (context.isAggregating() && previousItem != null)
-        {
             /*
              * Write last aggregation to disk
              */
             formatOutputAndWrite(previousItem, previousOriginalBytes);
-        }
         if (bb.position() != 0)
             flushWritesToDisk();
         originalFile.close();
@@ -70,8 +69,7 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
         logger.debug(Funnel.ByteFormatter.format(writeCount) + " rows written");
     }
 
-    void flushWritesToDisk ()
-        throws IOException
+    void flushWritesToDisk() throws IOException
     {
         writer.write(bb.array(), 0, bb.position());
         bb.position(0);
@@ -82,8 +80,8 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
      * @param rawData
      * @throws IOException
      */
-    void formatOutputAndWrite (final SourceProxyRecord item, final byte[] rawData)
-        throws IOException, Exception
+    void formatOutputAndWrite(final SourceProxyRecord item, final byte[] rawData)
+            throws IOException, Exception
     {
         writeCount++;
         /*
@@ -92,18 +90,19 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
         Aggregate.reset(context);
     }
 
-    public long getDuplicateCount ()
+    @Override
+    public long getDuplicateCount()
     {
         return duplicateCount;
     }
 
     @Override
-    public long getWriteCount ()
+    public long getWriteCount()
     {
         return writeCount;
     }
 
-    private void initialize () throws ParseException, IOException
+    private void initialize() throws ParseException, IOException
     {
         if (context.isCacheInput() || context.isSysin())
             originalFile = context.inputCache;
@@ -120,8 +119,8 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
         writeCount = duplicateCount = 0;
     }
 
-    void loadOriginalBytes (final int originalFileNumber, final SourceProxyRecord item)
-        throws IOException
+    void loadOriginalBytes(final int originalFileNumber, final SourceProxyRecord item)
+            throws IOException
     {
         originalFile.read(originalFileNumber, originalBytes, item.originalLocation, item.originalSize);
     }
@@ -129,13 +128,13 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
     /**
      * @throws IOException
      */
-    void newLine () throws IOException
+    void newLine() throws IOException
     {
         // new lines mean nothing at the abstract level.
     }
 
     @Override
-    public void openInput () throws ParseException
+    public void openInput() throws ParseException
     {
         try
         {
@@ -146,12 +145,13 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
         }
     }
 
-    abstract void openOutput (final FunnelContext _context) throws IOException, FileNotFoundException;
+    abstract void openOutput(final FunnelContext _context) throws IOException, FileNotFoundException;
 
-    public boolean publish (
-        final SourceProxyRecord item,
-        final long phase)
-            throws Exception
+    /**
+     * @param phase
+     */
+    @Override
+    public boolean publish(final SourceProxyRecord item, final long phase) throws Exception
     {
         /*
          * The same goes for the original file number. But it is important not
@@ -195,7 +195,7 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
                 }
                 duplicateCount++;
                 if (DuplicateDisposition.FirstOnly == context.getDuplicateDisposition()
-                    || DuplicateDisposition.LastOnly == context.getDuplicateDisposition())
+                        || DuplicateDisposition.LastOnly == context.getDuplicateDisposition())
                     /*
                      * Since the file is sorted so that the duplicate we want to
                      * retain is first, and because it was not a duplicate until
@@ -247,9 +247,7 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
             Aggregate.aggregate(context, item.originalSize, item.getOriginalRecordNumber());
 
         } else
-        {
             formatOutputAndWrite(item, originalBytes);
-        }
         /*
          * Return the instance for reuse.
          */
@@ -261,7 +259,7 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
         return true;
     }
 
-    void publishHeader () throws IOException
+    void publishHeader() throws IOException
     {
         if (context.headerOutHelper.isWaitingToWrite())
         {
@@ -270,7 +268,8 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
         }
     }
 
-    public void reset () throws IOException, ParseException
+    @Override
+    public void reset() throws IOException, ParseException
     {
         initialize();
         if (previousItem != null)
@@ -281,12 +280,10 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
     }
 
     @Override
-    public void write (final byte[] sourceBytes, final int offset, final int length) throws IOException
+    public void write(final byte[] sourceBytes, final int offset, final int length) throws IOException
     {
         if (length + bb.position() >= WriteBufferSize)
-        {
             flushWritesToDisk();
-        }
         bb.put(sourceBytes, offset, length);
     }
 }

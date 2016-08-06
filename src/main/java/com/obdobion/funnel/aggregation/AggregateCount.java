@@ -7,31 +7,34 @@ public class AggregateCount extends Aggregate
     protected long counter;
 
     @Override
-    Object getValueForEquations ()
+    Object getValueForEquations()
     {
         return new Long(counter);
     }
 
     @Override
-    void reset ()
+    void reset()
     {
         counter = 0;
     }
 
     @Override
-    public boolean supportsDate ()
+    public boolean supportsDate()
     {
         return false;
     }
 
     @Override
-    public boolean supportsNumber ()
+    public boolean supportsNumber()
     {
         return false;
     }
 
+    /**
+     * @param context
+     */
     @Override
-    void update (final FunnelContext context)
+    void update(final FunnelContext context)
     {
         counter++;
     }
