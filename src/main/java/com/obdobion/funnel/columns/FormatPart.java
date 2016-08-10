@@ -12,8 +12,9 @@ import com.obdobion.funnel.orderby.KeyType;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>FormatPart class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class FormatPart
 {
@@ -58,6 +59,9 @@ public class FormatPart
     public FormatPart nextPart;
     KeyPart           column;
 
+    /**
+     * <p>Constructor for FormatPart.</p>
+     */
     public FormatPart()
     {
         super();
@@ -65,6 +69,11 @@ public class FormatPart
         filler = ' ';
     }
 
+    /**
+     * <p>add.</p>
+     *
+     * @param anotherFormatter a {@link com.obdobion.funnel.columns.FormatPart} object.
+     */
     public void add(final FormatPart anotherFormatter)
     {
         if (nextPart == null)
@@ -73,11 +82,25 @@ public class FormatPart
             nextPart.add(anotherFormatter);
     }
 
+    /**
+     * <p>defineFrom.</p>
+     *
+     * @param colDef a {@link com.obdobion.funnel.orderby.KeyPart} object.
+     */
     public void defineFrom(final KeyPart colDef)
     {
         column = colDef;
     }
 
+    /**
+     * <p>originalData.</p>
+     *
+     * @param keyContext a {@link com.obdobion.funnel.orderby.KeyContext} object.
+     * @param funnelContext a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param originalSize a int.
+     * @param outputBytes a {@link java.io.ByteArrayOutputStream} object.
+     * @throws java.lang.Exception if any.
+     */
     public void originalData(
             final KeyContext keyContext,
             final FunnelContext funnelContext,

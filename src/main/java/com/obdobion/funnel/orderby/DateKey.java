@@ -7,14 +7,18 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * @author Chris DeGreef
+ * <p>DateKey class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class DateKey extends KeyPart
 {
     Calendar         contents;
     SimpleDateFormat sdf;
 
+    /**
+     * <p>Constructor for DateKey.</p>
+     */
     public DateKey()
     {
         super();
@@ -39,30 +43,35 @@ public class DateKey extends KeyPart
         context.keyLength += 8;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Object getContents ()
     {
         return contents;
     }
 
+    /** {@inheritDoc} */
     @Override
     public double getContentsAsDouble ()
     {
         return contents.getTimeInMillis();
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isDate ()
     {
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isNumeric ()
     {
         return false;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void pack (final KeyContext context) throws Exception
     {
@@ -73,6 +82,7 @@ public class DateKey extends KeyPart
             nextPart.pack(context);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void parseObjectFromRawData (final byte[] rawBytes) throws Exception
     {

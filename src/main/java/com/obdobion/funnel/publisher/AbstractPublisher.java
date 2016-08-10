@@ -21,6 +21,11 @@ import com.obdobion.funnel.provider.FileSource;
 import com.obdobion.funnel.provider.RandomAccessInputSource;
 import com.obdobion.funnel.segment.SourceProxyRecord;
 
+/**
+ * <p>Abstract AbstractPublisher class.</p>
+ *
+ * @author Chris DeGreef fedupforone@gmail.com
+ */
 abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWriter
 {
     static final private Logger logger          = LoggerFactory.getLogger(AbstractPublisher.class);
@@ -38,6 +43,13 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
     long                        writeCount;
     long                        duplicateCount;
 
+    /**
+     * <p>Constructor for AbstractPublisher.</p>
+     *
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @throws java.text.ParseException if any.
+     * @throws java.io.IOException if any.
+     */
     public AbstractPublisher(final FunnelContext _context) throws ParseException, IOException
     {
         context = _context;
@@ -50,6 +62,7 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
         logger.debug("write buffer size is " + WriteBufferSize + " bytes");
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws Exception
     {
@@ -90,12 +103,14 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
         Aggregate.reset(context);
     }
 
+    /** {@inheritDoc} */
     @Override
     public long getDuplicateCount()
     {
         return duplicateCount;
     }
 
+    /** {@inheritDoc} */
     @Override
     public long getWriteCount()
     {
@@ -133,6 +148,7 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
         // new lines mean nothing at the abstract level.
     }
 
+    /** {@inheritDoc} */
     @Override
     public void openInput() throws ParseException
     {
@@ -147,9 +163,7 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
 
     abstract void openOutput(final FunnelContext _context) throws IOException, FileNotFoundException;
 
-    /**
-     * @param phase
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean publish(final SourceProxyRecord item, final long phase) throws Exception
     {
@@ -268,6 +282,7 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void reset() throws IOException, ParseException
     {
@@ -279,6 +294,7 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void write(final byte[] sourceBytes, final int offset, final int length) throws IOException
     {

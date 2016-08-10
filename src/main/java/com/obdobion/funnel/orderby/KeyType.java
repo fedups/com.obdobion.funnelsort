@@ -1,8 +1,9 @@
 package com.obdobion.funnel.orderby;
 
 /**
- * @author Chris DeGreef
+ * <p>KeyType class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public enum KeyType
 {
@@ -15,6 +16,13 @@ public enum KeyType
         Byte(ByteKey.class),
         Filler(Filler.class);
 
+    /**
+     * <p>create.</p>
+     *
+     * @param keyType a {@link java.lang.String} object.
+     * @return a {@link com.obdobion.funnel.orderby.KeyPart} object.
+     * @throws java.lang.Exception if any.
+     */
     static public KeyPart create (final String keyType) throws Exception
     {
         final KeyType kt = KeyType.valueOf(keyType);

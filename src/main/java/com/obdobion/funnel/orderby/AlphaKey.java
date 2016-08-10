@@ -3,8 +3,9 @@ package com.obdobion.funnel.orderby;
 import com.obdobion.funnel.columns.OutputFormatHelper;
 
 /**
- * @author Chris DeGreef
+ * <p>AlphaKey class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class AlphaKey extends KeyPart
 {
@@ -14,6 +15,9 @@ public class AlphaKey extends KeyPart
 
     String                    contents;
 
+    /**
+     * <p>Constructor for AlphaKey.</p>
+     */
     public AlphaKey()
     {
         super();
@@ -65,30 +69,35 @@ public class AlphaKey extends KeyPart
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public Object getContents ()
     {
         return contents;
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte[] getContentsAsByteArray ()
     {
         return contents.getBytes();
     }
 
+    /** {@inheritDoc} */
     @Override
     public double getContentsAsDouble ()
     {
         return 0;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isNumeric ()
     {
         return false;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void pack (final KeyContext context) throws Exception
     {
@@ -100,6 +109,7 @@ public class AlphaKey extends KeyPart
             nextPart.pack(context);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void parseObjectFromRawData (final byte[] bytes) throws Exception
     {

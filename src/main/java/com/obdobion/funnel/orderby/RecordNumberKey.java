@@ -3,16 +3,19 @@ package com.obdobion.funnel.orderby;
 import java.nio.ByteBuffer;
 
 /**
- * @author Chris DeGreef
+ * <p>RecordNumberKey class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class RecordNumberKey extends KeyPart
 {
     Long contents;
 
     /**
-     * @param dir
-     * @param _parseFormat
+     * <p>Constructor for RecordNumberKey.</p>
+     *
+     * @param dir a {@link com.obdobion.funnel.orderby.KeyDirection} object.
+     * @param _parseFormat a {@link java.lang.String} object.
      */
     public RecordNumberKey(final KeyDirection dir, final String _parseFormat)
     {
@@ -37,30 +40,35 @@ public class RecordNumberKey extends KeyPart
         context.keyLength += 8;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Object getContents()
     {
         return contents;
     }
 
+    /** {@inheritDoc} */
     @Override
     public double getContentsAsDouble()
     {
         return contents;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isInteger()
     {
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isNumeric()
     {
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void pack(final KeyContext context) throws Exception
     {
@@ -71,15 +79,14 @@ public class RecordNumberKey extends KeyPart
             nextPart.pack(context);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void parseObject(final KeyContext context)
     {
         contents = context.recordNumber;
     }
 
-    /**
-     * @param rawBytes
-     */
+    /** {@inheritDoc} */
     @Override
     public void parseObjectFromRawData(final byte[] rawBytes) throws Exception
     {

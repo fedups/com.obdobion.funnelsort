@@ -12,8 +12,9 @@ import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>WorkCore class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class WorkCore implements WorkRepository
 {
@@ -29,8 +30,10 @@ public class WorkCore implements WorkRepository
     ByteBuffer                  currentBuffer;
 
     /**
-     * @param _context
-     * @throws IOException
+     * <p>Constructor for WorkCore.</p>
+     *
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @throws java.io.IOException if any.
      */
     public WorkCore(final FunnelContext _context) throws IOException
     {
@@ -43,6 +46,7 @@ public class WorkCore implements WorkRepository
         logger.debug("buffer size is " + WriteBufferIncrement + " bytes");
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException
     {
@@ -68,6 +72,7 @@ public class WorkCore implements WorkRepository
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void delete() throws IOException
     {
@@ -116,12 +121,14 @@ public class WorkCore implements WorkRepository
         return RecordHeaderSize + rec.size;
     }
 
+    /** {@inheritDoc} */
     @Override
     public FunnelContext getContext()
     {
         return context;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void open() throws IOException
     {
@@ -129,12 +136,14 @@ public class WorkCore implements WorkRepository
         writeFilePointer = 0;
     }
 
+    /** {@inheritDoc} */
     @Override
     public long outputPosition()
     {
         return writeFilePointer;
     }
 
+    /** {@inheritDoc} */
     @Override
     public long read(final long position, final SourceProxyRecord rec) throws IOException
     {
@@ -149,6 +158,7 @@ public class WorkCore implements WorkRepository
         return bufferStartingPosition[s];
     }
 
+    /** {@inheritDoc} */
     @Override
     public long write(final SourceProxyRecord rec) throws IOException
     {

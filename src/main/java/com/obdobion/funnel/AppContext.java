@@ -9,8 +9,9 @@ import com.obdobion.argument.annotation.Arg;
 import com.obdobion.argument.input.NamespaceParser;
 
 /**
- * @author Chris DeGreef
+ * <p>AppContext class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class AppContext
 {
@@ -23,11 +24,21 @@ public class AppContext
     @Arg(longName = "log4j", caseSensitive = true)
     public String   log4jConfigFileName;
 
+    /**
+     * <p>Constructor for AppContext.</p>
+     */
     public AppContext()
     {
         super();
     }
 
+    /**
+     * <p>Constructor for AppContext.</p>
+     *
+     * @param workingDirectory a {@link java.lang.String} object.
+     * @throws java.io.IOException if any.
+     * @throws java.text.ParseException if any.
+     */
     public AppContext(final String workingDirectory) throws IOException, ParseException
     {
         final String configFileName = System.getProperty("funnel.config",

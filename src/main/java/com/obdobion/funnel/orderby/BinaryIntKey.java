@@ -3,13 +3,17 @@ package com.obdobion.funnel.orderby;
 import java.nio.ByteBuffer;
 
 /**
- * @author Chris DeGreef
+ * <p>BinaryIntKey class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class BinaryIntKey extends KeyPart
 {
     Long contents;
 
+    /**
+     * <p>Constructor for BinaryIntKey.</p>
+     */
     public BinaryIntKey()
     {
         super();
@@ -54,30 +58,35 @@ public class BinaryIntKey extends KeyPart
         context.keyLength += length;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Object getContents()
     {
         return contents;
     }
 
+    /** {@inheritDoc} */
     @Override
     public double getContentsAsDouble()
     {
         return contents;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isInteger()
     {
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isNumeric()
     {
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void pack(final KeyContext context) throws Exception
     {
@@ -88,6 +97,7 @@ public class BinaryIntKey extends KeyPart
             nextPart.pack(context);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void parseObjectFromRawData(final byte[] rawBytes) throws Exception
     {

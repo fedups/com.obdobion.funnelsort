@@ -12,8 +12,7 @@ import com.obdobion.funnel.parameters.FunnelContext;
  * whatever the fields actually are. This allows the sort to be on a single long
  * string key rather than a conversion to Java objects.
  *
- * @author Chris DeGreef
- *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class SourceProxyRecord
 {
@@ -24,6 +23,12 @@ public class SourceProxyRecord
      */
     static final public Stack<SourceProxyRecord> AvailableInstances = new Stack<>();
 
+    /**
+     * <p>getInstance.</p>
+     *
+     * @param context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @return a {@link com.obdobion.funnel.segment.SourceProxyRecord} object.
+     */
     public static SourceProxyRecord getInstance (final FunnelContext context)
     {
         synchronized (AvailableInstances)
@@ -50,11 +55,24 @@ public class SourceProxyRecord
         context = _context;
     }
 
+    /**
+     * <p>compareTo.</p>
+     *
+     * @param o a {@link com.obdobion.funnel.segment.SourceProxyRecord} object.
+     * @return a int.
+     */
     public int compareTo (final SourceProxyRecord o)
     {
         return compareTo(o, true);
     }
 
+    /**
+     * <p>compareTo.</p>
+     *
+     * @param o a {@link com.obdobion.funnel.segment.SourceProxyRecord} object.
+     * @param resolveDuplicates a boolean.
+     * @return a int.
+     */
     public int compareTo (final SourceProxyRecord o, final boolean resolveDuplicates)
     {
         if (context != null)
@@ -99,6 +117,7 @@ public class SourceProxyRecord
         return (originalInputFileIndex - o.originalInputFileIndex);
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals (
         final Object obj)
@@ -117,16 +136,27 @@ public class SourceProxyRecord
         return true;
     }
 
+    /**
+     * <p>getFunnelContext.</p>
+     *
+     * @return a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     */
     public FunnelContext getFunnelContext ()
     {
         return context;
     }
 
+    /**
+     * <p>Getter for the field <code>originalRecordNumber</code>.</p>
+     *
+     * @return a long.
+     */
     public long getOriginalRecordNumber ()
     {
         return originalRecordNumber;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode ()
     {
@@ -137,6 +167,9 @@ public class SourceProxyRecord
         return result;
     }
 
+    /**
+     * <p>release.</p>
+     */
     public void release ()
     {
         synchronized (AvailableInstances)
@@ -145,11 +178,17 @@ public class SourceProxyRecord
         }
     }
 
+    /**
+     * <p>Setter for the field <code>originalRecordNumber</code>.</p>
+     *
+     * @param p_originalRecordNumber a long.
+     */
     public void setOriginalRecordNumber (final long p_originalRecordNumber)
     {
         this.originalRecordNumber = p_originalRecordNumber;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString ()
     {

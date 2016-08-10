@@ -11,11 +11,18 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>ColumnTests class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class ColumnTests
 {
+    /**
+     * <p>notLastColumnInVLR.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void notLastColumnInVLR ()
         throws Throwable
@@ -39,6 +46,11 @@ public class ColumnTests
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>notStartingInFirstColumn.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void notStartingInFirstColumn ()
         throws Throwable
@@ -63,6 +75,11 @@ public class ColumnTests
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>shortValue.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void shortValue ()
         throws Throwable
@@ -87,6 +104,11 @@ public class ColumnTests
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>startingInFirstColumn.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void startingInFirstColumn ()
         throws Throwable

@@ -15,15 +15,26 @@ import com.obdobion.funnel.parameters.FunnelContext;
 import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
- * @author Chris DeGreef
+ * <p>OutputFormatHelper class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class OutputFormatHelper
 {
     final private static Logger logger          = LoggerFactory.getLogger(OutputFormatHelper.class);
 
+    /** Constant <code>MAX_OUTPUT_SIZE=4096</code> */
     public static final int     MAX_OUTPUT_SIZE = 4096;
 
+    /**
+     * <p>lengthToWrite.</p>
+     *
+     * @param data an array of byte.
+     * @param offset a int.
+     * @param dataLength a int.
+     * @param rightTrim a boolean.
+     * @return a int.
+     */
     public static int lengthToWrite (final byte[] data, final int offset, final int dataLength, final boolean rightTrim)
     {
         int lengthToWrite = 0;
@@ -49,6 +60,12 @@ public class OutputFormatHelper
 
     private Equ[]      referencesToAllOutputFormatEquations;
 
+    /**
+     * <p>Constructor for OutputFormatHelper.</p>
+     *
+     * @param _columnHelper a {@link com.obdobion.funnel.columns.ColumnHelper} object.
+     * @param _headerHelper a {@link com.obdobion.funnel.columns.HeaderHelper} object.
+     */
     public OutputFormatHelper(final ColumnHelper _columnHelper, final HeaderHelper _headerHelper)
     {
         this(_columnHelper, _headerHelper, MAX_OUTPUT_SIZE);
@@ -70,7 +87,7 @@ public class OutputFormatHelper
      * defined. This is done through a linked list of fields. Use the column
      * helper to find the definition of the key if a column name was specified.
      *
-     * @param _formatter
+     * @param _formatter a {@link com.obdobion.funnel.columns.FormatPart} object.
      */
     public void add (final FormatPart _formatter)
     {
@@ -132,6 +149,16 @@ public class OutputFormatHelper
         return context;
     }
 
+    /**
+     * <p>format.</p>
+     *
+     * @param writer a {@link com.obdobion.funnel.columns.ColumnWriter} object.
+     * @param originalData an array of byte.
+     * @param dataSize a int.
+     * @param proxyRecord a {@link com.obdobion.funnel.segment.SourceProxyRecord} object.
+     * @param rightTrim a boolean.
+     * @throws java.lang.Exception if any.
+     */
     public void format (
         final ColumnWriter writer,
         final byte[] originalData,
@@ -151,6 +178,12 @@ public class OutputFormatHelper
         writer.write(context.key, 0, lengthToWrite);
     }
 
+    /**
+     * <p>Getter for the field <code>referencesToAllOutputFormatEquations</code>.</p>
+     *
+     * @param funnelContext a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @return an array of {@link com.obdobion.algebrain.Equ} objects.
+     */
     public Equ[] getReferencesToAllOutputFormatEquations (final FunnelContext funnelContext)
     {
         if (referencesToAllOutputFormatEquations == null)

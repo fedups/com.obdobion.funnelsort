@@ -11,12 +11,19 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>HexDumpTest class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class HexDumpTest
 {
 
+    /**
+     * <p>dumpColumnsWithFormat.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void dumpColumnsWithFormat ()
         throws Throwable
@@ -69,6 +76,11 @@ public class HexDumpTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>dumpColumnWithoutFormat.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void dumpColumnWithoutFormat ()
         throws Throwable
@@ -117,6 +129,11 @@ public class HexDumpTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>dumpWithoutAnyColumnsDefined.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void dumpWithoutAnyColumnsDefined ()
         throws Throwable

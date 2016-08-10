@@ -15,6 +15,11 @@ import com.obdobion.funnel.parameters.DuplicateDisposition;
 import com.obdobion.funnel.parameters.FunnelContext;
 import com.obdobion.funnel.segment.SourceProxyRecord;
 
+/**
+ * <p>Abstract AbstractProvider class.</p>
+ *
+ * @author Chris DeGreef fedupforone@gmail.com
+ */
 public abstract class AbstractProvider implements FunnelDataProvider
 {
     static final Logger logger = LoggerFactory.getLogger(AbstractProvider.class);
@@ -28,6 +33,13 @@ public abstract class AbstractProvider implements FunnelDataProvider
 
     private Equ[]       cachedEquations;
 
+    /**
+     * <p>Constructor for AbstractProvider.</p>
+     *
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @throws java.io.IOException if any.
+     * @throws java.text.ParseException if any.
+     */
     public AbstractProvider(final FunnelContext _context) throws IOException, ParseException
     {
         context = _context;
@@ -42,12 +54,14 @@ public abstract class AbstractProvider implements FunnelDataProvider
         initialize();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void attachTo(final FunnelItem item)
     {
         item.setProvider(this);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException, ParseException
     {
@@ -121,6 +135,7 @@ public abstract class AbstractProvider implements FunnelDataProvider
         logger.debug(sb.toString());
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean next(final FunnelItem item, final long phase) throws IOException, ParseException
     {
@@ -274,6 +289,7 @@ public abstract class AbstractProvider implements FunnelDataProvider
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void reset() throws IOException, ParseException
     {

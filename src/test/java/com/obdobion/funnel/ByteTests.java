@@ -11,11 +11,18 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>ByteTests class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class ByteTests
 {
+    /**
+     * <p>asHex.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void asHex ()
         throws Throwable
@@ -48,6 +55,11 @@ public class ByteTests
         }
     }
 
+    /**
+     * <p>asNumberInEqu.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void asNumberInEqu ()
         throws Throwable
@@ -81,6 +93,11 @@ public class ByteTests
         }
     }
 
+    /**
+     * <p>asSearchableField.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void asSearchableField ()
         throws Throwable
@@ -113,6 +130,11 @@ public class ByteTests
         }
     }
 
+    /**
+     * <p>basicUse.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void basicUse ()
         throws Throwable

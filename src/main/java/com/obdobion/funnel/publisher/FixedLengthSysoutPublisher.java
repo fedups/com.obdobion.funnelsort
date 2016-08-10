@@ -11,19 +11,28 @@ import org.slf4j.LoggerFactory;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>FixedLengthSysoutPublisher class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class FixedLengthSysoutPublisher extends FixedLengthPublisher
 {
     static final private Logger logger = LoggerFactory.getLogger(FixedLengthSysoutPublisher.class);
 
+    /**
+     * <p>Constructor for FixedLengthSysoutPublisher.</p>
+     *
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @throws java.text.ParseException if any.
+     * @throws java.io.IOException if any.
+     */
     public FixedLengthSysoutPublisher(final FunnelContext _context) throws ParseException, IOException
     {
         super(_context);
         logger.debug("fixed length sysout publisher activated");
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws Exception
     {
@@ -42,6 +51,7 @@ public class FixedLengthSysoutPublisher extends FixedLengthPublisher
         logger.debug("writing SYSOUT");
     }
 
+    /** {@inheritDoc} */
     @Override
     public void reset() throws IOException
     {

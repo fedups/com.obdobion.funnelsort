@@ -11,8 +11,10 @@ import com.obdobion.funnel.orderby.KeyDirection;
 import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
- * @author Chris DeGreef
+ * <p>CompareTests class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class CompareTests
 {
@@ -28,6 +30,11 @@ public class CompareTests
         return spr1;
     }
 
+    /**
+     * <p>compareDates.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void compareDates () throws Throwable
     {
@@ -55,6 +62,11 @@ public class CompareTests
         Assert.assertEquals("", -1, spr1.compareTo(spr2));
     }
 
+    /**
+     * <p>compareDatesShortFormat.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void compareDatesShortFormat () throws Throwable
     {
@@ -82,6 +94,11 @@ public class CompareTests
         Assert.assertEquals("", -1, spr1.compareTo(spr2));
     }
 
+    /**
+     * <p>compareDatesWrapping.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void compareDatesWrapping () throws Throwable
     {
@@ -109,6 +126,11 @@ public class CompareTests
         Assert.assertEquals("", -1, spr1.compareTo(spr2));
     }
 
+    /**
+     * <p>compareDatesY2K.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void compareDatesY2K () throws Throwable
     {
@@ -136,6 +158,11 @@ public class CompareTests
         Assert.assertEquals("", -1, spr1.compareTo(spr2));
     }
 
+    /**
+     * <p>compareDouble.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void compareDouble () throws Throwable
     {
@@ -161,6 +188,11 @@ public class CompareTests
         Assert.assertEquals("", -1, spr1.compareTo(spr2));
     }
 
+    /**
+     * <p>compareDoubleDec.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void compareDoubleDec () throws Throwable
     {
@@ -186,6 +218,11 @@ public class CompareTests
         Assert.assertEquals("", 1, spr1.compareTo(spr2));
     }
 
+    /**
+     * <p>compareDoubleMax16Whole.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void compareDoubleMax16Whole () throws Throwable
     {
@@ -211,6 +248,11 @@ public class CompareTests
         Assert.assertEquals("", -1, spr1.compareTo(spr2));
     }
 
+    /**
+     * <p>compareDoubleMax18Decimals.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void compareDoubleMax18Decimals () throws Throwable
     {
@@ -236,6 +278,11 @@ public class CompareTests
         Assert.assertEquals("", -1, spr1.compareTo(spr2));
     }
 
+    /**
+     * <p>compareDoubleMaxRatio17Total.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void compareDoubleMaxRatio17Total () throws Throwable
     {

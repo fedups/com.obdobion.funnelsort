@@ -1,8 +1,9 @@
 package com.obdobion.funnel.parameters;
 
 /**
- * @author Chris DeGreef
- * 
+ * <p>CopyOrder class.</p>
+ *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public enum CopyOrder
 {

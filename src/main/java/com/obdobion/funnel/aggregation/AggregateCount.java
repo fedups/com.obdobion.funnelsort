@@ -2,6 +2,11 @@ package com.obdobion.funnel.aggregation;
 
 import com.obdobion.funnel.parameters.FunnelContext;
 
+/**
+ * <p>AggregateCount class.</p>
+ *
+ * @author Chris DeGreef fedupforone@gmail.com
+ */
 public class AggregateCount extends Aggregate
 {
     protected long counter;
@@ -18,12 +23,14 @@ public class AggregateCount extends Aggregate
         counter = 0;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean supportsDate()
     {
         return false;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean supportsNumber()
     {

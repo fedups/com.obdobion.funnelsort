@@ -5,12 +5,20 @@ import java.util.Calendar;
 import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
 
+/**
+ * <p>AggregateMax class.</p>
+ *
+ * @author Chris DeGreef fedupforone@gmail.com
+ */
 public class AggregateMax extends Aggregate
 {
     double   maxDouble;
     long     maxLong;
     Calendar maxCalendar;
 
+    /**
+     * <p>Constructor for AggregateMax.</p>
+     */
     public AggregateMax()
     {
         reset();

@@ -9,12 +9,20 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.orderby.KeyType;
 import com.obdobion.funnel.parameters.FunnelContext;
 
+/**
+ * <p>CommandLineOptionsTest class.</p>
+ *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
+ */
 public class CommandLineOptionsTest
 {
     FunnelContext ctx;
 
     /**
      * -tBoolean -k cacheInput --var cacheInput --def false
+     *
+     * @throws java.lang.Exception if any.
      */
     @Test
     public void defineCacheInput() throws Exception
@@ -32,6 +40,11 @@ public class CommandLineOptionsTest
         Assert.assertFalse("cacheInput", ctx.isNoCacheInput());
     }
 
+    /**
+     * <p>defineCacheWork.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     @Test
     public void defineCacheWork() throws Exception
     {
@@ -58,6 +71,8 @@ public class CommandLineOptionsTest
      * String(AlphaKey.class), Integer(DisplayIntKey.class),
      * Float(DisplayFloatKey.class), BInteger(BinaryIntKey.class),
      * BFloat(BinaryFloatKey.class), Date(DateKey.class);
+     *
+     * @throws java.lang.Exception if any.
      */
     @Test
     public void defineColumnsSubparser() throws Exception
@@ -141,7 +156,7 @@ public class CommandLineOptionsTest
     /**
      * -tWildFile -k inputfilename --var inputFiles -m1 -p --case
      *
-     * @throws Exception
+     * @throws java.lang.Exception if any.
      */
     @Test
     public void defineInputFile() throws Exception
@@ -160,6 +175,11 @@ public class CommandLineOptionsTest
         Assert.assertEquals("file count", 12, ctx.getInputFiles().files().size());
     }
 
+    /**
+     * <p>version.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     @Test
     public void version() throws Exception
     {

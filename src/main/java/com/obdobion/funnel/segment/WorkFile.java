@@ -12,8 +12,9 @@ import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>WorkFile class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class WorkFile implements WorkRepository
 {
@@ -29,8 +30,10 @@ public class WorkFile implements WorkRepository
     long                        writeFilePointer;
 
     /**
-     * @param _context
-     * @throws IOException
+     * <p>Constructor for WorkFile.</p>
+     *
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @throws java.io.IOException if any.
      */
     public WorkFile(final FunnelContext _context) throws IOException
     {
@@ -43,6 +46,7 @@ public class WorkFile implements WorkRepository
         logger.debug("buffer size is " + WriteBufferSize + " bytes");
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException
     {
@@ -57,6 +61,7 @@ public class WorkFile implements WorkRepository
         logger.debug("closed " + file.getAbsolutePath());
     }
 
+    /** {@inheritDoc} */
     @Override
     public void delete() throws IOException
     {
@@ -72,12 +77,14 @@ public class WorkFile implements WorkRepository
         bb.position(0);
     }
 
+    /** {@inheritDoc} */
     @Override
     public FunnelContext getContext()
     {
         return context;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void open() throws IOException
     {
@@ -87,12 +94,14 @@ public class WorkFile implements WorkRepository
         logger.debug("opened " + file.getAbsolutePath());
     }
 
+    /** {@inheritDoc} */
     @Override
     public long outputPosition()
     {
         return writeFilePointer;
     }
 
+    /** {@inheritDoc} */
     @Override
     public long read(final long position, final SourceProxyRecord rec) throws IOException
     {
@@ -109,6 +118,7 @@ public class WorkFile implements WorkRepository
         return RecordHeaderSize + readSize;
     }
 
+    /** {@inheritDoc} */
     @Override
     public long write(final SourceProxyRecord rec) throws IOException
     {

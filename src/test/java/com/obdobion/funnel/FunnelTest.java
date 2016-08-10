@@ -14,11 +14,18 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>FunnelTest class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class FunnelTest
 {
+    /**
+     * <p>copyOriginalFixed130.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void copyOriginalFixed130() throws Throwable
     {
@@ -45,6 +52,11 @@ public class FunnelTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>copyOriginalFixed50.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void copyOriginalFixed50() throws Throwable
     {
@@ -71,6 +83,11 @@ public class FunnelTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>copyOriginalVar1000.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void copyOriginalVar1000() throws Throwable
     {
@@ -97,6 +114,11 @@ public class FunnelTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>copyOriginalVar130.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void copyOriginalVar130() throws Throwable
     {
@@ -123,6 +145,11 @@ public class FunnelTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>copyOriginalVar50.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void copyOriginalVar50() throws Throwable
     {
@@ -149,6 +176,11 @@ public class FunnelTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>copyReverseFixed.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void copyReverseFixed() throws Throwable
     {
@@ -175,6 +207,11 @@ public class FunnelTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>copyReverseVar.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void copyReverseVar() throws Throwable
     {
@@ -201,6 +238,11 @@ public class FunnelTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>sortDate.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sortDate() throws Throwable
     {
@@ -234,6 +276,11 @@ public class FunnelTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>sortDateNoFormat.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sortDateNoFormat() throws Throwable
     {
@@ -249,6 +296,11 @@ public class FunnelTest
         }
     }
 
+    /**
+     * <p>sortFixed1000.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sortFixed1000() throws Throwable
     {
@@ -277,6 +329,11 @@ public class FunnelTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>sortFullKeyVariable1000Asc.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sortFullKeyVariable1000Asc() throws Throwable
     {
@@ -303,6 +360,11 @@ public class FunnelTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>sortIntVar1000.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sortIntVar1000() throws Throwable
     {
@@ -331,6 +393,11 @@ public class FunnelTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>sortStringVar1000.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sortStringVar1000() throws Throwable
     {
@@ -359,6 +426,11 @@ public class FunnelTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>sortVarP2.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sortVarP2() throws Throwable
     {
@@ -387,6 +459,11 @@ public class FunnelTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>unexpectedInput.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void unexpectedInput() throws Throwable
     {
@@ -402,6 +479,11 @@ public class FunnelTest
         }
     }
 
+    /**
+     * <p>usageMessage.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void usageMessage() throws Throwable
     {
@@ -417,6 +499,11 @@ public class FunnelTest
         }
     }
 
+    /**
+     * <p>version.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void version() throws Throwable
     {

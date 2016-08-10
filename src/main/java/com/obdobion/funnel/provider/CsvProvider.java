@@ -16,8 +16,9 @@ import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>CsvProvider class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class CsvProvider extends VariableLengthProvider
 {
@@ -28,8 +29,9 @@ public class CsvProvider extends VariableLengthProvider
     /**
      * for testing only
      *
-     * @param _includeColumn
-     * @throws IOException
+     * @param _includeColumn an array of boolean.
+     * @throws IOException if any.
+     * @throws java.lang.Exception if any.
      */
     public CsvProvider(final boolean _includeColumn[]) throws Exception
     {
@@ -37,6 +39,13 @@ public class CsvProvider extends VariableLengthProvider
         includeColumn = _includeColumn;
     }
 
+    /**
+     * <p>Constructor for CsvProvider.</p>
+     *
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @throws java.io.IOException if any.
+     * @throws java.text.ParseException if any.
+     */
     public CsvProvider(final FunnelContext _context) throws IOException, ParseException
     {
         super(_context);
@@ -57,6 +66,7 @@ public class CsvProvider extends VariableLengthProvider
             includeColumn[kdef.csvFieldNumber] = true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public long actualNumberOfRows()
     {
@@ -77,6 +87,15 @@ public class CsvProvider extends VariableLengthProvider
             reader = new CsvFileReader(context);
     }
 
+    /**
+     * <p>decodeCsv.</p>
+     *
+     * @param input an array of byte.
+     * @param inputLength a int.
+     * @param csvFormat a {@link org.apache.commons.csv.CSVFormat} object.
+     * @return an array of byte.
+     * @throws java.io.IOException if any.
+     */
     public byte[][] decodeCsv(final byte[] input, final int inputLength, final CSVFormat csvFormat)
             throws IOException
     {

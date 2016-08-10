@@ -3,11 +3,19 @@ package com.obdobion.funnel.aggregation;
 import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
 
+/**
+ * <p>AggregateSum class.</p>
+ *
+ * @author Chris DeGreef fedupforone@gmail.com
+ */
 public class AggregateSum extends Aggregate
 {
     double sumDouble;
     long   sumLong;
 
+    /**
+     * <p>Constructor for AggregateSum.</p>
+     */
     public AggregateSum()
     {
         reset();

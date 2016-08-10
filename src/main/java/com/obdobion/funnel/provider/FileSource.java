@@ -10,8 +10,9 @@ import org.slf4j.LoggerFactory;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>FileSource class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class FileSource implements RandomAccessInputSource
 {
@@ -20,12 +21,20 @@ public class FileSource implements RandomAccessInputSource
     final FunnelContext         context;
     RandomAccessFile[]          raf;
 
+    /**
+     * <p>Constructor for FileSource.</p>
+     *
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @throws java.text.ParseException if any.
+     * @throws java.io.IOException if any.
+     */
     public FileSource(final FunnelContext _context) throws ParseException, IOException
     {
         context = _context;
         raf = new RandomAccessFile[context.inputFileCount()];
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException, ParseException
     {
@@ -36,6 +45,7 @@ public class FileSource implements RandomAccessInputSource
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void open() throws IOException, ParseException
     {
@@ -46,6 +56,7 @@ public class FileSource implements RandomAccessInputSource
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public int read(
             final int originalInputFileIndex,

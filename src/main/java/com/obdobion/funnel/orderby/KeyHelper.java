@@ -7,23 +7,33 @@ import com.obdobion.funnel.columns.ColumnHelper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>KeyHelper class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class KeyHelper
 {
     final private static Logger logger       = LoggerFactory.getLogger(KeyHelper.class);
 
+    /** Constant <code>MAX_KEY_SIZE=255</code> */
     public static final int     MAX_KEY_SIZE = 255;
     final KeyContext            context;
     final int                   maxKeyBytes;
     KeyPart                     formatter;
 
+    /**
+     * <p>Constructor for KeyHelper.</p>
+     */
     public KeyHelper()
     {
         this(MAX_KEY_SIZE);
     }
 
+    /**
+     * <p>Constructor for KeyHelper.</p>
+     *
+     * @param maxsize a int.
+     */
     public KeyHelper(final int maxsize)
     {
         logger.debug("maximum string key length is " + MAX_KEY_SIZE);
@@ -37,8 +47,8 @@ public class KeyHelper
      * defined. This is done through a linked list of keys. Use the column
      * helper to find the definition of the key if a column name was specified.
      *
-     * @param _formatter
-     * @param columnHelper
+     * @param _formatter a {@link com.obdobion.funnel.orderby.KeyPart} object.
+     * @param columnHelper a {@link com.obdobion.funnel.columns.ColumnHelper} object.
      */
     public void add(final KeyPart _formatter, final ColumnHelper columnHelper)
     {
@@ -58,9 +68,10 @@ public class KeyHelper
      * It is likely that the provided data is a reusable buffer of bytes. So we
      * can't just store these bytes for later use.
      *
-     * @param data
-     * @return
-     * @throws Exception
+     * @param data an array of byte.
+     * @throws java.lang.Exception if any.
+     * @param recordNumber a long.
+     * @return a {@link com.obdobion.funnel.orderby.KeyContext} object.
      */
     public KeyContext extractKey(final byte[] data, final long recordNumber) throws Exception
     {
@@ -86,10 +97,10 @@ public class KeyHelper
      * Call this method for csv files that break each row up into fields (byte
      * arrays). [][].
      *
-     * @param data
-     * @param recordNumber
-     * @return
-     * @throws Exception
+     * @param data an array of byte.
+     * @param recordNumber a long.
+     * @throws java.lang.Exception if any.
+     * @return a {@link com.obdobion.funnel.orderby.KeyContext} object.
      */
     public KeyContext extractKey(final byte[][] data, final long recordNumber) throws Exception
     {
@@ -110,6 +121,14 @@ public class KeyHelper
         return context;
     }
 
+    /**
+     * <p>extractKey.</p>
+     *
+     * @param data a {@link java.lang.String} object.
+     * @param recordNumber a long.
+     * @return a {@link com.obdobion.funnel.orderby.KeyContext} object.
+     * @throws java.lang.Exception if any.
+     */
     public KeyContext extractKey(final String data, final long recordNumber) throws Exception
     {
         context.key = new byte[maxKeyBytes];
@@ -124,6 +143,11 @@ public class KeyHelper
         return context;
     }
 
+    /**
+     * <p>setUpAsCopy.</p>
+     *
+     * @param funnelContext a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     */
     public void setUpAsCopy(final FunnelContext funnelContext)
     {
         switch (funnelContext.getCopyOrder())

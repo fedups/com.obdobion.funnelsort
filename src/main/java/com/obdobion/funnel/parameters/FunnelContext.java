@@ -35,8 +35,9 @@ import com.obdobion.funnel.provider.ProviderFactory;
 import com.obdobion.funnel.publisher.PublisherFactory;
 
 /**
- * @author Chris DeGreef
+ * <p>FunnelContext class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class FunnelContext
 {
@@ -96,6 +97,14 @@ public class FunnelContext
     private long               recordCount;
     private List<KeyPart>      keys;
 
+    /**
+     * <p>Constructor for FunnelContext.</p>
+     *
+     * @param cfg a {@link com.obdobion.funnel.AppContext} object.
+     * @param _args a {@link java.lang.String} object.
+     * @throws java.io.IOException if any.
+     * @throws java.text.ParseException if any.
+     */
     public FunnelContext(final AppContext cfg, final String... _args) throws IOException, ParseException
     {
         logger.info("================ BEGIN ===================");
@@ -154,6 +163,12 @@ public class FunnelContext
         }
     }
 
+    /**
+     * <p>getAggregateByName.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     * @return a {@link com.obdobion.funnel.aggregation.Aggregate} object.
+     */
     public Aggregate getAggregateByName(final String name)
     {
         if (getAggregates() != null)
@@ -163,96 +178,194 @@ public class FunnelContext
         return null;
     }
 
+    /**
+     * <p>getAggregates.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<Aggregate> getAggregates()
     {
         return fsc.aggregates;
     }
 
+    /**
+     * <p>getCopyOrder.</p>
+     *
+     * @return a {@link com.obdobion.funnel.parameters.CopyOrder} object.
+     */
     public CopyOrder getCopyOrder()
     {
         return fsc.copyOrder;
     }
 
+    /**
+     * <p>getCsv.</p>
+     *
+     * @return a {@link com.obdobion.funnel.parameters.CSVDef} object.
+     */
     public CSVDef getCsv()
     {
         return fsc.csv;
     }
 
+    /**
+     * <p>getDepth.</p>
+     *
+     * @return a int.
+     */
     public int getDepth()
     {
         return fsc.depth;
     }
 
+    /**
+     * <p>Getter for the field <code>duplicateCount</code>.</p>
+     *
+     * @return a long.
+     */
     public long getDuplicateCount()
     {
         return duplicateCount;
     }
 
+    /**
+     * <p>getDuplicateDisposition.</p>
+     *
+     * @return a {@link com.obdobion.funnel.parameters.DuplicateDisposition} object.
+     */
     public DuplicateDisposition getDuplicateDisposition()
     {
         return fsc.duplicateDisposition;
     }
 
+    /**
+     * <p>getEndOfRecordDelimiterIn.</p>
+     *
+     * @return an array of byte.
+     */
     public byte[] getEndOfRecordDelimiterIn()
     {
         return fsc.endOfRecordDelimiterIn;
     }
 
+    /**
+     * <p>getEndOfRecordDelimiterOut.</p>
+     *
+     * @return an array of byte.
+     */
     public byte[] getEndOfRecordDelimiterOut()
     {
         return fsc.endOfRecordDelimiterOut;
     }
 
+    /**
+     * <p>getFixedRecordLengthIn.</p>
+     *
+     * @return a int.
+     */
     public int getFixedRecordLengthIn()
     {
         return fsc.fixedRecordLengthIn;
     }
 
+    /**
+     * <p>getFixedRecordLengthOut.</p>
+     *
+     * @return a int.
+     */
     public int getFixedRecordLengthOut()
     {
         return fsc.fixedRecordLengthOut;
     }
 
+    /**
+     * <p>getFormatOutDefs.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<FormatPart> getFormatOutDefs()
     {
         return fsc.formatOutDefs;
     }
 
+    /**
+     * <p>getHeaderInDefs.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<KeyPart> getHeaderInDefs()
     {
         return fsc.headerInDefs;
     }
 
+    /**
+     * <p>getHeaderOutDefs.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<FormatPart> getHeaderOutDefs()
     {
         return fsc.headerOutDefs;
     }
 
+    /**
+     * <p>getHexDumps.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<HexDump> getHexDumps()
     {
         return fsc.hexDumps;
     }
 
+    /**
+     * <p>getInputColumnDefs.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<KeyPart> getInputColumnDefs()
     {
         return fsc.inputColumnDefs;
     }
 
+    /**
+     * <p>getInputFile.</p>
+     *
+     * @param fileNumber a int.
+     * @return a {@link java.io.File} object.
+     * @throws java.text.ParseException if any.
+     * @throws java.io.IOException if any.
+     */
     public File getInputFile(final int fileNumber) throws ParseException, IOException
     {
         return fsc.inputFiles.files().get(fileNumber);
     }
 
+    /**
+     * <p>getInputFiles.</p>
+     *
+     * @return a {@link com.obdobion.argument.type.WildFiles} object.
+     */
     public WildFiles getInputFiles()
     {
         return fsc.inputFiles;
     }
 
+    /**
+     * <p>Getter for the field <code>keys</code>.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<KeyPart> getKeys()
     {
         return keys;
     }
 
+    /**
+     * <p>getMaximumNumberOfRows.</p>
+     *
+     * @return a long.
+     */
     public long getMaximumNumberOfRows()
     {
         return fsc.maximumNumberOfRows;
@@ -263,41 +376,82 @@ public class FunnelContext
         return fsc.orderBys;
     }
 
+    /**
+     * <p>getOutputFile.</p>
+     *
+     * @return a {@link java.io.File} object.
+     */
     public File getOutputFile()
     {
         return fsc.outputFile;
     }
 
+    /**
+     * <p>Getter for the field <code>recordCount</code>.</p>
+     *
+     * @return a long.
+     */
     public long getRecordCount()
     {
         return recordCount;
     }
 
+    /**
+     * <p>getStopEqu.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<Equ> getStopEqu()
     {
         return fsc.stopEqu;
     }
 
+    /**
+     * <p>Getter for the field <code>unselectedCount</code>.</p>
+     *
+     * @return a long.
+     */
     public long getUnselectedCount()
     {
         return unselectedCount;
     }
 
+    /**
+     * <p>getWhereEqu.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<Equ> getWhereEqu()
     {
         return fsc.whereEqu;
     }
 
+    /**
+     * <p>getWorkDirectory.</p>
+     *
+     * @return a {@link java.io.File} object.
+     */
     public File getWorkDirectory()
     {
         return fsc.workDirectory;
     }
 
+    /**
+     * <p>Getter for the field <code>writeCount</code>.</p>
+     *
+     * @return a long.
+     */
     public long getWriteCount()
     {
         return writeCount;
     }
 
+    /**
+     * <p>inputCounters.</p>
+     *
+     * @param p_unselectedCount a long.
+     * @param p_recordCount a long.
+     */
     public void inputCounters(final long p_unselectedCount, final long p_recordCount)
     {
         unselectedCount += p_unselectedCount;
@@ -305,6 +459,13 @@ public class FunnelContext
 
     }
 
+    /**
+     * <p>inputFileCount.</p>
+     *
+     * @return a int.
+     * @throws java.text.ParseException if any.
+     * @throws java.io.IOException if any.
+     */
     public int inputFileCount() throws ParseException, IOException
     {
         if (getInputFiles() == null)
@@ -312,61 +473,125 @@ public class FunnelContext
         return getInputFiles().files().size();
     }
 
+    /**
+     * <p>inputFileIndex.</p>
+     *
+     * @return a int.
+     */
     public int inputFileIndex()
     {
         return inputFileIndex;
     }
 
+    /**
+     * <p>isAggregating.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isAggregating()
     {
         return getAggregates() != null && !getAggregates().isEmpty();
     }
 
+    /**
+     * <p>isCacheInput.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isCacheInput()
     {
         return !fsc.noCacheInput;
     }
 
+    /**
+     * <p>isCacheWork.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isCacheWork()
     {
         return !fsc.diskWork;
     }
 
+    /**
+     * <p>isDiskWork.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isDiskWork()
     {
         return fsc.diskWork;
     }
 
+    /**
+     * <p>isHexDumping.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isHexDumping()
     {
         return fsc.hexDumps != null;
     }
 
+    /**
+     * <p>isInPlaceSort.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isInPlaceSort()
     {
         return fsc.inPlaceSort;
     }
 
+    /**
+     * <p>isMultisourceInput.</p>
+     *
+     * @return a boolean.
+     * @throws java.text.ParseException if any.
+     * @throws java.io.IOException if any.
+     */
     public boolean isMultisourceInput() throws ParseException, IOException
     {
         return getInputFiles() != null && getInputFiles().files().size() > 1;
     }
 
+    /**
+     * <p>isNoCacheInput.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isNoCacheInput()
     {
         return fsc.noCacheInput;
     }
 
+    /**
+     * <p>isSyntaxOnly.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isSyntaxOnly()
     {
         return fsc.syntaxOnly;
     }
 
+    /**
+     * <p>isSysin.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isSysin()
     {
         return !(fsc.getParser().arg("--inputfilename").isParsed());
     }
 
+    /**
+     * <p>isSysout.</p>
+     *
+     * @return a boolean.
+     * @throws java.text.ParseException if any.
+     * @throws java.io.IOException if any.
+     */
     public boolean isSysout() throws ParseException, IOException
     {
         if (isMultisourceInput() && isInPlaceSort())
@@ -374,31 +599,62 @@ public class FunnelContext
         return getOutputFile() == null;
     }
 
+    /**
+     * <p>isUsageRun.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isUsageRun()
     {
         return ((CmdLine) fsc.getParser()).isUsageRun();
     }
 
+    /**
+     * <p>isUserSpecifiedOrder.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isUserSpecifiedOrder()
     {
         return getOrderBys() == null || getOrderBys().isEmpty();
     }
 
+    /**
+     * <p>isVariableLengthInput.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isVariableLengthInput()
     {
         return fsc.getParser().arg("--variableIn").isParsed() || !(fsc.getParser().arg("--fixedIn").isParsed());
     }
 
+    /**
+     * <p>isVariableLengthOutput.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isVariableLengthOutput()
     {
         return fsc.getParser().arg("--variableOutput").isParsed();
     }
 
+    /**
+     * <p>isVersion.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isVersion()
     {
         return fsc.version;
     }
 
+    /**
+     * <p>outputCounters.</p>
+     *
+     * @param p_duplicateCount a long.
+     * @param p_writeCount a long.
+     */
     public void outputCounters(final long p_duplicateCount, final long p_writeCount)
     {
         duplicateCount += p_duplicateCount;
@@ -861,6 +1117,12 @@ public class FunnelContext
             fsc.outputFile = getInputFile(0);
     }
 
+    /**
+     * <p>reset.</p>
+     *
+     * @throws java.io.IOException if any.
+     * @throws java.text.ParseException if any.
+     */
     public void reset() throws IOException, ParseException
     {
         if (provider != null)
@@ -869,16 +1131,31 @@ public class FunnelContext
             publisher.reset();
     }
 
+    /**
+     * <p>setDepth.</p>
+     *
+     * @param optimalFunnelDepth a int.
+     */
     public void setDepth(final int optimalFunnelDepth)
     {
         fsc.depth = optimalFunnelDepth;
     }
 
+    /**
+     * <p>setInputFiles.</p>
+     *
+     * @param wildFiles a {@link com.obdobion.argument.type.WildFiles} object.
+     */
     public void setInputFiles(final WildFiles wildFiles)
     {
         fsc.inputFiles = wildFiles;
     }
 
+    /**
+     * <p>setOutputFile.</p>
+     *
+     * @param outputFile a {@link java.io.File} object.
+     */
     public void setOutputFile(final File outputFile)
     {
         fsc.outputFile = outputFile;
@@ -1107,6 +1384,13 @@ public class FunnelContext
             logger.debug(message, parms);
     }
 
+    /**
+     * <p>startNextInput.</p>
+     *
+     * @return a boolean.
+     * @throws java.text.ParseException if any.
+     * @throws java.io.IOException if any.
+     */
     public boolean startNextInput() throws ParseException, IOException
     {
         /*
@@ -1118,6 +1402,12 @@ public class FunnelContext
         return true;
     }
 
+    /**
+     * <p>stopIsTrue.</p>
+     *
+     * @return a boolean.
+     * @throws java.lang.Exception if any.
+     */
     public boolean stopIsTrue() throws Exception
     {
         if (getStopEqu() == null)
@@ -1139,6 +1429,12 @@ public class FunnelContext
         return true;
     }
 
+    /**
+     * <p>whereIsTrue.</p>
+     *
+     * @return a boolean.
+     * @throws java.lang.Exception if any.
+     */
     public boolean whereIsTrue() throws Exception
     {
         if (getWhereEqu() == null)

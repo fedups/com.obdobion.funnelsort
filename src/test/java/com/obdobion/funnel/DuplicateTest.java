@@ -11,11 +11,18 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>DuplicateTest class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class DuplicateTest
 {
+    /**
+     * <p>dupsFirst.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void dupsFirst ()
         throws Throwable
@@ -45,6 +52,11 @@ public class DuplicateTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>dupsLast.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void dupsLast ()
         throws Throwable
@@ -74,6 +86,11 @@ public class DuplicateTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>dupsReverse.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void dupsReverse ()
         throws Throwable

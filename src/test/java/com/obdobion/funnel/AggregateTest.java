@@ -12,12 +12,19 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>AggregateTest class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class AggregateTest
 {
 
+    /**
+     * <p>avgColAndEquError.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void avgColAndEquError()
             throws Throwable
@@ -37,6 +44,11 @@ public class AggregateTest
         }
     }
 
+    /**
+     * <p>avgColDate.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void avgColDate()
             throws Throwable
@@ -70,6 +82,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>avgColFloat.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void avgColFloat()
             throws Throwable
@@ -103,6 +120,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>avgColHugeFloats.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void avgColHugeFloats()
             throws Throwable
@@ -136,6 +158,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>avgColHugeIntegers.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void avgColHugeIntegers()
             throws Throwable
@@ -169,6 +196,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>avgColInt.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void avgColInt()
             throws Throwable
@@ -202,6 +234,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>avgColIntWithAllNegatives.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void avgColIntWithAllNegatives()
             throws Throwable
@@ -235,6 +272,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>avgColIntWithHugeNegatives.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void avgColIntWithHugeNegatives()
             throws Throwable
@@ -268,6 +310,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>avgColIntWithMixedSigns.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void avgColIntWithMixedSigns()
             throws Throwable
@@ -301,6 +348,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>avgEquDate.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void avgEquDate()
             throws Throwable
@@ -334,6 +386,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>avgEquFloat.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void avgEquFloat()
             throws Throwable
@@ -367,6 +424,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>avgEquHugeFloats.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void avgEquHugeFloats()
             throws Throwable
@@ -400,6 +462,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>avgEquHugeIntegers.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void avgEquHugeIntegers()
             throws Throwable
@@ -433,6 +500,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>avgEquInt.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void avgEquInt()
             throws Throwable
@@ -466,6 +538,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>avgStringError.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void avgStringError()
             throws Throwable
@@ -486,6 +563,11 @@ public class AggregateTest
         }
     }
 
+    /**
+     * <p>counter.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void counter()
             throws Throwable
@@ -521,6 +603,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>counterOfNothing.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void counterOfNothing()
             throws Throwable
@@ -552,6 +639,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>duplicateAggregateName.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void duplicateAggregateName()
             throws Throwable
@@ -572,6 +664,11 @@ public class AggregateTest
         }
     }
 
+    /**
+     * <p>everythingVariable.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void everythingVariable()
             throws Throwable
@@ -624,6 +721,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>maxColDate.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void maxColDate()
             throws Throwable
@@ -657,6 +759,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>maxColFloat.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void maxColFloat()
             throws Throwable
@@ -690,6 +797,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>maxColInt.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void maxColInt()
             throws Throwable
@@ -723,6 +835,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>maxEquDate.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void maxEquDate()
             throws Throwable
@@ -756,6 +873,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>maxEquFloat.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void maxEquFloat()
             throws Throwable
@@ -789,6 +911,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>maxEquInt.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void maxEquInt()
             throws Throwable
@@ -822,6 +949,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>minColDate.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void minColDate()
             throws Throwable
@@ -855,6 +987,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>minColFloat.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void minColFloat()
             throws Throwable
@@ -888,6 +1025,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>minColInt.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void minColInt()
             throws Throwable
@@ -921,6 +1063,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>minEquDate.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void minEquDate()
             throws Throwable
@@ -954,6 +1101,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>minEquFloat.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void minEquFloat()
             throws Throwable
@@ -987,6 +1139,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>minEquInt.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void minEquInt()
             throws Throwable
@@ -1020,6 +1177,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>sumColFloat.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sumColFloat()
             throws Throwable
@@ -1053,6 +1215,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>sumColInt.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sumColInt()
             throws Throwable
@@ -1086,6 +1253,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>sumEquFloat.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sumEquFloat()
             throws Throwable
@@ -1119,6 +1291,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>sumEquInt.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sumEquInt()
             throws Throwable
@@ -1152,6 +1329,11 @@ public class AggregateTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>unknownColumn.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void unknownColumn()
             throws Throwable

@@ -16,15 +16,25 @@ import com.obdobion.funnel.columns.OutputFormatHelper;
 import com.obdobion.funnel.orderby.KeyContext;
 
 /**
- * @author Chris DeGreef
+ * <p>Helper class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class Helper
 {
 
     static final File          workDir = new File("target");
+    /** Constant <code>DEBUG="ON"</code> */
     public static final String DEBUG   = "ON";
 
+    /**
+     * <p>compare.</p>
+     *
+     * @param file a {@link java.io.File} object.
+     * @param expectedLines a {@link java.util.List} object.
+     * @throws java.io.IOException if any.
+     */
     static public void compare(final File file, final List<String> expectedLines)
             throws IOException
     {
@@ -38,6 +48,13 @@ public class Helper
         }
     }
 
+    /**
+     * <p>compareFixed.</p>
+     *
+     * @param file a {@link java.io.File} object.
+     * @param expectedData a {@link java.util.List} object.
+     * @throws java.io.IOException if any.
+     */
     static public void compareFixed(final File file, final List<String> expectedData)
             throws IOException
     {
@@ -53,6 +70,13 @@ public class Helper
         }
     }
 
+    /**
+     * <p>compareFixed.</p>
+     *
+     * @param file a {@link java.io.File} object.
+     * @param expectedData a {@link java.lang.String} object.
+     * @throws java.io.IOException if any.
+     */
     static public void compareFixed(final File file, final String expectedData)
             throws IOException
     {
@@ -67,11 +91,27 @@ public class Helper
         }
     }
 
+    /**
+     * <p>config.</p>
+     *
+     * @return a {@link com.obdobion.funnel.AppContext} object.
+     * @throws java.io.IOException if any.
+     * @throws java.text.ParseException if any.
+     */
     static public AppContext config() throws IOException, ParseException
     {
         return new AppContext(System.getProperty("user.dir"));
     }
 
+    /**
+     * <p>createFixedUnsortedFile.</p>
+     *
+     * @param prefix a {@link java.lang.String} object.
+     * @param lines a {@link java.util.List} object.
+     * @param rowLength a int.
+     * @return a {@link java.io.File} object.
+     * @throws java.io.IOException if any.
+     */
     static public File createFixedUnsortedFile(
             final String prefix,
             final List<String> lines,
@@ -92,16 +132,40 @@ public class Helper
         return file;
     }
 
+    /**
+     * <p>createUnsortedFile.</p>
+     *
+     * @param lines a {@link java.util.List} object.
+     * @return a {@link java.io.File} object.
+     * @throws java.io.IOException if any.
+     */
     static public File createUnsortedFile(final List<String> lines) throws IOException
     {
         return createUnsortedFile("funnel", lines, true);
     }
 
+    /**
+     * <p>createUnsortedFile.</p>
+     *
+     * @param prefix a {@link java.lang.String} object.
+     * @param lines a {@link java.util.List} object.
+     * @return a {@link java.io.File} object.
+     * @throws java.io.IOException if any.
+     */
     static public File createUnsortedFile(final String prefix, final List<String> lines) throws IOException
     {
         return createUnsortedFile(prefix, lines, true);
     }
 
+    /**
+     * <p>createUnsortedFile.</p>
+     *
+     * @param prefix a {@link java.lang.String} object.
+     * @param lines a {@link java.util.List} object.
+     * @param includeTrailingLineTerminator a boolean.
+     * @return a {@link java.io.File} object.
+     * @throws java.io.IOException if any.
+     */
     static public File createUnsortedFile(
             final String prefix,
             final List<String> lines,
@@ -127,6 +191,12 @@ public class Helper
         return file;
     }
 
+    /**
+     * <p>dummyKeyContext.</p>
+     *
+     * @param rawBytes a {@link java.lang.String} object.
+     * @return a {@link com.obdobion.funnel.orderby.KeyContext} object.
+     */
     static public KeyContext dummyKeyContext(final String rawBytes)
     {
         final KeyContext kx = new KeyContext();
@@ -138,32 +208,65 @@ public class Helper
         return kx;
     }
 
+    /**
+     * <p>initializeFor.</p>
+     *
+     * @param testCaseName a {@link java.lang.String} object.
+     */
     public static void initializeFor(final String testCaseName)
     {
         System.out.println();
         System.out.println(testCaseName);
     }
 
+    /**
+     * <p>myDataCSVFileName.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public static String myDataCSVFileName()
     {
         return "./src/examples/data/MyDataCSV.in";
     }
 
+    /**
+     * <p>outFile.</p>
+     *
+     * @param testName a {@link java.lang.String} object.
+     * @return a {@link java.io.File} object.
+     */
     public static File outFile(final String testName)
     {
         return new File(outFileName(testName));
     }
 
+    /**
+     * <p>outFileName.</p>
+     *
+     * @param jUnitTestName a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     */
     public static String outFileName(final String jUnitTestName)
     {
         return workDir + "\\" + jUnitTestName + ".out";
     }
 
+    /**
+     * <p>outFileWhenInIsSysin.</p>
+     *
+     * @return a {@link java.io.File} object.
+     * @throws java.io.IOException if any.
+     */
     static public File outFileWhenInIsSysin() throws IOException
     {
         return File.createTempFile("funnel.", ".out", workDir);
     }
 
+    /**
+     * <p>testName.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     static public String testName()
     {
         final StackTraceElement[] ste = Thread.currentThread().getStackTrace();

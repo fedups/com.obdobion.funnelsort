@@ -11,8 +11,9 @@ import org.slf4j.LoggerFactory;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>VariableLengthFileReader class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class VariableLengthFileReader implements InputReader
 {
@@ -29,12 +30,27 @@ public class VariableLengthFileReader implements InputReader
     int                 bbNextPointer;
     boolean             eof;
 
+    /**
+     * <p>Constructor for VariableLengthFileReader.</p>
+     *
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @throws java.io.IOException if any.
+     * @throws java.text.ParseException if any.
+     */
     public VariableLengthFileReader(final FunnelContext _context) throws IOException, ParseException
     {
         this(_context, defaultCharBufferSize);
         logger.debug("variable length file reader activated");
     }
 
+    /**
+     * <p>Constructor for VariableLengthFileReader.</p>
+     *
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param sz a int.
+     * @throws java.io.IOException if any.
+     * @throws java.text.ParseException if any.
+     */
     public VariableLengthFileReader(final FunnelContext _context, final int sz) throws IOException, ParseException
     {
         assert sz > 0 : "Buffer size <= 0";
@@ -45,6 +61,7 @@ public class VariableLengthFileReader implements InputReader
         open(_context.getInputFile(context.inputFileIndex()));
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException, ParseException
     {
@@ -62,15 +79,14 @@ public class VariableLengthFileReader implements InputReader
         return bbInUse;
     }
 
+    /** {@inheritDoc} */
     @Override
     public long length() throws IOException
     {
         return raf.length();
     }
 
-    /**
-     * @param inputFile
-     */
+    /** {@inheritDoc} */
     @Override
     public void open(final File inputFile) throws IOException, ParseException
     {
@@ -81,12 +97,14 @@ public class VariableLengthFileReader implements InputReader
         fillBB();
     }
 
+    /** {@inheritDoc} */
     @Override
     public long position() throws IOException
     {
         return startPosition + bbNextPointer;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int read(final byte[] row) throws IOException
     {

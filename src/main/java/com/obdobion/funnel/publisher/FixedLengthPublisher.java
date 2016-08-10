@@ -7,11 +7,19 @@ import com.obdobion.funnel.parameters.FunnelContext;
 import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
- * @author Chris DeGreef
+ * <p>Abstract FixedLengthPublisher class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 abstract public class FixedLengthPublisher extends AbstractPublisher
 {
+    /**
+     * <p>Constructor for FixedLengthPublisher.</p>
+     *
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @throws java.text.ParseException if any.
+     * @throws java.io.IOException if any.
+     */
     public FixedLengthPublisher(final FunnelContext _context) throws ParseException, IOException
     {
         super(_context);

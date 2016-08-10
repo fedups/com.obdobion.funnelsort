@@ -11,19 +11,28 @@ import org.slf4j.LoggerFactory;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>VariableLengthSysoutPublisher class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class VariableLengthSysoutPublisher extends VariableLengthPublisher
 {
     static final private Logger logger = LoggerFactory.getLogger(VariableLengthSysoutPublisher.class);
 
+    /**
+     * <p>Constructor for VariableLengthSysoutPublisher.</p>
+     *
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @throws java.text.ParseException if any.
+     * @throws java.io.IOException if any.
+     */
     public VariableLengthSysoutPublisher(final FunnelContext _context) throws ParseException, IOException
     {
         super(_context);
         logger.debug("variable length sysout publisher activated");
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws Exception
     {

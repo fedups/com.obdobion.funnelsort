@@ -5,12 +5,20 @@ import java.util.Calendar;
 import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
 
+/**
+ * <p>AggregateMin class.</p>
+ *
+ * @author Chris DeGreef fedupforone@gmail.com
+ */
 public class AggregateMin extends Aggregate
 {
     double   minDouble;
     long     minLong;
     Calendar minCalendar;
 
+    /**
+     * <p>Constructor for AggregateMin.</p>
+     */
     public AggregateMin()
     {
         reset();

@@ -6,8 +6,21 @@ import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
 
+/**
+ * <p>Abstract Aggregate class.</p>
+ *
+ * @author Chris DeGreef fedupforone@gmail.com
+ */
 abstract public class Aggregate
 {
+    /**
+     * <p>aggregate.</p>
+     *
+     * @param context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param originalRecordSize a int.
+     * @param originalRecordNumber a long.
+     * @throws java.lang.Exception if any.
+     */
     public static void aggregate(final FunnelContext context, final int originalRecordSize,
             final long originalRecordNumber) throws Exception
     {
@@ -37,6 +50,13 @@ abstract public class Aggregate
         }
     }
 
+    /**
+     * <p>loadValues.</p>
+     *
+     * @param context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param referencesToAllOutputFormatEquations an array of {@link com.obdobion.algebrain.Equ} objects.
+     * @throws java.lang.Exception if any.
+     */
     public static void loadValues(final FunnelContext context, final Equ[] referencesToAllOutputFormatEquations)
             throws Exception
     {
@@ -50,31 +70,61 @@ abstract public class Aggregate
             }
     }
 
+    /**
+     * <p>newAvg.</p>
+     *
+     * @return a {@link com.obdobion.funnel.aggregation.Aggregate} object.
+     */
     static public Aggregate newAvg()
     {
         return new AggregateAvg();
     }
 
+    /**
+     * <p>newCount.</p>
+     *
+     * @return a {@link com.obdobion.funnel.aggregation.Aggregate} object.
+     */
     static public Aggregate newCount()
     {
         return new AggregateCount();
     }
 
+    /**
+     * <p>newMax.</p>
+     *
+     * @return a {@link com.obdobion.funnel.aggregation.Aggregate} object.
+     */
     static public Aggregate newMax()
     {
         return new AggregateMax();
     }
 
+    /**
+     * <p>newMin.</p>
+     *
+     * @return a {@link com.obdobion.funnel.aggregation.Aggregate} object.
+     */
     static public Aggregate newMin()
     {
         return new AggregateMin();
     }
 
+    /**
+     * <p>newSum.</p>
+     *
+     * @return a {@link com.obdobion.funnel.aggregation.Aggregate} object.
+     */
     static public Aggregate newSum()
     {
         return new AggregateSum();
     }
 
+    /**
+     * <p>reset.</p>
+     *
+     * @param context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     */
     public static void reset(final FunnelContext context)
     {
         if (context.isAggregating())
@@ -99,11 +149,21 @@ abstract public class Aggregate
 
     abstract void reset();
 
+    /**
+     * <p>supportsDate.</p>
+     *
+     * @return a boolean.
+     */
     public boolean supportsDate()
     {
         return true;
     }
 
+    /**
+     * <p>supportsNumber.</p>
+     *
+     * @return a boolean.
+     */
     public boolean supportsNumber()
     {
         return true;

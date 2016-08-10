@@ -7,6 +7,11 @@ import java.util.Calendar;
 import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
 
+/**
+ * <p>AggregateAvg class.</p>
+ *
+ * @author Chris DeGreef fedupforone@gmail.com
+ */
 public class AggregateAvg extends Aggregate
 {
     double totalDouble;
@@ -16,6 +21,9 @@ public class AggregateAvg extends Aggregate
 
     long   overflowCount;
 
+    /**
+     * <p>Constructor for AggregateAvg.</p>
+     */
     public AggregateAvg()
     {
         reset();

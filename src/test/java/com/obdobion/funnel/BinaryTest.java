@@ -7,8 +7,10 @@ import org.junit.Test;
 import com.obdobion.Helper;
 
 /**
- * @author Chris DeGreef
+ * <p>BinaryTest class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class BinaryTest
 {
@@ -66,6 +68,11 @@ public class BinaryTest
         return values;
     }
 
+    /**
+     * <p>binary0.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     @Test
     public void binary0 () throws Exception
     {
@@ -75,6 +82,11 @@ public class BinaryTest
         Assert.assertEquals(-1, find(values, 0));
     }
 
+    /**
+     * <p>binary10.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     @Test
     public void binary10 () throws Exception
     {
@@ -85,6 +97,11 @@ public class BinaryTest
 
     }
 
+    /**
+     * <p>binary11.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     @Test
     public void binary11 () throws Exception
     {
@@ -94,6 +111,11 @@ public class BinaryTest
         Assert.assertEquals(0, find(values, 11));
     }
 
+    /**
+     * <p>binary20.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     @Test
     public void binary20 () throws Exception
     {
@@ -103,6 +125,11 @@ public class BinaryTest
         Assert.assertEquals(1, find(values, 20));
     }
 
+    /**
+     * <p>binary40000_direct_immediate_hit.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     @Test
     public void binary40000_direct_immediate_hit () throws Exception
     {
@@ -113,6 +140,11 @@ public class BinaryTest
 
     }
 
+    /**
+     * <p>binary79999.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     @Test
     public void binary79999 () throws Exception
     {
@@ -123,6 +155,11 @@ public class BinaryTest
 
     }
 
+    /**
+     * <p>binary80000.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     @Test
     public void binary80000 () throws Exception
     {
@@ -132,6 +169,11 @@ public class BinaryTest
         Assert.assertEquals(7999, find(values, 80000));
     }
 
+    /**
+     * <p>binary80001.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     @Test
     public void binary80001 () throws Exception
     {

@@ -8,8 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author Chris DeGreef
+ * <p>FixedLengthFileReader class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class FixedLengthFileReader implements InputReader
 {
@@ -19,15 +20,18 @@ public class FixedLengthFileReader implements InputReader
     RandomAccessFile    reader;
 
     /**
-     * @param _inputFile
-     * @param lineSeparator
-     * @throws IOException
+     * <p>Constructor for FixedLengthFileReader.</p>
+     *
+     * @param _inputFile a {@link java.io.File} object.
+     * @param lineSeparator an array of byte.
+     * @throws java.io.IOException if any.
      */
     public FixedLengthFileReader(final File _inputFile, final byte[] lineSeparator) throws IOException
     {
         open(_inputFile);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException
     {
@@ -35,12 +39,14 @@ public class FixedLengthFileReader implements InputReader
         logger.debug("loaded " + inputFile.getAbsolutePath());
     }
 
+    /** {@inheritDoc} */
     @Override
     public long length() throws IOException
     {
         return reader.length();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void open(final File _inputFile) throws IOException
     {
@@ -48,12 +54,14 @@ public class FixedLengthFileReader implements InputReader
         reader = new RandomAccessFile(_inputFile, "r");
     }
 
+    /** {@inheritDoc} */
     @Override
     public long position() throws IOException
     {
         return reader.getFilePointer();
     }
 
+    /** {@inheritDoc} */
     @Override
     public int read(final byte[] row) throws IOException
     {

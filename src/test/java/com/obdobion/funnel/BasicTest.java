@@ -11,12 +11,19 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>BasicTest class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class BasicTest
 {
 
+    /**
+     * <p>integerSort.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void integerSort()
             throws Throwable
@@ -51,6 +58,11 @@ public class BasicTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>multifileInputIntegerSort.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void multifileInputIntegerSort()
             throws Throwable
@@ -93,6 +105,11 @@ public class BasicTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>multifileInputStringSort.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void multifileInputStringSort()
             throws Throwable

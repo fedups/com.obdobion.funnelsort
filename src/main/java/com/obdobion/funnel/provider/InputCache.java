@@ -13,8 +13,9 @@ import org.slf4j.LoggerFactory;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>InputCache class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class InputCache implements RandomAccessInputSource
 {
@@ -24,6 +25,13 @@ public class InputCache implements RandomAccessInputSource
 
     /*
      * public for junit only
+     */
+    /**
+     * <p>findBufferIndexForPosition.</p>
+     *
+     * @param position a long.
+     * @param startingPositions an array of long.
+     * @return a int.
      */
     static public int findBufferIndexForPosition(
             final long position,
@@ -70,6 +78,13 @@ public class InputCache implements RandomAccessInputSource
 
     long                   length;
 
+    /**
+     * <p>Constructor for InputCache.</p>
+     *
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param _source a {@link java.io.InputStream} object.
+     * @throws java.io.IOException if any.
+     */
     public InputCache(
             final FunnelContext _context, final InputStream _source)
                     throws IOException
@@ -92,6 +107,7 @@ public class InputCache implements RandomAccessInputSource
         currentBufferIndex = 0;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException
     {
@@ -108,6 +124,11 @@ public class InputCache implements RandomAccessInputSource
         }
     }
 
+    /**
+     * <p>eof.</p>
+     *
+     * @return a boolean.
+     */
     public boolean eof()
     {
         if (currentBufferIndex + 1 < sourceBuffersSize)
@@ -119,6 +140,11 @@ public class InputCache implements RandomAccessInputSource
         return !currentBuffer.hasRemaining();
     }
 
+    /**
+     * <p>length.</p>
+     *
+     * @return a long.
+     */
     public long length()
     {
         return length;
@@ -161,24 +187,28 @@ public class InputCache implements RandomAccessInputSource
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void open() throws IOException
     {
         // Intentionally empty
     }
 
+    /**
+     * <p>position.</p>
+     *
+     * @return a long.
+     */
     public long position()
     {
         return currentFilePosition;
     }
 
     /**
+     * {@inheritDoc}
+     *
      * This method should not be called if there are no bytes available. Use
      * !eof() first.
-     * 
-     * @param inputFileIndex
-     *
-     * @return
      */
     @Override
     public int read(
@@ -232,7 +262,7 @@ public class InputCache implements RandomAccessInputSource
      * This method should not be called if there are no bytes available. Use
      * !eof() first.
      *
-     * @return
+     * @return a byte.
      */
     public byte readNextByte()
     {

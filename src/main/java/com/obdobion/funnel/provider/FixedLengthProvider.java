@@ -9,19 +9,26 @@ import com.obdobion.funnel.parameters.FunnelContext;
 /**
  * Read a file of byte arrays one row at a time
  *
- * @author Chris DeGreef
- *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class FixedLengthProvider extends AbstractProvider
 {
     long size;
 
+    /**
+     * <p>Constructor for FixedLengthProvider.</p>
+     *
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @throws java.io.IOException if any.
+     * @throws java.text.ParseException if any.
+     */
     public FixedLengthProvider(final FunnelContext _context) throws IOException, ParseException
     {
         super(_context);
         logger.debug("fixed length file provider activated");
     }
 
+    /** {@inheritDoc} */
     @Override
     public long actualNumberOfRows()
     {
@@ -66,6 +73,12 @@ public class FixedLengthProvider extends AbstractProvider
         }
     }
 
+    /**
+     * <p>initializeReader.</p>
+     *
+     * @throws java.io.IOException if any.
+     * @throws java.text.ParseException if any.
+     */
     protected void initializeReader() throws IOException, ParseException
     {
         if (context.isSysin())
@@ -77,6 +90,7 @@ public class FixedLengthProvider extends AbstractProvider
                     .getInputFile(context.inputFileIndex()), context.getEndOfRecordDelimiterIn());
     }
 
+    /** {@inheritDoc} */
     @Override
     public long maximumNumberOfRows()
     {
@@ -97,6 +111,11 @@ public class FixedLengthProvider extends AbstractProvider
         return true;
     }
 
+    /**
+     * <p>setMaximumNumberOfRows.</p>
+     *
+     * @param max a long.
+     */
     public void setMaximumNumberOfRows(final long max)
     {
         size = max;

@@ -12,11 +12,18 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>HeaderTests class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class HeaderTests
 {
+    /**
+     * <p>addHeaderToFile.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void addHeaderToFile()
             throws Throwable
@@ -48,6 +55,11 @@ public class HeaderTests
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>consumeHeader.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void consumeHeader()
             throws Throwable
@@ -76,6 +88,11 @@ public class HeaderTests
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>duplicateNameWithColumn.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void duplicateNameWithColumn()
             throws Throwable
@@ -99,6 +116,11 @@ public class HeaderTests
         }
     }
 
+    /**
+     * <p>duplicateNameWithHeader.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void duplicateNameWithHeader()
             throws Throwable
@@ -122,6 +144,11 @@ public class HeaderTests
         }
     }
 
+    /**
+     * <p>filler.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void filler()
             throws Throwable
@@ -154,6 +181,11 @@ public class HeaderTests
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>notValidForCSV.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void notValidForCSV()
             throws Throwable
@@ -176,6 +208,11 @@ public class HeaderTests
         }
     }
 
+    /**
+     * <p>useHeaderForStop.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void useHeaderForStop()
             throws Throwable
@@ -205,6 +242,11 @@ public class HeaderTests
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>useHeaderForWhere.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void useHeaderForWhere()
             throws Throwable
@@ -234,6 +276,11 @@ public class HeaderTests
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>writeEntireHeaderToOutput.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void writeEntireHeaderToOutput()
             throws Throwable
@@ -268,6 +315,11 @@ public class HeaderTests
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>writeHeaderColumnToDetailRecordAsCol.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void writeHeaderColumnToDetailRecordAsCol()
             throws Throwable
@@ -301,6 +353,11 @@ public class HeaderTests
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>writeHeaderColumnToDetailRecordAsEqu.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void writeHeaderColumnToDetailRecordAsEqu()
             throws Throwable
@@ -330,6 +387,11 @@ public class HeaderTests
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>writeHeaderOutWithEqu.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void writeHeaderOutWithEqu()
             throws Throwable
@@ -365,6 +427,11 @@ public class HeaderTests
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>writeMinimalHeaderToOutput.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void writeMinimalHeaderToOutput()
             throws Throwable
@@ -397,6 +464,11 @@ public class HeaderTests
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>writeSpecificColumnsToHeaderOutput.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void writeSpecificColumnsToHeaderOutput()
             throws Throwable

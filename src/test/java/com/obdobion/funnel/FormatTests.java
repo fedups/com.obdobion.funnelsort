@@ -19,8 +19,10 @@ import com.obdobion.funnel.orderby.KeyType;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>FormatTests class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class FormatTests
 {
@@ -30,6 +32,11 @@ public class FormatTests
             Assert.assertEquals("formatted key " + b, bb[b], kx.key[b]);
     }
 
+    /**
+     * <p>dateFormatInvalid.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void dateFormatInvalid () throws Throwable
     {
@@ -64,6 +71,11 @@ public class FormatTests
 
     }
 
+    /**
+     * <p>dateFormatTrimLeft.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void dateFormatTrimLeft () throws Throwable
     {
@@ -90,6 +102,11 @@ public class FormatTests
         }, kx);
     }
 
+    /**
+     * <p>floatFormatTrimRight.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void floatFormatTrimRight () throws Throwable
     {
@@ -116,6 +133,11 @@ public class FormatTests
         }, kx);
     }
 
+    /**
+     * <p>floatNegDollarFormat.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void floatNegDollarFormat () throws Throwable
     {
@@ -142,6 +164,11 @@ public class FormatTests
         }, kx);
     }
 
+    /**
+     * <p>floatPosDollarFormat.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void floatPosDollarFormat () throws Throwable
     {
@@ -168,6 +195,11 @@ public class FormatTests
         }, kx);
     }
 
+    /**
+     * <p>integerFormatTrimLeft.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void integerFormatTrimLeft () throws Throwable
     {
@@ -194,6 +226,11 @@ public class FormatTests
         }, kx);
     }
 
+    /**
+     * <p>integerFormatTrimRight.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void integerFormatTrimRight () throws Throwable
     {
@@ -220,6 +257,11 @@ public class FormatTests
         }, kx);
     }
 
+    /**
+     * <p>integerNegDollarFormat.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void integerNegDollarFormat () throws Throwable
     {
@@ -246,6 +288,11 @@ public class FormatTests
         }, kx);
     }
 
+    /**
+     * <p>integerNegFormatAASC.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void integerNegFormatAASC () throws Throwable
     {
@@ -272,6 +319,11 @@ public class FormatTests
         }, kx);
     }
 
+    /**
+     * <p>integerNegFormatADESC.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void integerNegFormatADESC () throws Throwable
     {
@@ -298,6 +350,11 @@ public class FormatTests
         }, kx);
     }
 
+    /**
+     * <p>integerNegFormatASC.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void integerNegFormatASC () throws Throwable
     {
@@ -324,6 +381,11 @@ public class FormatTests
         }, kx);
     }
 
+    /**
+     * <p>integerNegFormatDESC.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void integerNegFormatDESC () throws Throwable
     {
@@ -350,6 +412,11 @@ public class FormatTests
         }, kx);
     }
 
+    /**
+     * <p>integerNegLeftFormat.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void integerNegLeftFormat () throws Throwable
     {
@@ -376,6 +443,11 @@ public class FormatTests
         }, kx);
     }
 
+    /**
+     * <p>integerNegRightFormat.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void integerNegRightFormat () throws Throwable
     {
@@ -402,6 +474,11 @@ public class FormatTests
         }, kx);
     }
 
+    /**
+     * <p>integerPosDollarFormat.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void integerPosDollarFormat () throws Throwable
     {
@@ -428,6 +505,11 @@ public class FormatTests
         }, kx);
     }
 
+    /**
+     * <p>integerPosFormatAASC.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void integerPosFormatAASC () throws Throwable
     {
@@ -454,6 +536,11 @@ public class FormatTests
         }, kx);
     }
 
+    /**
+     * <p>integerPosFormatADESC.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void integerPosFormatADESC () throws Throwable
     {
@@ -480,6 +567,11 @@ public class FormatTests
         }, kx);
     }
 
+    /**
+     * <p>integerPosFormatASC.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void integerPosFormatASC () throws Throwable
     {
@@ -506,6 +598,11 @@ public class FormatTests
         }, kx);
     }
 
+    /**
+     * <p>integerPosFormatDESC.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void integerPosFormatDESC () throws Throwable
     {
@@ -532,6 +629,11 @@ public class FormatTests
         }, kx);
     }
 
+    /**
+     * <p>lengthMaxString.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void lengthMaxString () throws Throwable
     {
@@ -551,6 +653,11 @@ public class FormatTests
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>lengthOverride.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void lengthOverride () throws Throwable
     {
@@ -569,6 +676,11 @@ public class FormatTests
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>lengthUnspecified.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void lengthUnspecified () throws Throwable
     {
@@ -587,6 +699,11 @@ public class FormatTests
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>misspelledCol.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void misspelledCol () throws Throwable
     {
@@ -602,6 +719,11 @@ public class FormatTests
         }
     }
 
+    /**
+     * <p>misspelledEqu.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void misspelledEqu () throws Throwable
     {
@@ -622,6 +744,11 @@ public class FormatTests
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>offsetDefault.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void offsetDefault () throws Throwable
     {

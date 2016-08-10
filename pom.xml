@@ -3,8 +3,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.obdobion</groupId>
 	<artifactId>funnelsort</artifactId>
-	<version>1.6.5</version>
-	<name>${project.groupId}${project.artifactId}</name>
+	<version>1.6.6</version>
+	<name>${project.groupId}.${project.artifactId}</name>
 	<url>https://github.com/fedups/funnelsort</url>
 	<organization>
 		<name>Obdobion</name>
@@ -36,9 +36,9 @@
 		<junit.version>4.8.1</junit.version>
 		<log4j.version>1.2.17</log4j.version>
 		<slf4j.version>1.7.13</slf4j.version>
-		<argument.version>4.1.0</argument.version>
-		<algebrain.version>1.3.9</algebrain.version>
-		<calendar.version>1.0.0</calendar.version>
+		<argument.version>4.1.2</argument.version>
+		<algebrain.version>1.3.10</algebrain.version>
+		<calendar.version>1.0.1</calendar.version>
 		<commons-codec.version>1.9</commons-codec.version>
 		<commons-csv.version>1.2</commons-csv.version>
 		<project.build.sourceEncoding>Cp1252</project.build.sourceEncoding>
@@ -82,12 +82,30 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.10.4</version>
+				<configuration>
+					<defaultAuthor>Chris DeGreef fedupforone@gmail.com</defaultAuthor>
+					<fixTags>author,since,param,return,throws,link</fixTags>
+				</configuration>
 				<executions>
 					<execution>
 						<id>javadoc-jar</id>
 						<phase>verify</phase>
 						<goals>
 							<goal>jar</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>javadoc-fix-main</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>fix</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>javadoc-fix-test</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>test-fix</goal>
 						</goals>
 					</execution>
 				</executions>

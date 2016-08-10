@@ -11,11 +11,18 @@ import org.junit.Test;
 import com.obdobion.Helper;
 
 /**
- * @author Chris DeGreef
+ * <p>FormatOutputTest class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class FormatOutputTest
 {
+    /**
+     * <p>defaultFiller.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void defaultFiller () throws Throwable
     {
@@ -44,6 +51,11 @@ public class FormatOutputTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>equColumnReferenceToString.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void equColumnReferenceToString () throws Throwable
     {
@@ -70,6 +82,11 @@ public class FormatOutputTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>equColumnReferenceWithFormat.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void equColumnReferenceWithFormat () throws Throwable
     {
@@ -96,6 +113,11 @@ public class FormatOutputTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>equFormatDate.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void equFormatDate () throws Throwable
     {
@@ -122,6 +144,11 @@ public class FormatOutputTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>equSimpleString.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void equSimpleString () throws Throwable
     {
@@ -150,6 +177,11 @@ public class FormatOutputTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>largerOutputArea.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void largerOutputArea () throws Throwable
     {
@@ -178,6 +210,11 @@ public class FormatOutputTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>offset.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void offset () throws Throwable
     {
@@ -206,6 +243,11 @@ public class FormatOutputTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>offsetNoLength.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void offsetNoLength () throws Throwable
     {
@@ -234,6 +276,11 @@ public class FormatOutputTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>oneColumnVariableLength.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void oneColumnVariableLength () throws Throwable
     {
@@ -262,6 +309,11 @@ public class FormatOutputTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>onlyFiller.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void onlyFiller () throws Throwable
     {
@@ -288,6 +340,11 @@ public class FormatOutputTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>truncate.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void truncate () throws Throwable
     {
@@ -316,6 +373,11 @@ public class FormatOutputTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>twoColumnCSV.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void twoColumnCSV () throws Throwable
     {
@@ -343,6 +405,11 @@ public class FormatOutputTest
         }
     }
 
+    /**
+     * <p>twoColumnVariableLength.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void twoColumnVariableLength () throws Throwable
     {
@@ -371,6 +438,11 @@ public class FormatOutputTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>twoColumnVariableLengthImpliedFieldLength.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void twoColumnVariableLengthImpliedFieldLength () throws Throwable
     {
@@ -399,6 +471,11 @@ public class FormatOutputTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>xFiller.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void xFiller () throws Throwable
     {

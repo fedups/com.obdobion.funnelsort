@@ -4,8 +4,9 @@ import com.obdobion.argument.annotation.Arg;
 import com.obdobion.funnel.orderby.KeyDirection;
 
 /**
- * @author Chris DeGreef
+ * <p>OrderBy class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class OrderBy
 {
@@ -21,6 +22,9 @@ public class OrderBy
             help = "The direction of the sort for this key. AASC and ADESC are absolute values of the key - the case of letters would not matter and the sign of numbers would not matter.")
     public KeyDirection direction;
 
+    /**
+     * <p>Constructor for OrderBy.</p>
+     */
     public OrderBy()
     {
         super();

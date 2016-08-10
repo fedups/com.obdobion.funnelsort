@@ -8,8 +8,9 @@ import com.obdobion.funnel.FunnelDataProvider;
 import com.obdobion.funnel.FunnelItem;
 
 /**
- * @author Chris DeGreef
+ * <p>FunnelInternalNodeProvider class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class FunnelInternalNodeProvider implements FunnelDataProvider
 {
@@ -17,6 +18,13 @@ public class FunnelInternalNodeProvider implements FunnelDataProvider
     final FunnelItem left;
     final FunnelItem right;
 
+    /**
+     * <p>Constructor for FunnelInternalNodeProvider.</p>
+     *
+     * @param _funnel a {@link com.obdobion.funnel.Funnel} object.
+     * @param leftContestantIndex a {@link com.obdobion.funnel.FunnelItem} object.
+     * @param rightContestantIndex a {@link com.obdobion.funnel.FunnelItem} object.
+     */
     public FunnelInternalNodeProvider(
             final Funnel _funnel,
             final FunnelItem leftContestantIndex,
@@ -27,30 +35,35 @@ public class FunnelInternalNodeProvider implements FunnelDataProvider
         right = rightContestantIndex;
     }
 
+    /** {@inheritDoc} */
     @Override
     public long actualNumberOfRows()
     {
         return maximumNumberOfRows();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void attachTo(final FunnelItem item)
     {
         item.setProvider(this);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException
     {
         // intentionally empty
     }
 
+    /** {@inheritDoc} */
     @Override
     public long maximumNumberOfRows()
     {
         return Long.MAX_VALUE;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean next(final FunnelItem item, final long phase) throws IOException, ParseException
     {
@@ -95,6 +108,7 @@ public class FunnelInternalNodeProvider implements FunnelDataProvider
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void reset()
     {

@@ -18,8 +18,10 @@ import com.obdobion.funnel.parameters.FunnelContext;
 import com.obdobion.funnel.provider.CsvProvider;
 
 /**
- * @author Chris DeGreef
+ * <p>CsvTest class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 @SuppressWarnings("deprecation")
 public class CsvTest
@@ -43,6 +45,11 @@ public class CsvTest
         return in;
     }
 
+    /**
+     * <p>csvAllDefault.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void csvAllDefault() throws Throwable
     {
@@ -73,6 +80,11 @@ public class CsvTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>csvFile.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void csvFile() throws Throwable
     {
@@ -103,6 +115,11 @@ public class CsvTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>csvHeader.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void csvHeader() throws Throwable
     {
@@ -134,6 +151,11 @@ public class CsvTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>csvParserCommentMarker.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void csvParserCommentMarker() throws Throwable
     {
@@ -150,6 +172,11 @@ public class CsvTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>csvParserDelimiter.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void csvParserDelimiter() throws Throwable
     {
@@ -166,6 +193,11 @@ public class CsvTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>csvParserEscape.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void csvParserEscape() throws Throwable
     {
@@ -182,6 +214,11 @@ public class CsvTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>csvParserIgnoreEmptyLines.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void csvParserIgnoreEmptyLines() throws Throwable
     {
@@ -198,6 +235,11 @@ public class CsvTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>csvParserIgnoreSurroundingSpaces.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void csvParserIgnoreSurroundingSpaces() throws Throwable
     {
@@ -214,6 +256,11 @@ public class CsvTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>csvParserNullString.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void csvParserNullString() throws Throwable
     {
@@ -231,6 +278,11 @@ public class CsvTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>csvParserQuote.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void csvParserQuote() throws Throwable
     {
@@ -247,6 +299,11 @@ public class CsvTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>field1.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void field1() throws Throwable
     {
@@ -266,6 +323,11 @@ public class CsvTest
         Assert.assertEquals("extract field 0", "field1", new String(result[0]));
     }
 
+    /**
+     * <p>field1TrimNeeded.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void field1TrimNeeded() throws Throwable
     {
@@ -283,6 +345,11 @@ public class CsvTest
         Assert.assertEquals("extract field 0", " \tfield1\t , ", new String(result[0]));
     }
 
+    /**
+     * <p>field1WithQuotedComma.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void field1WithQuotedComma() throws Throwable
     {
@@ -300,6 +367,11 @@ public class CsvTest
         Assert.assertEquals("extract field 0", "field1,", new String(result[0]));
     }
 
+    /**
+     * <p>field2.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void field2() throws Throwable
     {
@@ -317,6 +389,11 @@ public class CsvTest
         Assert.assertEquals("extract field 0", "field2", new String(result[1]));
     }
 
+    /**
+     * <p>field2WithQuotedComma.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void field2WithQuotedComma() throws Throwable
     {
@@ -334,6 +411,11 @@ public class CsvTest
         Assert.assertEquals("extract field 0", "field2", new String(result[1]));
     }
 
+    /**
+     * <p>keyCsvFields.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void keyCsvFields() throws Throwable
     {
@@ -351,6 +433,11 @@ public class CsvTest
         }
     }
 
+    /**
+     * <p>keyCsvFieldsOnNonCsvFile.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void keyCsvFieldsOnNonCsvFile() throws Throwable
     {
@@ -368,6 +455,11 @@ public class CsvTest
         }
     }
 
+    /**
+     * <p>normalKeysOnCsvFile.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void normalKeysOnCsvFile() throws Throwable
     {
@@ -385,6 +477,11 @@ public class CsvTest
         }
     }
 
+    /**
+     * <p>repeatedField.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void repeatedField() throws Throwable
     {
@@ -402,6 +499,11 @@ public class CsvTest
         }
     }
 
+    /**
+     * <p>sortField0Desc.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sortField0Desc() throws Throwable
     {
@@ -434,6 +536,11 @@ public class CsvTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>sortField1Asc.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sortField1Asc() throws Throwable
     {
@@ -465,6 +572,11 @@ public class CsvTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>sortField1Desc.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sortField1Desc() throws Throwable
     {
@@ -496,6 +608,11 @@ public class CsvTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>sortField2Asc.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sortField2Asc() throws Throwable
     {
@@ -527,6 +644,11 @@ public class CsvTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>sortField2Desc.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sortField2Desc() throws Throwable
     {
@@ -558,6 +680,11 @@ public class CsvTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>sortOnTwoFieldsAsc.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sortOnTwoFieldsAsc() throws Throwable
     {
@@ -589,6 +716,11 @@ public class CsvTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>twoFields.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void twoFields() throws Throwable
     {

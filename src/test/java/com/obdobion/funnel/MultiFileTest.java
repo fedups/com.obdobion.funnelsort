@@ -11,12 +11,19 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>MultiFileTest class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class MultiFileTest
 {
 
+    /**
+     * <p>twoInputFilesMerged.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void twoInputFilesMerged ()
         throws Throwable
@@ -57,6 +64,11 @@ public class MultiFileTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>twoInputFilesWithReplace.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void twoInputFilesWithReplace ()
         throws Throwable

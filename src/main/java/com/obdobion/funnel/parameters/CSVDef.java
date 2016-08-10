@@ -5,8 +5,9 @@ import org.apache.commons.csv.CSVFormat;
 import com.obdobion.argument.annotation.Arg;
 
 /**
- * @author Chris DeGreef
+ * <p>CSVDef class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class CSVDef
 {

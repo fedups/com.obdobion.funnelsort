@@ -6,41 +6,41 @@ import com.obdobion.funnel.FunnelDataProvider;
 import com.obdobion.funnel.FunnelItem;
 
 /**
- * @author Chris DeGreef
+ * <p>EmptyProvider class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class EmptyProvider implements FunnelDataProvider
 {
+    /** {@inheritDoc} */
     @Override
     public long actualNumberOfRows()
     {
         return 0;
     }
 
-    /**
-     * @param item
-     */
+    /** {@inheritDoc} */
     @Override
     public void attachTo(final FunnelItem item)
     {
         // intentionally empty
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException
     {
         // intentionally empty
     }
 
+    /** {@inheritDoc} */
     @Override
     public long maximumNumberOfRows()
     {
         return Long.MAX_VALUE;
     }
 
-    /**
-     * @param phase
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean next(final FunnelItem item, final long phase)
     {
@@ -49,6 +49,7 @@ public class EmptyProvider implements FunnelDataProvider
         return false;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void reset()
     {

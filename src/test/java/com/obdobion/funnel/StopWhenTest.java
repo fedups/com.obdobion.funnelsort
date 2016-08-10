@@ -11,12 +11,19 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>StopWhenTest class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class StopWhenTest
 {
 
+    /**
+     * <p>stopAfter10.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void stopAfter10 ()
         throws Throwable

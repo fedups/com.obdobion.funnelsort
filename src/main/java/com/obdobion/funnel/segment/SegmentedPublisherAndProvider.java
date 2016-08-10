@@ -14,8 +14,9 @@ import com.obdobion.funnel.parameters.FunnelContext;
 import com.obdobion.funnel.provider.EmptyProvider;
 
 /**
- * @author Chris DeGreef
+ * <p>SegmentedPublisherAndProvider class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class SegmentedPublisherAndProvider implements FunnelDataPublisher, FunnelDataProvider
 {
@@ -31,6 +32,12 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
     private long                writeCount;
     private long                duplicateCount;
 
+    /**
+     * <p>Constructor for SegmentedPublisherAndProvider.</p>
+     *
+     * @param context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @throws java.io.IOException if any.
+     */
     public SegmentedPublisherAndProvider(final FunnelContext context) throws IOException
     {
         /*
@@ -42,18 +49,23 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
             workRepository = new WorkFile(context);
     }
 
+    /**
+     * <p>actAsProvider.</p>
+     */
     public void actAsProvider()
     {
         provider = true;
         logger.trace("switched from publisher to provider");
     }
 
+    /** {@inheritDoc} */
     @Override
     public long actualNumberOfRows()
     {
         return actualNumberOfRows;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void attachTo(final FunnelItem item)
     {
@@ -73,6 +85,7 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
         segment.attachTo(item);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException
     {
@@ -81,18 +94,21 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
             workRepository.delete();
     }
 
+    /** {@inheritDoc} */
     @Override
     public long getDuplicateCount()
     {
         return duplicateCount;
     }
 
+    /** {@inheritDoc} */
     @Override
     public long getWriteCount()
     {
         return writeCount;
     }
 
+    /** {@inheritDoc} */
     @Override
     public long maximumNumberOfRows()
     {
@@ -101,10 +117,7 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
         return segments.size();
     }
 
-    /**
-     * @param item
-     * @param phase
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean next(final FunnelItem item, final long phase)
     {
@@ -114,6 +127,7 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
         throw new RuntimeException("not to be called");
     }
 
+    /** {@inheritDoc} */
     @Override
     public void openInput() throws IOException
     {
@@ -125,6 +139,7 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
         workRepository.open();
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean publish(final SourceProxyRecord data, final long phase) throws IOException
     {
@@ -158,6 +173,7 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void reset()
     {
@@ -165,9 +181,11 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
     }
 
     /**
-     * @param data
-     * @param phase
-     * @throws IOException
+     * <p>segment.</p>
+     *
+     * @param data a {@link com.obdobion.funnel.segment.SourceProxyRecord} object.
+     * @param phase a long.
+     * @throws java.io.IOException if any.
      */
     public void segment(final SourceProxyRecord data, final long phase) throws IOException
     {
@@ -183,7 +201,9 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
     }
 
     /**
-     * @param comparator
+     * <p>setComparator.</p>
+     *
+     * @param comparator a {@link java.util.Comparator} object.
      */
     public void setComparator(final Comparator<SourceProxyRecord> comparator)
     {

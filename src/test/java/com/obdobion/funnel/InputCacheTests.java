@@ -16,8 +16,10 @@ import com.obdobion.funnel.parameters.FunnelContext;
 import com.obdobion.funnel.provider.AbstractInputCache;
 
 /**
- * @author Chris DeGreef
+ * <p>InputCacheTests class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 @SuppressWarnings("deprecation")
 public class InputCacheTests
@@ -29,6 +31,11 @@ public class InputCacheTests
         return new FunnelContext(Helper.config(), "");
     }
 
+    /**
+     * <p>bufferPositioningLargeNumbers.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void bufferPositioningLargeNumbers() throws Throwable
     {
@@ -45,6 +52,11 @@ public class InputCacheTests
         Assert.assertEquals(1, AbstractInputCache.findBufferIndexForPosition(32846, bufStarts));
     }
 
+    /**
+     * <p>bufferPositioningNotPow2.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void bufferPositioningNotPow2() throws Throwable
     {
@@ -67,6 +79,11 @@ public class InputCacheTests
         Assert.assertEquals(3, AbstractInputCache.findBufferIndexForPosition(30, bufStarts));
     }
 
+    /**
+     * <p>bufferPositioningPow2.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void bufferPositioningPow2() throws Throwable
     {
@@ -87,6 +104,11 @@ public class InputCacheTests
         Assert.assertEquals(1, AbstractInputCache.findBufferIndexForPosition(30, bufStarts));
     }
 
+    /**
+     * <p>inputStreamWith2BuffersByArray.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void inputStreamWith2BuffersByArray() throws Throwable
     {
@@ -115,6 +137,11 @@ public class InputCacheTests
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>inputStreamWith2BuffersByByte.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void inputStreamWith2BuffersByByte() throws Throwable
     {
@@ -144,6 +171,11 @@ public class InputCacheTests
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>sortWith2Buffers.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sortWith2Buffers() throws Throwable
     {

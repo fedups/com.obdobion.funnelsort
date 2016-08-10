@@ -3,13 +3,17 @@ package com.obdobion.funnel.orderby;
 import java.util.Arrays;
 
 /**
- * @author Chris DeGreef
+ * <p>ByteKey class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class ByteKey extends KeyPart
 {
     byte[] contents;
 
+    /**
+     * <p>Constructor for ByteKey.</p>
+     */
     public ByteKey()
     {
         super();
@@ -33,30 +37,35 @@ public class ByteKey extends KeyPart
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public Object getContents ()
     {
         return contents;
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte[] getContentsAsByteArray ()
     {
         return contents;
     }
 
+    /** {@inheritDoc} */
     @Override
     public double getContentsAsDouble ()
     {
         return 0;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isNumeric ()
     {
         return false;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void pack (final KeyContext context) throws Exception
     {
@@ -68,6 +77,7 @@ public class ByteKey extends KeyPart
             nextPart.pack(context);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void parseObjectFromRawData (final byte[] rawBytes) throws Exception
     {

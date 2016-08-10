@@ -1,8 +1,9 @@
 package com.obdobion.funnel.parameters;
 
 /**
- * @author Chris DeGreef
- * 
+ * <p>DuplicateDisposition class.</p>
+ *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public enum DuplicateDisposition
 {

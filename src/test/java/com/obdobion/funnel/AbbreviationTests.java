@@ -5,12 +5,19 @@ import org.junit.Test;
 import com.obdobion.Helper;
 
 /**
- * @author Chris DeGreef
+ * <p>AbbreviationTests class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class AbbreviationTests
 {
 
+    /**
+     * <p>abbreviation1.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void abbreviation1 ()
         throws Throwable

@@ -11,12 +11,19 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>StringTest class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class StringTest
 {
 
+    /**
+     * <p>caseMatters.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void caseMatters ()
         throws Throwable
@@ -48,6 +55,11 @@ public class StringTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>ignoreCase.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void ignoreCase ()
         throws Throwable

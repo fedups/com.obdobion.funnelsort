@@ -1,8 +1,9 @@
 package com.obdobion.funnel.orderby;
 
 /**
- * @author Chris DeGreef
- * 
+ * <p>KeyDirection class.</p>
+ *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public enum KeyDirection
 {

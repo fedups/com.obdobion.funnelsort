@@ -3,14 +3,18 @@ package com.obdobion.funnel.orderby;
 import java.nio.ByteBuffer;
 
 /**
- * @author Chris DeGreef
+ * <p>DisplayFloatKey class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class DisplayFloatKey extends KeyPart
 {
     Double contents;
     byte[] trimmed;
 
+    /**
+     * <p>Constructor for DisplayFloatKey.</p>
+     */
     public DisplayFloatKey()
     {
         super();
@@ -43,30 +47,35 @@ public class DisplayFloatKey extends KeyPart
         context.keyLength += 8;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Object getContents ()
     {
         return contents;
     }
 
+    /** {@inheritDoc} */
     @Override
     public double getContentsAsDouble ()
     {
         return contents;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isFloat ()
     {
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isNumeric ()
     {
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void pack (final KeyContext context) throws Exception
     {
@@ -77,6 +86,7 @@ public class DisplayFloatKey extends KeyPart
             nextPart.pack(context);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void parseObjectFromRawData (final byte[] rawBytes) throws Exception
     {

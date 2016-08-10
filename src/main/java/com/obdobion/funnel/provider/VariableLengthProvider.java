@@ -8,18 +8,25 @@ import com.obdobion.funnel.parameters.FunnelContext;
 /**
  * Read a file of ascii strings one line at a time
  *
- * @author Chris DeGreef
- *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class VariableLengthProvider extends AbstractProvider
 {
     private static final int MAX_VARIABLE_LENGTH_RECORD_SIZE = 1 << 13;
 
+    /**
+     * <p>Constructor for VariableLengthProvider.</p>
+     *
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @throws java.io.IOException if any.
+     * @throws java.text.ParseException if any.
+     */
     public VariableLengthProvider(final FunnelContext _context) throws IOException, ParseException
     {
         super(_context);
     }
 
+    /** {@inheritDoc} */
     @Override
     public long actualNumberOfRows()
     {
@@ -64,6 +71,7 @@ public class VariableLengthProvider extends AbstractProvider
         assignReaderInstance();
     }
 
+    /** {@inheritDoc} */
     @Override
     public long maximumNumberOfRows()
     {

@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.obdobion.argument.type.WildFiles;
-import com.obdobion.funnel.orderby.KeyHelper;
 import com.obdobion.funnel.parameters.FunnelContext;
 import com.obdobion.funnel.provider.FunnelInternalNodeProvider;
 import com.obdobion.funnel.segment.SegmentedPublisherAndProvider;
@@ -20,12 +19,12 @@ import com.obdobion.funnel.segment.SourceProxyRecord;
  * processing is encapsulated in the classes related to the providers and
  * publishers.
  * <p>
- * A {@link FunnelDataProvider} provides rows in an unsorted order. These rows
- * are deposited into the top of the funnel. The funnel is funnel#shake and the
- * rows drip out the bottom, one at a time, in sorted order. As they exit the
- * bottom of the funnel the rows are handed off to a {@link FunnelDataPublisher}
- * . The publisher is responsible for writing the sorted rows to the output
- * destination.
+ * A {@link com.obdobion.funnel.FunnelDataProvider} provides rows in an unsorted
+ * order. These rows are deposited into the top of the funnel. The funnel is
+ * funnel#shake and the rows drip out the bottom, one at a time, in sorted
+ * order. As they exit the bottom of the funnel the rows are handed off to a
+ * {@link com.obdobion.funnel.FunnelDataPublisher} . The publisher is
+ * responsible for writing the sorted rows to the output destination.
  * <p>
  * The funnel tip is index 0 in the array. The largest row has the largest
  * indexes decreasing from left to right.
@@ -36,12 +35,13 @@ import com.obdobion.funnel.segment.SourceProxyRecord;
  *       0
  * </pre>
  * <p>
- * The entire funnel is populated by instances of {@link FunnelItem}. These are
- * static and hold the current state of the specific node in the funnel. Data is
- * assigned to these nodes throughout the process. Every FunnelItem has a
- * FunnelDataProvider associated with it. The top level of the funnel is assign
- * a provider that typically gets its rows from an original data source if in
- * the first pass or a segment on every other pass.
+ * The entire funnel is populated by instances of
+ * {@link com.obdobion.funnel.FunnelItem}. These are static and hold the current
+ * state of the specific node in the funnel. Data is assigned to these nodes
+ * throughout the process. Every FunnelItem has a FunnelDataProvider associated
+ * with it. The top level of the funnel is assign a provider that typically gets
+ * its rows from an original data source if in the first pass or a segment on
+ * every other pass.
  * <p>
  * The maximum size of the funnel top is specified in a power of 2. For
  * instance, 16 would yield a top level of 65536 rows. The input provider will
@@ -55,18 +55,21 @@ import com.obdobion.funnel.segment.SourceProxyRecord;
  * may produce multiple segments.)
  * <p>
  * Funnel is also a tag sort. Tags are ripped off of the row when the input is
- * provided. The sort is then on this {@link SourceProxyRecord} in order to
- * reduce memory requirements and disk work file size (space and IO time). *
+ * provided. The sort is then on this
+ * {@link com.obdobion.funnel.segment.SourceProxyRecord} in order to reduce
+ * memory requirements and disk work file size (space and IO time). *
  *
- * @author Chris DeGreef
- *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class Funnel
 {
+    /** Constant <code>SYS_RECORDSIZE="recordsize"</code> */
     public static final String        SYS_RECORDSIZE   = "recordsize";
+    /** Constant <code>SYS_RECORDNUMBER="recordnumber"</code> */
     public static final String        SYS_RECORDNUMBER = "recordnumber";
 
     static Logger                     logger           = LoggerFactory.getLogger(Funnel.class.getName());
+    /** Constant <code>ByteFormatter</code> */
     static final public DecimalFormat ByteFormatter    = new DecimalFormat("###,###,###,###");
     /**
      * The maximum depth is the highest (number of levels) the funnel can be.
@@ -81,15 +84,23 @@ public class Funnel
 
     /**
      * Sort an input stream into an output stream according to the command line
-     * arguments. A {@link FunnelContext} handles the parsing of this command
-     * line and encapsulates all of the sorting requirements. A
-     * {@link KeyHelper} is created for handling the creation of keys from each
-     * row that is provided. Finally, a set of {@link FunnelDataProvider} /
-     * {@link FunnelDataPublisher} instances are created and the Funnel#sort
-     * process is started.
+     * arguments. A {@link com.obdobion.funnel.parameters.FunnelContext} handles
+     * the parsing of this command line and encapsulates all of the sorting
+     * requirements. A {@link com.obdobion.funnel.orderby.KeyHelper} is created
+     * for handling the creation of keys from each row that is provided.
+     * Finally, a set of {@link com.obdobion.funnel.FunnelDataProvider} /
+     * {@link com.obdobion.funnel.FunnelDataPublisher} instances are created and
+     * the Funnel#sort process is started.
      *
      * @param args
+     *            a {@link java.lang.String} object.
      * @throws Exception
+     *             if any.
+     * @param cfg
+     *            a {@link com.obdobion.funnel.AppContext} object.
+     * @return a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     static public FunnelContext sort(final AppContext cfg, final String... args)
             throws Throwable
@@ -206,17 +217,18 @@ public class Funnel
      * while the sort is in progress.
      *
      * @param _context
+     *            a {@link com.obdobion.funnel.parameters.FunnelContext} object.
      */
     public Funnel(final FunnelContext _context)
     {
         assert _context.getDepth() <= MAXIMUM_DEPTH : "depth can not exceed " + MAXIMUM_DEPTH;
         assert _context.getDepth() > 0 : "depth must be > 0";
 
-        this.context = _context;
-        this.items = new FunnelItem[(1 << _context.getDepth()) - 1];
-        this.entryRowStart = (1 << _context.getDepth()) - 2;
-        this.entryRowEnd = (1 << (_context.getDepth() - 1)) - 1;
-        this.maxSorted = 1 << (_context.getDepth() - 1);
+        context = _context;
+        items = new FunnelItem[(1 << _context.getDepth()) - 1];
+        entryRowStart = (1 << _context.getDepth()) - 2;
+        entryRowEnd = (1 << (_context.getDepth() - 1)) - 1;
+        maxSorted = 1 << (_context.getDepth() - 1);
     }
 
     /**
@@ -250,11 +262,25 @@ public class Funnel
         return getItems()[c];
     }
 
+    /**
+     * <p>
+     * entryRowEnd.
+     * </p>
+     *
+     * @return a int.
+     */
     public int entryRowEnd()
     {
         return entryRowEnd;
     }
 
+    /**
+     * <p>
+     * entryRowStart.
+     * </p>
+     *
+     * @return a int.
+     */
     public int entryRowStart()
     {
         return entryRowStart;
@@ -289,7 +315,7 @@ public class Funnel
      * The maximum is the size of the entry row in the funnel. And this just
      * applies to the first pass.
      *
-     * @return
+     * @return a int.
      */
     public int maximumGuaranteedNumberOfSortableItems()
     {
@@ -320,12 +346,9 @@ public class Funnel
         for (int tr = entryRowStart(); tr >= entryRowEnd(); tr--)
         {
             if (getItems()[tr] != null)
-            {
                 getItems()[tr].reset();
-            } else
-            {
+            else
                 getItems()[tr] = new FunnelItem();
-            }
             provider.attachTo(getItems()[tr]);
         }
         /*
@@ -333,16 +356,13 @@ public class Funnel
          * the same in sorting and in merging. So only create them once.
          */
         for (int tr = entryRowEnd() - 1; tr >= 0; tr--)
-        {
             if (getItems()[tr] != null)
-            {
                 getItems()[tr].reset();
-            } else
+            else
             {
                 getItems()[tr] = new FunnelItem();
                 new FunnelInternalNodeProvider(this, contestantOne(tr), contestantTwo(tr)).attachTo(getItems()[tr]);
             }
-        }
     }
 
     /**
@@ -357,9 +377,7 @@ public class Funnel
     void primeTopRow(final long phase) throws IOException, ParseException
     {
         for (int tr = entryRowStart(); tr >= entryRowEnd(); tr--)
-        {
             getItems()[tr].next(phase);
-        }
     }
 
     /**
@@ -446,19 +464,15 @@ public class Funnel
                     primeTopRow(phase);
                     item = shake(phase);
                     if (item == null)
-                    {
                         break;
-                    }
                 }
                 final boolean inorder = passPublisher.publish(item.getData(), phase);
                 if (!inorder && passPublisher == context.publisher)
-                {
                     throw new Exception("Sort failure. Check provider max rows ("
                             + context.provider.maximumNumberOfRows()
                             + ") and power ("
                             + context.getDepth()
                             + ").");
-                }
             }
             passProvider.close();
             passPublisher.close();
@@ -496,9 +510,7 @@ public class Funnel
     private void reset() throws IOException, ParseException
     {
         for (final FunnelItem item : getItems())
-        {
             item.reset();
-        }
         /*
          * If reset is being called it is because of multiple input files with
          * the --replace option. As of this time that is the only reason so

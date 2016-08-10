@@ -14,23 +14,33 @@ import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>ColumnHelper class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class ColumnHelper
 {
     final private static Logger logger          = LoggerFactory.getLogger(ColumnHelper.class);
 
+    /** Constant <code>MAX_COLUMN_SIZE=255</code> */
     public static final int     MAX_COLUMN_SIZE = 255;
     final KeyContext            context;
     final int                   maxKeyBytes;
     List<KeyPart>               columns;
 
+    /**
+     * <p>Constructor for ColumnHelper.</p>
+     */
     public ColumnHelper()
     {
         this(MAX_COLUMN_SIZE);
     }
 
+    /**
+     * <p>Constructor for ColumnHelper.</p>
+     *
+     * @param maxsize a int.
+     */
     public ColumnHelper(final int maxsize)
     {
         logger.debug("maximum column length is {}", MAX_COLUMN_SIZE);
@@ -40,6 +50,12 @@ public class ColumnHelper
         columns = new ArrayList<>();
     }
 
+    /**
+     * <p>add.</p>
+     *
+     * @param formatter a {@link com.obdobion.funnel.orderby.KeyPart} object.
+     * @throws java.text.ParseException if any.
+     */
     public void add (final KeyPart formatter) throws ParseException
     {
         if (exists(formatter.columnName))
@@ -48,6 +64,12 @@ public class ColumnHelper
         columns.add(myCopy);
     }
 
+    /**
+     * <p>exists.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     * @return a boolean.
+     */
     public boolean exists (final String name)
     {
         for (final KeyPart col : columns)
@@ -69,6 +91,14 @@ public class ColumnHelper
     /**
      * It is likely that the provided data is a reusable buffer of bytes. So we
      * can't just store these bytes for later use.
+     *
+     * @param funnelContext a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param data an array of byte.
+     * @param recordNumber a long.
+     * @param dataLength a int.
+     * @param equations a {@link com.obdobion.algebrain.Equ} object.
+     * @return a {@link com.obdobion.funnel.orderby.KeyContext} object.
+     * @throws java.lang.Exception if any.
      */
     public KeyContext extract (
         final FunnelContext funnelContext,
@@ -100,10 +130,13 @@ public class ColumnHelper
      * Call this method for csv files that break each row up into fields (byte
      * arrays). [][].
      *
-     * @param data
-     * @param recordNumber
-     * @return
-     * @throws Exception
+     * @param data an array of byte.
+     * @param recordNumber a long.
+     * @throws java.lang.Exception if any.
+     * @param funnelContext a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param dataLength a int.
+     * @param equations a {@link com.obdobion.algebrain.Equ} object.
+     * @return a {@link com.obdobion.funnel.orderby.KeyContext} object.
      */
     public KeyContext extract (
         final FunnelContext funnelContext,
@@ -171,6 +204,12 @@ public class ColumnHelper
         }
     }
 
+    /**
+     * <p>get.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     * @return a {@link com.obdobion.funnel.orderby.KeyPart} object.
+     */
     public KeyPart get (final String name)
     {
         for (final KeyPart col : columns)
@@ -189,11 +228,21 @@ public class ColumnHelper
         return null;
     }
 
+    /**
+     * <p>Getter for the field <code>columns</code>.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<KeyPart> getColumns ()
     {
         return columns;
     }
 
+    /**
+     * <p>getNames.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<String> getNames ()
     {
         final List<String> allNames = new ArrayList<>();
@@ -205,7 +254,11 @@ public class ColumnHelper
     }
 
     /**
-     * @param dataLength
+     * <p>loadColumnsFromBytes.</p>
+     *
+     * @param dataLength a long.
+     * @param data an array of byte.
+     * @param recordNumber a long.
      */
     public void loadColumnsFromBytes (final byte[] data, final long dataLength, final long recordNumber)
     {

@@ -12,8 +12,9 @@ import org.slf4j.LoggerFactory;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>VariableLengthFilePublisher class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class VariableLengthFilePublisher extends VariableLengthPublisher
 {
@@ -21,12 +22,20 @@ public class VariableLengthFilePublisher extends VariableLengthPublisher
 
     File                        sortedTempFile;
 
+    /**
+     * <p>Constructor for VariableLengthFilePublisher.</p>
+     *
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @throws java.text.ParseException if any.
+     * @throws java.io.IOException if any.
+     */
     public VariableLengthFilePublisher(final FunnelContext _context) throws ParseException, IOException
     {
         super(_context);
         logger.debug("variable length file publisher activated");
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws Exception
     {

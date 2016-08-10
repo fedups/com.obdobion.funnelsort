@@ -16,12 +16,19 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>InputTest class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 @SuppressWarnings("deprecation")
 public class InputTest
 {
+    /**
+     * <p>dos2unix.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void dos2unix() throws Throwable
     {
@@ -46,6 +53,11 @@ public class InputTest
         file.delete();
     }
 
+    /**
+     * <p>emptySysin.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void emptySysin() throws Throwable
     {
@@ -73,6 +85,11 @@ public class InputTest
         }
     }
 
+    /**
+     * <p>emptySysinNoMax.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void emptySysinNoMax() throws Throwable
     {
@@ -100,6 +117,11 @@ public class InputTest
         }
     }
 
+    /**
+     * <p>everythingDefaults.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void everythingDefaults() throws Throwable
     {
@@ -127,6 +149,11 @@ public class InputTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>fixedSysinSysout.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void fixedSysinSysout() throws Throwable
     {
@@ -155,6 +182,11 @@ public class InputTest
         }
     }
 
+    /**
+     * <p>fixInFixOut.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void fixInFixOut() throws Throwable
     {
@@ -178,6 +210,11 @@ public class InputTest
 
     }
 
+    /**
+     * <p>fixInFixOutLong.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void fixInFixOutLong() throws Throwable
     {
@@ -201,6 +238,11 @@ public class InputTest
 
     }
 
+    /**
+     * <p>fixInFixOutShort.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void fixInFixOutShort() throws Throwable
     {
@@ -229,6 +271,11 @@ public class InputTest
 
     }
 
+    /**
+     * <p>fixInVarOut.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void fixInVarOut() throws Throwable
     {
@@ -252,6 +299,11 @@ public class InputTest
 
     }
 
+    /**
+     * <p>replaceErrorOut.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void replaceErrorOut() throws Throwable
     {
@@ -290,6 +342,11 @@ public class InputTest
         }
     }
 
+    /**
+     * <p>replaceInput.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void replaceInput() throws Throwable
     {
@@ -314,6 +371,11 @@ public class InputTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>replacePipedInputNotAllowed.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void replacePipedInputNotAllowed() throws Throwable
     {
@@ -353,6 +415,11 @@ public class InputTest
         }
     }
 
+    /**
+     * <p>sysinFileout.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sysinFileout() throws Throwable
     {
@@ -379,6 +446,11 @@ public class InputTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>variableSysinSysout.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void variableSysinSysout() throws Throwable
     {
@@ -412,6 +484,11 @@ public class InputTest
 
     }
 
+    /**
+     * <p>variableUnterminatedLastLine.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void variableUnterminatedLastLine()
             throws Throwable
@@ -434,6 +511,11 @@ public class InputTest
         Assert.assertTrue("delete " + file.getAbsolutePath(), file.delete());
     }
 
+    /**
+     * <p>varInFixOut.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void varInFixOut() throws Throwable
     {
@@ -457,6 +539,11 @@ public class InputTest
 
     }
 
+    /**
+     * <p>varInVarOut.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void varInVarOut() throws Throwable
     {

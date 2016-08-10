@@ -10,12 +10,19 @@ import org.junit.Test;
 import com.obdobion.Helper;
 
 /**
- * @author Chris DeGreef
+ * <p>RecordNumberTest class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class RecordNumberTest
 {
 
+    /**
+     * <p>aggregate.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void aggregate ()
         throws Throwable
@@ -43,6 +50,11 @@ public class RecordNumberTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>multiFileInput.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void multiFileInput ()
         throws Throwable
@@ -83,6 +95,11 @@ public class RecordNumberTest
         Assert.assertTrue(fileOut.delete());
     }
 
+    /**
+     * <p>normalFixed.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void normalFixed ()
         throws Throwable
@@ -111,6 +128,11 @@ public class RecordNumberTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>normalVariable.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void normalVariable ()
         throws Throwable
@@ -139,6 +161,11 @@ public class RecordNumberTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>skip1Row.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void skip1Row ()
         throws Throwable
@@ -168,6 +195,11 @@ public class RecordNumberTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>stopWhen.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void stopWhen ()
         throws Throwable

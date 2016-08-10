@@ -6,14 +6,17 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
 
 /**
- * @author Chris DeGreef
+ * <p>App class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class App
 {
     /**
-     * @param code
-     * @param ex
+     * <p>abort.</p>
+     *
+     * @param code a int.
+     * @param ex a {@link java.lang.Exception} object.
      */
     static public void abort (final int code, final Exception ex)
     {
@@ -22,8 +25,10 @@ public class App
     }
 
     /**
-     * @param args
-     * @throws Throwable
+     * <p>main.</p>
+     *
+     * @param args a {@link java.lang.String} object.
+     * @throws java.lang.Throwable if any.
      */
     public static void main (final String... args) throws Throwable
     {

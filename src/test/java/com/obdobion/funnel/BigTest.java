@@ -11,12 +11,19 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>BigTest class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class BigTest
 {
 
+    /**
+     * <p>multipleInputFiles.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void multipleInputFiles ()
         throws Throwable
@@ -63,6 +70,11 @@ public class BigTest
         Assert.assertTrue(output.delete());
     }
 
+    /**
+     * <p>oneBigFile.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void oneBigFile ()
         throws Throwable

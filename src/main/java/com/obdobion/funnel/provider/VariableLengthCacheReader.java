@@ -11,8 +11,9 @@ import org.slf4j.LoggerFactory;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>VariableLengthCacheReader class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class VariableLengthCacheReader implements InputReader
 {
@@ -20,6 +21,13 @@ public class VariableLengthCacheReader implements InputReader
 
     final FunnelContext context;
 
+    /**
+     * <p>Constructor for VariableLengthCacheReader.</p>
+     *
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @throws java.io.IOException if any.
+     * @throws java.text.ParseException if any.
+     */
     public VariableLengthCacheReader(final FunnelContext _context) throws IOException, ParseException
     {
         context = _context;
@@ -27,6 +35,7 @@ public class VariableLengthCacheReader implements InputReader
         loadDataToCache();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException
     {
@@ -34,6 +43,7 @@ public class VariableLengthCacheReader implements InputReader
         // made.
     }
 
+    /** {@inheritDoc} */
     @Override
     public long length() throws IOException
     {
@@ -49,21 +59,21 @@ public class VariableLengthCacheReader implements InputReader
         }
     }
 
-    /**
-     * @param inputFile
-     */
+    /** {@inheritDoc} */
     @Override
     public void open(final File inputFile) throws IOException
     {
         throw new IOException("the cacheInput option is not allowed with multiple input files");
     }
 
+    /** {@inheritDoc} */
     @Override
     public long position() throws IOException
     {
         return context.inputCache.position();
     }
 
+    /** {@inheritDoc} */
     @Override
     public int read(final byte[] row) throws IOException
     {

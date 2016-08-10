@@ -16,6 +16,11 @@ import com.obdobion.funnel.aggregation.Aggregate;
 import com.obdobion.funnel.columns.FormatPart;
 import com.obdobion.funnel.orderby.KeyPart;
 
+/**
+ * <p>FunnelSortContext class.</p>
+ *
+ * @author Chris DeGreef fedupforone@gmail.com
+ */
 public class FunnelSortContext
 {
     private final ICmdLine      commandLineParser;
@@ -41,7 +46,7 @@ public class FunnelSortContext
             allowCamelCaps = true,
             help = "Column definitions defining the file header layout.",
             factoryMethod = "com.obdobion.funnel.orderby.KeyType.create",
-            factoryArgName = "--type",
+            factoryArgName = "typeName",
             excludeArgs = { "csvFieldNumber", "direction" })
     public List<KeyPart>        headerInDefs;
 
@@ -64,7 +69,7 @@ public class FunnelSortContext
     @Arg(longName = "columnsIn",
             allowCamelCaps = true,
             factoryMethod = "com.obdobion.funnel.orderby.KeyType.create",
-            factoryArgName = "--type",
+            factoryArgName = "typeName",
             help = "Column definitions defining the input file layout.")
     public List<KeyPart>        inputColumnDefs;
 
@@ -165,6 +170,14 @@ public class FunnelSortContext
     @Arg(help = "Display the version of FunnelSort")
     public boolean              version;
 
+    /**
+     * <p>Constructor for FunnelSortContext.</p>
+     *
+     * @param parser a {@link com.obdobion.argument.CmdLine} object.
+     * @param args a {@link java.lang.String} object.
+     * @throws java.text.ParseException if any.
+     * @throws java.io.IOException if any.
+     */
     public FunnelSortContext(final CmdLine parser, final String... args) throws ParseException, IOException
     {
         commandLineParser = parser;
@@ -172,6 +185,11 @@ public class FunnelSortContext
         commandLineParser.parse(userInput, this);
     }
 
+    /**
+     * <p>getParser.</p>
+     *
+     * @return a {@link com.obdobion.argument.ICmdLine} object.
+     */
     public ICmdLine getParser()
     {
         return commandLineParser;

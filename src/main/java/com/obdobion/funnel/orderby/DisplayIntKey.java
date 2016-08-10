@@ -4,43 +4,52 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 /**
- * @author Chris DeGreef
+ * <p>DisplayIntKey class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 public class DisplayIntKey extends KeyPart
 {
     Long   contents;
     byte[] trimmed;
 
+    /**
+     * <p>Constructor for DisplayIntKey.</p>
+     */
     public DisplayIntKey()
     {
         super();
     }
 
+    /** {@inheritDoc} */
     @Override
     public Object getContents()
     {
         return contents;
     }
 
+    /** {@inheritDoc} */
     @Override
     public double getContentsAsDouble()
     {
         return contents;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isInteger()
     {
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isNumeric()
     {
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void pack(final KeyContext context) throws Exception
     {
@@ -51,6 +60,12 @@ public class DisplayIntKey extends KeyPart
             nextPart.pack(context);
     }
 
+    /**
+     * <p>packObjectIntoKey.</p>
+     *
+     * @param context a {@link com.obdobion.funnel.orderby.KeyContext} object.
+     * @param _longValue a {@link java.lang.Long} object.
+     */
     public void packObjectIntoKey(final KeyContext context, final Long _longValue)
     {
         Long longValue = _longValue;
@@ -71,6 +86,7 @@ public class DisplayIntKey extends KeyPart
         context.keyLength += 8;
     }
 
+    /** {@inheritDoc} */
     @SuppressWarnings("null")
     @Override
     public void parseObjectFromRawData(final byte[] rawBytes) throws Exception

@@ -6,8 +6,9 @@ import com.obdobion.argument.annotation.Arg;
 import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
- * @author Chris DeGreef
+ * <p>Abstract KeyPart class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
  */
 abstract public class KeyPart
 {
@@ -53,6 +54,9 @@ abstract public class KeyPart
             help = "The parsing format for converting the contents of the key in the file to an internal representation. Use Java SimpleDateFormat rules for making the format.")
     public String       parseFormat;
 
+    /**
+     * <p>Constructor for KeyPart.</p>
+     */
     public KeyPart()
     {
         super();
@@ -62,6 +66,11 @@ abstract public class KeyPart
         offset = -1;
     }
 
+    /**
+     * <p>add.</p>
+     *
+     * @param anotherFormatter a {@link com.obdobion.funnel.orderby.KeyPart} object.
+     */
     public void add(final KeyPart anotherFormatter)
     {
         if (nextPart == null)
@@ -75,7 +84,7 @@ abstract public class KeyPart
      * nextPart. Even if this is the key that caused the column to be defined we
      * can still copy the values since they would be the same.
      *
-     * @param colDef
+     * @param colDef a {@link com.obdobion.funnel.orderby.KeyPart} object.
      */
     public void defineFrom(final KeyPart colDef)
     {
@@ -87,37 +96,82 @@ abstract public class KeyPart
         columnName = colDef.columnName;
     }
 
+    /**
+     * <p>getContents.</p>
+     *
+     * @return a {@link java.lang.Object} object.
+     */
     abstract public Object getContents();
 
+    /**
+     * <p>getContentsAsByteArray.</p>
+     *
+     * @return an array of byte.
+     */
     public byte[] getContentsAsByteArray()
     {
         return unformattedContents;
     }
 
+    /**
+     * <p>getContentsAsDouble.</p>
+     *
+     * @return a double.
+     */
     abstract public double getContentsAsDouble();
 
+    /**
+     * <p>isCsv.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isCsv()
     {
         return csvFieldNumber >= 0;
     }
 
+    /**
+     * <p>isDate.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isDate()
     {
         return false;
     }
 
+    /**
+     * <p>isFloat.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isFloat()
     {
         return false;
     }
 
+    /**
+     * <p>isInteger.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isInteger()
     {
         return false;
     }
 
+    /**
+     * <p>isNumeric.</p>
+     *
+     * @return a boolean.
+     */
     abstract public boolean isNumeric();
 
+    /**
+     * <p>newCopy.</p>
+     *
+     * @return a {@link com.obdobion.funnel.orderby.KeyPart} object.
+     */
     public KeyPart newCopy()
     {
         KeyPart myCopy;
@@ -139,6 +193,13 @@ abstract public class KeyPart
         return myCopy;
     }
 
+    /**
+     * <p>originalData.</p>
+     *
+     * @param context a {@link com.obdobion.funnel.orderby.KeyContext} object.
+     * @param proxyRecord a {@link com.obdobion.funnel.segment.SourceProxyRecord} object.
+     * @param outputBytes a {@link java.io.ByteArrayOutputStream} object.
+     */
     public void originalData(final KeyContext context, final SourceProxyRecord proxyRecord,
             final ByteArrayOutputStream outputBytes)
     {
@@ -159,13 +220,31 @@ abstract public class KeyPart
             nextPart.originalData(context, proxyRecord, outputBytes);
     }
 
+    /**
+     * <p>pack.</p>
+     *
+     * @param context a {@link com.obdobion.funnel.orderby.KeyContext} object.
+     * @throws java.lang.Exception if any.
+     */
     abstract public void pack(KeyContext context) throws Exception;
 
+    /**
+     * <p>parseObject.</p>
+     *
+     * @param context a {@link com.obdobion.funnel.orderby.KeyContext} object.
+     * @throws java.lang.Exception if any.
+     */
     public void parseObject(final KeyContext context) throws Exception
     {
         parseObjectFromRawData(rawBytes(context));
     }
 
+    /**
+     * <p>parseObjectFromRawData.</p>
+     *
+     * @param rawData an array of byte.
+     * @throws java.lang.Exception if any.
+     */
     public abstract void parseObjectFromRawData(byte[] rawData) throws Exception;
 
     byte[] rawBytes(final KeyContext context)

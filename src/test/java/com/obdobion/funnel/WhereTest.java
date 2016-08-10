@@ -12,12 +12,19 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * @author Chris DeGreef
+ * <p>WhereTest class.</p>
  *
+ * @author Chris DeGreef fedupforone@gmail.com
+ * @since 1.6.6
  */
 public class WhereTest
 {
 
+    /**
+     * <p>badDataOnFirstRow.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void badDataOnFirstRow ()
         throws Throwable
@@ -58,6 +65,11 @@ public class WhereTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>badOrderByName.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void badOrderByName ()
         throws Throwable
@@ -79,6 +91,11 @@ public class WhereTest
         }
     }
 
+    /**
+     * <p>columnDefinedWithinKey.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void columnDefinedWithinKey ()
         throws Throwable
@@ -108,6 +125,11 @@ public class WhereTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>fixedLength.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void fixedLength ()
         throws Throwable
@@ -138,6 +160,11 @@ public class WhereTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>fixedLengthSelectionOf2.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void fixedLengthSelectionOf2 ()
         throws Throwable
@@ -169,6 +196,11 @@ public class WhereTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>multiWhere.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void multiWhere ()
         throws Throwable
@@ -195,6 +227,11 @@ public class WhereTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>oneColumnWhere.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void oneColumnWhere ()
         throws Throwable
@@ -224,6 +261,11 @@ public class WhereTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>selectOddNumberedRows.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void selectOddNumberedRows ()
         throws Throwable
@@ -248,6 +290,11 @@ public class WhereTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>sortOnColumn.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void sortOnColumn ()
         throws Throwable
@@ -274,6 +321,11 @@ public class WhereTest
         Assert.assertTrue(file.delete());
     }
 
+    /**
+     * <p>whereIntEqualTo.</p>
+     *
+     * @throws java.lang.Throwable if any.
+     */
     @Test
     public void whereIntEqualTo ()
         throws Throwable
