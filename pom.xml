@@ -36,9 +36,9 @@
 		<junit.version>4.8.1</junit.version>
 		<log4j.version>1.2.17</log4j.version>
 		<slf4j.version>1.7.13</slf4j.version>
-		<argument.version>4.2.0</argument.version>
-		<algebrain.version>1.3.10</algebrain.version>
-		<calendar.version>1.0.1</calendar.version>
+		<argument.version>4.2.3</argument.version>
+		<algebrain.version>2.0.0</algebrain.version>
+		<calendar.version>1.0.3</calendar.version>
 		<commons-codec.version>1.9</commons-codec.version>
 		<commons-csv.version>1.2</commons-csv.version>
 		<project.build.sourceEncoding>Cp1252</project.build.sourceEncoding>
