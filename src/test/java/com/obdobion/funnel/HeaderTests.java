@@ -12,7 +12,9 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>HeaderTests class.</p>
+ * <p>
+ * HeaderTests class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
@@ -20,9 +22,12 @@ import com.obdobion.funnel.parameters.FunnelContext;
 public class HeaderTests
 {
     /**
-     * <p>addHeaderToFile.</p>
+     * <p>
+     * addHeaderToFile.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void addHeaderToFile()
@@ -43,12 +48,12 @@ public class HeaderTests
                 + "      (date   -l8 -n DATE -d'yyyyMMdd')"
                 + "      (int    -l2 -n SEQ)"
                 + " --orderBy(seq desc)"
-                + " --headerOut(-e'date(\"20160609\", \"yyyyMMdd\")' -l 28 -d '%tc')");
+                + " --headerOut(-e'datefmt(\"20160609\", \"yyyyMMdd\")' -l 28 -d '%tF')");
 
         Assert.assertEquals("records", 2L, context.getWriteCount());
 
         final List<String> expectedLines = new ArrayList<>();
-        expectedLines.add("Thu Jun 09 00:00:00 CDT 2016");
+        expectedLines.add("2016-06-09                  ");
         expectedLines.add("TEST20160608 2");
         expectedLines.add("TEST20160608 1");
         Helper.compare(file, expectedLines);
@@ -56,9 +61,12 @@ public class HeaderTests
     }
 
     /**
-     * <p>consumeHeader.</p>
+     * <p>
+     * consumeHeader.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void consumeHeader()
@@ -89,9 +97,12 @@ public class HeaderTests
     }
 
     /**
-     * <p>duplicateNameWithColumn.</p>
+     * <p>
+     * duplicateNameWithColumn.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void duplicateNameWithColumn()
@@ -117,9 +128,12 @@ public class HeaderTests
     }
 
     /**
-     * <p>duplicateNameWithHeader.</p>
+     * <p>
+     * duplicateNameWithHeader.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void duplicateNameWithHeader()
@@ -145,9 +159,12 @@ public class HeaderTests
     }
 
     /**
-     * <p>filler.</p>
+     * <p>
+     * filler.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void filler()
@@ -171,20 +188,23 @@ public class HeaderTests
                 + "      (Date -n BUSDATE -d'MM/dd/yyyy HH:mm:ss')"
                 + "      (filler -l 1)"
                 + "      (Int  -n LRECL -l4)"
-                + " --headerOut(-eRUNTIME  -l 28 -d '%tc')");
+                + " --headerOut(-eRUNTIME  -l 28 -d '%tF')");
 
         Assert.assertEquals("records", 2L, context.getWriteCount());
 
         final List<String> expectedLines = new ArrayList<>();
-        expectedLines.add("Wed Jun 01 16:43:56 CDT 2016");
+        expectedLines.add("2016-06-01                  ");
         Helper.compare(file, expectedLines);
         Assert.assertTrue(file.delete());
     }
 
     /**
-     * <p>notValidForCSV.</p>
+     * <p>
+     * notValidForCSV.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void notValidForCSV()
@@ -209,9 +229,12 @@ public class HeaderTests
     }
 
     /**
-     * <p>useHeaderForStop.</p>
+     * <p>
+     * useHeaderForStop.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void useHeaderForStop()
@@ -243,9 +266,12 @@ public class HeaderTests
     }
 
     /**
-     * <p>useHeaderForWhere.</p>
+     * <p>
+     * useHeaderForWhere.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void useHeaderForWhere()
@@ -277,9 +303,12 @@ public class HeaderTests
     }
 
     /**
-     * <p>writeEntireHeaderToOutput.</p>
+     * <p>
+     * writeEntireHeaderToOutput.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void writeEntireHeaderToOutput()
@@ -316,9 +345,12 @@ public class HeaderTests
     }
 
     /**
-     * <p>writeHeaderColumnToDetailRecordAsCol.</p>
+     * <p>
+     * writeHeaderColumnToDetailRecordAsCol.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void writeHeaderColumnToDetailRecordAsCol()
@@ -354,9 +386,12 @@ public class HeaderTests
     }
 
     /**
-     * <p>writeHeaderColumnToDetailRecordAsEqu.</p>
+     * <p>
+     * writeHeaderColumnToDetailRecordAsEqu.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void writeHeaderColumnToDetailRecordAsEqu()
@@ -388,9 +423,12 @@ public class HeaderTests
     }
 
     /**
-     * <p>writeHeaderOutWithEqu.</p>
+     * <p>
+     * writeHeaderOutWithEqu.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void writeHeaderOutWithEqu()
@@ -415,12 +453,12 @@ public class HeaderTests
                 + " --headerIn"
                 + "      (date   -l8 -n RUNDATE -d'yyyyMMdd')"
                 + "      (string -l4 -n RUNTYPE)"
-                + " --headerOut(-eRUNDATE -l 28 -d '%tc')");
+                + " --headerOut(-eRUNDATE -l 28 -d '%tF')");
 
         Assert.assertEquals("records", 2L, context.getWriteCount());
 
         final List<String> expectedLines = new ArrayList<>();
-        expectedLines.add("Wed Jun 08 00:00:00 CDT 2016");
+        expectedLines.add("2016-06-08                  ");
         expectedLines.add("TEST20160608 2");
         expectedLines.add("TEST20160608 1");
         Helper.compare(file, expectedLines);
@@ -428,9 +466,12 @@ public class HeaderTests
     }
 
     /**
-     * <p>writeMinimalHeaderToOutput.</p>
+     * <p>
+     * writeMinimalHeaderToOutput.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void writeMinimalHeaderToOutput()
@@ -465,9 +506,12 @@ public class HeaderTests
     }
 
     /**
-     * <p>writeSpecificColumnsToHeaderOutput.</p>
+     * <p>
+     * writeSpecificColumnsToHeaderOutput.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void writeSpecificColumnsToHeaderOutput()

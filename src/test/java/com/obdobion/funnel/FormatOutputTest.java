@@ -144,12 +144,12 @@ public class FormatOutputTest
 
         Funnel.sort(Helper.config(), file.getAbsolutePath()
                 + " --col(int -o0 -l5 -n zipCode)(string -o6 -n comments)"
-                + " --format(zipCode)(--equ \"dateFmt('20160510', 'yyyyMMdd')\" -l 19 -d'%tc')"
+                + " --format(zipCode)(--equ \"dateFmt('20160510', 'yyyyMMdd')\" -l 19 -d'%tF')"
                 + " -r ");
 
         final List<String> exp = new ArrayList<>();
-        exp.add("12346Tue May 10 00:00:00");
-        exp.add("54322Tue May 10 00:00:00");
+        exp.add("123462016-05-10");
+        exp.add("543222016-05-10");
 
         Helper.compare(file, exp);
 

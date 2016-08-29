@@ -12,7 +12,9 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>AggregateTest class.</p>
+ * <p>
+ * AggregateTest class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
@@ -21,9 +23,12 @@ public class AggregateTest
 {
 
     /**
-     * <p>avgColAndEquError.</p>
+     * <p>
+     * avgColAndEquError.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void avgColAndEquError()
@@ -45,9 +50,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>avgColDate.</p>
+     * <p>
+     * avgColDate.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void avgColDate()
@@ -83,9 +91,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>avgColFloat.</p>
+     * <p>
+     * avgColFloat.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void avgColFloat()
@@ -121,9 +132,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>avgColHugeFloats.</p>
+     * <p>
+     * avgColHugeFloats.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void avgColHugeFloats()
@@ -159,9 +173,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>avgColHugeIntegers.</p>
+     * <p>
+     * avgColHugeIntegers.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void avgColHugeIntegers()
@@ -197,9 +214,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>avgColInt.</p>
+     * <p>
+     * avgColInt.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void avgColInt()
@@ -235,9 +255,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>avgColIntWithAllNegatives.</p>
+     * <p>
+     * avgColIntWithAllNegatives.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void avgColIntWithAllNegatives()
@@ -273,9 +296,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>avgColIntWithHugeNegatives.</p>
+     * <p>
+     * avgColIntWithHugeNegatives.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void avgColIntWithHugeNegatives()
@@ -311,9 +337,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>avgColIntWithMixedSigns.</p>
+     * <p>
+     * avgColIntWithMixedSigns.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void avgColIntWithMixedSigns()
@@ -349,9 +378,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>avgEquDate.</p>
+     * <p>
+     * avgEquDate.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void avgEquDate()
@@ -387,9 +419,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>avgEquFloat.</p>
+     * <p>
+     * avgEquFloat.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void avgEquFloat()
@@ -425,9 +460,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>avgEquHugeFloats.</p>
+     * <p>
+     * avgEquHugeFloats.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void avgEquHugeFloats()
@@ -463,9 +501,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>avgEquHugeIntegers.</p>
+     * <p>
+     * avgEquHugeIntegers.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void avgEquHugeIntegers()
@@ -501,9 +542,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>avgEquInt.</p>
+     * <p>
+     * avgEquInt.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void avgEquInt()
@@ -539,9 +583,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>avgStringError.</p>
+     * <p>
+     * avgStringError.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void avgStringError()
@@ -564,9 +611,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>counter.</p>
+     * <p>
+     * counter.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void counter()
@@ -604,9 +654,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>counterOfNothing.</p>
+     * <p>
+     * counterOfNothing.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void counterOfNothing()
@@ -640,9 +693,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>duplicateAggregateName.</p>
+     * <p>
+     * duplicateAggregateName.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void duplicateAggregateName()
@@ -665,9 +721,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>everythingVariable.</p>
+     * <p>
+     * everythingVariable.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void everythingVariable()
@@ -722,9 +781,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>maxColDate.</p>
+     * <p>
+     * maxColDate.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void maxColDate()
@@ -760,9 +822,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>maxColFloat.</p>
+     * <p>
+     * maxColFloat.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void maxColFloat()
@@ -798,9 +863,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>maxColInt.</p>
+     * <p>
+     * maxColInt.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void maxColInt()
@@ -836,9 +904,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>maxEquDate.</p>
+     * <p>
+     * maxEquDate.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void maxEquDate()
@@ -874,9 +945,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>maxEquFloat.</p>
+     * <p>
+     * maxEquFloat.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void maxEquFloat()
@@ -912,9 +986,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>maxEquInt.</p>
+     * <p>
+     * maxEquInt.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void maxEquInt()
@@ -950,9 +1027,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>minColDate.</p>
+     * <p>
+     * minColDate.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void minColDate()
@@ -988,9 +1068,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>minColFloat.</p>
+     * <p>
+     * minColFloat.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void minColFloat()
@@ -1026,9 +1109,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>minColInt.</p>
+     * <p>
+     * minColInt.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void minColInt()
@@ -1064,9 +1150,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>minEquDate.</p>
+     * <p>
+     * minEquDate.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void minEquDate()
@@ -1102,9 +1191,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>minEquFloat.</p>
+     * <p>
+     * minEquFloat.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void minEquFloat()
@@ -1140,9 +1232,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>minEquInt.</p>
+     * <p>
+     * minEquInt.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void minEquInt()
@@ -1178,9 +1273,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>sumColFloat.</p>
+     * <p>
+     * sumColFloat.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void sumColFloat()
@@ -1216,9 +1314,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>sumColInt.</p>
+     * <p>
+     * sumColInt.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void sumColInt()
@@ -1254,9 +1355,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>sumEquFloat.</p>
+     * <p>
+     * sumEquFloat.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void sumEquFloat()
@@ -1292,9 +1396,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>sumEquInt.</p>
+     * <p>
+     * sumEquInt.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void sumEquInt()
@@ -1330,9 +1437,12 @@ public class AggregateTest
     }
 
     /**
-     * <p>unknownColumn.</p>
+     * <p>
+     * unknownColumn.
+     * </p>
      *
-     * @throws java.lang.Throwable if any.
+     * @throws java.lang.Throwable
+     *             if any.
      */
     @Test
     public void unknownColumn()

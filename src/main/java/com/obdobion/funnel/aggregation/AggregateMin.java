@@ -1,12 +1,16 @@
 package com.obdobion.funnel.aggregation;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
+import com.obdobion.calendar.CalendarFactory;
 import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>AggregateMin class.</p>
+ * <p>
+ * AggregateMin class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -17,7 +21,9 @@ public class AggregateMin extends Aggregate
     Calendar minCalendar;
 
     /**
-     * <p>Constructor for AggregateMin.</p>
+     * <p>
+     * Constructor for AggregateMin.
+     * </p>
      */
     public AggregateMin()
     {
@@ -25,7 +31,7 @@ public class AggregateMin extends Aggregate
     }
 
     @Override
-    Object getValueForEquations ()
+    Object getValueForEquations()
     {
         if (minDouble != Double.MAX_VALUE)
             return new Double(minDouble);
@@ -37,7 +43,7 @@ public class AggregateMin extends Aggregate
     }
 
     @Override
-    void reset ()
+    void reset()
     {
         minDouble = Double.MAX_VALUE;
         minLong = Long.MAX_VALUE;
@@ -45,7 +51,7 @@ public class AggregateMin extends Aggregate
     }
 
     @Override
-    void update (final FunnelContext context) throws Exception
+    void update(final FunnelContext context) throws Exception
     {
         if (equation != null)
         {
@@ -64,9 +70,9 @@ public class AggregateMin extends Aggregate
                     minLong = currentValue;
                 return;
             }
-            if (unknownType instanceof Calendar)
+            if (unknownType instanceof LocalDateTime)
             {
-                final Calendar currentValue = (Calendar) unknownType;
+                final Calendar currentValue = CalendarFactory.asCalendar((LocalDateTime) unknownType);
                 if (minCalendar == null || currentValue.before(minCalendar))
                     minCalendar = currentValue;
                 return;

@@ -2,13 +2,17 @@ package com.obdobion.funnel.aggregation;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
+import com.obdobion.calendar.CalendarFactory;
 import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>AggregateAvg class.</p>
+ * <p>
+ * AggregateAvg class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -22,7 +26,9 @@ public class AggregateAvg extends Aggregate
     long   overflowCount;
 
     /**
-     * <p>Constructor for AggregateAvg.</p>
+     * <p>
+     * Constructor for AggregateAvg.
+     * </p>
      */
     public AggregateAvg()
     {
@@ -30,7 +36,7 @@ public class AggregateAvg extends Aggregate
     }
 
     @Override
-    Object getValueForEquations ()
+    Object getValueForEquations()
     {
         if (occurrences == 0)
             return new Double(0);
@@ -81,7 +87,7 @@ public class AggregateAvg extends Aggregate
     }
 
     @Override
-    void reset ()
+    void reset()
     {
         totalDouble = 0;
         totalLong = 0;
@@ -91,7 +97,7 @@ public class AggregateAvg extends Aggregate
     }
 
     @Override
-    void update (final FunnelContext context) throws Exception
+    void update(final FunnelContext context) throws Exception
     {
         occurrences++;
 
@@ -122,10 +128,10 @@ public class AggregateAvg extends Aggregate
                     totalLong += currentValue;
                 return;
             }
-            if (unknownType instanceof Calendar)
+            if (unknownType instanceof LocalDateTime)
             {
                 aggType = AggType.CAL;
-                final long currentValue = ((Calendar) unknownType).getTimeInMillis();
+                final long currentValue = CalendarFactory.asDateLong((LocalDateTime) unknownType);
                 if (Long.MAX_VALUE - currentValue < totalCalendar)
                 {
                     overflowCount++;
