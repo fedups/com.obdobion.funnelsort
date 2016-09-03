@@ -14,7 +14,9 @@ import com.obdobion.funnel.parameters.FunnelContext;
 import com.obdobion.funnel.provider.EmptyProvider;
 
 /**
- * <p>SegmentedPublisherAndProvider class.</p>
+ * <p>
+ * SegmentedPublisherAndProvider class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -33,9 +35,12 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
     private long                duplicateCount;
 
     /**
-     * <p>Constructor for SegmentedPublisherAndProvider.</p>
+     * <p>
+     * Constructor for SegmentedPublisherAndProvider.
+     * </p>
      *
-     * @param context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @throws java.io.IOException if any.
      */
     public SegmentedPublisherAndProvider(final FunnelContext context) throws IOException
@@ -50,7 +55,9 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
     }
 
     /**
-     * <p>actAsProvider.</p>
+     * <p>
+     * actAsProvider.
+     * </p>
      */
     public void actAsProvider()
     {
@@ -181,9 +188,12 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
     }
 
     /**
-     * <p>segment.</p>
+     * <p>
+     * segment.
+     * </p>
      *
-     * @param data a {@link com.obdobion.funnel.segment.SourceProxyRecord} object.
+     * @param data a {@link com.obdobion.funnel.segment.SourceProxyRecord}
+     *            object.
      * @param phase a long.
      * @throws java.io.IOException if any.
      */
@@ -201,7 +211,9 @@ public class SegmentedPublisherAndProvider implements FunnelDataPublisher, Funne
     }
 
     /**
-     * <p>setComparator.</p>
+     * <p>
+     * setComparator.
+     * </p>
      *
      * @param comparator a {@link java.util.Comparator} object.
      */

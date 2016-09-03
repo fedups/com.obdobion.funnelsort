@@ -8,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * <p>FixedLengthFileReader class.</p>
+ * <p>
+ * FixedLengthFileReader class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -20,7 +22,9 @@ public class FixedLengthFileReader implements InputReader
     RandomAccessFile    reader;
 
     /**
-     * <p>Constructor for FixedLengthFileReader.</p>
+     * <p>
+     * Constructor for FixedLengthFileReader.
+     * </p>
      *
      * @param _inputFile a {@link java.io.File} object.
      * @param lineSeparator an array of byte.

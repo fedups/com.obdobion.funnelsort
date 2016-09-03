@@ -3,7 +3,9 @@ package com.obdobion.funnel.orderby;
 import java.nio.ByteBuffer;
 
 /**
- * <p>RecordNumberKey class.</p>
+ * <p>
+ * RecordNumberKey class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -12,7 +14,9 @@ public class RecordNumberKey extends KeyPart
     Long contents;
 
     /**
-     * <p>Constructor for RecordNumberKey.</p>
+     * <p>
+     * Constructor for RecordNumberKey.
+     * </p>
      *
      * @param dir a {@link com.obdobion.funnel.orderby.KeyDirection} object.
      * @param _parseFormat a {@link java.lang.String} object.

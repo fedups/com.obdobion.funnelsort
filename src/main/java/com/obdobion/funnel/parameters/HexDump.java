@@ -3,7 +3,9 @@ package com.obdobion.funnel.parameters;
 import com.obdobion.argument.annotation.Arg;
 
 /**
- * <p>HexDump class.</p>
+ * <p>
+ * HexDump class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -13,7 +15,9 @@ public class HexDump
     public String columnName;
 
     /**
-     * <p>Constructor for HexDump.</p>
+     * <p>
+     * Constructor for HexDump.
+     * </p>
      */
     public HexDump()
     {

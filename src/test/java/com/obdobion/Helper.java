@@ -16,7 +16,9 @@ import com.obdobion.funnel.columns.OutputFormatHelper;
 import com.obdobion.funnel.orderby.KeyContext;
 
 /**
- * <p>Helper class.</p>
+ * <p>
+ * Helper class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
@@ -29,7 +31,9 @@ public class Helper
     public static final String DEBUG   = "ON";
 
     /**
-     * <p>compare.</p>
+     * <p>
+     * compare.
+     * </p>
      *
      * @param file a {@link java.io.File} object.
      * @param expectedLines a {@link java.util.List} object.
@@ -49,7 +53,9 @@ public class Helper
     }
 
     /**
-     * <p>compareFixed.</p>
+     * <p>
+     * compareFixed.
+     * </p>
      *
      * @param file a {@link java.io.File} object.
      * @param expectedData a {@link java.util.List} object.
@@ -71,7 +77,9 @@ public class Helper
     }
 
     /**
-     * <p>compareFixed.</p>
+     * <p>
+     * compareFixed.
+     * </p>
      *
      * @param file a {@link java.io.File} object.
      * @param expectedData a {@link java.lang.String} object.
@@ -92,7 +100,9 @@ public class Helper
     }
 
     /**
-     * <p>config.</p>
+     * <p>
+     * config.
+     * </p>
      *
      * @return a {@link com.obdobion.funnel.AppContext} object.
      * @throws java.io.IOException if any.
@@ -104,7 +114,9 @@ public class Helper
     }
 
     /**
-     * <p>createFixedUnsortedFile.</p>
+     * <p>
+     * createFixedUnsortedFile.
+     * </p>
      *
      * @param prefix a {@link java.lang.String} object.
      * @param lines a {@link java.util.List} object.
@@ -133,7 +145,9 @@ public class Helper
     }
 
     /**
-     * <p>createUnsortedFile.</p>
+     * <p>
+     * createUnsortedFile.
+     * </p>
      *
      * @param lines a {@link java.util.List} object.
      * @return a {@link java.io.File} object.
@@ -145,7 +159,9 @@ public class Helper
     }
 
     /**
-     * <p>createUnsortedFile.</p>
+     * <p>
+     * createUnsortedFile.
+     * </p>
      *
      * @param prefix a {@link java.lang.String} object.
      * @param lines a {@link java.util.List} object.
@@ -158,7 +174,9 @@ public class Helper
     }
 
     /**
-     * <p>createUnsortedFile.</p>
+     * <p>
+     * createUnsortedFile.
+     * </p>
      *
      * @param prefix a {@link java.lang.String} object.
      * @param lines a {@link java.util.List} object.
@@ -192,7 +210,9 @@ public class Helper
     }
 
     /**
-     * <p>dummyKeyContext.</p>
+     * <p>
+     * dummyKeyContext.
+     * </p>
      *
      * @param rawBytes a {@link java.lang.String} object.
      * @return a {@link com.obdobion.funnel.orderby.KeyContext} object.
@@ -209,7 +229,9 @@ public class Helper
     }
 
     /**
-     * <p>initializeFor.</p>
+     * <p>
+     * initializeFor.
+     * </p>
      *
      * @param testCaseName a {@link java.lang.String} object.
      */
@@ -220,7 +242,9 @@ public class Helper
     }
 
     /**
-     * <p>myDataCSVFileName.</p>
+     * <p>
+     * myDataCSVFileName.
+     * </p>
      *
      * @return a {@link java.lang.String} object.
      */
@@ -230,7 +254,9 @@ public class Helper
     }
 
     /**
-     * <p>outFile.</p>
+     * <p>
+     * outFile.
+     * </p>
      *
      * @param testName a {@link java.lang.String} object.
      * @return a {@link java.io.File} object.
@@ -241,7 +267,9 @@ public class Helper
     }
 
     /**
-     * <p>outFileName.</p>
+     * <p>
+     * outFileName.
+     * </p>
      *
      * @param jUnitTestName a {@link java.lang.String} object.
      * @return a {@link java.lang.String} object.
@@ -252,7 +280,9 @@ public class Helper
     }
 
     /**
-     * <p>outFileWhenInIsSysin.</p>
+     * <p>
+     * outFileWhenInIsSysin.
+     * </p>
      *
      * @return a {@link java.io.File} object.
      * @throws java.io.IOException if any.
@@ -263,7 +293,9 @@ public class Helper
     }
 
     /**
-     * <p>testName.</p>
+     * <p>
+     * testName.
+     * </p>
      *
      * @return a {@link java.lang.String} object.
      */

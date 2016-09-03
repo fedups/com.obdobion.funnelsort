@@ -14,7 +14,9 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>FunnelTest class.</p>
+ * <p>
+ * FunnelTest class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
@@ -22,7 +24,9 @@ import com.obdobion.funnel.parameters.FunnelContext;
 public class FunnelTest
 {
     /**
-     * <p>copyOriginalFixed130.</p>
+     * <p>
+     * copyOriginalFixed130.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -53,7 +57,9 @@ public class FunnelTest
     }
 
     /**
-     * <p>copyOriginalFixed50.</p>
+     * <p>
+     * copyOriginalFixed50.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -84,7 +90,9 @@ public class FunnelTest
     }
 
     /**
-     * <p>copyOriginalVar1000.</p>
+     * <p>
+     * copyOriginalVar1000.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -115,7 +123,9 @@ public class FunnelTest
     }
 
     /**
-     * <p>copyOriginalVar130.</p>
+     * <p>
+     * copyOriginalVar130.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -146,7 +156,9 @@ public class FunnelTest
     }
 
     /**
-     * <p>copyOriginalVar50.</p>
+     * <p>
+     * copyOriginalVar50.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -177,7 +189,9 @@ public class FunnelTest
     }
 
     /**
-     * <p>copyReverseFixed.</p>
+     * <p>
+     * copyReverseFixed.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -208,7 +222,9 @@ public class FunnelTest
     }
 
     /**
-     * <p>copyReverseVar.</p>
+     * <p>
+     * copyReverseVar.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -239,7 +255,9 @@ public class FunnelTest
     }
 
     /**
-     * <p>sortDate.</p>
+     * <p>
+     * sortDate.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -277,7 +295,9 @@ public class FunnelTest
     }
 
     /**
-     * <p>sortDateNoFormat.</p>
+     * <p>
+     * sortDateNoFormat.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -297,7 +317,9 @@ public class FunnelTest
     }
 
     /**
-     * <p>sortFixed1000.</p>
+     * <p>
+     * sortFixed1000.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -330,7 +352,9 @@ public class FunnelTest
     }
 
     /**
-     * <p>sortFullKeyVariable1000Asc.</p>
+     * <p>
+     * sortFullKeyVariable1000Asc.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -361,7 +385,9 @@ public class FunnelTest
     }
 
     /**
-     * <p>sortIntVar1000.</p>
+     * <p>
+     * sortIntVar1000.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -394,7 +420,9 @@ public class FunnelTest
     }
 
     /**
-     * <p>sortStringVar1000.</p>
+     * <p>
+     * sortStringVar1000.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -427,7 +455,9 @@ public class FunnelTest
     }
 
     /**
-     * <p>sortVarP2.</p>
+     * <p>
+     * sortVarP2.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -460,7 +490,9 @@ public class FunnelTest
     }
 
     /**
-     * <p>unexpectedInput.</p>
+     * <p>
+     * unexpectedInput.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -480,7 +512,9 @@ public class FunnelTest
     }
 
     /**
-     * <p>usageMessage.</p>
+     * <p>
+     * usageMessage.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -500,7 +534,9 @@ public class FunnelTest
     }
 
     /**
-     * <p>version.</p>
+     * <p>
+     * version.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */

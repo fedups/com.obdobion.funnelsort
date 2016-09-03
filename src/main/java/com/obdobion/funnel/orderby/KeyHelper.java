@@ -7,7 +7,9 @@ import com.obdobion.funnel.columns.ColumnHelper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>KeyHelper class.</p>
+ * <p>
+ * KeyHelper class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -22,7 +24,9 @@ public class KeyHelper
     KeyPart                     formatter;
 
     /**
-     * <p>Constructor for KeyHelper.</p>
+     * <p>
+     * Constructor for KeyHelper.
+     * </p>
      */
     public KeyHelper()
     {
@@ -30,7 +34,9 @@ public class KeyHelper
     }
 
     /**
-     * <p>Constructor for KeyHelper.</p>
+     * <p>
+     * Constructor for KeyHelper.
+     * </p>
      *
      * @param maxsize a int.
      */
@@ -48,7 +54,8 @@ public class KeyHelper
      * helper to find the definition of the key if a column name was specified.
      *
      * @param _formatter a {@link com.obdobion.funnel.orderby.KeyPart} object.
-     * @param columnHelper a {@link com.obdobion.funnel.columns.ColumnHelper} object.
+     * @param columnHelper a {@link com.obdobion.funnel.columns.ColumnHelper}
+     *            object.
      */
     public void add(final KeyPart _formatter, final ColumnHelper columnHelper)
     {
@@ -122,7 +129,9 @@ public class KeyHelper
     }
 
     /**
-     * <p>extractKey.</p>
+     * <p>
+     * extractKey.
+     * </p>
      *
      * @param data a {@link java.lang.String} object.
      * @param recordNumber a long.
@@ -144,37 +153,40 @@ public class KeyHelper
     }
 
     /**
-     * <p>setUpAsCopy.</p>
+     * <p>
+     * setUpAsCopy.
+     * </p>
      *
-     * @param funnelContext a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param funnelContext a
+     *            {@link com.obdobion.funnel.parameters.FunnelContext} object.
      */
     public void setUpAsCopy(final FunnelContext funnelContext)
     {
         switch (funnelContext.getCopyOrder())
         {
-        case ByKey:
-            AlphaKey ak;
-            if (funnelContext.getCsv() == null)
-            {
-                add(ak = new AlphaKey(), null);
-                ak.offset = 0;
-                ak.length = MAX_KEY_SIZE;
-                ak.direction = KeyDirection.ASC;
-            } else
-            {
-                add(ak = new AlphaKey(), null);
-                ak.csvFieldNumber = 0;
-                ak.offset = 0;
-                ak.length = MAX_KEY_SIZE;
-                ak.direction = KeyDirection.ASC;
-            }
-            break;
-        case Original:
-            add(new RecordNumberKey(KeyDirection.ASC, null), null);
-            break;
-        case Reverse:
-            add(new RecordNumberKey(KeyDirection.DESC, null), null);
-            break;
+            case ByKey:
+                AlphaKey ak;
+                if (funnelContext.getCsv() == null)
+                {
+                    add(ak = new AlphaKey(), null);
+                    ak.offset = 0;
+                    ak.length = MAX_KEY_SIZE;
+                    ak.direction = KeyDirection.ASC;
+                } else
+                {
+                    add(ak = new AlphaKey(), null);
+                    ak.csvFieldNumber = 0;
+                    ak.offset = 0;
+                    ak.length = MAX_KEY_SIZE;
+                    ak.direction = KeyDirection.ASC;
+                }
+                break;
+            case Original:
+                add(new RecordNumberKey(KeyDirection.ASC, null), null);
+                break;
+            case Reverse:
+                add(new RecordNumberKey(KeyDirection.DESC, null), null);
+                break;
         }
     }
 

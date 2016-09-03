@@ -16,7 +16,9 @@ import com.obdobion.funnel.parameters.FunnelContext;
 import com.obdobion.funnel.provider.AbstractInputCache;
 
 /**
- * <p>InputCacheTests class.</p>
+ * <p>
+ * InputCacheTests class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
@@ -32,7 +34,9 @@ public class InputCacheTests
     }
 
     /**
-     * <p>bufferPositioningLargeNumbers.</p>
+     * <p>
+     * bufferPositioningLargeNumbers.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -53,7 +57,9 @@ public class InputCacheTests
     }
 
     /**
-     * <p>bufferPositioningNotPow2.</p>
+     * <p>
+     * bufferPositioningNotPow2.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -80,7 +86,9 @@ public class InputCacheTests
     }
 
     /**
-     * <p>bufferPositioningPow2.</p>
+     * <p>
+     * bufferPositioningPow2.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -105,7 +113,9 @@ public class InputCacheTests
     }
 
     /**
-     * <p>inputStreamWith2BuffersByArray.</p>
+     * <p>
+     * inputStreamWith2BuffersByArray.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -138,7 +148,9 @@ public class InputCacheTests
     }
 
     /**
-     * <p>inputStreamWith2BuffersByByte.</p>
+     * <p>
+     * inputStreamWith2BuffersByByte.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -172,7 +184,9 @@ public class InputCacheTests
     }
 
     /**
-     * <p>sortWith2Buffers.</p>
+     * <p>
+     * sortWith2Buffers.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */

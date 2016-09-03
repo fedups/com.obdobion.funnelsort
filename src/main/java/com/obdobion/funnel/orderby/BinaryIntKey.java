@@ -3,7 +3,9 @@ package com.obdobion.funnel.orderby;
 import java.nio.ByteBuffer;
 
 /**
- * <p>BinaryIntKey class.</p>
+ * <p>
+ * BinaryIntKey class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -12,7 +14,9 @@ public class BinaryIntKey extends KeyPart
     Long contents;
 
     /**
-     * <p>Constructor for BinaryIntKey.</p>
+     * <p>
+     * Constructor for BinaryIntKey.
+     * </p>
      */
     public BinaryIntKey()
     {
@@ -42,18 +46,18 @@ public class BinaryIntKey extends KeyPart
          */
         switch (length)
         {
-        case 1:
-            bb.put((byte) ((longValue.byteValue()) ^ 0x80));
-            break;
-        case 2:
-            bb.putShort((short) ((longValue.shortValue()) ^ 0x8000));
-            break;
-        case 4:
-            bb.putInt(((longValue.intValue()) ^ 0x80000000));
-            break;
-        case 8:
-            bb.putLong(longValue ^ 0x8000000000000000L);
-            break;
+            case 1:
+                bb.put((byte) ((longValue.byteValue()) ^ 0x80));
+                break;
+            case 2:
+                bb.putShort((short) ((longValue.shortValue()) ^ 0x8000));
+                break;
+            case 4:
+                bb.putInt(((longValue.intValue()) ^ 0x80000000));
+                break;
+            case 8:
+                bb.putLong(longValue ^ 0x8000000000000000L);
+                break;
         }
         context.keyLength += length;
     }
@@ -107,18 +111,18 @@ public class BinaryIntKey extends KeyPart
         final ByteBuffer bb = ByteBuffer.wrap(rawBytes, offset, 8);
         switch (length)
         {
-        case 1:
-            contents = new Long(bb.get());
-            return;
-        case 2:
-            contents = new Long(bb.getShort());
-            return;
-        case 4:
-            contents = new Long(bb.getInt());
-            return;
-        case 8:
-            contents = new Long(bb.getLong());
-            return;
+            case 1:
+                contents = new Long(bb.get());
+                return;
+            case 2:
+                contents = new Long(bb.getShort());
+                return;
+            case 4:
+                contents = new Long(bb.getInt());
+                return;
+            case 8:
+                contents = new Long(bb.getLong());
+                return;
         }
         throw new Exception("invalid length for a binary integer field: " + length);
     }

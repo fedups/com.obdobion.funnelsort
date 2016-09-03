@@ -5,14 +5,15 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
- * <p>MasterSuite class.</p>
+ * <p>
+ * MasterSuite class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
  */
 @RunWith(Suite.class)
-@SuiteClasses(
-{
+@SuiteClasses({
         AbbreviationTests.class,
         AggregateTest.class,
         BasicTest.class,

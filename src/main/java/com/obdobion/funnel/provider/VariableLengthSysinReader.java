@@ -9,7 +9,9 @@ import org.slf4j.LoggerFactory;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>VariableLengthSysinReader class.</p>
+ * <p>
+ * VariableLengthSysinReader class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -18,9 +20,12 @@ public class VariableLengthSysinReader extends VariableLengthCacheReader
     static final private Logger _logger = LoggerFactory.getLogger(VariableLengthSysinReader.class);
 
     /**
-     * <p>Constructor for VariableLengthSysinReader.</p>
+     * <p>
+     * Constructor for VariableLengthSysinReader.
+     * </p>
      *
-     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @throws java.io.IOException if any.
      * @throws java.text.ParseException if any.
      */
@@ -31,7 +36,7 @@ public class VariableLengthSysinReader extends VariableLengthCacheReader
     }
 
     @Override
-    void loadDataToCache () throws IOException
+    void loadDataToCache() throws IOException
     {
         context.inputCache = new VariableLengthInputCache(context, System.in);
         System.in.close();

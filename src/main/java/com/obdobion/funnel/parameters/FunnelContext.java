@@ -35,7 +35,9 @@ import com.obdobion.funnel.provider.ProviderFactory;
 import com.obdobion.funnel.publisher.PublisherFactory;
 
 /**
- * <p>FunnelContext class.</p>
+ * <p>
+ * FunnelContext class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -98,7 +100,9 @@ public class FunnelContext
     private List<KeyPart>      keys;
 
     /**
-     * <p>Constructor for FunnelContext.</p>
+     * <p>
+     * Constructor for FunnelContext.
+     * </p>
      *
      * @param cfg a {@link com.obdobion.funnel.AppContext} object.
      * @param _args a {@link java.lang.String} object.
@@ -164,7 +168,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getAggregateByName.</p>
+     * <p>
+     * getAggregateByName.
+     * </p>
      *
      * @param name a {@link java.lang.String} object.
      * @return a {@link com.obdobion.funnel.aggregation.Aggregate} object.
@@ -179,7 +185,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getAggregates.</p>
+     * <p>
+     * getAggregates.
+     * </p>
      *
      * @return a {@link java.util.List} object.
      */
@@ -189,7 +197,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getCopyOrder.</p>
+     * <p>
+     * getCopyOrder.
+     * </p>
      *
      * @return a {@link com.obdobion.funnel.parameters.CopyOrder} object.
      */
@@ -199,7 +209,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getCsv.</p>
+     * <p>
+     * getCsv.
+     * </p>
      *
      * @return a {@link com.obdobion.funnel.parameters.CSVDef} object.
      */
@@ -209,7 +221,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getDepth.</p>
+     * <p>
+     * getDepth.
+     * </p>
      *
      * @return a int.
      */
@@ -219,7 +233,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>Getter for the field <code>duplicateCount</code>.</p>
+     * <p>
+     * Getter for the field <code>duplicateCount</code>.
+     * </p>
      *
      * @return a long.
      */
@@ -229,9 +245,12 @@ public class FunnelContext
     }
 
     /**
-     * <p>getDuplicateDisposition.</p>
+     * <p>
+     * getDuplicateDisposition.
+     * </p>
      *
-     * @return a {@link com.obdobion.funnel.parameters.DuplicateDisposition} object.
+     * @return a {@link com.obdobion.funnel.parameters.DuplicateDisposition}
+     *         object.
      */
     public DuplicateDisposition getDuplicateDisposition()
     {
@@ -239,7 +258,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getEndOfRecordDelimiterIn.</p>
+     * <p>
+     * getEndOfRecordDelimiterIn.
+     * </p>
      *
      * @return an array of byte.
      */
@@ -249,7 +270,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getEndOfRecordDelimiterOut.</p>
+     * <p>
+     * getEndOfRecordDelimiterOut.
+     * </p>
      *
      * @return an array of byte.
      */
@@ -259,7 +282,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getFixedRecordLengthIn.</p>
+     * <p>
+     * getFixedRecordLengthIn.
+     * </p>
      *
      * @return a int.
      */
@@ -269,7 +294,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getFixedRecordLengthOut.</p>
+     * <p>
+     * getFixedRecordLengthOut.
+     * </p>
      *
      * @return a int.
      */
@@ -279,7 +306,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getFormatOutDefs.</p>
+     * <p>
+     * getFormatOutDefs.
+     * </p>
      *
      * @return a {@link java.util.List} object.
      */
@@ -289,7 +318,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getHeaderInDefs.</p>
+     * <p>
+     * getHeaderInDefs.
+     * </p>
      *
      * @return a {@link java.util.List} object.
      */
@@ -299,7 +330,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getHeaderOutDefs.</p>
+     * <p>
+     * getHeaderOutDefs.
+     * </p>
      *
      * @return a {@link java.util.List} object.
      */
@@ -309,7 +342,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getHexDumps.</p>
+     * <p>
+     * getHexDumps.
+     * </p>
      *
      * @return a {@link java.util.List} object.
      */
@@ -319,7 +354,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getInputColumnDefs.</p>
+     * <p>
+     * getInputColumnDefs.
+     * </p>
      *
      * @return a {@link java.util.List} object.
      */
@@ -329,7 +366,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getInputFile.</p>
+     * <p>
+     * getInputFile.
+     * </p>
      *
      * @param fileNumber a int.
      * @return a {@link java.io.File} object.
@@ -342,7 +381,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getInputFiles.</p>
+     * <p>
+     * getInputFiles.
+     * </p>
      *
      * @return a {@link com.obdobion.argument.type.WildFiles} object.
      */
@@ -352,7 +393,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>Getter for the field <code>keys</code>.</p>
+     * <p>
+     * Getter for the field <code>keys</code>.
+     * </p>
      *
      * @return a {@link java.util.List} object.
      */
@@ -362,7 +405,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getMaximumNumberOfRows.</p>
+     * <p>
+     * getMaximumNumberOfRows.
+     * </p>
      *
      * @return a long.
      */
@@ -377,7 +422,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getOutputFile.</p>
+     * <p>
+     * getOutputFile.
+     * </p>
      *
      * @return a {@link java.io.File} object.
      */
@@ -387,7 +434,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>Getter for the field <code>recordCount</code>.</p>
+     * <p>
+     * Getter for the field <code>recordCount</code>.
+     * </p>
      *
      * @return a long.
      */
@@ -397,7 +446,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getStopEqu.</p>
+     * <p>
+     * getStopEqu.
+     * </p>
      *
      * @return a {@link java.util.List} object.
      */
@@ -407,7 +458,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>Getter for the field <code>unselectedCount</code>.</p>
+     * <p>
+     * Getter for the field <code>unselectedCount</code>.
+     * </p>
      *
      * @return a long.
      */
@@ -417,7 +470,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getWhereEqu.</p>
+     * <p>
+     * getWhereEqu.
+     * </p>
      *
      * @return a {@link java.util.List} object.
      */
@@ -427,7 +482,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>getWorkDirectory.</p>
+     * <p>
+     * getWorkDirectory.
+     * </p>
      *
      * @return a {@link java.io.File} object.
      */
@@ -437,7 +494,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>Getter for the field <code>writeCount</code>.</p>
+     * <p>
+     * Getter for the field <code>writeCount</code>.
+     * </p>
      *
      * @return a long.
      */
@@ -447,7 +506,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>inputCounters.</p>
+     * <p>
+     * inputCounters.
+     * </p>
      *
      * @param p_unselectedCount a long.
      * @param p_recordCount a long.
@@ -460,7 +521,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>inputFileCount.</p>
+     * <p>
+     * inputFileCount.
+     * </p>
      *
      * @return a int.
      * @throws java.text.ParseException if any.
@@ -474,7 +537,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>inputFileIndex.</p>
+     * <p>
+     * inputFileIndex.
+     * </p>
      *
      * @return a int.
      */
@@ -484,7 +549,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>isAggregating.</p>
+     * <p>
+     * isAggregating.
+     * </p>
      *
      * @return a boolean.
      */
@@ -494,7 +561,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>isCacheInput.</p>
+     * <p>
+     * isCacheInput.
+     * </p>
      *
      * @return a boolean.
      */
@@ -504,7 +573,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>isCacheWork.</p>
+     * <p>
+     * isCacheWork.
+     * </p>
      *
      * @return a boolean.
      */
@@ -514,7 +585,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>isDiskWork.</p>
+     * <p>
+     * isDiskWork.
+     * </p>
      *
      * @return a boolean.
      */
@@ -524,7 +597,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>isHexDumping.</p>
+     * <p>
+     * isHexDumping.
+     * </p>
      *
      * @return a boolean.
      */
@@ -534,7 +609,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>isInPlaceSort.</p>
+     * <p>
+     * isInPlaceSort.
+     * </p>
      *
      * @return a boolean.
      */
@@ -544,7 +621,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>isMultisourceInput.</p>
+     * <p>
+     * isMultisourceInput.
+     * </p>
      *
      * @return a boolean.
      * @throws java.text.ParseException if any.
@@ -556,7 +635,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>isNoCacheInput.</p>
+     * <p>
+     * isNoCacheInput.
+     * </p>
      *
      * @return a boolean.
      */
@@ -566,7 +647,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>isSyntaxOnly.</p>
+     * <p>
+     * isSyntaxOnly.
+     * </p>
      *
      * @return a boolean.
      */
@@ -576,7 +659,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>isSysin.</p>
+     * <p>
+     * isSysin.
+     * </p>
      *
      * @return a boolean.
      */
@@ -586,7 +671,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>isSysout.</p>
+     * <p>
+     * isSysout.
+     * </p>
      *
      * @return a boolean.
      * @throws java.text.ParseException if any.
@@ -600,7 +687,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>isUsageRun.</p>
+     * <p>
+     * isUsageRun.
+     * </p>
      *
      * @return a boolean.
      */
@@ -610,7 +699,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>isUserSpecifiedOrder.</p>
+     * <p>
+     * isUserSpecifiedOrder.
+     * </p>
      *
      * @return a boolean.
      */
@@ -620,7 +711,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>isVariableLengthInput.</p>
+     * <p>
+     * isVariableLengthInput.
+     * </p>
      *
      * @return a boolean.
      */
@@ -630,7 +723,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>isVariableLengthOutput.</p>
+     * <p>
+     * isVariableLengthOutput.
+     * </p>
      *
      * @return a boolean.
      */
@@ -640,7 +735,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>isVersion.</p>
+     * <p>
+     * isVersion.
+     * </p>
      *
      * @return a boolean.
      */
@@ -650,7 +747,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>outputCounters.</p>
+     * <p>
+     * outputCounters.
+     * </p>
      *
      * @param p_duplicateCount a long.
      * @param p_writeCount a long.
@@ -1118,7 +1217,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>reset.</p>
+     * <p>
+     * reset.
+     * </p>
      *
      * @throws java.io.IOException if any.
      * @throws java.text.ParseException if any.
@@ -1132,7 +1233,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>setDepth.</p>
+     * <p>
+     * setDepth.
+     * </p>
      *
      * @param optimalFunnelDepth a int.
      */
@@ -1142,7 +1245,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>setInputFiles.</p>
+     * <p>
+     * setInputFiles.
+     * </p>
      *
      * @param wildFiles a {@link com.obdobion.argument.type.WildFiles} object.
      */
@@ -1152,7 +1257,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>setOutputFile.</p>
+     * <p>
+     * setOutputFile.
+     * </p>
      *
      * @param outputFile a {@link java.io.File} object.
      */
@@ -1385,7 +1492,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>startNextInput.</p>
+     * <p>
+     * startNextInput.
+     * </p>
      *
      * @return a boolean.
      * @throws java.text.ParseException if any.
@@ -1403,7 +1512,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>stopIsTrue.</p>
+     * <p>
+     * stopIsTrue.
+     * </p>
      *
      * @return a boolean.
      * @throws java.lang.Exception if any.
@@ -1430,7 +1541,9 @@ public class FunnelContext
     }
 
     /**
-     * <p>whereIsTrue.</p>
+     * <p>
+     * whereIsTrue.
+     * </p>
      *
      * @return a boolean.
      * @throws java.lang.Exception if any.

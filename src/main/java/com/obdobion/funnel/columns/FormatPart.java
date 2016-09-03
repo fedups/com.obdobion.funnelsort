@@ -12,7 +12,9 @@ import com.obdobion.funnel.orderby.KeyType;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>FormatPart class.</p>
+ * <p>
+ * FormatPart class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -60,7 +62,9 @@ public class FormatPart
     KeyPart           column;
 
     /**
-     * <p>Constructor for FormatPart.</p>
+     * <p>
+     * Constructor for FormatPart.
+     * </p>
      */
     public FormatPart()
     {
@@ -70,9 +74,12 @@ public class FormatPart
     }
 
     /**
-     * <p>add.</p>
+     * <p>
+     * add.
+     * </p>
      *
-     * @param anotherFormatter a {@link com.obdobion.funnel.columns.FormatPart} object.
+     * @param anotherFormatter a {@link com.obdobion.funnel.columns.FormatPart}
+     *            object.
      */
     public void add(final FormatPart anotherFormatter)
     {
@@ -83,7 +90,9 @@ public class FormatPart
     }
 
     /**
-     * <p>defineFrom.</p>
+     * <p>
+     * defineFrom.
+     * </p>
      *
      * @param colDef a {@link com.obdobion.funnel.orderby.KeyPart} object.
      */
@@ -93,10 +102,14 @@ public class FormatPart
     }
 
     /**
-     * <p>originalData.</p>
+     * <p>
+     * originalData.
+     * </p>
      *
-     * @param keyContext a {@link com.obdobion.funnel.orderby.KeyContext} object.
-     * @param funnelContext a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param keyContext a {@link com.obdobion.funnel.orderby.KeyContext}
+     *            object.
+     * @param funnelContext a
+     *            {@link com.obdobion.funnel.parameters.FunnelContext} object.
      * @param originalSize a int.
      * @param outputBytes a {@link java.io.ByteArrayOutputStream} object.
      * @throws java.lang.Exception if any.

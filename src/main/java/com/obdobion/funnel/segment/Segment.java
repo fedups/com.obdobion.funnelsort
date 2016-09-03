@@ -20,9 +20,12 @@ class Segment implements FunnelDataProvider
     long                          nextRow;
 
     /**
-     * <p>Constructor for Segment.</p>
+     * <p>
+     * Constructor for Segment.
+     * </p>
      *
-     * @param _workfile a {@link com.obdobion.funnel.segment.WorkRepository} object.
+     * @param _workfile a {@link com.obdobion.funnel.segment.WorkRepository}
+     *            object.
      * @throws java.io.IOException if any.
      */
     public Segment(final WorkRepository _workfile) throws IOException
@@ -102,9 +105,13 @@ class Segment implements FunnelDataProvider
     }
 
     /**
-     * <p>Setter for the field <code>segmentProvider</code>.</p>
+     * <p>
+     * Setter for the field <code>segmentProvider</code>.
+     * </p>
      *
-     * @param _segmentProvider a {@link com.obdobion.funnel.segment.SegmentedPublisherAndProvider} object.
+     * @param _segmentProvider a
+     *            {@link com.obdobion.funnel.segment.SegmentedPublisherAndProvider}
+     *            object.
      */
     public void setSegmentProvider(final SegmentedPublisherAndProvider _segmentProvider)
     {
@@ -112,9 +119,12 @@ class Segment implements FunnelDataProvider
     }
 
     /**
-     * <p>write.</p>
+     * <p>
+     * write.
+     * </p>
      *
-     * @param item a {@link com.obdobion.funnel.segment.SourceProxyRecord} object.
+     * @param item a {@link com.obdobion.funnel.segment.SourceProxyRecord}
+     *            object.
      * @throws java.io.IOException if any.
      */
     public void write(final SourceProxyRecord item) throws IOException

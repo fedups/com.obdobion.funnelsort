@@ -11,7 +11,9 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>DuplicateTest class.</p>
+ * <p>
+ * DuplicateTest class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
@@ -19,13 +21,15 @@ import com.obdobion.funnel.parameters.FunnelContext;
 public class DuplicateTest
 {
     /**
-     * <p>dupsFirst.</p>
+     * <p>
+     * dupsFirst.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void dupsFirst ()
-        throws Throwable
+    public void dupsFirst()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -40,10 +44,10 @@ public class DuplicateTest
 
         final File file = Helper.createUnsortedFile(testName, in);
         final FunnelContext context = Funnel.sort(Helper.config(),
-            file.getAbsolutePath() + " -r --row 130 --fixedIn 10"
-                + "--col(String -o0,-l3 -n col1)"
-                + "--orderby(col1) "
-                + "--dup firstonly");
+                file.getAbsolutePath() + " -r --row 130 --fixedIn 10"
+                        + "--col(String -o0,-l3 -n col1)"
+                        + "--orderby(col1) "
+                        + "--dup firstonly");
 
         Assert.assertEquals("records", 130L, context.getRecordCount());
         Assert.assertEquals("dups", 129L, context.getDuplicateCount());
@@ -53,13 +57,15 @@ public class DuplicateTest
     }
 
     /**
-     * <p>dupsLast.</p>
+     * <p>
+     * dupsLast.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void dupsLast ()
-        throws Throwable
+    public void dupsLast()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -74,10 +80,10 @@ public class DuplicateTest
 
         final File file = Helper.createUnsortedFile(testName, in);
         final FunnelContext context = Funnel.sort(Helper.config(),
-            file.getAbsolutePath() + " -r --row 130 --fixedIn 10"
-                + "--col(String -o0,-l3 -n col1)"
-                + "--orderby(col1) "
-                + "--dup lastonly");
+                file.getAbsolutePath() + " -r --row 130 --fixedIn 10"
+                        + "--col(String -o0,-l3 -n col1)"
+                        + "--orderby(col1) "
+                        + "--dup lastonly");
 
         Assert.assertEquals("records", 130L, context.getRecordCount());
         Assert.assertEquals("dups", 129L, context.getDuplicateCount());
@@ -87,13 +93,15 @@ public class DuplicateTest
     }
 
     /**
-     * <p>dupsReverse.</p>
+     * <p>
+     * dupsReverse.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void dupsReverse ()
-        throws Throwable
+    public void dupsReverse()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -112,10 +120,10 @@ public class DuplicateTest
 
         final File file = Helper.createUnsortedFile(testName, in);
         final FunnelContext context = Funnel.sort(Helper.config(),
-            file.getAbsolutePath() + " -r --row 130 --fixedIn 10 "
-                + "--col(String -o0,-l3 -n col1)"
-                + "--orderby(col1) "
-                + "--dup reverse");
+                file.getAbsolutePath() + " -r --row 130 --fixedIn 10 "
+                        + "--col(String -o0,-l3 -n col1)"
+                        + "--orderby(col1) "
+                        + "--dup reverse");
 
         Assert.assertEquals("records", 130L, context.getRecordCount());
         Assert.assertEquals("dups", 129L, context.getDuplicateCount());

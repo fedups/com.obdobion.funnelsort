@@ -5,63 +5,81 @@ import java.io.IOException;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>WorkRepository interface.</p>
+ * <p>
+ * WorkRepository interface.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
 public interface WorkRepository
 {
     /**
-     * <p>close.</p>
+     * <p>
+     * close.
+     * </p>
      *
      * @throws java.io.IOException if any.
      */
-    public abstract void close () throws IOException;
+    public abstract void close() throws IOException;
 
     /**
-     * <p>delete.</p>
+     * <p>
+     * delete.
+     * </p>
      *
      * @throws java.io.IOException if any.
      */
-    public abstract void delete () throws IOException;
+    public abstract void delete() throws IOException;
 
     /**
-     * <p>getContext.</p>
+     * <p>
+     * getContext.
+     * </p>
      *
      * @return a {@link com.obdobion.funnel.parameters.FunnelContext} object.
      */
-    public FunnelContext getContext ();
+    public FunnelContext getContext();
 
     /**
-     * <p>open.</p>
+     * <p>
+     * open.
+     * </p>
      *
      * @throws java.io.IOException if any.
      */
-    public abstract void open () throws IOException;
+    public abstract void open() throws IOException;
 
     /**
-     * <p>outputPosition.</p>
+     * <p>
+     * outputPosition.
+     * </p>
      *
      * @return a long.
      */
-    public abstract long outputPosition ();
+    public abstract long outputPosition();
 
     /**
-     * <p>read.</p>
+     * <p>
+     * read.
+     * </p>
      *
      * @param position a long.
-     * @param rec a {@link com.obdobion.funnel.segment.SourceProxyRecord} object.
+     * @param rec a {@link com.obdobion.funnel.segment.SourceProxyRecord}
+     *            object.
      * @return a long.
      * @throws java.io.IOException if any.
      */
-    public abstract long read (final long position, final SourceProxyRecord rec) throws IOException;
+    public abstract long read(final long position, final SourceProxyRecord rec) throws IOException;
 
     /**
-     * <p>write.</p>
+     * <p>
+     * write.
+     * </p>
      *
-     * @param rec a {@link com.obdobion.funnel.segment.SourceProxyRecord} object.
+     * @param rec a {@link com.obdobion.funnel.segment.SourceProxyRecord}
+     *            object.
      * @return a long.
      * @throws java.io.IOException if any.
      */
-    public abstract long write (SourceProxyRecord rec) throws IOException;
+    public abstract long write(SourceProxyRecord rec) throws IOException;
 }

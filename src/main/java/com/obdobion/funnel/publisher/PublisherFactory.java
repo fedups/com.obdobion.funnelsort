@@ -7,21 +7,26 @@ import com.obdobion.funnel.FunnelDataPublisher;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>PublisherFactory class.</p>
+ * <p>
+ * PublisherFactory class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
 public class PublisherFactory
 {
     /**
-     * <p>create.</p>
+     * <p>
+     * create.
+     * </p>
      *
-     * @param context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @return a {@link com.obdobion.funnel.FunnelDataPublisher} object.
      * @throws java.text.ParseException if any.
      * @throws java.io.IOException if any.
      */
-    static public FunnelDataPublisher create (final FunnelContext context) throws ParseException, IOException
+    static public FunnelDataPublisher create(final FunnelContext context) throws ParseException, IOException
     {
         if (context.getFixedRecordLengthOut() == 0)
         {

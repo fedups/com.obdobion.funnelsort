@@ -6,7 +6,9 @@ import com.obdobion.funnel.FunnelDataProvider;
 import com.obdobion.funnel.FunnelItem;
 
 /**
- * <p>EmptyProvider class.</p>
+ * <p>
+ * EmptyProvider class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */

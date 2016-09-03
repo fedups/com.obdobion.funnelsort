@@ -11,7 +11,9 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>BigTest class.</p>
+ * <p>
+ * BigTest class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
@@ -20,13 +22,15 @@ public class BigTest
 {
 
     /**
-     * <p>multipleInputFiles.</p>
+     * <p>
+     * multipleInputFiles.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void multipleInputFiles ()
-        throws Throwable
+    public void multipleInputFiles()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -52,13 +56,13 @@ public class BigTest
         final File file3 = Helper.createUnsortedFile(testName + "3", in1);
 
         final FunnelContext context = Funnel.sort(Helper.config(),
-            file.getParentFile().getAbsolutePath() + "/multipleInputFiles* "
-                + " --nocacheinput"
-                + " --col(int -o0 -l7 -n col1)"
-                + " --orderby(col1 desc)"
-                + " -o " + output.getAbsolutePath()
-                + " --row 5000000 "
-                + " --pow 16");
+                file.getParentFile().getAbsolutePath() + "/multipleInputFiles* "
+                        + " --nocacheinput"
+                        + " --col(int -o0 -l7 -n col1)"
+                        + " --orderby(col1 desc)"
+                        + " -o " + output.getAbsolutePath()
+                        + " --row 5000000 "
+                        + " --pow 16");
 
         Assert.assertEquals("records", 3000000L, context.getRecordCount());
         Assert.assertEquals("records", 3000000L, context.getWriteCount());
@@ -71,13 +75,15 @@ public class BigTest
     }
 
     /**
-     * <p>oneBigFile.</p>
+     * <p>
+     * oneBigFile.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void oneBigFile ()
-        throws Throwable
+    public void oneBigFile()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -99,10 +105,10 @@ public class BigTest
         final File file = Helper.createUnsortedFile(testName, in1);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " -o " + output.getAbsolutePath()
-            + " --col(int -o0 -l7 -n col1)"
-            + " --orderby(col1 desc)"
-            + " --pow 8");
+                + " -o " + output.getAbsolutePath()
+                + " --col(int -o0 -l7 -n col1)"
+                + " --orderby(col1 desc)"
+                + " --pow 8");
 
         Assert.assertEquals("records", 1000000L, context.getRecordCount());
         Assert.assertEquals("records", 1000000L, context.getWriteCount());

@@ -15,9 +15,12 @@ public class VariableLengthProvider extends AbstractProvider
     private static final int MAX_VARIABLE_LENGTH_RECORD_SIZE = 1 << 13;
 
     /**
-     * <p>Constructor for VariableLengthProvider.</p>
+     * <p>
+     * Constructor for VariableLengthProvider.
+     * </p>
      *
-     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @throws java.io.IOException if any.
      * @throws java.text.ParseException if any.
      */

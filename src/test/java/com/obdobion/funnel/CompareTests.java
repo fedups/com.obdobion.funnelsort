@@ -11,14 +11,16 @@ import com.obdobion.funnel.orderby.KeyDirection;
 import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
- * <p>CompareTests class.</p>
+ * <p>
+ * CompareTests class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
  */
 public class CompareTests
 {
-    static private SourceProxyRecord dummySourceProxyRecord (final KeyContext kx1, final int keySize)
+    static private SourceProxyRecord dummySourceProxyRecord(final KeyContext kx1, final int keySize)
     {
 
         final SourceProxyRecord spr1 = SourceProxyRecord.getInstance(null);
@@ -31,12 +33,14 @@ public class CompareTests
     }
 
     /**
-     * <p>compareDates.</p>
+     * <p>
+     * compareDates.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void compareDates () throws Throwable
+    public void compareDates() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -63,12 +67,14 @@ public class CompareTests
     }
 
     /**
-     * <p>compareDatesShortFormat.</p>
+     * <p>
+     * compareDatesShortFormat.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void compareDatesShortFormat () throws Throwable
+    public void compareDatesShortFormat() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -95,12 +101,14 @@ public class CompareTests
     }
 
     /**
-     * <p>compareDatesWrapping.</p>
+     * <p>
+     * compareDatesWrapping.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void compareDatesWrapping () throws Throwable
+    public void compareDatesWrapping() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -127,12 +135,14 @@ public class CompareTests
     }
 
     /**
-     * <p>compareDatesY2K.</p>
+     * <p>
+     * compareDatesY2K.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void compareDatesY2K () throws Throwable
+    public void compareDatesY2K() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -159,12 +169,14 @@ public class CompareTests
     }
 
     /**
-     * <p>compareDouble.</p>
+     * <p>
+     * compareDouble.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void compareDouble () throws Throwable
+    public void compareDouble() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -189,12 +201,14 @@ public class CompareTests
     }
 
     /**
-     * <p>compareDoubleDec.</p>
+     * <p>
+     * compareDoubleDec.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void compareDoubleDec () throws Throwable
+    public void compareDoubleDec() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -219,12 +233,14 @@ public class CompareTests
     }
 
     /**
-     * <p>compareDoubleMax16Whole.</p>
+     * <p>
+     * compareDoubleMax16Whole.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void compareDoubleMax16Whole () throws Throwable
+    public void compareDoubleMax16Whole() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -249,12 +265,14 @@ public class CompareTests
     }
 
     /**
-     * <p>compareDoubleMax18Decimals.</p>
+     * <p>
+     * compareDoubleMax18Decimals.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void compareDoubleMax18Decimals () throws Throwable
+    public void compareDoubleMax18Decimals() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -279,12 +297,14 @@ public class CompareTests
     }
 
     /**
-     * <p>compareDoubleMaxRatio17Total.</p>
+     * <p>
+     * compareDoubleMaxRatio17Total.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void compareDoubleMaxRatio17Total () throws Throwable
+    public void compareDoubleMaxRatio17Total() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);

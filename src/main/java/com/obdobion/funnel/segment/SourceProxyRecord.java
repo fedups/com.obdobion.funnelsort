@@ -24,12 +24,15 @@ public class SourceProxyRecord
     static final public Stack<SourceProxyRecord> AvailableInstances = new Stack<>();
 
     /**
-     * <p>getInstance.</p>
+     * <p>
+     * getInstance.
+     * </p>
      *
-     * @param context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @return a {@link com.obdobion.funnel.segment.SourceProxyRecord} object.
      */
-    public static SourceProxyRecord getInstance (final FunnelContext context)
+    public static SourceProxyRecord getInstance(final FunnelContext context)
     {
         synchronized (AvailableInstances)
         {
@@ -56,24 +59,28 @@ public class SourceProxyRecord
     }
 
     /**
-     * <p>compareTo.</p>
+     * <p>
+     * compareTo.
+     * </p>
      *
      * @param o a {@link com.obdobion.funnel.segment.SourceProxyRecord} object.
      * @return a int.
      */
-    public int compareTo (final SourceProxyRecord o)
+    public int compareTo(final SourceProxyRecord o)
     {
         return compareTo(o, true);
     }
 
     /**
-     * <p>compareTo.</p>
+     * <p>
+     * compareTo.
+     * </p>
      *
      * @param o a {@link com.obdobion.funnel.segment.SourceProxyRecord} object.
      * @param resolveDuplicates a boolean.
      * @return a int.
      */
-    public int compareTo (final SourceProxyRecord o, final boolean resolveDuplicates)
+    public int compareTo(final SourceProxyRecord o, final boolean resolveDuplicates)
     {
         if (context != null)
             context.comparisonCounter++;
@@ -119,8 +126,8 @@ public class SourceProxyRecord
 
     /** {@inheritDoc} */
     @Override
-    public boolean equals (
-        final Object obj)
+    public boolean equals(
+            final Object obj)
     {
         if (this == obj)
             return true;
@@ -137,28 +144,32 @@ public class SourceProxyRecord
     }
 
     /**
-     * <p>getFunnelContext.</p>
+     * <p>
+     * getFunnelContext.
+     * </p>
      *
      * @return a {@link com.obdobion.funnel.parameters.FunnelContext} object.
      */
-    public FunnelContext getFunnelContext ()
+    public FunnelContext getFunnelContext()
     {
         return context;
     }
 
     /**
-     * <p>Getter for the field <code>originalRecordNumber</code>.</p>
+     * <p>
+     * Getter for the field <code>originalRecordNumber</code>.
+     * </p>
      *
      * @return a long.
      */
-    public long getOriginalRecordNumber ()
+    public long getOriginalRecordNumber()
     {
         return originalRecordNumber;
     }
 
     /** {@inheritDoc} */
     @Override
-    public int hashCode ()
+    public int hashCode()
     {
         final int prime = 31;
         int result = 1;
@@ -168,9 +179,11 @@ public class SourceProxyRecord
     }
 
     /**
-     * <p>release.</p>
+     * <p>
+     * release.
+     * </p>
      */
-    public void release ()
+    public void release()
     {
         synchronized (AvailableInstances)
         {
@@ -179,18 +192,20 @@ public class SourceProxyRecord
     }
 
     /**
-     * <p>Setter for the field <code>originalRecordNumber</code>.</p>
+     * <p>
+     * Setter for the field <code>originalRecordNumber</code>.
+     * </p>
      *
      * @param p_originalRecordNumber a long.
      */
-    public void setOriginalRecordNumber (final long p_originalRecordNumber)
+    public void setOriginalRecordNumber(final long p_originalRecordNumber)
     {
         this.originalRecordNumber = p_originalRecordNumber;
     }
 
     /** {@inheritDoc} */
     @Override
-    public String toString ()
+    public String toString()
     {
         final StringBuilder sb = new StringBuilder();
         sb.append("originalRecordNumber=").append(getOriginalRecordNumber());

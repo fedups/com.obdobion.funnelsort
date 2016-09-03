@@ -8,7 +8,9 @@ import com.obdobion.funnel.FunnelDataProvider;
 import com.obdobion.funnel.FunnelItem;
 
 /**
- * <p>FunnelInternalNodeProvider class.</p>
+ * <p>
+ * FunnelInternalNodeProvider class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -19,11 +21,15 @@ public class FunnelInternalNodeProvider implements FunnelDataProvider
     final FunnelItem right;
 
     /**
-     * <p>Constructor for FunnelInternalNodeProvider.</p>
+     * <p>
+     * Constructor for FunnelInternalNodeProvider.
+     * </p>
      *
      * @param _funnel a {@link com.obdobion.funnel.Funnel} object.
-     * @param leftContestantIndex a {@link com.obdobion.funnel.FunnelItem} object.
-     * @param rightContestantIndex a {@link com.obdobion.funnel.FunnelItem} object.
+     * @param leftContestantIndex a {@link com.obdobion.funnel.FunnelItem}
+     *            object.
+     * @param rightContestantIndex a {@link com.obdobion.funnel.FunnelItem}
+     *            object.
      */
     public FunnelInternalNodeProvider(
             final Funnel _funnel,

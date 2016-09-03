@@ -7,16 +7,21 @@ import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>Abstract Aggregate class.</p>
+ * <p>
+ * Abstract Aggregate class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
 abstract public class Aggregate
 {
     /**
-     * <p>aggregate.</p>
+     * <p>
+     * aggregate.
+     * </p>
      *
-     * @param context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @param originalRecordSize a int.
      * @param originalRecordNumber a long.
      * @throws java.lang.Exception if any.
@@ -51,10 +56,14 @@ abstract public class Aggregate
     }
 
     /**
-     * <p>loadValues.</p>
+     * <p>
+     * loadValues.
+     * </p>
      *
-     * @param context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
-     * @param referencesToAllOutputFormatEquations an array of {@link com.obdobion.algebrain.Equ} objects.
+     * @param context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
+     * @param referencesToAllOutputFormatEquations an array of
+     *            {@link com.obdobion.algebrain.Equ} objects.
      * @throws java.lang.Exception if any.
      */
     public static void loadValues(final FunnelContext context, final Equ[] referencesToAllOutputFormatEquations)
@@ -71,7 +80,9 @@ abstract public class Aggregate
     }
 
     /**
-     * <p>newAvg.</p>
+     * <p>
+     * newAvg.
+     * </p>
      *
      * @return a {@link com.obdobion.funnel.aggregation.Aggregate} object.
      */
@@ -81,7 +92,9 @@ abstract public class Aggregate
     }
 
     /**
-     * <p>newCount.</p>
+     * <p>
+     * newCount.
+     * </p>
      *
      * @return a {@link com.obdobion.funnel.aggregation.Aggregate} object.
      */
@@ -91,7 +104,9 @@ abstract public class Aggregate
     }
 
     /**
-     * <p>newMax.</p>
+     * <p>
+     * newMax.
+     * </p>
      *
      * @return a {@link com.obdobion.funnel.aggregation.Aggregate} object.
      */
@@ -101,7 +116,9 @@ abstract public class Aggregate
     }
 
     /**
-     * <p>newMin.</p>
+     * <p>
+     * newMin.
+     * </p>
      *
      * @return a {@link com.obdobion.funnel.aggregation.Aggregate} object.
      */
@@ -111,7 +128,9 @@ abstract public class Aggregate
     }
 
     /**
-     * <p>newSum.</p>
+     * <p>
+     * newSum.
+     * </p>
      *
      * @return a {@link com.obdobion.funnel.aggregation.Aggregate} object.
      */
@@ -121,9 +140,12 @@ abstract public class Aggregate
     }
 
     /**
-     * <p>reset.</p>
+     * <p>
+     * reset.
+     * </p>
      *
-     * @param context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      */
     public static void reset(final FunnelContext context)
     {
@@ -150,7 +172,9 @@ abstract public class Aggregate
     abstract void reset();
 
     /**
-     * <p>supportsDate.</p>
+     * <p>
+     * supportsDate.
+     * </p>
      *
      * @return a boolean.
      */
@@ -160,7 +184,9 @@ abstract public class Aggregate
     }
 
     /**
-     * <p>supportsNumber.</p>
+     * <p>
+     * supportsNumber.
+     * </p>
      *
      * @return a boolean.
      */

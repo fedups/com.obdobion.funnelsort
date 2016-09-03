@@ -3,7 +3,9 @@ package com.obdobion.funnel.aggregation;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>AggregateCount class.</p>
+ * <p>
+ * AggregateCount class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */

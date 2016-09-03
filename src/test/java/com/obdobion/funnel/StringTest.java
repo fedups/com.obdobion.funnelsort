@@ -11,7 +11,9 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>StringTest class.</p>
+ * <p>
+ * StringTest class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
@@ -20,13 +22,15 @@ public class StringTest
 {
 
     /**
-     * <p>caseMatters.</p>
+     * <p>
+     * caseMatters.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void caseMatters ()
-        throws Throwable
+    public void caseMatters()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -39,9 +43,9 @@ public class StringTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o " + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n col1)"
-            + " --orderby(col1 asc)");
+                + " -o " + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n col1)"
+                + " --orderby(col1 asc)");
 
         Assert.assertEquals("records", 3L, context.getWriteCount());
 
@@ -56,13 +60,15 @@ public class StringTest
     }
 
     /**
-     * <p>ignoreCase.</p>
+     * <p>
+     * ignoreCase.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void ignoreCase ()
-        throws Throwable
+    public void ignoreCase()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -75,9 +81,9 @@ public class StringTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o " + output.getAbsolutePath()
-            + " --col(string -o0 -l1 -n col1)"
-            + " --orderby(col1 aasc)");
+                + " -o " + output.getAbsolutePath()
+                + " --col(string -o0 -l1 -n col1)"
+                + " --orderby(col1 aasc)");
 
         Assert.assertEquals("records", 3L, context.getWriteCount());
 

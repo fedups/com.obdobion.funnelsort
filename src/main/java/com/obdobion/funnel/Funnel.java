@@ -92,15 +92,11 @@ public class Funnel
      * {@link com.obdobion.funnel.FunnelDataPublisher} instances are created and
      * the Funnel#sort process is started.
      *
-     * @param args
-     *            a {@link java.lang.String} object.
-     * @throws Exception
-     *             if any.
-     * @param cfg
-     *            a {@link com.obdobion.funnel.AppContext} object.
+     * @param args a {@link java.lang.String} object.
+     * @throws Exception if any.
+     * @param cfg a {@link com.obdobion.funnel.AppContext} object.
      * @return a {@link com.obdobion.funnel.parameters.FunnelContext} object.
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     static public FunnelContext sort(final AppContext cfg, final String... args)
             throws Throwable
@@ -216,8 +212,8 @@ public class Funnel
      * and store them so that time is not wasted in powerful math functions
      * while the sort is in progress.
      *
-     * @param _context
-     *            a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      */
     public Funnel(final FunnelContext _context)
     {

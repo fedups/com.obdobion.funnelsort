@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>VariableLengthCacheReader class.</p>
+ * <p>
+ * VariableLengthCacheReader class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -22,9 +24,12 @@ public class VariableLengthCacheReader implements InputReader
     final FunnelContext context;
 
     /**
-     * <p>Constructor for VariableLengthCacheReader.</p>
+     * <p>
+     * Constructor for VariableLengthCacheReader.
+     * </p>
      *
-     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @throws java.io.IOException if any.
      * @throws java.text.ParseException if any.
      */

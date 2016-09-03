@@ -15,7 +15,9 @@ import com.obdobion.funnel.parameters.FunnelContext;
 import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
- * <p>OutputFormatHelper class.</p>
+ * <p>
+ * OutputFormatHelper class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -27,7 +29,9 @@ public class OutputFormatHelper
     public static final int     MAX_OUTPUT_SIZE = 4096;
 
     /**
-     * <p>lengthToWrite.</p>
+     * <p>
+     * lengthToWrite.
+     * </p>
      *
      * @param data an array of byte.
      * @param offset a int.
@@ -35,7 +39,7 @@ public class OutputFormatHelper
      * @param rightTrim a boolean.
      * @return a int.
      */
-    public static int lengthToWrite (final byte[] data, final int offset, final int dataLength, final boolean rightTrim)
+    public static int lengthToWrite(final byte[] data, final int offset, final int dataLength, final boolean rightTrim)
     {
         int lengthToWrite = 0;
         if (!rightTrim)
@@ -61,10 +65,14 @@ public class OutputFormatHelper
     private Equ[]      referencesToAllOutputFormatEquations;
 
     /**
-     * <p>Constructor for OutputFormatHelper.</p>
+     * <p>
+     * Constructor for OutputFormatHelper.
+     * </p>
      *
-     * @param _columnHelper a {@link com.obdobion.funnel.columns.ColumnHelper} object.
-     * @param _headerHelper a {@link com.obdobion.funnel.columns.HeaderHelper} object.
+     * @param _columnHelper a {@link com.obdobion.funnel.columns.ColumnHelper}
+     *            object.
+     * @param _headerHelper a {@link com.obdobion.funnel.columns.HeaderHelper}
+     *            object.
      */
     public OutputFormatHelper(final ColumnHelper _columnHelper, final HeaderHelper _headerHelper)
     {
@@ -87,9 +95,10 @@ public class OutputFormatHelper
      * defined. This is done through a linked list of fields. Use the column
      * helper to find the definition of the key if a column name was specified.
      *
-     * @param _formatter a {@link com.obdobion.funnel.columns.FormatPart} object.
+     * @param _formatter a {@link com.obdobion.funnel.columns.FormatPart}
+     *            object.
      */
-    public void add (final FormatPart _formatter)
+    public void add(final FormatPart _formatter)
     {
         if (columnHelper != null && columnHelper.exists(_formatter.columnName))
         {
@@ -116,8 +125,8 @@ public class OutputFormatHelper
      * @return
      * @throws Exception
      */
-    KeyContext extract (final FunnelContext funnelContext, final byte[] data, final SourceProxyRecord proxyRecord)
-        throws Exception
+    KeyContext extract(final FunnelContext funnelContext, final byte[] data, final SourceProxyRecord proxyRecord)
+            throws Exception
     {
         /*
          * The extra byte is for a 0x00 character to be placed at the end of
@@ -150,21 +159,24 @@ public class OutputFormatHelper
     }
 
     /**
-     * <p>format.</p>
+     * <p>
+     * format.
+     * </p>
      *
      * @param writer a {@link com.obdobion.funnel.columns.ColumnWriter} object.
      * @param originalData an array of byte.
      * @param dataSize a int.
-     * @param proxyRecord a {@link com.obdobion.funnel.segment.SourceProxyRecord} object.
+     * @param proxyRecord a
+     *            {@link com.obdobion.funnel.segment.SourceProxyRecord} object.
      * @param rightTrim a boolean.
      * @throws java.lang.Exception if any.
      */
-    public void format (
-        final ColumnWriter writer,
-        final byte[] originalData,
-        final int dataSize,
-        final SourceProxyRecord proxyRecord,
-        final boolean rightTrim) throws Exception
+    public void format(
+            final ColumnWriter writer,
+            final byte[] originalData,
+            final int dataSize,
+            final SourceProxyRecord proxyRecord,
+            final boolean rightTrim) throws Exception
     {
         if (formatter == null)
         {
@@ -179,12 +191,15 @@ public class OutputFormatHelper
     }
 
     /**
-     * <p>Getter for the field <code>referencesToAllOutputFormatEquations</code>.</p>
+     * <p>
+     * Getter for the field <code>referencesToAllOutputFormatEquations</code>.
+     * </p>
      *
-     * @param funnelContext a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param funnelContext a
+     *            {@link com.obdobion.funnel.parameters.FunnelContext} object.
      * @return an array of {@link com.obdobion.algebrain.Equ} objects.
      */
-    public Equ[] getReferencesToAllOutputFormatEquations (final FunnelContext funnelContext)
+    public Equ[] getReferencesToAllOutputFormatEquations(final FunnelContext funnelContext)
     {
         if (referencesToAllOutputFormatEquations == null)
         {
@@ -255,7 +270,7 @@ public class OutputFormatHelper
         return referencesToAllOutputFormatEquations;
     }
 
-    private void prepareEquationsWithOriginalColumnData (final FunnelContext funnelContext) throws Exception
+    private void prepareEquationsWithOriginalColumnData(final FunnelContext funnelContext) throws Exception
     {
         /*
          * Cache the variable values into all related equations ahead of need.
@@ -267,7 +282,8 @@ public class OutputFormatHelper
          * too.
          */
         funnelContext.columnHelper
-                .extract(funnelContext, context.rawRecordBytes[0], context.recordNumber, context.rawRecordBytes[0].length, referencesToAllOutputFormatEquations);
+                .extract(funnelContext, context.rawRecordBytes[0], context.recordNumber,
+                        context.rawRecordBytes[0].length, referencesToAllOutputFormatEquations);
         /*
          * In order to get the aggregate values into the format equations they
          * will also be needlessly loaded back into the aggregate equations too.

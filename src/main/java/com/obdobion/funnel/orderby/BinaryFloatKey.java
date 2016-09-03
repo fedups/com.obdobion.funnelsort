@@ -3,7 +3,9 @@ package com.obdobion.funnel.orderby;
 import java.nio.ByteBuffer;
 
 /**
- * <p>BinaryFloatKey class.</p>
+ * <p>
+ * BinaryFloatKey class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -12,7 +14,9 @@ public class BinaryFloatKey extends KeyPart
     Double contents;
 
     /**
-     * <p>Constructor for BinaryFloatKey.</p>
+     * <p>
+     * Constructor for BinaryFloatKey.
+     * </p>
      */
     public BinaryFloatKey()
     {
@@ -38,30 +42,30 @@ public class BinaryFloatKey extends KeyPart
 
         switch (length)
         {
-        case 4:
-            int intbits = (int) Double.doubleToRawLongBits(doubleValue);
-            if (doubleValue < 0)
-            {
-                intbits = intbits ^ 0xffffffff;
-            } else
-            {
-                intbits = intbits ^ 0x80000000;
-            }
+            case 4:
+                int intbits = (int) Double.doubleToRawLongBits(doubleValue);
+                if (doubleValue < 0)
+                {
+                    intbits = intbits ^ 0xffffffff;
+                } else
+                {
+                    intbits = intbits ^ 0x80000000;
+                }
 
-            bb.putLong(intbits);
-            break;
-        case 8:
-            long longbits = Double.doubleToRawLongBits(doubleValue);
-            if (doubleValue < 0)
-            {
-                longbits = longbits ^ 0xffffffffffffffffL;
-            } else
-            {
-                longbits = longbits ^ 0x8000000000000000L;
-            }
+                bb.putLong(intbits);
+                break;
+            case 8:
+                long longbits = Double.doubleToRawLongBits(doubleValue);
+                if (doubleValue < 0)
+                {
+                    longbits = longbits ^ 0xffffffffffffffffL;
+                } else
+                {
+                    longbits = longbits ^ 0x8000000000000000L;
+                }
 
-            bb.putLong(longbits);
-            break;
+                bb.putLong(longbits);
+                break;
         }
         _context.keyLength += length;
     }
@@ -117,12 +121,12 @@ public class BinaryFloatKey extends KeyPart
 
         switch (length)
         {
-        case 4:
-            contents = new Double(bb.getFloat());
-            return;
-        case 8:
-            contents = bb.getDouble();
-            return;
+            case 4:
+                contents = new Double(bb.getFloat());
+                return;
+            case 8:
+                contents = bb.getDouble();
+                return;
         }
         throw new Exception("invalid length for a binary floating point field: " + length);
     }

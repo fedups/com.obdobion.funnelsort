@@ -16,7 +16,9 @@ import com.obdobion.funnel.parameters.FunnelContext;
 import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
- * <p>Abstract AbstractProvider class.</p>
+ * <p>
+ * Abstract AbstractProvider class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -34,9 +36,12 @@ public abstract class AbstractProvider implements FunnelDataProvider
     private Equ[]       cachedEquations;
 
     /**
-     * <p>Constructor for AbstractProvider.</p>
+     * <p>
+     * Constructor for AbstractProvider.
+     * </p>
      *
-     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @throws java.io.IOException if any.
      * @throws java.text.ParseException if any.
      */

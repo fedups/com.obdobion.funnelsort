@@ -11,7 +11,9 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>HexDumpTest class.</p>
+ * <p>
+ * HexDumpTest class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
@@ -20,13 +22,15 @@ public class HexDumpTest
 {
 
     /**
-     * <p>dumpColumnsWithFormat.</p>
+     * <p>
+     * dumpColumnsWithFormat.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void dumpColumnsWithFormat ()
-        throws Throwable
+    public void dumpColumnsWithFormat()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -39,11 +43,11 @@ public class HexDumpTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o " + output.getAbsolutePath()
-            + " --orderby(data)"
-            + " --col(String -l 9 -ndata )(String -n title)"
-            + " --format(title)(data)"
-            + " --hexDump(data)(title)");
+                + " -o " + output.getAbsolutePath()
+                + " --orderby(data)"
+                + " --col(String -l 9 -ndata )(String -n title)"
+                + " --format(title)(data)"
+                + " --hexDump(data)(title)");
 
         Assert.assertEquals("records", 3L, context.getWriteCount());
 
@@ -77,13 +81,15 @@ public class HexDumpTest
     }
 
     /**
-     * <p>dumpColumnWithoutFormat.</p>
+     * <p>
+     * dumpColumnWithoutFormat.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void dumpColumnWithoutFormat ()
-        throws Throwable
+    public void dumpColumnWithoutFormat()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -96,10 +102,10 @@ public class HexDumpTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o " + output.getAbsolutePath()
-            + " -co"
-            + " --col(string -n sentence)"
-            + " --hexDump(sentence)");
+                + " -o " + output.getAbsolutePath()
+                + " -co"
+                + " --col(string -n sentence)"
+                + " --hexDump(sentence)");
 
         Assert.assertEquals("records", 3L, context.getWriteCount());
 
@@ -130,13 +136,15 @@ public class HexDumpTest
     }
 
     /**
-     * <p>dumpWithoutAnyColumnsDefined.</p>
+     * <p>
+     * dumpWithoutAnyColumnsDefined.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void dumpWithoutAnyColumnsDefined ()
-        throws Throwable
+    public void dumpWithoutAnyColumnsDefined()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -149,8 +157,8 @@ public class HexDumpTest
 
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
-            + " -o " + output.getAbsolutePath()
-            + " --hexDump()");
+                + " -o " + output.getAbsolutePath()
+                + " --hexDump()");
 
         Assert.assertEquals("records", 3L, context.getWriteCount());
 

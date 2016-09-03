@@ -3,7 +3,9 @@ package com.obdobion.funnel.orderby;
 import com.obdobion.funnel.columns.OutputFormatHelper;
 
 /**
- * <p>AlphaKey class.</p>
+ * <p>
+ * AlphaKey class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -16,16 +18,18 @@ public class AlphaKey extends KeyPart
     String                    contents;
 
     /**
-     * <p>Constructor for AlphaKey.</p>
+     * <p>
+     * Constructor for AlphaKey.
+     * </p>
      */
     public AlphaKey()
     {
         super();
         // assert parseFormat == null : "\"--format " + parseFormat +
-        // "\"  is not expected for \"String\"";
+        // "\" is not expected for \"String\"";
     }
 
-    private void formatObjectIntoKey (final KeyContext context, final byte[] rawBytes)
+    private void formatObjectIntoKey(final KeyContext context, final byte[] rawBytes)
     {
         int lengthThisTime = length;
         if (rawBytes.length < length)
@@ -71,35 +75,35 @@ public class AlphaKey extends KeyPart
 
     /** {@inheritDoc} */
     @Override
-    public Object getContents ()
+    public Object getContents()
     {
         return contents;
     }
 
     /** {@inheritDoc} */
     @Override
-    public byte[] getContentsAsByteArray ()
+    public byte[] getContentsAsByteArray()
     {
         return contents.getBytes();
     }
 
     /** {@inheritDoc} */
     @Override
-    public double getContentsAsDouble ()
+    public double getContentsAsDouble()
     {
         return 0;
     }
 
     /** {@inheritDoc} */
     @Override
-    public boolean isNumeric ()
+    public boolean isNumeric()
     {
         return false;
     }
 
     /** {@inheritDoc} */
     @Override
-    public void pack (final KeyContext context) throws Exception
+    public void pack(final KeyContext context) throws Exception
     {
         parseObject(context);
 
@@ -111,7 +115,7 @@ public class AlphaKey extends KeyPart
 
     /** {@inheritDoc} */
     @Override
-    public void parseObjectFromRawData (final byte[] bytes) throws Exception
+    public void parseObjectFromRawData(final byte[] bytes) throws Exception
     {
         int endOffset = this.offset;
         for (; endOffset < this.offset + this.length; endOffset++)

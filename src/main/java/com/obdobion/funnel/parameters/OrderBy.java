@@ -4,7 +4,9 @@ import com.obdobion.argument.annotation.Arg;
 import com.obdobion.funnel.orderby.KeyDirection;
 
 /**
- * <p>OrderBy class.</p>
+ * <p>
+ * OrderBy class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -23,7 +25,9 @@ public class OrderBy
     public KeyDirection direction;
 
     /**
-     * <p>Constructor for OrderBy.</p>
+     * <p>
+     * Constructor for OrderBy.
+     * </p>
      */
     public OrderBy()
     {

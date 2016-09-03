@@ -4,7 +4,9 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 /**
- * <p>DisplayIntKey class.</p>
+ * <p>
+ * DisplayIntKey class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -14,7 +16,9 @@ public class DisplayIntKey extends KeyPart
     byte[] trimmed;
 
     /**
-     * <p>Constructor for DisplayIntKey.</p>
+     * <p>
+     * Constructor for DisplayIntKey.
+     * </p>
      */
     public DisplayIntKey()
     {
@@ -61,7 +65,9 @@ public class DisplayIntKey extends KeyPart
     }
 
     /**
-     * <p>packObjectIntoKey.</p>
+     * <p>
+     * packObjectIntoKey.
+     * </p>
      *
      * @param context a {@link com.obdobion.funnel.orderby.KeyContext} object.
      * @param _longValue a {@link java.lang.Long} object.

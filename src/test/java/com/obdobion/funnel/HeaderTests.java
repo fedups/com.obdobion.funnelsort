@@ -26,8 +26,7 @@ public class HeaderTests
      * addHeaderToFile.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void addHeaderToFile()
@@ -65,8 +64,7 @@ public class HeaderTests
      * consumeHeader.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void consumeHeader()
@@ -101,8 +99,7 @@ public class HeaderTests
      * duplicateNameWithColumn.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void duplicateNameWithColumn()
@@ -132,8 +129,7 @@ public class HeaderTests
      * duplicateNameWithHeader.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void duplicateNameWithHeader()
@@ -163,8 +159,7 @@ public class HeaderTests
      * filler.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void filler()
@@ -203,8 +198,7 @@ public class HeaderTests
      * notValidForCSV.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void notValidForCSV()
@@ -233,8 +227,7 @@ public class HeaderTests
      * useHeaderForStop.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void useHeaderForStop()
@@ -270,8 +263,7 @@ public class HeaderTests
      * useHeaderForWhere.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void useHeaderForWhere()
@@ -307,8 +299,7 @@ public class HeaderTests
      * writeEntireHeaderToOutput.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void writeEntireHeaderToOutput()
@@ -349,8 +340,7 @@ public class HeaderTests
      * writeHeaderColumnToDetailRecordAsCol.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void writeHeaderColumnToDetailRecordAsCol()
@@ -390,8 +380,7 @@ public class HeaderTests
      * writeHeaderColumnToDetailRecordAsEqu.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void writeHeaderColumnToDetailRecordAsEqu()
@@ -427,8 +416,7 @@ public class HeaderTests
      * writeHeaderOutWithEqu.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void writeHeaderOutWithEqu()
@@ -470,8 +458,7 @@ public class HeaderTests
      * writeMinimalHeaderToOutput.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void writeMinimalHeaderToOutput()
@@ -510,8 +497,7 @@ public class HeaderTests
      * writeSpecificColumnsToHeaderOutput.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void writeSpecificColumnsToHeaderOutput()

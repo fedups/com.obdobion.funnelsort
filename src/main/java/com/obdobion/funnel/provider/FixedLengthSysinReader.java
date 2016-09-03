@@ -9,7 +9,9 @@ import org.slf4j.LoggerFactory;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>FixedLengthSysinReader class.</p>
+ * <p>
+ * FixedLengthSysinReader class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -18,9 +20,12 @@ public class FixedLengthSysinReader extends FixedLengthCacheReader
     static final private Logger _logger = LoggerFactory.getLogger(FixedLengthSysinReader.class);
 
     /**
-     * <p>Constructor for FixedLengthSysinReader.</p>
+     * <p>
+     * Constructor for FixedLengthSysinReader.
+     * </p>
      *
-     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @throws java.io.IOException if any.
      * @throws java.text.ParseException if any.
      */
@@ -31,7 +36,7 @@ public class FixedLengthSysinReader extends FixedLengthCacheReader
     }
 
     @Override
-    void loadDataToCache () throws IOException
+    void loadDataToCache() throws IOException
     {
         context.inputCache = new FixedLengthInputCache(context, System.in);
         System.in.close();

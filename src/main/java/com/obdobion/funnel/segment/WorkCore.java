@@ -12,7 +12,9 @@ import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>WorkCore class.</p>
+ * <p>
+ * WorkCore class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -30,9 +32,12 @@ public class WorkCore implements WorkRepository
     ByteBuffer                  currentBuffer;
 
     /**
-     * <p>Constructor for WorkCore.</p>
+     * <p>
+     * Constructor for WorkCore.
+     * </p>
      *
-     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @throws java.io.IOException if any.
      */
     public WorkCore(final FunnelContext _context) throws IOException

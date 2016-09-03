@@ -11,7 +11,9 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>StopWhenTest class.</p>
+ * <p>
+ * StopWhenTest class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
@@ -20,13 +22,15 @@ public class StopWhenTest
 {
 
     /**
-     * <p>stopAfter10.</p>
+     * <p>
+     * stopAfter10.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void stopAfter10 ()
-        throws Throwable
+    public void stopAfter10()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -40,8 +44,8 @@ public class StopWhenTest
         final File file = Helper.createUnsortedFile(testName, in1);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " -r "
-            + " --stopWhen 'recordNumber > 1'");
+                + " -r "
+                + " --stopWhen 'recordNumber > 1'");
 
         Assert.assertEquals("records", 1L, context.getRecordCount());
         Assert.assertEquals("records", 1L, context.getWriteCount());

@@ -12,7 +12,9 @@ import com.obdobion.funnel.parameters.HexDump;
 import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
- * <p>Abstract VariableLengthPublisher class.</p>
+ * <p>
+ * Abstract VariableLengthPublisher class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -78,9 +80,12 @@ abstract public class VariableLengthPublisher extends AbstractPublisher
     }
 
     /**
-     * <p>Constructor for VariableLengthPublisher.</p>
+     * <p>
+     * Constructor for VariableLengthPublisher.
+     * </p>
      *
-     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @throws java.text.ParseException if any.
      * @throws java.io.IOException if any.
      */

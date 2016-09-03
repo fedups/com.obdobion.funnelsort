@@ -4,43 +4,55 @@ import java.io.IOException;
 import java.text.ParseException;
 
 /**
- * <p>FunnelDataProvider interface.</p>
+ * <p>
+ * FunnelDataProvider interface.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
 public interface FunnelDataProvider
 {
     /**
-     * <p>actualNumberOfRows.</p>
+     * <p>
+     * actualNumberOfRows.
+     * </p>
      *
      * @return a long.
      */
-    public long actualNumberOfRows ();
+    public long actualNumberOfRows();
 
     /**
-     * <p>attachTo.</p>
+     * <p>
+     * attachTo.
+     * </p>
      *
      * @param item a {@link com.obdobion.funnel.FunnelItem} object.
      */
-    public void attachTo (FunnelItem item);
+    public void attachTo(FunnelItem item);
 
     /**
-     * <p>close.</p>
+     * <p>
+     * close.
+     * </p>
      *
      * @throws java.io.IOException if any.
      * @throws java.text.ParseException if any.
      */
-    public void close () throws IOException, ParseException;
+    public void close() throws IOException, ParseException;
 
     /**
-     * <p>maximumNumberOfRows.</p>
+     * <p>
+     * maximumNumberOfRows.
+     * </p>
      *
      * @return a long.
      */
-    public long maximumNumberOfRows ();
+    public long maximumNumberOfRows();
 
     /**
-     * <p>next.</p>
+     * <p>
+     * next.
+     * </p>
      *
      * @param item a {@link com.obdobion.funnel.FunnelItem} object.
      * @param phase a long.
@@ -48,13 +60,15 @@ public interface FunnelDataProvider
      * @throws java.io.IOException if any.
      * @throws java.text.ParseException if any.
      */
-    public boolean next (FunnelItem item, long phase) throws IOException, ParseException;
+    public boolean next(FunnelItem item, long phase) throws IOException, ParseException;
 
     /**
-     * <p>reset.</p>
+     * <p>
+     * reset.
+     * </p>
      *
      * @throws java.io.IOException if any.
      * @throws java.text.ParseException if any.
      */
-    public void reset () throws IOException, ParseException;
+    public void reset() throws IOException, ParseException;
 }

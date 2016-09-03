@@ -7,7 +7,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * <p>DateKey class.</p>
+ * <p>
+ * DateKey class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -17,14 +19,16 @@ public class DateKey extends KeyPart
     SimpleDateFormat sdf;
 
     /**
-     * <p>Constructor for DateKey.</p>
+     * <p>
+     * Constructor for DateKey.
+     * </p>
      */
     public DateKey()
     {
         super();
     }
 
-    private void formatObjectIntoKey (final KeyContext context, final Long _longValue)
+    private void formatObjectIntoKey(final KeyContext context, final Long _longValue)
     {
         Long longValue = _longValue;
         if (longValue < 0)
@@ -45,35 +49,35 @@ public class DateKey extends KeyPart
 
     /** {@inheritDoc} */
     @Override
-    public Object getContents ()
+    public Object getContents()
     {
         return contents;
     }
 
     /** {@inheritDoc} */
     @Override
-    public double getContentsAsDouble ()
+    public double getContentsAsDouble()
     {
         return contents.getTimeInMillis();
     }
 
     /** {@inheritDoc} */
     @Override
-    public boolean isDate ()
+    public boolean isDate()
     {
         return true;
     }
 
     /** {@inheritDoc} */
     @Override
-    public boolean isNumeric ()
+    public boolean isNumeric()
     {
         return false;
     }
 
     /** {@inheritDoc} */
     @Override
-    public void pack (final KeyContext context) throws Exception
+    public void pack(final KeyContext context) throws Exception
     {
         parseObject(context);
         formatObjectIntoKey(context, contents.getTimeInMillis());
@@ -84,7 +88,7 @@ public class DateKey extends KeyPart
 
     /** {@inheritDoc} */
     @Override
-    public void parseObjectFromRawData (final byte[] rawBytes) throws Exception
+    public void parseObjectFromRawData(final byte[] rawBytes) throws Exception
     {
         contents = Calendar.getInstance();
 

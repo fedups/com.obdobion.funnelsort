@@ -11,7 +11,9 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>ColumnTests class.</p>
+ * <p>
+ * ColumnTests class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
@@ -19,13 +21,15 @@ import com.obdobion.funnel.parameters.FunnelContext;
 public class ColumnTests
 {
     /**
-     * <p>notLastColumnInVLR.</p>
+     * <p>
+     * notLastColumnInVLR.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void notLastColumnInVLR ()
-        throws Throwable
+    public void notLastColumnInVLR()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -38,8 +42,8 @@ public class ColumnTests
         final File file = Helper.createUnsortedFile(testName, logFile);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --col(string -o2 -l5 -n level)"
-            + " --where \"(rtrim(level) = 'INFO')\"");
+                + " --col(string -o2 -l5 -n level)"
+                + " --where \"(rtrim(level) = 'INFO')\"");
 
         Assert.assertEquals("records", 1L, context.getWriteCount());
 
@@ -47,13 +51,15 @@ public class ColumnTests
     }
 
     /**
-     * <p>notStartingInFirstColumn.</p>
+     * <p>
+     * notStartingInFirstColumn.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void notStartingInFirstColumn ()
-        throws Throwable
+    public void notStartingInFirstColumn()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -66,9 +72,9 @@ public class ColumnTests
         final File file = Helper.createUnsortedFile(testName, logFile);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --col(string -o2 -l5 -n level)"
-            + " --where \"(level = 'FATAL')\""
-            + " -r ");
+                + " --col(string -o2 -l5 -n level)"
+                + " --where \"(level = 'FATAL')\""
+                + " -r ");
 
         Assert.assertEquals("records", 1L, context.getWriteCount());
 
@@ -76,13 +82,15 @@ public class ColumnTests
     }
 
     /**
-     * <p>shortValue.</p>
+     * <p>
+     * shortValue.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void shortValue ()
-        throws Throwable
+    public void shortValue()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -95,9 +103,8 @@ public class ColumnTests
         final File file = Helper.createUnsortedFile(testName, logFile);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --col(string -o2 -l5 -n level)"
-            + " --where \"(rtrim(level) = 'INFO')\""
-                );
+                + " --col(string -o2 -l5 -n level)"
+                + " --where \"(rtrim(level) = 'INFO')\"");
 
         Assert.assertEquals("records", 1L, context.getWriteCount());
 
@@ -105,13 +112,15 @@ public class ColumnTests
     }
 
     /**
-     * <p>startingInFirstColumn.</p>
+     * <p>
+     * startingInFirstColumn.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void startingInFirstColumn ()
-        throws Throwable
+    public void startingInFirstColumn()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -124,9 +133,9 @@ public class ColumnTests
         final File file = Helper.createUnsortedFile(testName, logFile);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --col(string -o0 -l5 -n level)"
-            + " --where \"(level = 'FATAL')\""
-            + " -r ");
+                + " --col(string -o0 -l5 -n level)"
+                + " --where \"(level = 'FATAL')\""
+                + " -r ");
 
         Assert.assertEquals("records", 1L, context.getWriteCount());
 

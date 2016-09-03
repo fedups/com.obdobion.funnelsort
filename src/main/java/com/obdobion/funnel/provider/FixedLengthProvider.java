@@ -16,9 +16,12 @@ public class FixedLengthProvider extends AbstractProvider
     long size;
 
     /**
-     * <p>Constructor for FixedLengthProvider.</p>
+     * <p>
+     * Constructor for FixedLengthProvider.
+     * </p>
      *
-     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @throws java.io.IOException if any.
      * @throws java.text.ParseException if any.
      */
@@ -74,7 +77,9 @@ public class FixedLengthProvider extends AbstractProvider
     }
 
     /**
-     * <p>initializeReader.</p>
+     * <p>
+     * initializeReader.
+     * </p>
      *
      * @throws java.io.IOException if any.
      * @throws java.text.ParseException if any.
@@ -112,7 +117,9 @@ public class FixedLengthProvider extends AbstractProvider
     }
 
     /**
-     * <p>setMaximumNumberOfRows.</p>
+     * <p>
+     * setMaximumNumberOfRows.
+     * </p>
      *
      * @param max a long.
      */

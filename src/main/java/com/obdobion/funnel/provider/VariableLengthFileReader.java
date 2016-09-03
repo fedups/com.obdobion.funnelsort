@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>VariableLengthFileReader class.</p>
+ * <p>
+ * VariableLengthFileReader class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -31,9 +33,12 @@ public class VariableLengthFileReader implements InputReader
     boolean             eof;
 
     /**
-     * <p>Constructor for VariableLengthFileReader.</p>
+     * <p>
+     * Constructor for VariableLengthFileReader.
+     * </p>
      *
-     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @throws java.io.IOException if any.
      * @throws java.text.ParseException if any.
      */
@@ -44,9 +49,12 @@ public class VariableLengthFileReader implements InputReader
     }
 
     /**
-     * <p>Constructor for VariableLengthFileReader.</p>
+     * <p>
+     * Constructor for VariableLengthFileReader.
+     * </p>
      *
-     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @param sz a int.
      * @throws java.io.IOException if any.
      * @throws java.text.ParseException if any.

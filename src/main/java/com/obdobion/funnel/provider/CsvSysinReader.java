@@ -9,7 +9,9 @@ import org.slf4j.LoggerFactory;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>CsvSysinReader class.</p>
+ * <p>
+ * CsvSysinReader class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -18,9 +20,12 @@ public class CsvSysinReader extends VariableLengthSysinReader
     static final private Logger _logger = LoggerFactory.getLogger(CsvSysinReader.class);
 
     /**
-     * <p>Constructor for CsvSysinReader.</p>
+     * <p>
+     * Constructor for CsvSysinReader.
+     * </p>
      *
-     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @throws java.io.IOException if any.
      * @throws java.text.ParseException if any.
      */

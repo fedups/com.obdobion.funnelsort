@@ -14,7 +14,9 @@ import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>ColumnHelper class.</p>
+ * <p>
+ * ColumnHelper class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -29,7 +31,9 @@ public class ColumnHelper
     List<KeyPart>               columns;
 
     /**
-     * <p>Constructor for ColumnHelper.</p>
+     * <p>
+     * Constructor for ColumnHelper.
+     * </p>
      */
     public ColumnHelper()
     {
@@ -37,7 +41,9 @@ public class ColumnHelper
     }
 
     /**
-     * <p>Constructor for ColumnHelper.</p>
+     * <p>
+     * Constructor for ColumnHelper.
+     * </p>
      *
      * @param maxsize a int.
      */
@@ -51,12 +57,14 @@ public class ColumnHelper
     }
 
     /**
-     * <p>add.</p>
+     * <p>
+     * add.
+     * </p>
      *
      * @param formatter a {@link com.obdobion.funnel.orderby.KeyPart} object.
      * @throws java.text.ParseException if any.
      */
-    public void add (final KeyPart formatter) throws ParseException
+    public void add(final KeyPart formatter) throws ParseException
     {
         if (exists(formatter.columnName))
             throw new ParseException("Column already defined: " + formatter.columnName, 0);
@@ -65,12 +73,14 @@ public class ColumnHelper
     }
 
     /**
-     * <p>exists.</p>
+     * <p>
+     * exists.
+     * </p>
      *
      * @param name a {@link java.lang.String} object.
      * @return a boolean.
      */
-    public boolean exists (final String name)
+    public boolean exists(final String name)
     {
         for (final KeyPart col : columns)
         {
@@ -92,7 +102,8 @@ public class ColumnHelper
      * It is likely that the provided data is a reusable buffer of bytes. So we
      * can't just store these bytes for later use.
      *
-     * @param funnelContext a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param funnelContext a
+     *            {@link com.obdobion.funnel.parameters.FunnelContext} object.
      * @param data an array of byte.
      * @param recordNumber a long.
      * @param dataLength a int.
@@ -100,13 +111,13 @@ public class ColumnHelper
      * @return a {@link com.obdobion.funnel.orderby.KeyContext} object.
      * @throws java.lang.Exception if any.
      */
-    public KeyContext extract (
-        final FunnelContext funnelContext,
-        final byte[] data,
-        final long recordNumber,
-        final int dataLength,
-        final Equ... equations)
-        throws Exception
+    public KeyContext extract(
+            final FunnelContext funnelContext,
+            final byte[] data,
+            final long recordNumber,
+            final int dataLength,
+            final Equ... equations)
+                    throws Exception
     {
         /*
          * The extra byte is for a 0x00 character to be placed at the end of
@@ -133,17 +144,18 @@ public class ColumnHelper
      * @param data an array of byte.
      * @param recordNumber a long.
      * @throws java.lang.Exception if any.
-     * @param funnelContext a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param funnelContext a
+     *            {@link com.obdobion.funnel.parameters.FunnelContext} object.
      * @param dataLength a int.
      * @param equations a {@link com.obdobion.algebrain.Equ} object.
      * @return a {@link com.obdobion.funnel.orderby.KeyContext} object.
      */
-    public KeyContext extract (
-        final FunnelContext funnelContext,
-        final byte[][] data,
-        final long recordNumber,
-        final int dataLength,
-        final Equ... equations) throws Exception
+    public KeyContext extract(
+            final FunnelContext funnelContext,
+            final byte[][] data,
+            final long recordNumber,
+            final int dataLength,
+            final Equ... equations) throws Exception
     {
         /*
          * The extra byte is for a 0x00 character to be placed at the end of
@@ -162,12 +174,12 @@ public class ColumnHelper
         return context;
     }
 
-    private void extractColumnContentsFromRawData (
-        final FunnelContext funnelContext,
-        final long recordNumber,
-        final int dataLength,
-        final Equ... equations)
-        throws Exception
+    private void extractColumnContentsFromRawData(
+            final FunnelContext funnelContext,
+            final long recordNumber,
+            final int dataLength,
+            final Equ... equations)
+                    throws Exception
     {
         if (funnelContext == null)
             return;
@@ -185,10 +197,10 @@ public class ColumnHelper
             } catch (final Exception e)
             {
                 logger.warn("\"{}\" {} {} on record number {}",
-                    col.columnName,
-                    e.getClass().getSimpleName(),
-                    e.getMessage(),
-                    (recordNumber));
+                        col.columnName,
+                        e.getClass().getSimpleName(),
+                        e.getMessage(),
+                        (recordNumber));
             }
         }
         final Long rn = new Long(recordNumber);
@@ -205,12 +217,14 @@ public class ColumnHelper
     }
 
     /**
-     * <p>get.</p>
+     * <p>
+     * get.
+     * </p>
      *
      * @param name a {@link java.lang.String} object.
      * @return a {@link com.obdobion.funnel.orderby.KeyPart} object.
      */
-    public KeyPart get (final String name)
+    public KeyPart get(final String name)
     {
         for (final KeyPart col : columns)
         {
@@ -229,21 +243,25 @@ public class ColumnHelper
     }
 
     /**
-     * <p>Getter for the field <code>columns</code>.</p>
+     * <p>
+     * Getter for the field <code>columns</code>.
+     * </p>
      *
      * @return a {@link java.util.List} object.
      */
-    public List<KeyPart> getColumns ()
+    public List<KeyPart> getColumns()
     {
         return columns;
     }
 
     /**
-     * <p>getNames.</p>
+     * <p>
+     * getNames.
+     * </p>
      *
      * @return a {@link java.util.List} object.
      */
-    public List<String> getNames ()
+    public List<String> getNames()
     {
         final List<String> allNames = new ArrayList<>();
         for (final KeyPart col : columns)
@@ -254,13 +272,15 @@ public class ColumnHelper
     }
 
     /**
-     * <p>loadColumnsFromBytes.</p>
+     * <p>
+     * loadColumnsFromBytes.
+     * </p>
      *
      * @param dataLength a long.
      * @param data an array of byte.
      * @param recordNumber a long.
      */
-    public void loadColumnsFromBytes (final byte[] data, final long dataLength, final long recordNumber)
+    public void loadColumnsFromBytes(final byte[] data, final long dataLength, final long recordNumber)
     {
         context.key = null;
         context.keyLength = 0;
@@ -277,10 +297,10 @@ public class ColumnHelper
             } catch (final Exception e)
             {
                 logger.warn("\"{}\" {} {} on record number {}",
-                    col.columnName,
-                    e.getClass().getSimpleName(),
-                    e.getMessage(),
-                    recordNumber);
+                        col.columnName,
+                        e.getClass().getSimpleName(),
+                        e.getMessage(),
+                        recordNumber);
             }
         }
     }

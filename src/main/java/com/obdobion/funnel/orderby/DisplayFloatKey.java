@@ -3,7 +3,9 @@ package com.obdobion.funnel.orderby;
 import java.nio.ByteBuffer;
 
 /**
- * <p>DisplayFloatKey class.</p>
+ * <p>
+ * DisplayFloatKey class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -13,14 +15,16 @@ public class DisplayFloatKey extends KeyPart
     byte[] trimmed;
 
     /**
-     * <p>Constructor for DisplayFloatKey.</p>
+     * <p>
+     * Constructor for DisplayFloatKey.
+     * </p>
      */
     public DisplayFloatKey()
     {
         super();
     }
 
-    private void formatObjectIntoKey (final KeyContext context, final Double _doubleValue)
+    private void formatObjectIntoKey(final KeyContext context, final Double _doubleValue)
     {
         Double doubleValue = _doubleValue;
 
@@ -49,35 +53,35 @@ public class DisplayFloatKey extends KeyPart
 
     /** {@inheritDoc} */
     @Override
-    public Object getContents ()
+    public Object getContents()
     {
         return contents;
     }
 
     /** {@inheritDoc} */
     @Override
-    public double getContentsAsDouble ()
+    public double getContentsAsDouble()
     {
         return contents;
     }
 
     /** {@inheritDoc} */
     @Override
-    public boolean isFloat ()
+    public boolean isFloat()
     {
         return true;
     }
 
     /** {@inheritDoc} */
     @Override
-    public boolean isNumeric ()
+    public boolean isNumeric()
     {
         return true;
     }
 
     /** {@inheritDoc} */
     @Override
-    public void pack (final KeyContext context) throws Exception
+    public void pack(final KeyContext context) throws Exception
     {
         parseObject(context);
         formatObjectIntoKey(context, contents);
@@ -88,7 +92,7 @@ public class DisplayFloatKey extends KeyPart
 
     /** {@inheritDoc} */
     @Override
-    public void parseObjectFromRawData (final byte[] rawBytes) throws Exception
+    public void parseObjectFromRawData(final byte[] rawBytes) throws Exception
     {
         if (trimmed == null)
             trimmed = new byte[length];

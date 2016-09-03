@@ -10,7 +10,9 @@ import org.junit.Test;
 import com.obdobion.Helper;
 
 /**
- * <p>RecordNumberTest class.</p>
+ * <p>
+ * RecordNumberTest class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
@@ -19,13 +21,15 @@ public class RecordNumberTest
 {
 
     /**
-     * <p>aggregate.</p>
+     * <p>
+     * aggregate.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void aggregate ()
-        throws Throwable
+    public void aggregate()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -41,23 +45,25 @@ public class RecordNumberTest
         final File file = Helper.createUnsortedFile(testName, in);
 
         Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " -r -c o --col(-n myRecordNumber -l 2 int)"
-            + " --sum (-n sum1 myRecordNumber)"
-            + " --sum (-n sum2 -e'recordnumber')"
-            + " --form(-esum1  -l 3 -d '%2d')(-esum2  -l 3 -d '%2d')");
+                + " -r -c o --col(-n myRecordNumber -l 2 int)"
+                + " --sum (-n sum1 myRecordNumber)"
+                + " --sum (-n sum2 -e'recordnumber')"
+                + " --form(-esum1  -l 3 -d '%2d')(-esum2  -l 3 -d '%2d')");
 
         Helper.compare(file, expectedLines);
         Assert.assertTrue(file.delete());
     }
 
     /**
-     * <p>multiFileInput.</p>
+     * <p>
+     * multiFileInput.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void multiFileInput ()
-        throws Throwable
+    public void multiFileInput()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -84,10 +90,10 @@ public class RecordNumberTest
         final File fileOut = Helper.outFile(testName);
 
         Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " " + file2.getAbsolutePath() + " --noc "
-            + " --out " + fileOut.getAbsolutePath()
-            + " --col(-n myRecordNumber -l 2 int) --orderBy (myRecordNumber)"
-            + " --form(-erecordNumber -l 2)(myRecordNumber)");
+                + " " + file2.getAbsolutePath() + " --noc "
+                + " --out " + fileOut.getAbsolutePath()
+                + " --col(-n myRecordNumber -l 2 int) --orderBy (myRecordNumber)"
+                + " --form(-erecordNumber -l 2)(myRecordNumber)");
 
         Helper.compare(fileOut, expectedLines);
         Assert.assertTrue(file.delete());
@@ -96,13 +102,15 @@ public class RecordNumberTest
     }
 
     /**
-     * <p>normalFixed.</p>
+     * <p>
+     * normalFixed.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void normalFixed ()
-        throws Throwable
+    public void normalFixed()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -121,21 +129,23 @@ public class RecordNumberTest
         final File file = Helper.createUnsortedFile(testName, in);
 
         Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " -r -c o --col(-n myRecordNumber -l 2 int) --fixedIn 3"
-            + " --form(-erecordNumber -l 2)(myRecordNumber)");
+                + " -r -c o --col(-n myRecordNumber -l 2 int) --fixedIn 3"
+                + " --form(-erecordNumber -l 2)(myRecordNumber)");
 
         Helper.compare(file, expectedLines);
         Assert.assertTrue(file.delete());
     }
 
     /**
-     * <p>normalVariable.</p>
+     * <p>
+     * normalVariable.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void normalVariable ()
-        throws Throwable
+    public void normalVariable()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -154,21 +164,23 @@ public class RecordNumberTest
         final File file = Helper.createUnsortedFile(testName, in);
 
         Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " -r -c o --col(-n myRecordNumber -l 2 int)"
-            + " --form(-erecordNumber -l 2)(myRecordNumber)");
+                + " -r -c o --col(-n myRecordNumber -l 2 int)"
+                + " --form(-erecordNumber -l 2)(myRecordNumber)");
 
         Helper.compare(file, expectedLines);
         Assert.assertTrue(file.delete());
     }
 
     /**
-     * <p>skip1Row.</p>
+     * <p>
+     * skip1Row.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void skip1Row ()
-        throws Throwable
+    public void skip1Row()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -187,22 +199,24 @@ public class RecordNumberTest
         final File file = Helper.createUnsortedFile(testName, in);
 
         Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " -r -c o --col(-n myRecordNumber -l 2 int)"
-            + " --where 'recordNumber > 1'"
-            + " --form(-erecordNumber -l 2)(myRecordNumber)");
+                + " -r -c o --col(-n myRecordNumber -l 2 int)"
+                + " --where 'recordNumber > 1'"
+                + " --form(-erecordNumber -l 2)(myRecordNumber)");
 
         Helper.compare(file, expectedLines);
         Assert.assertTrue(file.delete());
     }
 
     /**
-     * <p>stopWhen.</p>
+     * <p>
+     * stopWhen.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void stopWhen ()
-        throws Throwable
+    public void stopWhen()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -221,9 +235,9 @@ public class RecordNumberTest
         final File file = Helper.createUnsortedFile(testName, in);
 
         Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " -r -c o --col(-n myRecordNumber -l 2 int)"
-            + " --stopWhen 'recordNumber = 3'"
-            + " --form(-erecordNumber -l 2)(myRecordNumber)");
+                + " -r -c o --col(-n myRecordNumber -l 2 int)"
+                + " --stopWhen 'recordNumber = 3'"
+                + " --form(-erecordNumber -l 2)(myRecordNumber)");
 
         Helper.compare(file, expectedLines);
         Assert.assertTrue(file.delete());

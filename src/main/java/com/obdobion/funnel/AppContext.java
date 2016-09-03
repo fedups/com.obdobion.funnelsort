@@ -9,7 +9,9 @@ import com.obdobion.argument.annotation.Arg;
 import com.obdobion.argument.input.NamespaceParser;
 
 /**
- * <p>AppContext class.</p>
+ * <p>
+ * AppContext class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -25,7 +27,9 @@ public class AppContext
     public String   log4jConfigFileName;
 
     /**
-     * <p>Constructor for AppContext.</p>
+     * <p>
+     * Constructor for AppContext.
+     * </p>
      */
     public AppContext()
     {
@@ -33,7 +37,9 @@ public class AppContext
     }
 
     /**
-     * <p>Constructor for AppContext.</p>
+     * <p>
+     * Constructor for AppContext.
+     * </p>
      *
      * @param workingDirectory a {@link java.lang.String} object.
      * @throws java.io.IOException if any.

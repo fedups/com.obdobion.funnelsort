@@ -11,7 +11,9 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>BasicTest class.</p>
+ * <p>
+ * BasicTest class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
@@ -20,7 +22,9 @@ public class BasicTest
 {
 
     /**
-     * <p>integerSort.</p>
+     * <p>
+     * integerSort.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -59,7 +63,9 @@ public class BasicTest
     }
 
     /**
-     * <p>multifileInputIntegerSort.</p>
+     * <p>
+     * multifileInputIntegerSort.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
@@ -106,7 +112,9 @@ public class BasicTest
     }
 
     /**
-     * <p>multifileInputStringSort.</p>
+     * <p>
+     * multifileInputStringSort.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */

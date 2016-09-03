@@ -12,7 +12,9 @@ import com.obdobion.funnel.Funnel;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>WorkFile class.</p>
+ * <p>
+ * WorkFile class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -30,9 +32,12 @@ public class WorkFile implements WorkRepository
     long                        writeFilePointer;
 
     /**
-     * <p>Constructor for WorkFile.</p>
+     * <p>
+     * Constructor for WorkFile.
+     * </p>
      *
-     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @throws java.io.IOException if any.
      */
     public WorkFile(final FunnelContext _context) throws IOException

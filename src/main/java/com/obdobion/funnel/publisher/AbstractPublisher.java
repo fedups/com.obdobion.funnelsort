@@ -22,7 +22,9 @@ import com.obdobion.funnel.provider.RandomAccessInputSource;
 import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
- * <p>Abstract AbstractPublisher class.</p>
+ * <p>
+ * Abstract AbstractPublisher class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -44,9 +46,12 @@ abstract public class AbstractPublisher implements FunnelDataPublisher, ColumnWr
     long                        duplicateCount;
 
     /**
-     * <p>Constructor for AbstractPublisher.</p>
+     * <p>
+     * Constructor for AbstractPublisher.
+     * </p>
      *
-     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @throws java.text.ParseException if any.
      * @throws java.io.IOException if any.
      */

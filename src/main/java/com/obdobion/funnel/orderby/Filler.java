@@ -1,7 +1,9 @@
 package com.obdobion.funnel.orderby;
 
 /**
- * <p>Filler class.</p>
+ * <p>
+ * Filler class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */

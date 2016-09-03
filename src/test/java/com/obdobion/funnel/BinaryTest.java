@@ -7,14 +7,16 @@ import org.junit.Test;
 import com.obdobion.Helper;
 
 /**
- * <p>BinaryTest class.</p>
+ * <p>
+ * BinaryTest class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
  */
 public class BinaryTest
 {
-    static final int binaryfind (final long[] values, final int max, final long value)
+    static final int binaryfind(final long[] values, final int max, final long value)
     {
         int b = 0;
         int t = max;
@@ -42,7 +44,7 @@ public class BinaryTest
         return b;
     }
 
-    static private int find (final long[] values, final int value)
+    static private int find(final long[] values, final int value)
     {
         final long loop = 10000000;
 
@@ -52,12 +54,12 @@ public class BinaryTest
         final long end = System.currentTimeMillis();
 
         System.out.println("value " + value + " " + (long) ((double) loop / (double) (end - start))
-            + " / ms (15000 = best so far)");
+                + " / ms (15000 = best so far)");
 
         return binaryfind(values, values.length, value);
     }
 
-    static private long[] values (final int count, final int incr)
+    static private long[] values(final int count, final int incr)
     {
         final long[] values = new long[count];
         long current = 0;
@@ -69,12 +71,14 @@ public class BinaryTest
     }
 
     /**
-     * <p>binary0.</p>
+     * <p>
+     * binary0.
+     * </p>
      *
      * @throws java.lang.Exception if any.
      */
     @Test
-    public void binary0 () throws Exception
+    public void binary0() throws Exception
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -83,12 +87,14 @@ public class BinaryTest
     }
 
     /**
-     * <p>binary10.</p>
+     * <p>
+     * binary10.
+     * </p>
      *
      * @throws java.lang.Exception if any.
      */
     @Test
-    public void binary10 () throws Exception
+    public void binary10() throws Exception
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -98,12 +104,14 @@ public class BinaryTest
     }
 
     /**
-     * <p>binary11.</p>
+     * <p>
+     * binary11.
+     * </p>
      *
      * @throws java.lang.Exception if any.
      */
     @Test
-    public void binary11 () throws Exception
+    public void binary11() throws Exception
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -112,12 +120,14 @@ public class BinaryTest
     }
 
     /**
-     * <p>binary20.</p>
+     * <p>
+     * binary20.
+     * </p>
      *
      * @throws java.lang.Exception if any.
      */
     @Test
-    public void binary20 () throws Exception
+    public void binary20() throws Exception
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -126,12 +136,14 @@ public class BinaryTest
     }
 
     /**
-     * <p>binary40000_direct_immediate_hit.</p>
+     * <p>
+     * binary40000_direct_immediate_hit.
+     * </p>
      *
      * @throws java.lang.Exception if any.
      */
     @Test
-    public void binary40000_direct_immediate_hit () throws Exception
+    public void binary40000_direct_immediate_hit() throws Exception
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -141,12 +153,14 @@ public class BinaryTest
     }
 
     /**
-     * <p>binary79999.</p>
+     * <p>
+     * binary79999.
+     * </p>
      *
      * @throws java.lang.Exception if any.
      */
     @Test
-    public void binary79999 () throws Exception
+    public void binary79999() throws Exception
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -156,12 +170,14 @@ public class BinaryTest
     }
 
     /**
-     * <p>binary80000.</p>
+     * <p>
+     * binary80000.
+     * </p>
      *
      * @throws java.lang.Exception if any.
      */
     @Test
-    public void binary80000 () throws Exception
+    public void binary80000() throws Exception
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -170,12 +186,14 @@ public class BinaryTest
     }
 
     /**
-     * <p>binary80001.</p>
+     * <p>
+     * binary80001.
+     * </p>
      *
      * @throws java.lang.Exception if any.
      */
     @Test
-    public void binary80001 () throws Exception
+    public void binary80001() throws Exception
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);

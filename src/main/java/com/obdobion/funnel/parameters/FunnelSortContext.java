@@ -17,7 +17,9 @@ import com.obdobion.funnel.columns.FormatPart;
 import com.obdobion.funnel.orderby.KeyPart;
 
 /**
- * <p>FunnelSortContext class.</p>
+ * <p>
+ * FunnelSortContext class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -145,7 +147,8 @@ public class FunnelSortContext
             help = "A list of columns that will be analyzed for their respective summary values per unique sort key.")
     public List<Aggregate>      aggregates;
 
-    @Arg(help = "The definition of the CSV file being read as input.  Using this indicates that the input is in fact a CSV file and the columns parameter must use the --field arguments.")
+    @Arg(
+            help = "The definition of the CSV file being read as input.  Using this indicates that the input is in fact a CSV file and the columns parameter must use the --field arguments.")
     public CSVDef               csv;
 
     @Arg(allowCamelCaps = true, caseSensitive = true, help = "The directory where temp files will be handled.")
@@ -171,7 +174,9 @@ public class FunnelSortContext
     public boolean              version;
 
     /**
-     * <p>Constructor for FunnelSortContext.</p>
+     * <p>
+     * Constructor for FunnelSortContext.
+     * </p>
      *
      * @param parser a {@link com.obdobion.argument.CmdLine} object.
      * @param args a {@link java.lang.String} object.
@@ -186,7 +191,9 @@ public class FunnelSortContext
     }
 
     /**
-     * <p>getParser.</p>
+     * <p>
+     * getParser.
+     * </p>
      *
      * @return a {@link com.obdobion.argument.ICmdLine} object.
      */

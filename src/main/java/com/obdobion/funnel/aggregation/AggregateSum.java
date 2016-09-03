@@ -4,7 +4,9 @@ import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>AggregateSum class.</p>
+ * <p>
+ * AggregateSum class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -14,7 +16,9 @@ public class AggregateSum extends Aggregate
     long   sumLong;
 
     /**
-     * <p>Constructor for AggregateSum.</p>
+     * <p>
+     * Constructor for AggregateSum.
+     * </p>
      */
     public AggregateSum()
     {
@@ -22,7 +26,7 @@ public class AggregateSum extends Aggregate
     }
 
     @Override
-    Object getValueForEquations ()
+    Object getValueForEquations()
     {
         if (AggType.FLOAT == aggType)
             return new Double(sumDouble);
@@ -32,14 +36,14 @@ public class AggregateSum extends Aggregate
     }
 
     @Override
-    void reset ()
+    void reset()
     {
         sumDouble = 0D;
         sumLong = 0L;
     }
 
     @Override
-    void update (final FunnelContext context) throws Exception
+    void update(final FunnelContext context) throws Exception
     {
         if (equation != null)
         {

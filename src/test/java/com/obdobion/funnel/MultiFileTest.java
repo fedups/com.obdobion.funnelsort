@@ -11,7 +11,9 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>MultiFileTest class.</p>
+ * <p>
+ * MultiFileTest class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
@@ -20,13 +22,15 @@ public class MultiFileTest
 {
 
     /**
-     * <p>twoInputFilesMerged.</p>
+     * <p>
+     * twoInputFilesMerged.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void twoInputFilesMerged ()
-        throws Throwable
+    public void twoInputFilesMerged()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -51,9 +55,9 @@ public class MultiFileTest
         final File file2 = Helper.createUnsortedFile(testName, in2);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getParent() + "/" + testName + "*"
-            + " --nocacheinput"
-            + " -o " + output.getAbsolutePath()
-            + " --row 4 --variableIn CR LF --variableOut LF");
+                + " --nocacheinput"
+                + " -o " + output.getAbsolutePath()
+                + " --row 4 --variableIn CR LF --variableOut LF");
 
         Assert.assertEquals("records", 4L, context.getRecordCount());
         Assert.assertEquals("records", 4L, context.getWriteCount());
@@ -65,13 +69,15 @@ public class MultiFileTest
     }
 
     /**
-     * <p>twoInputFilesWithReplace.</p>
+     * <p>
+     * twoInputFilesWithReplace.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void twoInputFilesWithReplace ()
-        throws Throwable
+    public void twoInputFilesWithReplace()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -84,9 +90,9 @@ public class MultiFileTest
         final File file2 = Helper.createUnsortedFile(testName, out);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + ","
-            + file2.getAbsolutePath()
-            + " --replace --row 2 -c original --variableIn CR LF --variableOut LF");
+                + ","
+                + file2.getAbsolutePath()
+                + " --replace --row 2 -c original --variableIn CR LF --variableOut LF");
 
         Assert.assertEquals("records", 4L, context.getRecordCount());
         Helper.compare(file, out);

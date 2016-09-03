@@ -10,7 +10,9 @@ import org.slf4j.LoggerFactory;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>FileSource class.</p>
+ * <p>
+ * FileSource class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -22,9 +24,12 @@ public class FileSource implements RandomAccessInputSource
     RandomAccessFile[]          raf;
 
     /**
-     * <p>Constructor for FileSource.</p>
+     * <p>
+     * Constructor for FileSource.
+     * </p>
      *
-     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @throws java.text.ParseException if any.
      * @throws java.io.IOException if any.
      */

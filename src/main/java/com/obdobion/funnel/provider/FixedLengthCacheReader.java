@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>FixedLengthCacheReader class.</p>
+ * <p>
+ * FixedLengthCacheReader class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -23,9 +25,12 @@ public class FixedLengthCacheReader implements InputReader
     long                currentPosition;
 
     /**
-     * <p>Constructor for FixedLengthCacheReader.</p>
+     * <p>
+     * Constructor for FixedLengthCacheReader.
+     * </p>
      *
-     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @throws java.io.IOException if any.
      * @throws java.text.ParseException if any.
      */
@@ -87,7 +92,9 @@ public class FixedLengthCacheReader implements InputReader
     }
 
     /**
-     * <p>reset.</p>
+     * <p>
+     * reset.
+     * </p>
      */
     public void reset()
     {

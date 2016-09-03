@@ -10,7 +10,9 @@ import com.obdobion.funnel.orderby.KeyType;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>CommandLineOptionsTest class.</p>
+ * <p>
+ * CommandLineOptionsTest class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
@@ -41,7 +43,9 @@ public class CommandLineOptionsTest
     }
 
     /**
-     * <p>defineCacheWork.</p>
+     * <p>
+     * defineCacheWork.
+     * </p>
      *
      * @throws java.lang.Exception if any.
      */
@@ -176,7 +180,9 @@ public class CommandLineOptionsTest
     }
 
     /**
-     * <p>version.</p>
+     * <p>
+     * version.
+     * </p>
      *
      * @throws java.lang.Exception if any.
      */

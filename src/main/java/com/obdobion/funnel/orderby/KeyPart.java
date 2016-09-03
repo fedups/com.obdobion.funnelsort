@@ -6,7 +6,9 @@ import com.obdobion.argument.annotation.Arg;
 import com.obdobion.funnel.segment.SourceProxyRecord;
 
 /**
- * <p>Abstract KeyPart class.</p>
+ * <p>
+ * Abstract KeyPart class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -55,7 +57,9 @@ abstract public class KeyPart
     public String       parseFormat;
 
     /**
-     * <p>Constructor for KeyPart.</p>
+     * <p>
+     * Constructor for KeyPart.
+     * </p>
      */
     public KeyPart()
     {
@@ -67,9 +71,12 @@ abstract public class KeyPart
     }
 
     /**
-     * <p>add.</p>
+     * <p>
+     * add.
+     * </p>
      *
-     * @param anotherFormatter a {@link com.obdobion.funnel.orderby.KeyPart} object.
+     * @param anotherFormatter a {@link com.obdobion.funnel.orderby.KeyPart}
+     *            object.
      */
     public void add(final KeyPart anotherFormatter)
     {
@@ -97,14 +104,18 @@ abstract public class KeyPart
     }
 
     /**
-     * <p>getContents.</p>
+     * <p>
+     * getContents.
+     * </p>
      *
      * @return a {@link java.lang.Object} object.
      */
     abstract public Object getContents();
 
     /**
-     * <p>getContentsAsByteArray.</p>
+     * <p>
+     * getContentsAsByteArray.
+     * </p>
      *
      * @return an array of byte.
      */
@@ -114,14 +125,18 @@ abstract public class KeyPart
     }
 
     /**
-     * <p>getContentsAsDouble.</p>
+     * <p>
+     * getContentsAsDouble.
+     * </p>
      *
      * @return a double.
      */
     abstract public double getContentsAsDouble();
 
     /**
-     * <p>isCsv.</p>
+     * <p>
+     * isCsv.
+     * </p>
      *
      * @return a boolean.
      */
@@ -131,7 +146,9 @@ abstract public class KeyPart
     }
 
     /**
-     * <p>isDate.</p>
+     * <p>
+     * isDate.
+     * </p>
      *
      * @return a boolean.
      */
@@ -141,7 +158,9 @@ abstract public class KeyPart
     }
 
     /**
-     * <p>isFloat.</p>
+     * <p>
+     * isFloat.
+     * </p>
      *
      * @return a boolean.
      */
@@ -151,7 +170,9 @@ abstract public class KeyPart
     }
 
     /**
-     * <p>isInteger.</p>
+     * <p>
+     * isInteger.
+     * </p>
      *
      * @return a boolean.
      */
@@ -161,14 +182,18 @@ abstract public class KeyPart
     }
 
     /**
-     * <p>isNumeric.</p>
+     * <p>
+     * isNumeric.
+     * </p>
      *
      * @return a boolean.
      */
     abstract public boolean isNumeric();
 
     /**
-     * <p>newCopy.</p>
+     * <p>
+     * newCopy.
+     * </p>
      *
      * @return a {@link com.obdobion.funnel.orderby.KeyPart} object.
      */
@@ -194,10 +219,13 @@ abstract public class KeyPart
     }
 
     /**
-     * <p>originalData.</p>
+     * <p>
+     * originalData.
+     * </p>
      *
      * @param context a {@link com.obdobion.funnel.orderby.KeyContext} object.
-     * @param proxyRecord a {@link com.obdobion.funnel.segment.SourceProxyRecord} object.
+     * @param proxyRecord a
+     *            {@link com.obdobion.funnel.segment.SourceProxyRecord} object.
      * @param outputBytes a {@link java.io.ByteArrayOutputStream} object.
      */
     public void originalData(final KeyContext context, final SourceProxyRecord proxyRecord,
@@ -221,7 +249,9 @@ abstract public class KeyPart
     }
 
     /**
-     * <p>pack.</p>
+     * <p>
+     * pack.
+     * </p>
      *
      * @param context a {@link com.obdobion.funnel.orderby.KeyContext} object.
      * @throws java.lang.Exception if any.
@@ -229,7 +259,9 @@ abstract public class KeyPart
     abstract public void pack(KeyContext context) throws Exception;
 
     /**
-     * <p>parseObject.</p>
+     * <p>
+     * parseObject.
+     * </p>
      *
      * @param context a {@link com.obdobion.funnel.orderby.KeyContext} object.
      * @throws java.lang.Exception if any.
@@ -240,7 +272,9 @@ abstract public class KeyPart
     }
 
     /**
-     * <p>parseObjectFromRawData.</p>
+     * <p>
+     * parseObjectFromRawData.
+     * </p>
      *
      * @param rawData an array of byte.
      * @throws java.lang.Exception if any.

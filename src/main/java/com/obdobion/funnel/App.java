@@ -6,31 +6,37 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
 
 /**
- * <p>App class.</p>
+ * <p>
+ * App class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
 public class App
 {
     /**
-     * <p>abort.</p>
+     * <p>
+     * abort.
+     * </p>
      *
      * @param code a int.
      * @param ex a {@link java.lang.Exception} object.
      */
-    static public void abort (final int code, final Exception ex)
+    static public void abort(final int code, final Exception ex)
     {
         ex.printStackTrace();
         System.exit(code);
     }
 
     /**
-     * <p>main.</p>
+     * <p>
+     * main.
+     * </p>
      *
      * @param args a {@link java.lang.String} object.
      * @throws java.lang.Throwable if any.
      */
-    public static void main (final String... args) throws Throwable
+    public static void main(final String... args) throws Throwable
     {
         final AppContext cfg = new AppContext(workDir());
 
@@ -52,7 +58,7 @@ public class App
     /**
      * @return
      */
-    static private String workDir ()
+    static private String workDir()
     {
         return System.getProperty("user.dir");
     }

@@ -25,8 +25,7 @@ public class FormatOutputTest
      * defaultFiller.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void defaultFiller() throws Throwable
@@ -59,8 +58,7 @@ public class FormatOutputTest
      * equColumnReferenceToString.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void equColumnReferenceToString() throws Throwable
@@ -93,8 +91,7 @@ public class FormatOutputTest
      * equColumnReferenceWithFormat.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void equColumnReferenceWithFormat() throws Throwable
@@ -127,8 +124,7 @@ public class FormatOutputTest
      * equFormatDate.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void equFormatDate() throws Throwable
@@ -161,8 +157,7 @@ public class FormatOutputTest
      * equSimpleString.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void equSimpleString() throws Throwable
@@ -195,8 +190,7 @@ public class FormatOutputTest
      * largerOutputArea.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void largerOutputArea() throws Throwable
@@ -229,8 +223,7 @@ public class FormatOutputTest
      * offset.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void offset() throws Throwable
@@ -263,8 +256,7 @@ public class FormatOutputTest
      * offsetNoLength.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void offsetNoLength() throws Throwable
@@ -297,8 +289,7 @@ public class FormatOutputTest
      * oneColumnVariableLength.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void oneColumnVariableLength() throws Throwable
@@ -331,8 +322,7 @@ public class FormatOutputTest
      * onlyFiller.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void onlyFiller() throws Throwable
@@ -365,8 +355,7 @@ public class FormatOutputTest
      * truncate.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void truncate() throws Throwable
@@ -399,8 +388,7 @@ public class FormatOutputTest
      * twoColumnCSV.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void twoColumnCSV() throws Throwable
@@ -434,8 +422,7 @@ public class FormatOutputTest
      * twoColumnVariableLength.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void twoColumnVariableLength() throws Throwable
@@ -468,8 +455,7 @@ public class FormatOutputTest
      * twoColumnVariableLengthImpliedFieldLength.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void twoColumnVariableLengthImpliedFieldLength() throws Throwable
@@ -502,8 +488,7 @@ public class FormatOutputTest
      * xFiller.
      * </p>
      *
-     * @throws java.lang.Throwable
-     *             if any.
+     * @throws java.lang.Throwable if any.
      */
     @Test
     public void xFiller() throws Throwable

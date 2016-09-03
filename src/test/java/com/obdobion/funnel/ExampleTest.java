@@ -9,7 +9,9 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>ExampleTest class.</p>
+ * <p>
+ * ExampleTest class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
@@ -17,12 +19,14 @@ import com.obdobion.funnel.parameters.FunnelContext;
 public class ExampleTest
 {
     /**
-     * <p>addHeader.</p>
+     * <p>
+     * addHeader.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void addHeader () throws Throwable
+    public void addHeader() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -35,12 +39,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>aggregates.</p>
+     * <p>
+     * aggregates.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void aggregates () throws Throwable
+    public void aggregates() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -53,12 +59,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>averageRowsPerSecond.</p>
+     * <p>
+     * averageRowsPerSecond.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void averageRowsPerSecond () throws Throwable
+    public void averageRowsPerSecond() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -71,12 +79,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>convertFixedToVariable.</p>
+     * <p>
+     * convertFixedToVariable.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void convertFixedToVariable () throws Throwable
+    public void convertFixedToVariable() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -89,12 +99,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>convertVariableToFixed.</p>
+     * <p>
+     * convertVariableToFixed.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void convertVariableToFixed () throws Throwable
+    public void convertVariableToFixed() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -107,12 +119,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>copyCollate.</p>
+     * <p>
+     * copyCollate.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void copyCollate () throws Throwable
+    public void copyCollate() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -125,12 +139,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>copyOriginal.</p>
+     * <p>
+     * copyOriginal.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void copyOriginal () throws Throwable
+    public void copyOriginal() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -143,12 +159,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>copyReverse.</p>
+     * <p>
+     * copyReverse.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void copyReverse () throws Throwable
+    public void copyReverse() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -161,12 +179,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>countJobs.</p>
+     * <p>
+     * countJobs.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void countJobs () throws Throwable
+    public void countJobs() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -179,12 +199,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>createFile.</p>
+     * <p>
+     * createFile.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void createFile () throws Throwable
+    public void createFile() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -199,12 +221,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>csvSort.</p>
+     * <p>
+     * csvSort.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void csvSort () throws Throwable
+    public void csvSort() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -217,12 +241,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>dos2unix.</p>
+     * <p>
+     * dos2unix.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void dos2unix () throws Throwable
+    public void dos2unix() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -235,12 +261,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>dupFirstOnly.</p>
+     * <p>
+     * dupFirstOnly.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void dupFirstOnly () throws Throwable
+    public void dupFirstOnly() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -253,12 +281,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>eolWord.</p>
+     * <p>
+     * eolWord.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void eolWord () throws Throwable
+    public void eolWord() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -271,12 +301,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>formatComputedColumn.</p>
+     * <p>
+     * formatComputedColumn.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void formatComputedColumn () throws Throwable
+    public void formatComputedColumn() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -289,12 +321,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>formatDate.</p>
+     * <p>
+     * formatDate.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void formatDate () throws Throwable
+    public void formatDate() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -307,12 +341,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>formatFiller.</p>
+     * <p>
+     * formatFiller.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void formatFiller () throws Throwable
+    public void formatFiller() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -325,12 +361,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>formatFormatNumber.</p>
+     * <p>
+     * formatFormatNumber.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void formatFormatNumber () throws Throwable
+    public void formatFormatNumber() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -343,12 +381,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>formatTwoColumns.</p>
+     * <p>
+     * formatTwoColumns.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void formatTwoColumns () throws Throwable
+    public void formatTwoColumns() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -361,12 +401,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>hexDumpColumns.</p>
+     * <p>
+     * hexDumpColumns.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void hexDumpColumns () throws Throwable
+    public void hexDumpColumns() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -379,12 +421,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>hexDumpRow.</p>
+     * <p>
+     * hexDumpRow.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void hexDumpRow () throws Throwable
+    public void hexDumpRow() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -397,12 +441,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>multiKey.</p>
+     * <p>
+     * multiKey.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void multiKey () throws Throwable
+    public void multiKey() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -415,12 +461,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>oneKey.</p>
+     * <p>
+     * oneKey.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void oneKey () throws Throwable
+    public void oneKey() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -433,12 +481,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>orderByAbsInt.</p>
+     * <p>
+     * orderByAbsInt.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void orderByAbsInt () throws Throwable
+    public void orderByAbsInt() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -451,12 +501,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>orderByDescDate.</p>
+     * <p>
+     * orderByDescDate.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void orderByDescDate () throws Throwable
+    public void orderByDescDate() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -469,12 +521,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>orderByFloat.</p>
+     * <p>
+     * orderByFloat.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void orderByFloat () throws Throwable
+    public void orderByFloat() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -487,12 +541,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>orderByInt.</p>
+     * <p>
+     * orderByInt.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void orderByInt () throws Throwable
+    public void orderByInt() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -505,12 +561,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>orderWithHeader.</p>
+     * <p>
+     * orderWithHeader.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void orderWithHeader () throws Throwable
+    public void orderWithHeader() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -523,12 +581,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>removeHeader.</p>
+     * <p>
+     * removeHeader.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void removeHeader () throws Throwable
+    public void removeHeader() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -541,12 +601,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>sortMultipleFiles.</p>
+     * <p>
+     * sortMultipleFiles.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void sortMultipleFiles () throws Throwable
+    public void sortMultipleFiles() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -559,12 +621,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>sortSingleFile.</p>
+     * <p>
+     * sortSingleFile.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void sortSingleFile () throws Throwable
+    public void sortSingleFile() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -577,12 +641,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>sortWildFile.</p>
+     * <p>
+     * sortWildFile.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void sortWildFile () throws Throwable
+    public void sortWildFile() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -595,12 +661,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>stopAtRecordNumber.</p>
+     * <p>
+     * stopAtRecordNumber.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void stopAtRecordNumber () throws Throwable
+    public void stopAtRecordNumber() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -613,12 +681,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>stopAtTimestamp.</p>
+     * <p>
+     * stopAtTimestamp.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void stopAtTimestamp () throws Throwable
+    public void stopAtTimestamp() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -631,12 +701,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>upperCase.</p>
+     * <p>
+     * upperCase.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void upperCase () throws Throwable
+    public void upperCase() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -649,12 +721,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>wherePattern.</p>
+     * <p>
+     * wherePattern.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void wherePattern () throws Throwable
+    public void wherePattern() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -667,12 +741,14 @@ public class ExampleTest
     }
 
     /**
-     * <p>whereRange.</p>
+     * <p>
+     * whereRange.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void whereRange () throws Throwable
+    public void whereRange() throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);

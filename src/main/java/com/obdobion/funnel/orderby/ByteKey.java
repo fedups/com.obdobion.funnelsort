@@ -3,7 +3,9 @@ package com.obdobion.funnel.orderby;
 import java.util.Arrays;
 
 /**
- * <p>ByteKey class.</p>
+ * <p>
+ * ByteKey class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -12,14 +14,16 @@ public class ByteKey extends KeyPart
     byte[] contents;
 
     /**
-     * <p>Constructor for ByteKey.</p>
+     * <p>
+     * Constructor for ByteKey.
+     * </p>
      */
     public ByteKey()
     {
         super();
     }
 
-    private void formatObjectIntoKey (final KeyContext context, final byte[] rawBytes)
+    private void formatObjectIntoKey(final KeyContext context, final byte[] rawBytes)
     {
         int lengthThisTime = length;
         if (rawBytes.length < length)
@@ -39,35 +43,35 @@ public class ByteKey extends KeyPart
 
     /** {@inheritDoc} */
     @Override
-    public Object getContents ()
+    public Object getContents()
     {
         return contents;
     }
 
     /** {@inheritDoc} */
     @Override
-    public byte[] getContentsAsByteArray ()
+    public byte[] getContentsAsByteArray()
     {
         return contents;
     }
 
     /** {@inheritDoc} */
     @Override
-    public double getContentsAsDouble ()
+    public double getContentsAsDouble()
     {
         return 0;
     }
 
     /** {@inheritDoc} */
     @Override
-    public boolean isNumeric ()
+    public boolean isNumeric()
     {
         return false;
     }
 
     /** {@inheritDoc} */
     @Override
-    public void pack (final KeyContext context) throws Exception
+    public void pack(final KeyContext context) throws Exception
     {
         parseObject(context);
 
@@ -79,7 +83,7 @@ public class ByteKey extends KeyPart
 
     /** {@inheritDoc} */
     @Override
-    public void parseObjectFromRawData (final byte[] rawBytes) throws Exception
+    public void parseObjectFromRawData(final byte[] rawBytes) throws Exception
     {
         contents = Arrays.copyOfRange(rawBytes, this.offset, this.offset + this.length);
         unformattedContents = contents;

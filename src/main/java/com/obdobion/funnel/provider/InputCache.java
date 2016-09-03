@@ -13,7 +13,9 @@ import org.slf4j.LoggerFactory;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>InputCache class.</p>
+ * <p>
+ * InputCache class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -27,7 +29,9 @@ public class InputCache implements RandomAccessInputSource
      * public for junit only
      */
     /**
-     * <p>findBufferIndexForPosition.</p>
+     * <p>
+     * findBufferIndexForPosition.
+     * </p>
      *
      * @param position a long.
      * @param startingPositions an array of long.
@@ -79,9 +83,12 @@ public class InputCache implements RandomAccessInputSource
     long                   length;
 
     /**
-     * <p>Constructor for InputCache.</p>
+     * <p>
+     * Constructor for InputCache.
+     * </p>
      *
-     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @param _source a {@link java.io.InputStream} object.
      * @throws java.io.IOException if any.
      */
@@ -125,7 +132,9 @@ public class InputCache implements RandomAccessInputSource
     }
 
     /**
-     * <p>eof.</p>
+     * <p>
+     * eof.
+     * </p>
      *
      * @return a boolean.
      */
@@ -141,7 +150,9 @@ public class InputCache implements RandomAccessInputSource
     }
 
     /**
-     * <p>length.</p>
+     * <p>
+     * length.
+     * </p>
      *
      * @return a long.
      */
@@ -195,7 +206,9 @@ public class InputCache implements RandomAccessInputSource
     }
 
     /**
-     * <p>position.</p>
+     * <p>
+     * position.
+     * </p>
      *
      * @return a long.
      */

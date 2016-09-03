@@ -11,7 +11,9 @@ import com.obdobion.Helper;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>ByteTests class.</p>
+ * <p>
+ * ByteTests class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  * @since 1.6.6
@@ -19,13 +21,15 @@ import com.obdobion.funnel.parameters.FunnelContext;
 public class ByteTests
 {
     /**
-     * <p>asHex.</p>
+     * <p>
+     * asHex.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void asHex ()
-        throws Throwable
+    public void asHex()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -39,14 +43,13 @@ public class ByteTests
         try
         {
             final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-                + " --col"
-                + " (String -l1 -n string)"
-                + " (Byte -l3 -n bytes)"
-                + " --where \"not(empty(matches(bytes, '\t+')))\""
-                + " --orderBy (bytes desc)"
-                + " --formatOut"
-                + "  (-e 'toHex(bytes)' -l 6)(string)"
-                    );
+                    + " --col"
+                    + " (String -l1 -n string)"
+                    + " (Byte -l3 -n bytes)"
+                    + " --where \"not(empty(matches(bytes, '\t+')))\""
+                    + " --orderBy (bytes desc)"
+                    + " --formatOut"
+                    + "  (-e 'toHex(bytes)' -l 6)(string)");
 
             Assert.assertEquals("records", 1L, context.getWriteCount());
         } finally
@@ -56,13 +59,15 @@ public class ByteTests
     }
 
     /**
-     * <p>asNumberInEqu.</p>
+     * <p>
+     * asNumberInEqu.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void asNumberInEqu ()
-        throws Throwable
+    public void asNumberInEqu()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -76,13 +81,12 @@ public class ByteTests
         try
         {
             Funnel.sort(Helper.config(), file.getAbsolutePath()
-                + " --col"
-                + " (String -l1 -n string)"
-                + " (Byte -l3 -n bytes)"
-                + " --orderBy (bytes desc)"
-                + " --formatOut"
-                + "  (-e'bytes*2' -l 3)(string)"
-                    );
+                    + " --col"
+                    + " (String -l1 -n string)"
+                    + " (Byte -l3 -n bytes)"
+                    + " --orderBy (bytes desc)"
+                    + " --formatOut"
+                    + "  (-e'bytes*2' -l 3)(string)");
             Assert.fail("expected exception");
         } catch (final Exception e)
         {
@@ -94,13 +98,15 @@ public class ByteTests
     }
 
     /**
-     * <p>asSearchableField.</p>
+     * <p>
+     * asSearchableField.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void asSearchableField ()
-        throws Throwable
+    public void asSearchableField()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -114,14 +120,13 @@ public class ByteTests
         try
         {
             final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-                + " --col"
-                + " (String -l1 -n string)"
-                + " (Byte -l3 -n bytes)"
-                + " --where \"not(empty(matches(bytes, '\t+')))\""
-                + " --orderBy (bytes desc)"
-                + " --formatOut"
-                + "  (bytes)(string)"
-                    );
+                    + " --col"
+                    + " (String -l1 -n string)"
+                    + " (Byte -l3 -n bytes)"
+                    + " --where \"not(empty(matches(bytes, '\t+')))\""
+                    + " --orderBy (bytes desc)"
+                    + " --formatOut"
+                    + "  (bytes)(string)");
 
             Assert.assertEquals("records", 1L, context.getWriteCount());
         } finally
@@ -131,13 +136,15 @@ public class ByteTests
     }
 
     /**
-     * <p>basicUse.</p>
+     * <p>
+     * basicUse.
+     * </p>
      *
      * @throws java.lang.Throwable if any.
      */
     @Test
-    public void basicUse ()
-        throws Throwable
+    public void basicUse()
+            throws Throwable
     {
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
@@ -149,13 +156,12 @@ public class ByteTests
         final File file = Helper.createUnsortedFile(testName, logFile);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-            + " --col"
-            + " (String -l1 -n string)"
-            + " (Byte -l3 -n bytes)"
-            + " --orderBy (bytes desc)"
-            + " --formatOut"
-            + "  (bytes -l 3)(string)"
-                );
+                + " --col"
+                + " (String -l1 -n string)"
+                + " (Byte -l3 -n bytes)"
+                + " --orderBy (bytes desc)"
+                + " --formatOut"
+                + "  (bytes -l 3)(string)");
 
         Assert.assertEquals("records", 2L, context.getWriteCount());
 

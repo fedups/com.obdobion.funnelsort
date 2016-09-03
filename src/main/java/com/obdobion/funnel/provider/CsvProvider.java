@@ -16,7 +16,9 @@ import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>CsvProvider class.</p>
+ * <p>
+ * CsvProvider class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -40,9 +42,12 @@ public class CsvProvider extends VariableLengthProvider
     }
 
     /**
-     * <p>Constructor for CsvProvider.</p>
+     * <p>
+     * Constructor for CsvProvider.
+     * </p>
      *
-     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext} object.
+     * @param _context a {@link com.obdobion.funnel.parameters.FunnelContext}
+     *            object.
      * @throws java.io.IOException if any.
      * @throws java.text.ParseException if any.
      */
@@ -88,7 +93,9 @@ public class CsvProvider extends VariableLengthProvider
     }
 
     /**
-     * <p>decodeCsv.</p>
+     * <p>
+     * decodeCsv.
+     * </p>
      *
      * @param input an array of byte.
      * @param inputLength a int.

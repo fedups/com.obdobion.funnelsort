@@ -8,7 +8,9 @@ import com.obdobion.funnel.orderby.KeyPart;
 import com.obdobion.funnel.parameters.FunnelContext;
 
 /**
- * <p>HeaderHelper class.</p>
+ * <p>
+ * HeaderHelper class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
@@ -21,7 +23,9 @@ public class HeaderHelper extends ColumnHelper
     byte[]  originalHeaderRow;
 
     /**
-     * <p>Constructor for HeaderHelper.</p>
+     * <p>
+     * Constructor for HeaderHelper.
+     * </p>
      */
     public HeaderHelper()
     {
@@ -29,7 +33,9 @@ public class HeaderHelper extends ColumnHelper
     }
 
     /**
-     * <p>Constructor for HeaderHelper.</p>
+     * <p>
+     * Constructor for HeaderHelper.
+     * </p>
      *
      * @param maxsize a int.
      */
@@ -40,13 +46,13 @@ public class HeaderHelper extends ColumnHelper
 
     /** {@inheritDoc} */
     @Override
-    public KeyContext extract (
-        final FunnelContext funnelContext,
-        final byte[] data,
-        final long recordNumber,
-        final int dataLength,
-        final Equ... equations)
-        throws Exception
+    public KeyContext extract(
+            final FunnelContext funnelContext,
+            final byte[] data,
+            final long recordNumber,
+            final int dataLength,
+            final Equ... equations)
+                    throws Exception
     {
         originalHeaderRow = Arrays.copyOf(data, dataLength);
         /*
@@ -68,24 +74,28 @@ public class HeaderHelper extends ColumnHelper
     }
 
     /**
-     * <p>getContents.</p>
+     * <p>
+     * getContents.
+     * </p>
      *
      * @param headerCol a {@link com.obdobion.funnel.orderby.KeyPart} object.
      * @return an array of byte.
      * @throws java.lang.Exception if any.
      */
-    public byte[] getContents (final KeyPart headerCol) throws Exception
+    public byte[] getContents(final KeyPart headerCol) throws Exception
     {
         headerCol.parseObjectFromRawData(originalHeaderRow);
         return headerCol.getContentsAsByteArray();
     }
 
     /**
-     * <p>isWaitingForInput.</p>
+     * <p>
+     * isWaitingForInput.
+     * </p>
      *
      * @return a boolean.
      */
-    public boolean isWaitingForInput ()
+    public boolean isWaitingForInput()
     {
         if (waitingForInput)
         {
@@ -97,11 +107,13 @@ public class HeaderHelper extends ColumnHelper
     }
 
     /**
-     * <p>Setter for the field <code>waitingForInput</code>.</p>
+     * <p>
+     * Setter for the field <code>waitingForInput</code>.
+     * </p>
      *
      * @param shouldReadHeader a boolean.
      */
-    public void setWaitingForInput (final boolean shouldReadHeader)
+    public void setWaitingForInput(final boolean shouldReadHeader)
     {
         waitingForInput = shouldReadHeader;
     }

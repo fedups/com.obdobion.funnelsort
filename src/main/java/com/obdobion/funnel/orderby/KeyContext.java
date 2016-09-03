@@ -1,7 +1,9 @@
 package com.obdobion.funnel.orderby;
 
 /**
- * <p>KeyContext class.</p>
+ * <p>
+ * KeyContext class.
+ * </p>
  *
  * @author Chris DeGreef fedupforone@gmail.com
  */
