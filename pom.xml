@@ -39,7 +39,7 @@
 		
 		<argument.version>4.3.5</argument.version>
 		<algebrain.version>2.1.2</algebrain.version>
-		<calendar.version>2.1.2</calendar.version>
+		<calendar.version>2.2.1</calendar.version>
 		
 		<commons-codec.version>1.9</commons-codec.version>
 		<commons-csv.version>1.2</commons-csv.version>
@@ -62,6 +62,16 @@
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>3.0.0</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>docs</directory>
+							<includes>
+								<include>**/*</include>
+							</includes>
+						</fileset>
+					</filesets>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -87,6 +97,10 @@
 				<configuration>
 					<defaultAuthor>Chris DeGreef fedupforone@gmail.com</defaultAuthor>
 					<fixTags>author,since,param,return,throws,link</fixTags>
+					<outputDirectory>docs</outputDirectory>
+					<notimestamp>true</notimestamp>
+					<windowtitle>FunnelSort</windowtitle>
+					<bottom><![CDATA[<a href="https://github.com/fedups/com.obdobion.funnelsort/wiki">Open-Source on GitHub<a>.]]></bottom>
 				</configuration>
 				<executions>
 					<execution>
@@ -94,18 +108,17 @@
 						<phase>verify</phase>
 						<goals>
 							<goal>jar</goal>
+							<goal>javadoc</goal>
 						</goals>
 					</execution>
 					<execution>
 						<id>javadoc-fix-main</id>
-						<phase>verify</phase>
 						<goals>
 							<goal>fix</goal>
 						</goals>
 					</execution>
 					<execution>
 						<id>javadoc-fix-test</id>
-						<phase>verify</phase>
 						<goals>
 							<goal>test-fix</goal>
 						</goals>
