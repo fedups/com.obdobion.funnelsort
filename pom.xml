@@ -38,8 +38,8 @@
 		<slf4j.version>1.7.13</slf4j.version>
 		
 		<argument.version>4.3.5</argument.version>
-		<algebrain.version>2.1.2</algebrain.version>
-		<calendar.version>2.2.1</calendar.version>
+		<algebrain.version>2.2.1</algebrain.version>
+		<calendar.version>2.2.0</calendar.version>
 		
 		<commons-codec.version>1.9</commons-codec.version>
 		<commons-csv.version>1.2</commons-csv.version>
