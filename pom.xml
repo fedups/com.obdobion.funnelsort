@@ -188,7 +188,6 @@
 				<artifactId>nsis-maven-plugin</artifactId>
 				<version>1.0-alpha-1</version>
 				<configuration>
-					<makensisBin>C:\Program Files (x86)\NSIS\makensis.exe</makensisBin>
 					<scriptFile>src/nsis/setup.nsi</scriptFile>
 				</configuration>
 				<executions>
