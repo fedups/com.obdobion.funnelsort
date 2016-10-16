@@ -127,9 +127,10 @@ public class RecordNumberTest
         }
 
         final File file = Helper.createUnsortedFile(testName, in);
+        final int rowSize = System.lineSeparator().length() + 1;
 
         Funnel.sort(Helper.config(), file.getAbsolutePath()
-                + " -r -c o --col(-n myRecordNumber -l 2 int) --fixedIn 3"
+                + " -r -c o --col(-n myRecordNumber -l 2 int) --fixedIn " + rowSize
                 + " --form(-erecordNumber -l 2)(myRecordNumber)");
 
         Helper.compare(file, expectedLines);

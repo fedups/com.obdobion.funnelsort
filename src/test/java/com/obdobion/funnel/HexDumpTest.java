@@ -44,6 +44,7 @@ public class HexDumpTest
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
                 + " -o " + output.getAbsolutePath()
+                + " --VI CR,LF "
                 + " --orderby(data)"
                 + " --col(String -l 9 -ndata )(String -n title)"
                 + " --format(title)(data)"
@@ -103,6 +104,7 @@ public class HexDumpTest
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
                 + " -o " + output.getAbsolutePath()
+                + " --VI CR,LF "
                 + " -co"
                 + " --col(string -n sentence)"
                 + " --hexDump(sentence)");
@@ -158,6 +160,7 @@ public class HexDumpTest
         final File file1 = Helper.createUnsortedFile(testName, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
                 + " -o " + output.getAbsolutePath()
+                + " --VI CR,LF "
                 + " --hexDump()");
 
         Assert.assertEquals("records", 3L, context.getWriteCount());

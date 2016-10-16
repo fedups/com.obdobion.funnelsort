@@ -42,10 +42,12 @@ public class DuplicateTest
         final List<String> out = new ArrayList<>();
         out.add(in.get(0));
 
+        final int rowSize = System.lineSeparator().length() + 8;
+
         final File file = Helper.createUnsortedFile(testName, in);
         final FunnelContext context = Funnel.sort(Helper.config(),
-                file.getAbsolutePath() + " -r --row 130 --fixedIn 10"
-                        + "--col(String -o0,-l3 -n col1)"
+                file.getAbsolutePath() + " -r --row 130 --fixedIn " + rowSize
+                        + " --col(String -o0,-l3 -n col1)"
                         + "--orderby(col1) "
                         + "--dup firstonly");
 
@@ -70,6 +72,8 @@ public class DuplicateTest
         final String testName = Helper.testName();
         Helper.initializeFor(testName);
 
+        final int rowSize = System.lineSeparator().length() + 8;
+
         final List<String> in = new ArrayList<>();
         for (int r = 0; r < 130; r++)
         {
@@ -80,8 +84,8 @@ public class DuplicateTest
 
         final File file = Helper.createUnsortedFile(testName, in);
         final FunnelContext context = Funnel.sort(Helper.config(),
-                file.getAbsolutePath() + " -r --row 130 --fixedIn 10"
-                        + "--col(String -o0,-l3 -n col1)"
+                file.getAbsolutePath() + " -r --row 130 --fixedIn " + rowSize
+                        + " --col(String -o0,-l3 -n col1)"
                         + "--orderby(col1) "
                         + "--dup lastonly");
 
@@ -118,10 +122,12 @@ public class DuplicateTest
             out.add("row " + (r + 1000));
         }
 
+        final int rowSize = System.lineSeparator().length() + 8;
+
         final File file = Helper.createUnsortedFile(testName, in);
         final FunnelContext context = Funnel.sort(Helper.config(),
-                file.getAbsolutePath() + " -r --row 130 --fixedIn 10 "
-                        + "--col(String -o0,-l3 -n col1)"
+                file.getAbsolutePath() + " -r --row 130 --fixedIn " + rowSize
+                        + " --col(String -o0,-l3 -n col1)"
                         + "--orderby(col1) "
                         + "--dup reverse");
 

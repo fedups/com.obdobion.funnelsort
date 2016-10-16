@@ -191,9 +191,10 @@ public class WhereTest
         }
 
         final File file = Helper.createUnsortedFile(testName, in1);
+        final int rowSize = System.lineSeparator().length() + 5;
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-                + " --fixedIn 7 --variableout CR LF"
+                + " --fixedIn " + rowSize + " --variableout CR LF"
                 + " --where '(zipcode >= 50100 && zipcode <= 50200)'"
                 + " --col(-n zipCode int -o0 -l5)"
                 + " --format(zipcode)"

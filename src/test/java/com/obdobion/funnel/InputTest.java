@@ -50,7 +50,7 @@ public class InputTest
         final File file = Helper.createUnsortedFile(testName, out);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-                + " --replace --row 2 -c original --variableIn CR LF --variableOut LF");
+                + " --replace --row 2 -c original --variableOut LF");
 
         Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compare(file, out);
@@ -388,7 +388,7 @@ public class InputTest
         final File file = Helper.createUnsortedFile(testName, out);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-                + " --replace --row 2 -c original --variableIn CR LF");
+                + " --replace --row 2 -c original");
 
         Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compare(file, out);
@@ -467,7 +467,7 @@ public class InputTest
         final File file = Helper.outFileWhenInIsSysin();
 
         final FunnelContext context = Funnel.sort(Helper.config(), "-o" + file.getAbsolutePath()
-                + " --row 2 -c original --variableIn CR,LF");
+                + " --row 2 -c original");
 
         Assert.assertEquals("records", 2L, context.getRecordCount());
         Helper.compare(file, out);
@@ -536,7 +536,7 @@ public class InputTest
         final File file = Helper.createUnsortedFile(testName, out, false);
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-                + "--row 2 -c original --variableIn cr,lf -r ");
+                + "--row 2 -c original -r ");
 
         Assert.assertEquals("records", 3L, context.getRecordCount());
         Helper.compare(file, out);
