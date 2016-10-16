@@ -41,7 +41,7 @@ public class HexDumpTest
         in1.add("Data 4   Row number 2");
         in1.add("Data 78  Row number 3");
 
-        final File file1 = Helper.createUnsortedFile(testName, in1);
+        final File file1 = Helper.createUnsortedFile(testName, Helper.DOS_EOL, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
                 + " -o " + output.getAbsolutePath()
                 + " --VI CR,LF "
@@ -101,7 +101,7 @@ public class HexDumpTest
         in1.add("The second record in the file is this one.");
         in1.add("The third record is the longest and should cause more than one line on output.");
 
-        final File file1 = Helper.createUnsortedFile(testName, in1);
+        final File file1 = Helper.createUnsortedFile(testName, Helper.DOS_EOL, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
                 + " -o " + output.getAbsolutePath()
                 + " --VI CR,LF "
@@ -157,7 +157,7 @@ public class HexDumpTest
         in1.add("The second record in the file is this one.");
         in1.add("The third record is the longest and should cause more than one line on output.");
 
-        final File file1 = Helper.createUnsortedFile(testName, in1);
+        final File file1 = Helper.createUnsortedFile(testName, Helper.DOS_EOL, in1);
         final FunnelContext context = Funnel.sort(Helper.config(), file1.getAbsolutePath()
                 + " -o " + output.getAbsolutePath()
                 + " --VI CR,LF "

@@ -501,7 +501,7 @@ public class InputTest
         try (final PrintStream outputStream = new PrintStream(new FileOutputStream(file)))
         {
             System.setOut(outputStream);
-            final FunnelContext context = Funnel.sort(Helper.config(), "--row 2 -c original --variableIn cr,lf ");
+            final FunnelContext context = Funnel.sort(Helper.config(), "--row 2 -c original ");
             Assert.assertEquals("records", 2L, context.getRecordCount());
             Helper.compare(file, out);
         }

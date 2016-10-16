@@ -25,10 +25,11 @@ import com.obdobion.funnel.orderby.KeyContext;
  */
 public class Helper
 {
-
-    static final File          workDir = new File("target");
+    public static final String UNIX_EOL = new String(new byte[] { 0x0a });
+    public static final String DOS_EOL  = new String(new byte[] { 0x0d, 0x0a });
+    static final File          workDir  = new File("target");
     /** Constant <code>DEBUG="ON"</code> */
-    public static final String DEBUG   = "ON";
+    public static final String DEBUG    = "ON";
 
     /**
      * <p>
@@ -155,7 +156,7 @@ public class Helper
      */
     static public File createUnsortedFile(final List<String> lines) throws IOException
     {
-        return createUnsortedFile("funnel", lines, true);
+        return createUnsortedFile("funnel", System.lineSeparator(), lines, true);
     }
 
     /**
@@ -170,7 +171,7 @@ public class Helper
      */
     static public File createUnsortedFile(final String prefix, final List<String> lines) throws IOException
     {
-        return createUnsortedFile(prefix, lines, true);
+        return createUnsortedFile(prefix, System.lineSeparator(), lines);
     }
 
     /**
@@ -190,6 +191,45 @@ public class Helper
             final boolean includeTrailingLineTerminator)
                     throws IOException
     {
+        return createUnsortedFile(prefix, System.lineSeparator(), lines, includeTrailingLineTerminator);
+    }
+
+    /**
+     * <p>
+     * createUnsortedFile.
+     * </p>
+     *
+     * @param prefix a {@link java.lang.String} object.
+     * @param eol a {@link java.lang.String} object.
+     * @param lines a {@link java.util.List} object.
+     * @return a {@link java.io.File} object.
+     * @throws java.io.IOException if any.
+     */
+    static public File createUnsortedFile(final String prefix, final String eol, final List<String> lines)
+            throws IOException
+    {
+        return createUnsortedFile(prefix, eol, lines, true);
+    }
+
+    /**
+     * <p>
+     * createUnsortedFile.
+     * </p>
+     *
+     * @param prefix a {@link java.lang.String} object.
+     * @param eol a {@link java.lang.String} object.
+     * @param lines a {@link java.util.List} object.
+     * @param includeTrailingLineTerminator a boolean.
+     * @return a {@link java.io.File} object.
+     * @throws java.io.IOException if any.
+     */
+    static public File createUnsortedFile(
+            final String prefix,
+            final String eol,
+            final List<String> lines,
+            final boolean includeTrailingLineTerminator)
+                    throws IOException
+    {
         final File file = File.createTempFile(prefix + ".", ".in", workDir);
         try (final BufferedWriter out = new BufferedWriter(new FileWriter(file)))
         {
@@ -200,11 +240,11 @@ public class Helper
 
                 final String line = lines.get(idx);
                 if (idx > 0)
-                    out.newLine();
+                    out.write(eol);
                 out.write(line, 0, lengthToWrite);
             }
             if (includeTrailingLineTerminator)
-                out.newLine();
+                out.write(eol);
         }
         return file;
     }

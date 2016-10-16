@@ -154,9 +154,10 @@ public class WhereTest
         }
 
         final File file = Helper.createUnsortedFile(testName, in1);
+        final int rowSize = System.lineSeparator().length() + 5;
 
         final FunnelContext context = Funnel.sort(Helper.config(), file.getAbsolutePath()
-                + " --fixedIn 7 "
+                + " --fixedIn " + rowSize
                 + " --where 'zipcode = 50100'"
                 + " --col(-n zipCode int -o0 -l5)"
                 + " --orderby(zipcode asc)"
