@@ -824,6 +824,7 @@ public class FunnelContext
         postParseAggregation();
         postParseFormatOut();
         postParseOutputFile();
+        postParseEolIn();
         postParseEolOut();
         postParseCSV();
         postParseFixed();
@@ -855,6 +856,12 @@ public class FunnelContext
             if (csvParser.arg("--quote").isParsed())
                 getCsv().format = getCsv().format.withQuote((char) getCsv().quote);
         }
+    }
+
+    private void postParseEolIn()
+    {
+        if (getEndOfRecordDelimiterIn() == null)
+            fsc.endOfRecordDelimiterIn = System.lineSeparator().getBytes();
     }
 
     private void postParseEolOut()
