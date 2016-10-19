@@ -98,7 +98,6 @@ public class FunnelSortContext
 
     @Arg(longName = "variableInput",
             allowCamelCaps = true,
-            defaultValues = { "cr", "lf" },
             help = "The byte(s) that end each line in a variable length record file.")
     public byte[]               endOfRecordDelimiterIn;
 
